@@ -4,26 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Island {
-    private Integer islandId;
-    private boolean hasMotherNature;
-    private Map<ColourPawn, Integer> students;
-    private ColourTower towerColour;
-    private Integer towerCount;
 
-     public Island(Integer islandId){
+    //SIMPLE GAME ATTRIBUTES
+    private int islandId;
+    private boolean hasMotherNature;
+    private PawnsMap students;
+    private ColourTower towerColour;
+    private int towerCount;
+
+    //COMPLEX GAME ATTRIBUTES
+    private boolean hasNoEntryTile;
+
+     public Island(int islandId){
          this.islandId=islandId;
          hasMotherNature=false;
-         students=new HashMap<>();
+         students=new PawnsMap();
          towerColour=null;
          towerCount=0;
+
+         hasNoEntryTile = false;
      }
 
     public void setHasMotherNature(boolean hasMotherNature) {
         this.hasMotherNature = hasMotherNature;
     }
 
-
-    public Integer getTowerCount() {
+    public int getTowerCount() {
         return towerCount;
     }
 
@@ -35,16 +41,17 @@ public class Island {
         this.towerColour = towerColour;
     }
 
-    public void addTower(Integer towerNum){
-         this.towerCount+=towerNum;
+    public void addTower(int num){
+         this.towerCount+=num;
     }
 
-    public void addStudents(ColourPawn studentColour, Integer num){
-         students.put(studentColour, num+students.get(studentColour));
+    public PawnsMap getStudents() { return students;}
+
+    public boolean HasNoEntryTile() {
+        return hasNoEntryTile;
     }
 
-    public Integer getStudentCount(ColourPawn studentColour){
-         return students.get(studentColour);
+    public void setHasNoEntryTile(boolean hasNoEntryTile) {
+        this.hasNoEntryTile = hasNoEntryTile;
     }
-
 }

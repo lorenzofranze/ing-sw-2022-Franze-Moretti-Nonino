@@ -3,17 +3,27 @@ package it.polimi.ingsw;
 import java.util.*;
 
 public class Player {
-    private final String nickName;
+
+    //SIMPLE GAME ATTRIBUTES
+    private final String nickname;
     private final SchoolBoard schoolBoard;
     private final ColourTower colourTower;
     private AssistantCard playedAssistantCard;
     private final Set<AssistantCard> deck;
     private final ColourWizard wizard;
+    private boolean connected;
+
+    //COMPLEX GAME ATTRIBUTES
+    private int coins;
+
+
+    //SIMPLE GAME METHODS
 
     /** initializes attributes and instaces
-     *  schoolboard, deck all its assistantCards**/
-    public Player(String nickName, ColourTower colourTower, ColourWizard wizard){
-        this.nickName = nickName;
+     *  schoolboard, deck all its assistantCards. Gives 0 coins to the player**/
+    public Player(String nickname, ColourTower colourTower, ColourWizard wizard){
+
+        this.nickname = nickname;
         schoolBoard = new SchoolBoard();
         this.colourTower = colourTower;
         this.wizard = wizard;
@@ -38,10 +48,12 @@ public class Player {
         deck.add(card8);
         deck.add(card9);
         deck.add(card10);
+
+        this.coins = 0;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
     public ColourWizard getWizard(){
@@ -64,7 +76,39 @@ public class Player {
         }
     }
 
+    public boolean isConnected() {
+        return connected;
+    }
 
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+
+    //COMPLEX GAME METHODS
+    public int getCoins() {
+        return coins;
+    }
+
+    public void addCoins(int coins) {
+        this.coins += coins;
+    }
+
+    public void removeCoins(int coins) {
+        this.coins -= coins;
+    }
+
+    public AssistantCard getPlayedAssistantCard() {
+        return playedAssistantCard;
+    }
+
+    public void setPlayedAssistantCard(AssistantCard playedAssistantCard) {
+        this.playedAssistantCard = playedAssistantCard;
+    }
+
+    public ColourTower getColourTower() {
+        return colourTower;
+    }
 
 
 }

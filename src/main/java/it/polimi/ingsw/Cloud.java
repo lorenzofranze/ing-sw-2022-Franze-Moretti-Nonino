@@ -1,30 +1,22 @@
 package it.polimi.ingsw;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Cloud {
-    private Map<ColourPawn, Integer> students;
-    private Integer cloudId;
 
-    public Cloud(Integer cloudId){
+    private PawnsMap students;
+    private int cloudId;
+
+    public Cloud(int cloudId){
         this.cloudId=cloudId;
-        students=new HashMap<>();
+        students=new PawnsMap();
     }
 
-    public Integer getCloudId() {
+    public int getCloudId() {
         return cloudId;
     }
 
-    public void addStudents(Map<ColourPawn, Integer> students) {
-        this.students = students;
-    }
-
-    public void removeStudents(){
-        students.clear();
-    }
-
-    public Integer countStudents(ColourPawn students){
-        return this.students.get(students);
+    public PawnsMap getStudents() {
+        return students;
     }
 }
