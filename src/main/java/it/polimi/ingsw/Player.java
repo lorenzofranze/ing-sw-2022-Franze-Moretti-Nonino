@@ -49,7 +49,10 @@ public class Player {
         deck.add(card9);
         deck.add(card10);
 
-        this.coins = 0;
+        Controller controller = Controller.getIntance();
+        if (controller.getGame().isExpert() == true){this.coins = 1;}
+        else {this.coins = 0;}
+
     }
 
     public String getNickname() {

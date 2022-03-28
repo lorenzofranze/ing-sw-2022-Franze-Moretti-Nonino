@@ -63,7 +63,7 @@ public class SetUpPhase implements GamePhase{
     }
 
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
-    public void setFirstPianificationPlayer(){
+    private void setFirstPianificationPlayer(){
 
         Controller controller = Controller.getIntance();
 
