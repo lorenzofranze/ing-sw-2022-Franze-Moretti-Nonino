@@ -7,6 +7,8 @@ public class Controller {
     private static Controller instance = null;
     private List<Game> gameSavings;
     private Game game;
+    private GamePhase currentPhase;
+    private Player firstPianificationPlayer;
 
     private Controller(){};
 
@@ -34,5 +36,11 @@ public class Controller {
         this.gameSavings.add(this.game);
     }
 
+    public Player getFirstPianificationPlayer() {
+        return firstPianificationPlayer;
+    }
 
+    public void setFirstPianificationPlayer(Player firstPianificationPlayer) {
+        this.firstPianificationPlayer = firstPianificationPlayer;
+    }
 }

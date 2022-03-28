@@ -146,4 +146,8 @@ public class Game {
     public boolean isExpert() {
         return expert;
     }
+
+    public List<Island> getIslands() {
+        return islands;
+    }
 }
