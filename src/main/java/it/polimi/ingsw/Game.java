@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import java.util.*;
 
+/** Game table class */
 public class Game {
 
     //SIMPLE GAME ATTRIBUTES
@@ -102,6 +103,10 @@ public class Game {
         return clouds;
     }
 
+    /** moves all the things of the second island on the first island
+     * and then removes the second island
+     * @param toUnify list of two islands
+    */
     public void unifyIslands(List<Island> toUnify){
     toUnify.get(0).setHasMotherNature(true);
     toUnify.get(0).addTower(toUnify.get(1).getTowerCount());
@@ -123,24 +128,47 @@ public class Game {
     //EXPERT GAME METHODS
 
     public void addCoins(int num){
-        this.coinSupply = this.coinSupply + num;
+        if(expert==true)
+        {
+            this.coinSupply = this.coinSupply + num;
+        }
     }
 
     public void removeCoins(int num){
-        this.coinSupply = this.coinSupply - num;
+        if(expert==true){
+            this.coinSupply = this.coinSupply - num;
+            if(coinSupply<0) coinSupply=0;
+        }
+
+    }
+
+    public int getCoinSupply(){
+        if(expert==true){
+            return coinSupply;
+        }
+        else return 0;
     }
 
     /**returns the set of all the possible characters*/
     public List<Character> getCharacters() {
-        return characters;
+        if(expert==true) {
+            return characters;
+        }
+        else return null;
     }
 
     public Character getActiveEffect() {
-        return activeEffect;
+        if(expert==true){
+            return activeEffect;
+        }
+        else return null;
+
     }
 
     public void setActiveEffect(Character activeEffect) {
-        this.activeEffect = activeEffect;
+        if(expert==true){
+            this.activeEffect = activeEffect;
+        }
     }
 
     public boolean isExpert() {

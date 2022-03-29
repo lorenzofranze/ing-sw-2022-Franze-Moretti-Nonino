@@ -16,7 +16,10 @@ public class Cloud {
         return cloudId;
     }
 
+    /** @return PawnsMap all the students on the cloud
+     */
     public PawnsMap getStudents() {
         return students;
     }
+
 }
