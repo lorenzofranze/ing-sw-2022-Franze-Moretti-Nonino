@@ -11,6 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Eryantis" target="11" />
       <module name="ing-sw-2022-Franze-Moretti-Nonino" target="11" />
     </bytecodeTargetLevel>
   </component>

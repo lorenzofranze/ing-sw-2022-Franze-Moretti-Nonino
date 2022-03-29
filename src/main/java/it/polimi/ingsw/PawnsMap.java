@@ -14,6 +14,7 @@ public class PawnsMap {
         }
     }
 
+
     public void removePawn(ColourPawn colour){
         pawns.put(colour, pawns.get(colour)-1);
     }
@@ -54,6 +55,19 @@ public class PawnsMap {
 
     public int getPawns(ColourPawn colour){
         return pawns.get(colour);
+    }
+
+    /** return true if there is no pawn left */
+    public boolean isEmpty(){
+        int tot=0;
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for(ColourPawn p : pawnsList) {
+            tot = this.pawns.get(p);
+        }
+        if(tot == 0)
+            return true;
+        return false;
+
     }
 
 }

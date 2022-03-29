@@ -103,13 +103,13 @@ public class Game {
     }
 
     public void unifyIslands(List<Island> toUnify){
-    toUnify.get(0).setHasMotherNature(true);
-    toUnify.get(0).addTower(toUnify.get(1).getTowerCount());
+        toUnify.get(0).setHasMotherNature(true);
+        toUnify.get(0).addTower(toUnify.get(1).getTowerCount());
 
-    for (ColourPawn currColor: ColourPawn.values()){
-            toUnify.get(0).getStudents().addPawns(currColor, toUnify.get(1).getStudents().getPawns(currColor));
-        }
-    islands.remove(toUnify.get(1));
+        for (ColourPawn currColor: ColourPawn.values()){
+                toUnify.get(0).getStudents().addPawns(currColor, toUnify.get(1).getStudents().getPawns(currColor));
+            }
+        islands.remove(toUnify.get(1));
     }
 
     public String getGameId() {

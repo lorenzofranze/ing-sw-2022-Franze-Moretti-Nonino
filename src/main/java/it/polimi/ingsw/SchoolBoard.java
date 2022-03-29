@@ -17,12 +17,6 @@ public class SchoolBoard {
         this.professorsTable = new PawnsMap();
         this.diningRoom = new PawnsMap();
         this.entrance = new PawnsMap();
-        Controller controller = Controller.getIntance();
-
-        if (controller.getGame().getPlayers().size() == 2){
-            this.spareTowers = 8;
-        }
-        else{this.spareTowers = 6;}
     }
 
     /** add a tower to the schoolboard**/
@@ -35,14 +29,17 @@ public class SchoolBoard {
         this.spareTowers --;
     }
 
+    /** return the map of students in dining room */
     public PawnsMap getDiningRoom() {
         return diningRoom;
     }
 
+    /** return the the map of students in dining room */
     public PawnsMap getEntrance() {
         return entrance;
     }
 
+    /** return the map of prefessors */
     public PawnsMap getProfessorsTable() {
         return professorsTable;
     }
