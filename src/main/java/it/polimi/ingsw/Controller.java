@@ -4,13 +4,15 @@ import java.util.*;
 
 public class Controller {
 
-    private static Controller instance = null;
+    private static Controller instance;
     private List<Game> gameSavings;
     private Game game;
     private GamePhase currentPhase;
     private Player firstPianificationPlayer;
 
-    private Controller(){};
+    private Controller(){
+        this.instance=null;
+    }
 
     public static Controller getIntance(){
         if (instance == null){

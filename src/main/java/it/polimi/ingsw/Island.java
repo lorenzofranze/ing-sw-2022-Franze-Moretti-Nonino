@@ -6,7 +6,7 @@ import java.util.Map;
 public class Island {
 
     //SIMPLE GAME ATTRIBUTES
-    private int islandId;
+
     private boolean hasMotherNature;
     private PawnsMap students;
     private ColourTower towerColour;
@@ -15,8 +15,7 @@ public class Island {
     //COMPLEX GAME ATTRIBUTES
     private boolean hasNoEntryTile;
 
-     public Island(int islandId){
-         this.islandId=islandId;
+     public Island(){
          hasMotherNature=false;
          students=new PawnsMap();
          towerColour=null;
@@ -27,6 +26,11 @@ public class Island {
 
     public void setHasMotherNature(boolean hasMotherNature) {
         this.hasMotherNature = hasMotherNature;
+    }
+
+    //MODIFICA 5
+    public boolean getHasMotherNature(){
+         return hasMotherNature;
     }
 
     public int getTowerCount() {
@@ -47,7 +51,12 @@ public class Island {
 
     public PawnsMap getStudents() { return students;}
 
-    public boolean HasNoEntryTile() {
+    //MODIFICA 7: aggiunta del metodo:
+    public void addStudents(ColourPawn colour, int number){
+         students.addPawns(colour,number);
+    }
+
+    public boolean getHasNoEntryTile() {
         return hasNoEntryTile;
     }
 

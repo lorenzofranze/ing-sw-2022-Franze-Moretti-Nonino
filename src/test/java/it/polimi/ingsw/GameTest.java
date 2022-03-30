@@ -13,6 +13,7 @@ class GameTest {
     public void testSetCurrentPlayer(){
         List<Player> list= new ArrayList<>();
         Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
+        list.add(player);
         Game game= new Game(list, false);
         game.setCurrentPlayer(player);
         assertEquals(player, game.getCurrentPlayer());

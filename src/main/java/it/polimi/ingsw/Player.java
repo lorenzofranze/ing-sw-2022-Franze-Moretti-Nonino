@@ -24,6 +24,9 @@ public class Player {
     public Player(String nickname, ColourTower colourTower, ColourWizard wizard){
 
         this.nickname = nickname;
+        //MODIFICA 6 : school board ha il costruttore che usa controller: ho spostato l'inizializzazione del controller prima
+        //il controller ha bisogno a sua volta di un game
+        Controller controller=Controller.getIntance();
         schoolBoard = new SchoolBoard();
         this.colourTower = colourTower;
         this.wizard = wizard;
@@ -49,7 +52,6 @@ public class Player {
         deck.add(card9);
         deck.add(card10);
 
-        Controller controller = Controller.getIntance();
         if (controller.getGame().isExpert() == true){this.coins = 1;}
         else {this.coins = 0;}
 
