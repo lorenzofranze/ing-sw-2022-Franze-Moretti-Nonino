@@ -83,7 +83,7 @@ public class SchoolBoard {
     }
 
     /** move students in input to the dining room and remove from
-     * the entrance, return the number of coins to add after the movement*/
+     * the entrance, return the number of coins to add after the movement */
     public int moveToDiningRoom(PawnsMap toMove){
         ColourPawn pawnsList[] = ColourPawn.values();
         int num;
