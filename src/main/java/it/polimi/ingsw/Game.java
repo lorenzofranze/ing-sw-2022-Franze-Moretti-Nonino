@@ -40,7 +40,7 @@ public class Game {
 
         this.islands=new ArrayList<Island>(12);
         for(Integer i=0; i<12; i++){
-            this.islands.add(new Island(i));
+            this.islands.add(new Island());
         }
 
         this.studentsBag= new PawnsMap();
@@ -149,5 +149,9 @@ public class Game {
 
     public List<Island> getIslands() {
         return islands;
+    }
+
+    public int getCoinSupply(){
+        return coinSupply;
     }
 }

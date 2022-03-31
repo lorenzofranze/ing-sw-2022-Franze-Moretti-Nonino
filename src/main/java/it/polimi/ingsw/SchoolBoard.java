@@ -49,4 +49,16 @@ public class SchoolBoard {
     public PawnsMap getProfessorsTable() {
         return professorsTable;
     }
+
+    /** remove the professor*/
+    public void removeProfessor(ColourPawn colourPawn){
+        professorsTable.removePawns(colourPawn,1);
+        return;
+    }
+    /**add the professor*/
+    public void addProfessor(ColourPawn colourPawn){
+        professorsTable.addPawns(colourPawn,1);
+        return;
+    }
+
 }

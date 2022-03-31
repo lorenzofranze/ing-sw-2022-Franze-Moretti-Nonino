@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IslandTest {
@@ -48,4 +50,35 @@ class IslandTest {
         assertEquals(0,island.getStudents().getPawns(ColourPawn.Red));
         assertEquals(0,island.getStudents().getPawns(ColourPawn.Blue));
     }
+
+    @Test
+    public void testGetInfluence(){
+
+        Island island=new Island();
+        island.addStudents(ColourPawn.Green, 3);
+        island.addStudents(ColourPawn.Pink, 6);
+        island.addStudents(ColourPawn.Red, 4);
+        island.addStudents(ColourPawn.Yellow, 2);
+        island.setTowerColor(ColourTower.Grey);
+        island.addTower(3);
+        Player p1=new Player("p1",ColourTower.Grey, ColourWizard.Green);
+        Player p2=new Player("p2",ColourTower.Black, ColourWizard.Blue);
+        Player p3=new Player("p3",ColourTower.White, ColourWizard.Violet);
+        ArrayList<Player> list= new ArrayList<>();
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+        Game game=new Game(list,false);
+        p1.getSchoolBoard().addProfessor(ColourPawn.Yellow);
+        p2.getSchoolBoard().addProfessor(ColourPawn.Pink);
+        p2.getSchoolBoard().addProfessor(ColourPawn.Green);
+        assertEquals(p2, island.getInfluence(game));
+    }
+
+    @Test
+    public void testGetInfluenceNull(){
+        Island island=new Island();
+    }
+
+
 }
