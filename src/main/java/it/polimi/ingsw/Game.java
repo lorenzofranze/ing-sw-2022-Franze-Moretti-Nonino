@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import java.util.*;
 
-/** Game table class */
 public class Game {
 
     //SIMPLE GAME ATTRIBUTES
@@ -31,10 +30,7 @@ public class Game {
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
     public Game(List<Player> players, boolean expert){
 
-        this.players=new ArrayList<>(players.size());
-        for(Player p:players){
-            this.players.add(p);
-        }
+        this.players=players;
         this.expert=expert;
 
         this.clouds=new ArrayList<Cloud>(players.size());
@@ -44,7 +40,7 @@ public class Game {
 
         this.islands=new ArrayList<Island>(12);
         for(Integer i=0; i<12; i++){
-            this.islands.add(new Island());
+            this.islands.add(new Island(i));
         }
 
         this.studentsBag= new PawnsMap();
@@ -106,37 +102,14 @@ public class Game {
         return clouds;
     }
 
-    //MODIFICA 1
-    /** fills all the clouds on the table randomly taking the students from the students' bag*/
-    public void fillClouds(){
-        for (Cloud c:clouds) {
-            int numPlayers= players.size();
-            if(numPlayers==3){
-                for (int i=0; i<4; i++){
-                    c.addStudent(studentsBag.removePawnRandomly());
-                }
-            }
-            else{
-                for (int i=0; i<3; i++){
-                    c.addStudent(studentsBag.removePawnRandomly());
-                }
-            }
-        }
-    }
-
-    /** moves all the things of the second island on the first island
-     * and then removes the second island
-     * @param toUnify list of two islands
-    */
     public void unifyIslands(List<Island> toUnify){
-    toUnify.get(0).setHasMotherNature(true);
-    toUnify.get(0).addTower(toUnify.get(1).getTowerCount());
+        toUnify.get(0).setHasMotherNature(true);
+        toUnify.get(0).addTower(toUnify.get(1).getTowerCount());
 
-    //MODIFICA 8: conseguenza della modifica 7
-    for (ColourPawn currColor: ColourPawn.values()){
-            toUnify.get(0).addStudents(currColor, toUnify.get(1).getStudents().getPawns(currColor));
-        }
-    islands.remove(toUnify.get(1));
+        for (ColourPawn currColor: ColourPawn.values()){
+                toUnify.get(0).getStudents().addPawns(currColor, toUnify.get(1).getStudents().getPawns(currColor));
+            }
+        islands.remove(toUnify.get(1));
     }
 
     public String getGameId() {
@@ -150,47 +123,24 @@ public class Game {
     //EXPERT GAME METHODS
 
     public void addCoins(int num){
-        if(expert==true)
-        {
-            this.coinSupply = this.coinSupply + num;
-        }
+        this.coinSupply = this.coinSupply + num;
     }
 
     public void removeCoins(int num){
-        if(expert==true){
-            this.coinSupply = this.coinSupply - num;
-            if(coinSupply<0) coinSupply=0;
-        }
-
-    }
-
-    public int getCoinSupply(){
-        if(expert==true){
-            return coinSupply;
-        }
-        else return 0;
+        this.coinSupply = this.coinSupply - num;
     }
 
     /**returns the set of all the possible characters*/
     public List<Character> getCharacters() {
-        if(expert==true) {
-            return characters;
-        }
-        else return null;
+        return characters;
     }
 
     public Character getActiveEffect() {
-        if(expert==true){
-            return activeEffect;
-        }
-        else return null;
-
+        return activeEffect;
     }
 
     public void setActiveEffect(Character activeEffect) {
-        if(expert==true){
-            this.activeEffect = activeEffect;
-        }
+        this.activeEffect = activeEffect;
     }
 
     public boolean isExpert() {

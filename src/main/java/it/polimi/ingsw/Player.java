@@ -24,9 +24,6 @@ public class Player {
     public Player(String nickname, ColourTower colourTower, ColourWizard wizard){
 
         this.nickname = nickname;
-        //MODIFICA 6 : school board ha il costruttore che usa controller: ho spostato l'inizializzazione del controller prima
-        //il controller ha bisogno a sua volta di un game
-        Controller controller=Controller.getIntance();
         schoolBoard = new SchoolBoard();
         this.colourTower = colourTower;
         this.wizard = wizard;
@@ -52,15 +49,12 @@ public class Player {
         deck.add(card9);
         deck.add(card10);
 
-        if (controller.getGame().isExpert() == true){this.coins = 1;}
-        else {this.coins = 0;}
-
     }
+
 
     public String getNickname() {
         return nickname;
     }
-
     public ColourWizard getWizard(){
         return this.wizard;
     }
@@ -73,11 +67,14 @@ public class Player {
         return deck;
     }
 
-    public void playAssistantCard(AssistantCard card){
+    /** select assistnt card with the card order in input */
+    public void playAssistantCard(int cardOrder){
         for (AssistantCard ac: deck){
-            if (ac.getTurnOrder() == card.getTurnOrder())
+            if (ac.getTurnOrder() == cardOrder){
                 deck.remove(ac);
-            return;
+                this.playedAssistantCard = ac;
+                return;
+            }
         }
     }
 
@@ -89,28 +86,35 @@ public class Player {
         this.connected = connected;
     }
 
-
-    //COMPLEX GAME METHODS
-    public int getCoins() {
-        return coins;
-    }
-
-    public void addCoins(int coins) {
-        this.coins += coins;
-    }
-
-    public void removeCoins(int coins) {
-        this.coins -= coins;
-    }
-
+    /** get assistant card played */
     public AssistantCard getPlayedAssistantCard() {
         return playedAssistantCard;
     }
 
-    public void setPlayedAssistantCard(AssistantCard playedAssistantCard) {
-        this.playedAssistantCard = playedAssistantCard;
+    /** reset assistant card attribute */
+    public void resetAssistantCard(){
+        this.playedAssistantCard = null;
     }
 
+
+    //COMPLEX GAME METHODS
+
+    /** return the number of coins */
+    public int getCoins() {
+        return coins;
+    }
+
+    /** add coins, can be used to set 1 coin in complex mode   **/
+    public void addCoins(int coins) {
+        this.coins += coins;
+    }
+
+    /** decrement coins */
+    public void removeCoins(int coins) {
+        this.coins -= coins;
+    }
+
+    /** get colour tower of the player */
     public ColourTower getColourTower() {
         return colourTower;
     }
