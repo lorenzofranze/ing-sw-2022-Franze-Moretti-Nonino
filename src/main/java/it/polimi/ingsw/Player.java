@@ -2,6 +2,11 @@ package it.polimi.ingsw;
 
 import java.util.*;
 
+/* tolti riferimenti a controller perchè
+* se è in modalità complex nella setup phase
+* inremento direttamente di 1 il numero di monete
+* di ogni player
+ */
 public class Player {
 
     //SIMPLE GAME ATTRIBUTES
@@ -27,6 +32,7 @@ public class Player {
         schoolBoard = new SchoolBoard();
         this.colourTower = colourTower;
         this.wizard = wizard;
+        this.coins=0;
         deck = new HashSet<>();
         AssistantCard card1 = new AssistantCard(1,1);
         AssistantCard card2 = new AssistantCard(2,1);

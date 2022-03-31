@@ -2,6 +2,11 @@ package it.polimi.ingsw;
 
 import java.util.*;
 
+/* ho tolto i riferimenti a controller perchè se servono 6
+* torri nella setup phase verrà chimato il metodo removeTowers
+* per toglierne 2
+ */
+
 public class SchoolBoard {
     private PawnsMap professorsTable;
     private PawnsMap diningRoom;
@@ -17,6 +22,7 @@ public class SchoolBoard {
         this.professorsTable = new PawnsMap();
         this.diningRoom = new PawnsMap();
         this.entrance = new PawnsMap();
+        this.spareTowers = 8;
     }
 
     /** add a tower to the schoolboard**/
