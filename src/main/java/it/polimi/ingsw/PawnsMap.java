@@ -57,7 +57,7 @@ public class PawnsMap {
         return pawns.get(colour);
     }
 
-    /** return true if there is no pawn left */
+    /** @return true if there is no pawn left */
     public boolean isEmpty(){
         int tot=0;
         ColourPawn pawnsList[] = ColourPawn.values();
@@ -67,7 +67,23 @@ public class PawnsMap {
         if(tot == 0)
             return true;
         return false;
+    }
 
+    /** @return the number of pawns */
+    public int pawnsNumber(){
+        int tot=0;
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for(ColourPawn p : pawnsList) {
+            tot = this.pawns.get(p);
+        }
+        return tot;
+    }
+
+    /** return a copy of the map */
+    public PawnsMap clone(){
+        PawnsMap tmp = new PawnsMap();
+        tmp.pawns = new HashMap<ColourPawn, Integer>(this.pawns);
+        return tmp;
     }
 
 }
