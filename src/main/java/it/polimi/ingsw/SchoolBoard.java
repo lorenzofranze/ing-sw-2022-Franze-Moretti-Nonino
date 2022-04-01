@@ -35,9 +35,10 @@ public class SchoolBoard {
         this.spareTowers --;
     }
 
-    /** return the map of students in dining room */
+    /** @return a map copy of students in dining room, to add students in
+     * dining room use the special method: addToDiningRoom */
     public PawnsMap getDiningRoom() {
-        return diningRoom;
+        return this.diningRoom.clone();
     }
 
     /** return the the map of students in dining room */
@@ -59,6 +60,54 @@ public class SchoolBoard {
     public void addProfessor(ColourPawn colourPawn){
         professorsTable.addPawns(colourPawn,1);
         return;
+    }
+
+
+    /** return the number of coins to add after the movement
+     * and add the students in input to dining room */
+    public int addToDiningRoom(PawnsMap pawns){
+        ColourPawn pawnsList[] = ColourPawn.values();
+        int num;
+        int coinsToAdd=0;
+        for(ColourPawn p : pawnsList){
+            num = pawns.getPawns(p);
+            if(num>0){
+                for(int i=0; i<num; i++) {
+                    this.diningRoom.addPawn(p);
+                    if (this.diningRoom.getPawns(p) == 3 || this.diningRoom.getPawns(p) == 6 || this.diningRoom.getPawns(p) == 3)
+                        coinsToAdd ++;
+                }
+            }
+        }
+        return coinsToAdd;
+    }
+
+    /** receives in input a cloud and inserts all the students in entrance */
+    public void insertCloud(Cloud cloud){
+        ColourPawn pawnsList[] = ColourPawn.values();
+        int num;
+        for(ColourPawn p : pawnsList){
+            num = cloud.getStudents().getPawns(p);
+            if( num > 0){
+                this.entrance.addPawns(p, num);
+            }
+        }
+    }
+
+    /** move students in input to the dining room and remove from
+     * the entrance, return the number of coins to add after the movement */
+    public int moveToDiningRoom(PawnsMap toMove){
+        ColourPawn pawnsList[] = ColourPawn.values();
+        int num;
+        int coinsToAdd=0;
+        coinsToAdd = this.addToDiningRoom(toMove);
+        for(ColourPawn p : pawnsList){
+            num = toMove.getPawns(p);
+            if( num > 0){
+                this.entrance.removePawns(p, num);
+            }
+        }
+        return coinsToAdd;
     }
 
 }
