@@ -10,7 +10,7 @@ class CloudTest {
         Cloud cloud=new Cloud(3);
         assertEquals(3, cloud.getCloudId());
         for (ColourPawn c: ColourPawn.values()) {
-            assertEquals(0, cloud.getStudents().getPawns(c));
+            assertEquals(0, cloud.getStudents().get(c));
         }
     }
 
@@ -21,14 +21,14 @@ class CloudTest {
         PawnsMap oldStudents = new PawnsMap();
 
         for (ColourPawn c : ColourPawn.values()) {
-            oldStudents.addPawns(c,cloud.getStudents().getPawns(c));
+            oldStudents.add(c,cloud.getStudents().get(c));
         }
         cloud.addStudent(student);
         for (ColourPawn c : ColourPawn.values()) {
             if (c == ColourPawn.Blue) {
-                assertEquals(cloud.getStudents().getPawns(c),oldStudents.getPawns(c) + 1);
+                assertEquals(cloud.getStudents().get(c),oldStudents.get(c) + 1);
             } else {
-                assertEquals(cloud.getStudents().getPawns(c), oldStudents.getPawns(c));
+                assertEquals(cloud.getStudents().get(c), oldStudents.get(c));
             }
         }
     }
@@ -44,11 +44,11 @@ class CloudTest {
         PawnsMap returnClearCloud=cloud.clearCloud();
         PawnsMap oldStudents=new PawnsMap();
         for (ColourPawn c : ColourPawn.values()) {
-            oldStudents.addPawns(c,returnClearCloud.getPawns(c));
+            oldStudents.add(c,returnClearCloud.get(c));
         }
         for (ColourPawn c : ColourPawn.values()) {
-            assertEquals(1,oldStudents.getPawns(c));
-            assertEquals(0,cloud.getStudents().getPawns(c));
+            assertEquals(1,oldStudents.get(c));
+            assertEquals(0,cloud.getStudents().get(c));
         }
     }
 }

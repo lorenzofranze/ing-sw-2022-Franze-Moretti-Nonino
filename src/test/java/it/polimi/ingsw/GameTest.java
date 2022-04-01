@@ -89,8 +89,8 @@ class GameTest {
         islandList.add(island2);
         game.unifyIslands(islandList);
 
-        assertEquals(5,game.getIslands().get(2).getStudents().getPawns(ColourPawn.Yellow));
-        assertEquals(1,game.getIslands().get(2).getStudents().getPawns(ColourPawn.Blue));
+        assertEquals(5,game.getIslands().get(2).getStudents().get(ColourPawn.Yellow));
+        assertEquals(1,game.getIslands().get(2).getStudents().get(ColourPawn.Blue));
         assertEquals(7, game.getIslands().get(2).getTowerCount());
     }
 }

@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import java.util.*;
 
-public class PawnsMap {
+public class PawnsMap{
 
     private HashMap<ColourPawn, Integer> pawns;
 
@@ -14,32 +14,69 @@ public class PawnsMap {
         }
     }
 
-
-    public void removePawn(ColourPawn colour){
-        pawns.put(colour, pawns.get(colour)-1);
-    }
-
-    public void addPawn(ColourPawn colour){
+    public void add(ColourPawn colour){
         pawns.put(colour, pawns.get(colour)+1);
     }
 
-    public void addPawns(ColourPawn colour, int num){
+    public void remove(ColourPawn colour){
+        pawns.put(colour, pawns.get(colour)-1);
+    }
+
+    public void add(PawnsMap toAdd){
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for(ColourPawn p : pawnsList)
+            pawns.put(p, pawns.get(p) + toAdd.get(p));
+    }
+
+    public void remove(PawnsMap toRemove) {
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for (ColourPawn p : pawnsList) {
+            if (pawns.get(p) >= toRemove.get(p))
+                pawns.put(p, pawns.get(p) - toRemove.get(p));
+        }
+    }
+
+    public void add(ColourPawn colour, int num){
         pawns.put(colour, pawns.get(colour)+num);
     }
 
-    public void removePawns(ColourPawn colour, int num){
+    public void remove(ColourPawn colour, int num){
         pawns.put(colour, pawns.get(colour)-num);
     }
 
-    /**removes one pawn from pawnsMap randomly. Returns which ColourPawn has been removed. Usefull when the pawnsMap
-     * is used to implement the studentsBag.*/
+    /**randomly removes 'num' pawns from pawnsMap, where 'num' is the int passed as a parameter.
+     * @return the PawnsMap of values removed*/
+    public PawnsMap removeRandomly(int num){
+
+        List<ColourPawn> temp = new ArrayList<ColourPawn>(this.pawns.get(ColourPawn.Yellow));
+
+        for (ColourPawn currColor: ColourPawn.values()){
+            for (int i = 0; i < this.pawns.get(currColor); i++){
+            temp.add(currColor);
+            }
+        }
+
+        Collections.shuffle(temp);
+
+        PawnsMap toRemove = new PawnsMap();
+        for (int i = 0; i < num; i++){
+            toRemove.add(temp.get(i));
+        }
+
+        this.remove(toRemove);
+
+        return(toRemove);
+    }
+
+    /**randomly removes one pawn from pawnsMap.
+     * @return which ColourPawn has been removed*/
     public ColourPawn removePawnRandomly(){
 
         List<ColourPawn> temp = new ArrayList<ColourPawn>(pawns.get(ColourPawn.Yellow));
 
         for (ColourPawn currColor: ColourPawn.values()){
             for (int i = 0; i < pawns.get(currColor); i++){
-            temp.add(currColor);
+                temp.add(currColor);
             }
         }
 
@@ -48,12 +85,12 @@ public class PawnsMap {
         int randomNum = rand.nextInt(tot);
         ColourPawn toRemove = temp.get(randomNum);
 
-        removePawn(toRemove);
+        remove(toRemove);
 
         return(toRemove);
     }
 
-    public int getPawns(ColourPawn colour){
+    public int get(ColourPawn colour){
         return pawns.get(colour);
     }
 
@@ -79,7 +116,7 @@ public class PawnsMap {
         return tot;
     }
 
-    /** return a copy of the map */
+    /** @return a copy of the PawnsMap */
     public PawnsMap clone(){
         PawnsMap tmp = new PawnsMap();
         tmp.pawns = new HashMap<ColourPawn, Integer>(this.pawns);

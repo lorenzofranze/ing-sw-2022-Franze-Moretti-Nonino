@@ -29,7 +29,7 @@ public class SetUpPhase implements GamePhase{
         for (ColourPawn currColor: ColourPawn.values()){
             studentsToPlace.add(currColor);
             studentsToPlace.add(currColor);
-            controller.getGame().getStudentsBag().removePawns(currColor, 2);
+            controller.getGame().getStudentsBag().remove(currColor, 2);
         }
 
         Collections.shuffle(studentsToPlace);
@@ -38,7 +38,7 @@ public class SetUpPhase implements GamePhase{
         for(Island island: controller.getGame().getIslands()){
             if (!(island.equals(controller.getGame().getIslands().get(randomNum))) &&
                     !(island.equals(controller.getGame().getIslands().get(opposite)))){
-            island.getStudents().addPawn(studentsToPlace.get(i));
+            island.getStudents().add(studentsToPlace.get(i));
             i++;
             }
         }
@@ -56,7 +56,7 @@ public class SetUpPhase implements GamePhase{
         for (Player player : controller.getGame().getPlayers()){
             for (int i = 0; i < n; i++) {
                 toAdd = controller.getGame().getStudentsBag().removePawnRandomly();
-                player.getSchoolBoard().getEntrance().addPawn(toAdd);
+                player.getSchoolBoard().getEntrance().add(toAdd);
             }
 
         }

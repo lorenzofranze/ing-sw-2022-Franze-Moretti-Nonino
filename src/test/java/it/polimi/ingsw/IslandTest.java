@@ -44,11 +44,11 @@ class IslandTest {
         Island island=new Island();
         island.addStudents(ColourPawn.Green, 3);
         island.addStudents(ColourPawn.Pink, 6);
-        assertEquals(3,island.getStudents().getPawns(ColourPawn.Green));
-        assertEquals(6,island.getStudents().getPawns(ColourPawn.Pink));
-        assertEquals(0,island.getStudents().getPawns(ColourPawn.Blue));
-        assertEquals(0,island.getStudents().getPawns(ColourPawn.Red));
-        assertEquals(0,island.getStudents().getPawns(ColourPawn.Blue));
+        assertEquals(3,island.getStudents().get(ColourPawn.Green));
+        assertEquals(6,island.getStudents().get(ColourPawn.Pink));
+        assertEquals(0,island.getStudents().get(ColourPawn.Blue));
+        assertEquals(0,island.getStudents().get(ColourPawn.Red));
+        assertEquals(0,island.getStudents().get(ColourPawn.Blue));
     }
 
     @Test

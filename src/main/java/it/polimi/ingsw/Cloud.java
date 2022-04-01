@@ -16,15 +16,14 @@ public class Cloud {
         return cloudId;
     }
 
-    /** @return PawnsMap all the students on the cloud
-     */
+    /** @return the clone of the cloud PawnsMap*/
     public PawnsMap getStudents() {
-        return students;
+        return this.students.clone();
     }
 
     //MODIFICA 2
     public void addStudent(ColourPawn newStudent){
-        students.addPawn(newStudent);
+        students.add(newStudent);
     }
 
     //MODIFICA 3
@@ -33,15 +32,8 @@ public class Cloud {
      * @return PawnsMap the students that were situated on the cloud
      */
     public PawnsMap clearCloud(){
-        PawnsMap oldStudents= new PawnsMap();
-        for (ColourPawn c : ColourPawn.values()) {
-            oldStudents.addPawns(c,students.getPawns(c));
-        }
-        int numPawn;
-        for (ColourPawn c: ColourPawn.values()) {
-            numPawn=students.getPawns(c);
-            students.removePawns(c,numPawn);
-        }
+        PawnsMap oldStudents = this.getStudents();
+        this.students = new PawnsMap();
         return oldStudents;
     }
 }

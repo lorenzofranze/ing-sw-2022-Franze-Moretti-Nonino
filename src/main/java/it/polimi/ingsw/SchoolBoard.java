@@ -32,49 +32,48 @@ public class SchoolBoard {
 
     /** remove a tower from the schoolboard*/
     public void removeTower() {
-        this.spareTowers --;
+        if (this.spareTowers > 0) this.spareTowers --;
     }
 
-    /** @return a map copy of students in dining room, to add students in
-     * dining room use the special method: addToDiningRoom */
+    /** @return the clone of the DiningRoom map */
     public PawnsMap getDiningRoom() {
         return this.diningRoom.clone();
     }
 
-    /** return the the map of students in dining room */
+    /** @return the clone of the Entrance map */
     public PawnsMap getEntrance() {
-        return entrance;
+        return this.entrance.clone();
     }
 
-    /** return the map of prefessors */
+    /** @return the clone of the PrefessorsTable map */
     public PawnsMap getProfessorsTable() {
-        return professorsTable;
+        return this.professorsTable.clone();
     }
 
     /** remove the professor*/
     public void removeProfessor(ColourPawn colourPawn){
-        professorsTable.removePawns(colourPawn,1);
+        professorsTable.remove(colourPawn);
         return;
     }
     /**add the professor*/
     public void addProfessor(ColourPawn colourPawn){
-        professorsTable.addPawns(colourPawn,1);
+        professorsTable.add(colourPawn);
         return;
     }
 
 
-    /** return the number of coins to add after the movement
+    /**@return the number of coins to add after the movement
      * and add the students in input to dining room */
     public int addToDiningRoom(PawnsMap pawns){
         ColourPawn pawnsList[] = ColourPawn.values();
         int num;
         int coinsToAdd=0;
         for(ColourPawn p : pawnsList){
-            num = pawns.getPawns(p);
+            num = pawns.get(p);
             if(num>0){
                 for(int i=0; i<num; i++) {
-                    this.diningRoom.addPawn(p);
-                    if (this.diningRoom.getPawns(p) == 3 || this.diningRoom.getPawns(p) == 6 || this.diningRoom.getPawns(p) == 3)
+                    this.diningRoom.add(p);
+                    if (this.diningRoom.get(p) % 3 == 0)
                         coinsToAdd ++;
                 }
             }
@@ -82,31 +81,33 @@ public class SchoolBoard {
         return coinsToAdd;
     }
 
-    /** receives in input a cloud and inserts all the students in entrance */
-    public void insertCloud(Cloud cloud){
+    /** add the students in input to dining room */
+    public void addToEntrance(PawnsMap pawns){
         ColourPawn pawnsList[] = ColourPawn.values();
         int num;
         for(ColourPawn p : pawnsList){
-            num = cloud.getStudents().getPawns(p);
-            if( num > 0){
-                this.entrance.addPawns(p, num);
+            num = pawns.get(p);
+            if(num>0){
+                for(int i=0; i<num; i++) {
+                    this.diningRoom.add(p);
+                }
             }
         }
+    }
+
+
+    /** receives in input a cloud and inserts all the students in entrance */
+    public void insertCloud(Cloud cloud){
+        this.getEntrance().add(cloud.getStudents());
     }
 
     /** move students in input to the dining room and remove from
      * the entrance, return the number of coins to add after the movement */
     public int moveToDiningRoom(PawnsMap toMove){
         ColourPawn pawnsList[] = ColourPawn.values();
-        int num;
         int coinsToAdd=0;
         coinsToAdd = this.addToDiningRoom(toMove);
-        for(ColourPawn p : pawnsList){
-            num = toMove.getPawns(p);
-            if( num > 0){
-                this.entrance.removePawns(p, num);
-            }
-        }
+        this.entrance.remove(toMove);
         return coinsToAdd;
     }
 

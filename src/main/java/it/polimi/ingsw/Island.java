@@ -25,7 +25,7 @@ public class Island {
      }
 
     public void setHasMotherNature(boolean hasMotherNature) {
-        this.hasMotherNature = hasMotherNature;
+         this.hasMotherNature = hasMotherNature;
     }
 
     //MODIFICA 5
@@ -49,11 +49,18 @@ public class Island {
          this.towerCount+=num;
     }
 
-    public PawnsMap getStudents() { return students;}
+    /**@return the clone of the students map*/
+    public PawnsMap getStudents() {
+         return this.students.clone();
+     }
 
     //MODIFICA 7: aggiunta del metodo:
-    public void addStudents(ColourPawn colour, int number){
-         students.addPawns(colour,number);
+    public void addStudents(PawnsMap toAdd){
+        this.students.add(toAdd);
+    }
+
+    public void addStudents(ColourPawn colour, int num){
+        this.students.add(colour, num);
     }
 
     public boolean getHasNoEntryTile() {
@@ -77,8 +84,8 @@ public class Island {
          for(Player p: game.getPlayers()) {
              currScore = 0;
              for (ColourPawn professor : ColourPawn.values()) {
-                 if(p.getSchoolBoard().getProfessorsTable().getPawns(professor)==1)
-                 currScore += getStudents().getPawns(professor);
+                 if(p.getSchoolBoard().getProfessorsTable().get(professor)==1)
+                 currScore += getStudents().get(professor);
              }
              if (p.getColourTower() == towerColour) {
                  currScore += towerCount;
