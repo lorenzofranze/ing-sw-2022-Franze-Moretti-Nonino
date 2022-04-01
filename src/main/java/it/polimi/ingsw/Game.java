@@ -82,8 +82,9 @@ public class Game {
         }
     }
 
+    /**@Returne the clone in the StudentsBag*/
     public PawnsMap getStudentsBag() {
-        return studentsBag;
+        return studentsBag.clone();
     }
 
     public List<Player> getPlayers() {
@@ -115,6 +116,18 @@ public class Game {
 
     public void setGameId(String gameId) {
         this.gameId = gameId;
+    }
+
+    public void addStudents(PawnsMap toAdd){
+        studentsBag.add(toAdd);
+    }
+
+    public void removeStudents(PawnsMap toAdd){
+        studentsBag.remove(toAdd);
+    }
+
+    public PawnsMap removeStudentsRandomly(int num){
+        return studentsBag.removeRandomly(num);
     }
 
     //EXPERT GAME METHODS

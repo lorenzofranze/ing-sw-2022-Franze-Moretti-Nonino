@@ -38,8 +38,10 @@ public class SetUpPhase implements GamePhase{
         for(Island island: controller.getGame().getIslands()){
             if (!(island.equals(controller.getGame().getIslands().get(randomNum))) &&
                     !(island.equals(controller.getGame().getIslands().get(opposite)))){
-            island.getStudents().add(studentsToPlace.get(i));
-            i++;
+                PawnsMap map = new PawnsMap();
+                map.add(studentsToPlace.get(i));
+                island.addStudents(map);
+                i++;
             }
         }
     }
@@ -52,14 +54,10 @@ public class SetUpPhase implements GamePhase{
         int n = 7;
         if (controller.getGame().getPlayers().size() == 3) {n = 9;}
 
-        ColourPawn toAdd;
-        for (Player player : controller.getGame().getPlayers()){
-            for (int i = 0; i < n; i++) {
-                toAdd = controller.getGame().getStudentsBag().removeRandomly();
-                player.getSchoolBoard().getEntrance().add(toAdd);
-            }
-
+        for (Player player : controller.getGame().getPlayers()) {
+            player.getSchoolBoard().addToEntrance(controller.getGame().removeStudentsRandomly(n));
         }
+
     }
 
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
