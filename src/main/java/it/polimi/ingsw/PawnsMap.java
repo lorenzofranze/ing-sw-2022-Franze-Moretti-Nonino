@@ -70,7 +70,7 @@ public class PawnsMap{
 
     /**randomly removes one pawn from pawnsMap.
      * @return which ColourPawn has been removed*/
-    public ColourPawn removePawnRandomly(){
+    public ColourPawn removeRandomly(){
 
         List<ColourPawn> temp = new ArrayList<ColourPawn>(pawns.get(ColourPawn.Yellow));
 
@@ -99,7 +99,7 @@ public class PawnsMap{
         int tot=0;
         ColourPawn pawnsList[] = ColourPawn.values();
         for(ColourPawn p : pawnsList) {
-            tot = this.pawns.get(p);
+            tot += this.pawns.get(p);
         }
         if(tot == 0)
             return true;
@@ -111,7 +111,7 @@ public class PawnsMap{
         int tot=0;
         ColourPawn pawnsList[] = ColourPawn.values();
         for(ColourPawn p : pawnsList) {
-            tot = this.pawns.get(p);
+            tot += this.pawns.get(p);
         }
         return tot;
     }
@@ -123,4 +123,29 @@ public class PawnsMap{
         return tmp;
     }
 
+    /** compares two PawnsMap and returns a boolean */
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PawnsMap that = (PawnsMap) o;
+        boolean ris = true;
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for(ColourPawn p : pawnsList) {
+            if (this.pawns.get(p) != that.pawns.get(p))
+                ris = false;
+        }
+        return ris;
+    }
+
+    /** @return a String that describes the content of the map */
+    @Override
+    public String toString() {
+        String ris = new String();
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for (ColourPawn p : pawnsList) {
+            ris += p.toString() + " = " + this.pawns.get(p) + "\n";
+        }
+        return ris;
+    }
 }

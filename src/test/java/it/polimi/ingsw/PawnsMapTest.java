@@ -56,6 +56,79 @@ class PawnsMapTest {
         assertEquals(3, map2.get(ColourPawn.Pink));
     }
 
+    @Test
+    public void testTemoveRandomly(){
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 3);
+        map.add(ColourPawn.Blue, 6);
+        map.add(ColourPawn.Green, 3);
+        map.add(ColourPawn.Pink, 3);
+        map.add(ColourPawn.Red, 8);
+        PawnsMap copy = map.clone();
+        assertEquals(23, map.pawnsNumber());
+
+        PawnsMap removed = map.removeRandomly(5);
+
+        assertEquals(18, map.pawnsNumber());
+        assertEquals(5, removed.pawnsNumber());
+
+        map.add(removed);
+        assertEquals(true, map.equals(copy));
+
+        map = copy.clone();
+        assertEquals(23, map.pawnsNumber());
+        ColourPawn deleted = map.removeRandomly();
+        assertEquals(22, map.pawnsNumber());
+        map.add(deleted);
+        assertEquals(true, map.equals(copy));
+    }
+
+    @Test
+    public void testIsEmpty(){
+        PawnsMap map = new PawnsMap();
+        assertEquals(true, map.isEmpty());
+        map.add(ColourPawn.Yellow);
+        assertEquals(false, map.isEmpty());
+    }
+
+    @Test
+    public void testPawnsNumber(){
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 3);
+        map.add(ColourPawn.Blue, 6);
+        map.add(ColourPawn.Green, 3);
+        map.add(ColourPawn.Pink, 3);
+        map.add(ColourPawn.Red, 8);
+        assertEquals(23, map.pawnsNumber());
+        map.remove(ColourPawn.Yellow,2);
+        assertEquals(21, map.pawnsNumber());
+    }
+
+    @Test
+    public void testClone(){
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 3);
+        map.add(ColourPawn.Blue, 6);
+        map.add(ColourPawn.Green, 3);
+        map.add(ColourPawn.Pink, 3);
+        map.add(ColourPawn.Red, 8);
+        PawnsMap map2 = map.clone();
+        assertEquals(true, map.equals(map2));
+    }
+
+    @Test
+    public void testEquals(){
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 3);
+        map.add(ColourPawn.Blue, 6);
+        map.add(ColourPawn.Green, 3);
+        map.add(ColourPawn.Pink, 3);
+        map.add(ColourPawn.Red, 8);
+        PawnsMap map2 = map.clone();
+        assertEquals(true, map.equals(map2));
+        map2.add(ColourPawn.Yellow);
+        assertEquals(false, map.equals(map2));
+    }
 
 
 

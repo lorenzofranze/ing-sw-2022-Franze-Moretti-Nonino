@@ -71,7 +71,6 @@ public class Island {
         this.hasNoEntryTile = hasNoEntryTile;
     }
 
-
     /** calculates the most influent player on the island,
      * it works for 2/3-players game
      * @param game
@@ -84,7 +83,7 @@ public class Island {
          for(Player p: game.getPlayers()) {
              currScore = 0;
              for (ColourPawn professor : ColourPawn.values()) {
-                 if(p.getSchoolBoard().getProfessorsTable().get(professor)==1)
+                 if(p.getSchoolBoard().getProfessors().get(professor)==1)
                  currScore += getStudents().get(professor);
              }
              if (p.getColourTower() == towerColour) {

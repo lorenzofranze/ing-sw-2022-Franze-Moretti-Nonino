@@ -55,7 +55,7 @@ public class SetUpPhase implements GamePhase{
         ColourPawn toAdd;
         for (Player player : controller.getGame().getPlayers()){
             for (int i = 0; i < n; i++) {
-                toAdd = controller.getGame().getStudentsBag().removePawnRandomly();
+                toAdd = controller.getGame().getStudentsBag().removeRandomly();
                 player.getSchoolBoard().getEntrance().add(toAdd);
             }
 

@@ -8,7 +8,7 @@ import java.util.*;
  */
 
 public class SchoolBoard {
-    private PawnsMap professorsTable;
+    private PawnsMap professors;
     private PawnsMap diningRoom;
     private PawnsMap entrance;
     private int spareTowers;
@@ -19,7 +19,7 @@ public class SchoolBoard {
      */
     public SchoolBoard(){
 
-        this.professorsTable = new PawnsMap();
+        this.professors = new PawnsMap();
         this.diningRoom = new PawnsMap();
         this.entrance = new PawnsMap();
         this.spareTowers = 8;
@@ -46,18 +46,23 @@ public class SchoolBoard {
     }
 
     /** @return the clone of the PrefessorsTable map */
-    public PawnsMap getProfessorsTable() {
-        return this.professorsTable.clone();
+    public PawnsMap getProfessors() {
+        return this.professors.clone();
+    }
+
+    /**@Return the number of towers left in the schoolboard*/
+    public int getSpareTowers(){
+        return this.spareTowers;
     }
 
     /** remove the professor*/
     public void removeProfessor(ColourPawn colourPawn){
-        professorsTable.remove(colourPawn);
+        professors.remove(colourPawn);
         return;
     }
     /**add the professor*/
     public void addProfessor(ColourPawn colourPawn){
-        professorsTable.add(colourPawn);
+        professors.add(colourPawn);
         return;
     }
 
@@ -89,7 +94,7 @@ public class SchoolBoard {
             num = pawns.get(p);
             if(num>0){
                 for(int i=0; i<num; i++) {
-                    this.diningRoom.add(p);
+                    this.entrance.add(p);
                 }
             }
         }
@@ -98,12 +103,12 @@ public class SchoolBoard {
 
     /** receives in input a cloud and inserts all the students in entrance */
     public void insertCloud(Cloud cloud){
-        this.getEntrance().add(cloud.getStudents());
+        this.entrance.add(cloud.clearCloud());
     }
 
     /** move students in input to the dining room and remove from
      * the entrance, return the number of coins to add after the movement */
-    public int moveToDiningRoom(PawnsMap toMove){
+    public int fromEntranceToDiningRoom(PawnsMap toMove){
         ColourPawn pawnsList[] = ColourPawn.values();
         int coinsToAdd=0;
         coinsToAdd = this.addToDiningRoom(toMove);
