@@ -11,27 +11,39 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GameTest {
     @Test
     public void testSetCurrentPlayer(){
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        list.add(player);
-        Game game= new Game(list, false);
-        game.setCurrentPlayer(player);
-        assertEquals(player, game.getCurrentPlayer());
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+
+        Game game=new Game(listPlayer, listTower, listWizard,false);
+        game.setCurrentPlayer(game.getPlayers().get(0));
+        assertEquals(game.getPlayers().get(0), game.getCurrentPlayer());
     }
 
     @Test
     public void testSetGameId(){
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        Game game= new Game(list, false);
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+        Game game=new Game(listPlayer, listTower, listWizard,false);
         game.setGameId("12");
         assertEquals("12", game.getGameId());
     }
     @Test
     public void testAddCoinsComplexModeOn() {
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        Game game= new Game(list, true);
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+        Game game=new Game(listPlayer, listTower, listWizard,true);
         int numCoins= game.getCoinSupply();
         int num=6;
         game.addCoins(num);
@@ -40,18 +52,26 @@ class GameTest {
 
     @Test
     public void testRemoveCoinsComplexModeOn() {
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        Game game= new Game(list, true);
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+        Game game=new Game(listPlayer, listTower, listWizard,true);
         int num=game.getCoinSupply();
         game.removeCoins(num);
         assertEquals(0, game.getCoinSupply());
     }
     @Test
     public void testRemoveCoinsComplexModeOff() {
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        Game game= new Game(list, false);
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+        Game game=new Game(listPlayer, listTower, listWizard,false);
         int num= game.getCoinSupply();
         game.removeCoins(num);
         assertEquals(0, game.getCoinSupply());
@@ -59,9 +79,13 @@ class GameTest {
 
     @Test
     public void setActiveEffectComplexModeOn(){
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        Game game= new Game(list, false);
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+        Game game=new Game(listPlayer, listTower, listWizard,true);
         Character character=game.getCharacters().get(1);
         game.setActiveEffect(character);
         assertEquals(character, game.getActiveEffect());
@@ -70,9 +94,13 @@ class GameTest {
 
     @Test
     public void testUnifyIsland(){
-        List<Player> list= new ArrayList<>();
-        Player player = new Player("testPlayer", ColourTower.Black, ColourWizard.Blue);
-        Game game= new Game(list, false);
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        ArrayList<ColourTower> listTower= new ArrayList<>();
+        listTower.add(ColourTower.White);
+        ArrayList<ColourWizard> listWizard= new ArrayList<>();
+        listWizard.add(ColourWizard.Blue);
+        Game game=new Game(listPlayer, listTower, listWizard,false);
 
         Island island1=game.getIslands().get(2);
         Island island2=game.getIslands().get(3);

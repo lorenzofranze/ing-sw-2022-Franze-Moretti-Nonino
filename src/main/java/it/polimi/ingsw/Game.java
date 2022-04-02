@@ -29,7 +29,7 @@ public class Game {
      * fills studentBag with 130 students; fills professorsLeft with all 5 professors;
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
     public Game(List<String> players, List<ColourTower> colourTowers, List<ColourWizard> colourWizards, boolean expert){
-
+        this.players=new ArrayList<Player>();
         for( int i=0; i<players.size(); i++){
             Player p= new Player(players.get(i), colourTowers.get(i), colourWizards.get(i));
             this.players.add(p);
