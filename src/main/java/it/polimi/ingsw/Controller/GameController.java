@@ -11,7 +11,7 @@ public class GameController {
     private Player firstPianificationPlayer;
     public GameController(Lobby lobby, Integer gameid){
 
-        this.game=new Game(lobby.getUsersReadyToPlay());
+        this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
 
     }
     public Player getFirstPianificationPlayer() {
