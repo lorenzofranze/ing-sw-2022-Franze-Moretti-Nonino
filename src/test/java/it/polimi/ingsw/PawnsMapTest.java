@@ -1,9 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.ColourPawn;
+import it.polimi.ingsw.Model.PawnsMap;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

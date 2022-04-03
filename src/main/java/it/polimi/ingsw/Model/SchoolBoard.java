@@ -1,6 +1,8 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model;
 
-import java.util.*;
+import it.polimi.ingsw.Model.Cloud;
+import it.polimi.ingsw.Model.ColourPawn;
+import it.polimi.ingsw.Model.PawnsMap;
 
 /* ho tolto i riferimenti a controller perchè se servono 6
 * torri nella setup phase verrà chimato il metodo removeTowers

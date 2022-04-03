@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.AssistantCard;
+import it.polimi.ingsw.Model.ColourTower;
+import it.polimi.ingsw.Model.ColourWizard;
+import it.polimi.ingsw.Model.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

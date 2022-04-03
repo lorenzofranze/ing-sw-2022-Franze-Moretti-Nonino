@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.Cloud;
+import it.polimi.ingsw.Model.ColourPawn;
+import it.polimi.ingsw.Model.PawnsMap;
+import it.polimi.ingsw.Model.SchoolBoard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

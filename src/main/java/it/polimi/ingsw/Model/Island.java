@@ -1,7 +1,4 @@
-package it.polimi.ingsw;
-
-import java.util.HashMap;
-import java.util.Map;
+package it.polimi.ingsw.Model;
 
 public class Island {
 

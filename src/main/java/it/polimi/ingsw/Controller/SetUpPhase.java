@@ -1,11 +1,16 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Controller;
+
+import it.polimi.ingsw.Model.ColourPawn;
+import it.polimi.ingsw.Model.Island;
+import it.polimi.ingsw.Model.PawnsMap;
+import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class SetUpPhase implements GamePhase{
+public class SetUpPhase implements GamePhase {
 
     @Override
     public void handle(){}
@@ -17,9 +22,9 @@ public class SetUpPhase implements GamePhase{
         Random rand = new Random();
         int randomNum = rand.nextInt(12);
 
-        Controller controller = Controller.getIntance();
+        ServerController gameController = ServerController.getIntance();
 
-        Island islandMotherNature = controller.getGame().getIslands().get(randomNum);
+        Island islandMotherNature = gameController.getGame().getIslands().get(randomNum);
         islandMotherNature.setHasMotherNature(true);
 
         int opposite = randomNum + 6;
@@ -29,15 +34,15 @@ public class SetUpPhase implements GamePhase{
         for (ColourPawn currColor: ColourPawn.values()){
             studentsToPlace.add(currColor);
             studentsToPlace.add(currColor);
-            controller.getGame().getStudentsBag().remove(currColor, 2);
+            gameController.getGame().getStudentsBag().remove(currColor, 2);
         }
 
         Collections.shuffle(studentsToPlace);
 
         int i = 0;
-        for(Island island: controller.getGame().getIslands()){
-            if (!(island.equals(controller.getGame().getIslands().get(randomNum))) &&
-                    !(island.equals(controller.getGame().getIslands().get(opposite)))){
+        for(Island island: gameController.getGame().getIslands()){
+            if (!(island.equals(gameController.getGame().getIslands().get(randomNum))) &&
+                    !(island.equals(gameController.getGame().getIslands().get(opposite)))){
                 PawnsMap map = new PawnsMap();
                 map.add(studentsToPlace.get(i));
                 island.addStudents(map);
@@ -49,13 +54,13 @@ public class SetUpPhase implements GamePhase{
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
     private void fillEntrances(){
 
-        Controller controller = Controller.getIntance();
+        ServerController gameController = ServerController.getIntance();
 
         int n = 7;
-        if (controller.getGame().getPlayers().size() == 3) {n = 9;}
+        if (gameController.getGame().getPlayers().size() == 3) {n = 9;}
 
-        for (Player player : controller.getGame().getPlayers()) {
-            player.getSchoolBoard().addToEntrance(controller.getGame().removeStudentsRandomly(n));
+        for (Player player : gameController.getGame().getPlayers()) {
+            player.getSchoolBoard().addToEntrance(gameController.getGame().removeStudentsRandomly(n));
         }
 
     }
@@ -63,14 +68,14 @@ public class SetUpPhase implements GamePhase{
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
     private void setFirstPianificationPlayer(){
 
-        Controller controller = Controller.getIntance();
+        ServerController gameController = ServerController.getIntance();
 
-        int n = controller.getGame().getPlayers().size();
+        int n = gameController.getGame().getPlayers().size();
         Random rand = new Random();
         int randomNum = rand.nextInt(n);
 
-        Player ris = controller.getGame().getPlayers().get(randomNum);
-        controller.setFirstPianificationPlayer(ris);
+        Player ris = gameController.getGame().getPlayers().get(randomNum);
+        gameController.setFirstPianificationPlayer(ris);
 
     }
 

@@ -1,12 +1,11 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model;
 
 import java.util.*;
 
 public class Game {
 
     //SIMPLE GAME ATTRIBUTES
-    private String gameId;
-    private boolean expert;
+    private Integer gameId;
     private List<Player> players;
     private Player currentPlayer;
     private List<Island> islands;
@@ -28,14 +27,19 @@ public class Game {
     /**creates 12 islands; creates n clouds where n is the lenght of List<Player>;
      * fills studentBag with 130 students; fills professorsLeft with all 5 professors;
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
-    public Game(List<String> players, List<ColourTower> colourTowers, List<ColourWizard> colourWizards, boolean expert){
+    public Game(List<String> players, Integer gameId){
+        ArrayList<ColourTower> colourTowers= new ArrayList<>();
+        //ATTENZIONE
+        colourTowers.addAll(Arrays.stream(ColourTower.values()).toList());
+        ArrayList<ColourWizard> colourWizards= new ArrayList<>();
+        //ATTENZIONE
+        colourWizards.addAll(Arrays.stream(ColourWizard.values()).toList());
         this.players=new ArrayList<Player>();
         for( int i=0; i<players.size(); i++){
             Player p= new Player(players.get(i), colourTowers.get(i), colourWizards.get(i));
             this.players.add(p);
         }
 
-        this.expert=expert;
 
         this.clouds=new ArrayList<Cloud>(players.size());
         for(Integer i=0; i<players.size(); i++){
@@ -57,7 +61,6 @@ public class Game {
             this.professorsLeft.add(currColor);
         }
 
-        if (expert = true) {
 
             List<Character>temp = new ArrayList<Character>(12);
 
@@ -83,7 +86,7 @@ public class Game {
             characters.add(temp.get(3));
 
             this.coinSupply = 20;
-        }
+
     }
 
     /**@Returne the clone in the StudentsBag*/
@@ -114,11 +117,11 @@ public class Game {
         islands.remove(toUnify.get(1));
     }
 
-    public String getGameId() {
+    public Integer getGameId() {
         return gameId;
     }
 
-    public void setGameId(String gameId) {
+    public void setGameId(Integer gameId) {
         this.gameId = gameId;
     }
 
@@ -157,9 +160,6 @@ public class Game {
         this.activeEffect = activeEffect;
     }
 
-    public boolean isExpert() {
-        return expert;
-    }
 
     public List<Island> getIslands() {
         return islands;
