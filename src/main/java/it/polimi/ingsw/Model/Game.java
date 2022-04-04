@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class Game {
 
@@ -30,10 +32,10 @@ public class Game {
     public Game(List<String> players, Integer gameId){
         ArrayList<ColourTower> colourTowers= new ArrayList<>();
         //ATTENZIONE
-        colourTowers.addAll(Arrays.stream(ColourTower.values()).toList());
+        colourTowers.addAll(Arrays.stream(ColourTower.values()).collect(Collectors.toList()));
         ArrayList<ColourWizard> colourWizards= new ArrayList<>();
         //ATTENZIONE
-        colourWizards.addAll(Arrays.stream(ColourWizard.values()).toList());
+        colourWizards.addAll(Arrays.stream(ColourWizard.values()).collect(Collectors.toList()));
         this.players=new ArrayList<Player>();
         for( int i=0; i<players.size(); i++){
             Player p= new Player(players.get(i), colourTowers.get(i), colourWizards.get(i));
@@ -86,6 +88,8 @@ public class Game {
             characters.add(temp.get(3));
 
             this.coinSupply = 20;
+
+            this.gameId=gameId;
 
     }
 

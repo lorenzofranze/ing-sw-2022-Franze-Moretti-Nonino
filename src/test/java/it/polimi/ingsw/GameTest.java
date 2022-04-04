@@ -13,36 +13,40 @@ class GameTest {
     public void testSetCurrentPlayer(){
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
-
         Game game=new Game(listPlayer, 2);
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertEquals(game.getPlayers().get(0), game.getCurrentPlayer());
     }
 
     @Test
+    public void testGetStudentsBag(){
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        Game game=new Game(listPlayer, 2);
+        PawnsMap pawnsMap= new PawnsMap();
+        for (ColourPawn currColor: ColourPawn.values()){
+            pawnsMap.add(currColor,26);
+        }
+        assertEquals(pawnsMap,game.getStudentsBag());
+
+    }
+
+    @Test
     public void testSetGameId(){
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
         Game game=new Game(listPlayer, 2);
-        game.setGameId(12);
-        assertEquals("12", game.getGameId());
+
+        assertEquals(2, game.getGameId());
     }
+
+
+
     @Test
     public void testAddCoinsComplexModeOn() {
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
+
         Game game=new Game(listPlayer, 2);
         int numCoins= game.getCoinSupply();
         int num=6;
@@ -54,10 +58,8 @@ class GameTest {
     public void testRemoveCoinsComplexModeOn() {
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
+
+
         Game game=new Game(listPlayer, 2);
         int num=game.getCoinSupply();
         game.removeCoins(num);
@@ -67,10 +69,7 @@ class GameTest {
     public void testRemoveCoinsComplexModeOff() {
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
+
         Game game=new Game(listPlayer, 2);
         int num= game.getCoinSupply();
         game.removeCoins(num);
@@ -81,10 +80,7 @@ class GameTest {
     public void setActiveEffectComplexModeOn(){
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
+
         Game game=new Game(listPlayer, 2);
         Character character=game.getCharacters().get(1);
         game.setActiveEffect(character);
@@ -96,10 +92,7 @@ class GameTest {
     public void testUnifyIsland(){
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");
-        ArrayList<ColourTower> listTower= new ArrayList<>();
-        listTower.add(ColourTower.White);
-        ArrayList<ColourWizard> listWizard= new ArrayList<>();
-        listWizard.add(ColourWizard.Blue);
+
         Game game=new Game(listPlayer, 2);
 
         Island island1=game.getIslands().get(2);

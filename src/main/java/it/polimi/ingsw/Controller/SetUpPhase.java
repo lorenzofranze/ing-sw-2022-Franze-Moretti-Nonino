@@ -1,4 +1,6 @@
+/*
 package it.polimi.ingsw.Controller;
+
 
 import it.polimi.ingsw.Model.ColourPawn;
 import it.polimi.ingsw.Model.Island;
@@ -17,7 +19,7 @@ public class SetUpPhase implements GamePhase {
 
     /**Places MotherNature on a random island and 10 students (one of each colour) on the islands leaving the
      *  one on the other side of mothernatur empty. Removes the 10 students form the StudentBag.*/
-    private void placePawnsIslands(){
+/*    private void placePawnsIslands(){
 
         Random rand = new Random();
         int randomNum = rand.nextInt(12);
@@ -52,7 +54,7 @@ public class SetUpPhase implements GamePhase {
     }
 
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
-    private void fillEntrances(){
+/*    private void fillEntrances(){
 
         ServerController gameController = ServerController.getIntance();
 
@@ -66,7 +68,7 @@ public class SetUpPhase implements GamePhase {
     }
 
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
-    private void setFirstPianificationPlayer(){
+/*    private void setFirstPianificationPlayer(){
 
         ServerController gameController = ServerController.getIntance();
 
@@ -80,3 +82,4 @@ public class SetUpPhase implements GamePhase {
     }
 
 }
+*/
