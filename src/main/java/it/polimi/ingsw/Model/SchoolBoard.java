@@ -37,37 +37,22 @@ public class SchoolBoard {
         if (this.spareTowers > 0) this.spareTowers --;
     }
 
-    /** @return the clone of the DiningRoom map */
     public PawnsMap getDiningRoom() {
-        return this.diningRoom.clone();
+        return this.diningRoom;
     }
 
-    /** @return the clone of the Entrance map */
     public PawnsMap getEntrance() {
-        return this.entrance.clone();
+        return this.entrance;
     }
 
-    /** @return the clone of the PrefessorsTable map */
     public PawnsMap getProfessors() {
-        return this.professors.clone();
+        return this.professors;
     }
 
     /**@Return the number of towers left in the schoolboard*/
     public int getSpareTowers(){
         return this.spareTowers;
     }
-
-    /** remove the professor*/
-    public void removeProfessor(ColourPawn colourPawn){
-        professors.remove(colourPawn);
-        return;
-    }
-    /**add the professor*/
-    public void addProfessor(ColourPawn colourPawn){
-        professors.add(colourPawn);
-        return;
-    }
-
 
     /**@return the number of coins to add after the movement
      * and add the students in input to dining room */
@@ -86,20 +71,6 @@ public class SchoolBoard {
             }
         }
         return coinsToAdd;
-    }
-
-    /** add the students in input to dining room */
-    public void addToEntrance(PawnsMap pawns){
-        ColourPawn pawnsList[] = ColourPawn.values();
-        int num;
-        for(ColourPawn p : pawnsList){
-            num = pawns.get(p);
-            if(num>0){
-                for(int i=0; i<num; i++) {
-                    this.entrance.add(p);
-                }
-            }
-        }
     }
 
 

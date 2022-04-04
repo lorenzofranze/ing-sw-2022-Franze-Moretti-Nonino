@@ -30,29 +30,6 @@ class SchoolBoardTest {
         assertEquals(7, sb.getSpareTowers());
     }
 
-    @Test
-    public void testAddProfessor(){
-        SchoolBoard sb = new SchoolBoard();
-        assertEquals(true,  sb.getProfessors().equals(new PawnsMap()));
-        sb.addProfessor(ColourPawn.Yellow);
-        assertEquals(false,  sb.getProfessors().equals(new PawnsMap()));
-        PawnsMap map = new PawnsMap();
-        map.add(ColourPawn.Yellow);
-        assertEquals(true,  sb.getProfessors().equals(map));
-    }
-
-    @Test
-    public void testRemoveProfessor(){
-        SchoolBoard sb = new SchoolBoard();
-        assertEquals(true,  sb.getProfessors().equals(new PawnsMap()));
-        sb.addProfessor(ColourPawn.Yellow);
-        assertEquals(false,  sb.getProfessors().equals(new PawnsMap()));
-        PawnsMap map = new PawnsMap();
-        map.add(ColourPawn.Yellow);
-        assertEquals(true,  sb.getProfessors().equals(map));
-        sb.removeProfessor(ColourPawn.Yellow);
-        assertEquals(true,  sb.getProfessors().equals(new PawnsMap()));
-    }
 
     @Test
     public void testAddToDiningRoom(){
@@ -80,7 +57,7 @@ class SchoolBoardTest {
         map.add(ColourPawn.Green, 3);
         map.add(ColourPawn.Pink, 2);
         map.add(ColourPawn.Red, 3);
-        sb.addToEntrance(map);
+        sb.getEntrance().add(map);
         assertEquals(true, sb.getEntrance().equals(map));
         map = new PawnsMap();
         map.add(ColourPawn.Pink);
@@ -94,8 +71,8 @@ class SchoolBoardTest {
         Cloud cl = new Cloud(1);
         assertEquals(true, cl.getStudents().isEmpty());
 
-        cl.addStudent(ColourPawn.Yellow);
-        cl.addStudent(ColourPawn.Red);
+        cl.getStudents().add(ColourPawn.Yellow);
+        cl.getStudents().add(ColourPawn.Red);
         assertEquals(false, cl.getStudents().isEmpty());
 
         sb.insertCloud(cl);
@@ -112,7 +89,7 @@ class SchoolBoardTest {
         map.add(ColourPawn.Green, 3);
         map.add(ColourPawn.Pink, 2);
         map.add(ColourPawn.Red, 3);
-        sb.addToEntrance(map);
+        sb.getEntrance().add(map);
 
         PawnsMap map2 = new PawnsMap();
         map2.add(ColourPawn.Yellow, 3);

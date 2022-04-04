@@ -46,9 +46,8 @@ public class Island {
          this.towerCount+=num;
     }
 
-    /**@return the clone of the students map*/
     public PawnsMap getStudents() {
-         return this.students.clone();
+         return this.students;
      }
 
     //MODIFICA 7: aggiunta del metodo:

@@ -60,7 +60,7 @@ public class SetUpPhase implements GamePhase {
         if (gameController.getGame().getPlayers().size() == 3) {n = 9;}
 
         for (Player player : gameController.getGame().getPlayers()) {
-            player.getSchoolBoard().addToEntrance(gameController.getGame().removeStudentsRandomly(n));
+            player.getSchoolBoard().getEntrance().add(gameController.getGame().removeStudentsRandomly(n));
         }
 
     }

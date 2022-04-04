@@ -26,7 +26,7 @@ class CloudTest {
         for (ColourPawn c : ColourPawn.values()) {
             oldStudents.add(c,cloud.getStudents().get(c));
         }
-        cloud.addStudent(student);
+        cloud.getStudents().add(student);
         for (ColourPawn c : ColourPawn.values()) {
             if (c == ColourPawn.Blue) {
                 assertEquals(cloud.getStudents().get(c),oldStudents.get(c) + 1);
@@ -42,7 +42,7 @@ class CloudTest {
         //il test valuta la rimozione di 4 studenti: ma il numero di stdenti sulla nuvola varia
         // in base al numero di players
         for (ColourPawn c : ColourPawn.values()) {
-            cloud.addStudent(c);
+            cloud.getStudents().add(c);
         }
         PawnsMap returnClearCloud=cloud.clearCloud();
         PawnsMap oldStudents=new PawnsMap();

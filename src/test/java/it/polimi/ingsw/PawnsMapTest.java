@@ -56,7 +56,7 @@ class PawnsMapTest {
     }
 
     @Test
-    public void testTemoveRandomly(){
+    public void testRemoveRandomly(){
         PawnsMap map = new PawnsMap();
         map.add(ColourPawn.Yellow, 3);
         map.add(ColourPawn.Blue, 6);

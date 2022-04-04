@@ -43,8 +43,8 @@ class IslandTest {
     @Test
     public void testAddStudents() {
         Island island=new Island();
-        island.addStudents(ColourPawn.Green, 3);
-        island.addStudents(ColourPawn.Pink, 6);
+        island.getStudents().add(ColourPawn.Green, 3);
+        island.getStudents().add(ColourPawn.Pink, 6);
         assertEquals(3,island.getStudents().get(ColourPawn.Green));
         assertEquals(6,island.getStudents().get(ColourPawn.Pink));
         assertEquals(0,island.getStudents().get(ColourPawn.Blue));
@@ -56,10 +56,10 @@ class IslandTest {
     public void testGetInfluence(){
 
         Island island=new Island();
-        island.addStudents(ColourPawn.Green, 3);
-        island.addStudents(ColourPawn.Pink, 6);
-        island.addStudents(ColourPawn.Red, 4);
-        island.addStudents(ColourPawn.Yellow, 2);
+        island.getStudents().add(ColourPawn.Green, 3);
+        island.getStudents().add(ColourPawn.Pink, 6);
+        island.getStudents().add(ColourPawn.Red, 4);
+        island.getStudents().add(ColourPawn.Yellow, 2);
         island.setTowerColor(ColourTower.Grey);
         island.addTower(3);
         ArrayList<String> listPlayer= new ArrayList<>();
@@ -74,11 +74,11 @@ class IslandTest {
         listWizard.add(ColourWizard.Blue);
         listWizard.add(ColourWizard.Green);
         listWizard.add(ColourWizard.Violet);
-        Game game=new Game(listPlayer, listTower, listWizard,false);
+        Game game=new Game(listPlayer, 2);
 
-        game.getPlayers().get(0).getSchoolBoard().addProfessor(ColourPawn.Yellow);
-        game.getPlayers().get(1).getSchoolBoard().addProfessor(ColourPawn.Pink);
-        game.getPlayers().get(1).getSchoolBoard().addProfessor(ColourPawn.Green);
+        game.getPlayers().get(0).getSchoolBoard().getProfessors().add(ColourPawn.Yellow);
+        game.getPlayers().get(1).getSchoolBoard().getProfessors().add(ColourPawn.Pink);
+        game.getPlayers().get(1).getSchoolBoard().getProfessors().add(ColourPawn.Green);
         assertEquals(game.getPlayers().get(1), island.getInfluence(game));
     }
 

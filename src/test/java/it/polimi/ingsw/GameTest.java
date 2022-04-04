@@ -18,7 +18,7 @@ class GameTest {
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
 
-        Game game=new Game(listPlayer, listTower, listWizard,false);
+        Game game=new Game(listPlayer, 2);
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertEquals(game.getPlayers().get(0), game.getCurrentPlayer());
     }
@@ -31,8 +31,8 @@ class GameTest {
         listTower.add(ColourTower.White);
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
-        Game game=new Game(listPlayer, listTower, listWizard,false);
-        game.setGameId("12");
+        Game game=new Game(listPlayer, 2);
+        game.setGameId(12);
         assertEquals("12", game.getGameId());
     }
     @Test
@@ -43,7 +43,7 @@ class GameTest {
         listTower.add(ColourTower.White);
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
-        Game game=new Game(listPlayer, listTower, listWizard,true);
+        Game game=new Game(listPlayer, 2);
         int numCoins= game.getCoinSupply();
         int num=6;
         game.addCoins(num);
@@ -58,7 +58,7 @@ class GameTest {
         listTower.add(ColourTower.White);
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
-        Game game=new Game(listPlayer, listTower, listWizard,true);
+        Game game=new Game(listPlayer, 2);
         int num=game.getCoinSupply();
         game.removeCoins(num);
         assertEquals(0, game.getCoinSupply());
@@ -71,7 +71,7 @@ class GameTest {
         listTower.add(ColourTower.White);
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
-        Game game=new Game(listPlayer, listTower, listWizard,false);
+        Game game=new Game(listPlayer, 2);
         int num= game.getCoinSupply();
         game.removeCoins(num);
         assertEquals(0, game.getCoinSupply());
@@ -85,7 +85,7 @@ class GameTest {
         listTower.add(ColourTower.White);
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
-        Game game=new Game(listPlayer, listTower, listWizard,true);
+        Game game=new Game(listPlayer, 2);
         Character character=game.getCharacters().get(1);
         game.setActiveEffect(character);
         assertEquals(character, game.getActiveEffect());
@@ -100,7 +100,7 @@ class GameTest {
         listTower.add(ColourTower.White);
         ArrayList<ColourWizard> listWizard= new ArrayList<>();
         listWizard.add(ColourWizard.Blue);
-        Game game=new Game(listPlayer, listTower, listWizard,false);
+        Game game=new Game(listPlayer, 2);
 
         Island island1=game.getIslands().get(2);
         Island island2=game.getIslands().get(3);
