@@ -33,7 +33,7 @@ class GameTest {
         listWizard.add(ColourWizard.Blue);
         Game game=new Game(listPlayer, 2);
         game.setGameId(12);
-        assertEquals("12", game.getGameId());
+        assertEquals(12, game.getGameId());
     }
     @Test
     public void testAddCoinsComplexModeOn() {

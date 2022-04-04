@@ -29,14 +29,11 @@ public class Game {
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
     public Game(List<String> players, Integer gameId){
         ArrayList<ColourTower> colourTowers= new ArrayList<>();
-        //ATTENZIONE
-        colourTowers.addAll(Arrays.stream(ColourTower.values()).toList());
         ArrayList<ColourWizard> colourWizards= new ArrayList<>();
-        //ATTENZIONE
-        colourWizards.addAll(Arrays.stream(ColourWizard.values()).toList());
+
         this.players=new ArrayList<Player>();
         for( int i=0; i<players.size(); i++){
-            Player p= new Player(players.get(i), colourTowers.get(i), colourWizards.get(i));
+            Player p= new Player(players.get(i), ColourTower.values()[i] , ColourWizard.values()[i] );
             this.players.add(p);
         }
 
