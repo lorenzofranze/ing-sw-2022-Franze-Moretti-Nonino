@@ -1,11 +1,6 @@
-/*
 package it.polimi.ingsw.Controller;
 
-
-import it.polimi.ingsw.Model.ColourPawn;
-import it.polimi.ingsw.Model.Island;
-import it.polimi.ingsw.Model.PawnsMap;
-import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,18 +8,23 @@ import java.util.List;
 import java.util.Random;
 
 public class SetUpPhase implements GamePhase {
+    private final GameController gameController;
+
+    public SetUpPhase(GameController gameController){
+        this.gameController = gameController;
+    }
 
     @Override
-    public void handle(){}
+    public void handle(){
+    }
 
     /**Places MotherNature on a random island and 10 students (one of each colour) on the islands leaving the
      *  one on the other side of mothernatur empty. Removes the 10 students form the StudentBag.*/
-/*    private void placePawnsIslands(){
+    private void placePawnsIslands(){
 
         Random rand = new Random();
         int randomNum = rand.nextInt(12);
 
-        ServerController gameController = ServerController.getIntance();
 
         Island islandMotherNature = gameController.getGame().getIslands().get(randomNum);
         islandMotherNature.setHasMotherNature(true);
@@ -54,23 +54,21 @@ public class SetUpPhase implements GamePhase {
     }
 
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
-/*    private void fillEntrances(){
+    private void fillEntrances(){
 
-        ServerController gameController = ServerController.getIntance();
 
         int n = 7;
         if (gameController.getGame().getPlayers().size() == 3) {n = 9;}
 
         for (Player player : gameController.getGame().getPlayers()) {
-            player.getSchoolBoard().getEntrance().add(gameController.getGame().removeStudentsRandomly(n));
+            player.getSchoolBoard().getEntrance().add(gameController.getGame().getStudentsBag().removeRandomly(n));
         }
 
     }
 
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
-/*    private void setFirstPianificationPlayer(){
+    private void setFirstPianificationPlayer(){
 
-        ServerController gameController = ServerController.getIntance();
 
         int n = gameController.getGame().getPlayers().size();
         Random rand = new Random();
@@ -82,4 +80,3 @@ public class SetUpPhase implements GamePhase {
     }
 
 }
-*/

@@ -34,7 +34,7 @@ public class SchoolBoard {
 
     /** remove a tower from the schoolboard*/
     public void removeTower() {
-        if (this.spareTowers > 0) this.spareTowers --;
+         this.spareTowers --;
     }
 
     public PawnsMap getDiningRoom() {
@@ -82,7 +82,6 @@ public class SchoolBoard {
     /** move students in input to the dining room and remove from
      * the entrance, return the number of coins to add after the movement */
     public int fromEntranceToDiningRoom(PawnsMap toMove){
-        ColourPawn pawnsList[] = ColourPawn.values();
         int coinsToAdd=0;
         coinsToAdd = this.addToDiningRoom(toMove);
         this.entrance.remove(toMove);
