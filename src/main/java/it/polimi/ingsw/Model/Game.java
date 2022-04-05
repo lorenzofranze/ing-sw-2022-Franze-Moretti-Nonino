@@ -20,6 +20,9 @@ public class Game {
      * of the character used*/
     private Character activeEffect;
     private int coinSupply;
+    /**I can place the three Character-Cards on the table also if the expert-mode is off: no one in a simple-play
+     * will use them since they won't have any personal coin
+     */
     private List<Character> characters;
 
 

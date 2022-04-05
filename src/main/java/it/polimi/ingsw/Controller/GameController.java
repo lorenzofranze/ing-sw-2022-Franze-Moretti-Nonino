@@ -14,15 +14,14 @@ public class GameController {
     private GamePhase currentPhase;
     private Player firstPianificationPlayer;
     private boolean gameOver=false;
+    private boolean expert;
 
     public GameController(Lobby lobby, Integer gameid, boolean expert){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
-        if(expert==true){
-            this.setUpPhase=new SetUpPhaseComplex(this);
-        }
-        else{
-            this.setUpPhase=new SetUpPhase(this);
-        }
+        this.expert=expert;
+
+        this.setUpPhase=new SetUpPhase(this);
+
         //DA TOGLIERE COMMENTO
         //this.pianificationPhase=new PianificationPhase(this);
         //this.actionPhase=new ActionPhase(this);
@@ -68,5 +67,9 @@ public class GameController {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public boolean isExpert() {
+        return expert;
     }
 }

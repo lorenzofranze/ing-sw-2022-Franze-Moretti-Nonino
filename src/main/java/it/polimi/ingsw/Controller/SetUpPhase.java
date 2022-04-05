@@ -19,8 +19,19 @@ public class SetUpPhase implements GamePhase {
         this.placePawnsIslands();
         this.fillEntrances();
         this.setFirstPianificationPlayer();
+        if(gameController.isExpert()==true){
+            this.distributeCoins();
+        }
 
         this.gameController.setGamePhase(gameController.getActionPhase());
+
+    }
+
+    private void distributeCoins(){
+        for(Player player: this.gameController.getGame().getPlayers()){
+            player.addCoins(1);
+            this.gameController.getGame().removeCoins(1);
+        }
     }
 
     /**Places MotherNature on a random island and 10 students (one of each colour) on the islands leaving the
@@ -61,7 +72,6 @@ public class SetUpPhase implements GamePhase {
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
     private void fillEntrances(){
 
-
         int n = 7;
         if (gameController.getGame().getPlayers().size() == 3) {n = 9;}
 
@@ -74,7 +84,6 @@ public class SetUpPhase implements GamePhase {
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
     private void setFirstPianificationPlayer(){
 
-
         int n = gameController.getGame().getPlayers().size();
         Random rand = new Random();
         int randomNum = rand.nextInt(n);
@@ -83,5 +92,6 @@ public class SetUpPhase implements GamePhase {
         gameController.setFirstPianificationPlayer(ris);
 
     }
+
 
 }
