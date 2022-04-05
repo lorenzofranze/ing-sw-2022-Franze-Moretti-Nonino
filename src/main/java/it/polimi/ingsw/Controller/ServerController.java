@@ -38,10 +38,10 @@ public class ServerController {
         lastId=lastId+1;
         GameController newGameController;
         if(mode==GameMode.Complex_2 || mode==GameMode.Complex_3){
-            newGameController= new ComplexGameController(lobby, gameId);
+            newGameController= new GameController(lobby, gameId, true);
         }
         else{
-            newGameController= new GameController(lobby, gameId);
+            newGameController= new GameController(lobby, gameId, false);
         }
 
         this.gameControllers.add(newGameController);

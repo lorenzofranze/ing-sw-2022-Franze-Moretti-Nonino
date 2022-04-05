@@ -15,9 +15,14 @@ public class GameController {
     private Player firstPianificationPlayer;
     private boolean gameOver=false;
 
-    public GameController(Lobby lobby, Integer gameid){
+    public GameController(Lobby lobby, Integer gameid, boolean expert){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
-        this.setUpPhase=new SetUpPhase(this);
+        if(expert==true){
+            this.setUpPhase=new SetUpPhaseComplex(this);
+        }
+        else{
+            this.setUpPhase=new SetUpPhase(this);
+        }
         this.pianificationPhase=new PianificationPhase(this);
         this.actionPhase=new ActionPhase(this);
         this.endPhase=new EndPhase(this);
