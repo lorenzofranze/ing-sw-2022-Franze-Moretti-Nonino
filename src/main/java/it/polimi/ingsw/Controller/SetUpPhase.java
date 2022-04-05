@@ -20,7 +20,7 @@ public class SetUpPhase implements GamePhase {
         this.fillEntrances();
         this.setFirstPianificationPlayer();
 
-        this.gameController.setGamePhase(gameController.getPianificationPhase());
+        this.gameController.setGamePhase(gameController.getActionPhase());
     }
 
     /**Places MotherNature on a random island and 10 students (one of each colour) on the islands leaving the

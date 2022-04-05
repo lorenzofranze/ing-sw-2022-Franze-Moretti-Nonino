@@ -6,18 +6,28 @@ import it.polimi.ingsw.Model.Player;
 import java.util.List;
 
 public class GameController {
-    GamePhase setUpPhase;
-    GamePhase pianificationPhase;
-    GamePhase actionPhase;
-    GamePhase endPhase;
+    private GamePhase setUpPhase;
+    private GamePhase pianificationPhase;
+    private GamePhase actionPhase;
+    private GamePhase endPhase;
     private Game game;
     private GamePhase currentPhase;
     private Player firstPianificationPlayer;
+    private boolean gameOver=false;
 
     public GameController(Lobby lobby, Integer gameid){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
-        this.currentPhase=setUpPhase;
     }
+
+    public void play(){
+        this.currentPhase=setUpPhase;
+        while (!gameOver){
+            currentPhase.handle();
+        }
+    }
+
+
+
     public Player getFirstPianificationPlayer() {
         return firstPianificationPlayer;
     }
@@ -44,5 +54,9 @@ public class GameController {
 
     public GamePhase getEndPhase() {
         return endPhase;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }
