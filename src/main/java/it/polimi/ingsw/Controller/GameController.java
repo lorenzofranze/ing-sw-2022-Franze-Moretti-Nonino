@@ -23,9 +23,10 @@ public class GameController {
         else{
             this.setUpPhase=new SetUpPhase(this);
         }
-        this.pianificationPhase=new PianificationPhase(this);
-        this.actionPhase=new ActionPhase(this);
-        this.endPhase=new EndPhase(this);
+        //DA TOGLIERE COMMENTO
+        //this.pianificationPhase=new PianificationPhase(this);
+        //this.actionPhase=new ActionPhase(this);
+        //this.endPhase=new EndPhase(this);
     }
 
     public void play(){
