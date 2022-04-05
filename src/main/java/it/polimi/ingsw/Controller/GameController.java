@@ -9,9 +9,9 @@ public class GameController {
     private Game game;
     private GamePhase currentPhase;
     private Player firstPianificationPlayer;
+    private
 
     public GameController(Lobby lobby, Integer gameid){
-
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
 
     }

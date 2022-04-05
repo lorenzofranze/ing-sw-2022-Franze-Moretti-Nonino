@@ -16,6 +16,11 @@ public class SetUpPhase implements GamePhase {
 
     @Override
     public void handle(){
+        this.placePawnsIslands();
+        this.fillEntrances();
+        this.setFirstPianificationPlayer();
+
+        //this.gameController.setState(Pianification)
     }
 
     /**Places MotherNature on a random island and 10 students (one of each colour) on the islands leaving the
