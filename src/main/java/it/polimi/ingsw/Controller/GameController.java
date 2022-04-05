@@ -17,6 +17,10 @@ public class GameController {
 
     public GameController(Lobby lobby, Integer gameid){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
+        this.setUpPhase=new SetUpPhase(this);
+        this.pianificationPhase=new PianificationPhase(this);
+        this.actionPhase=new ActionPhase(this);
+        this.endPhase=new EndPhase(this);
     }
 
     public void play(){
