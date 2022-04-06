@@ -13,16 +13,15 @@ public class GameController {
     private Game game;
     private GamePhase currentPhase;
     private boolean gameOver=false;
+    private boolean expert;
     private MessageHandler messageHandler;
 
     public GameController(Lobby lobby, Integer gameid, boolean expert){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
-        if(expert==true){
-            this.setUpPhase=new SetUpPhaseComplex(this);
-        }
-        else{
-            this.setUpPhase=new SetUpPhase(this);
-        }
+        this.expert=expert;
+
+        this.setUpPhase=new SetUpPhase(this);
+
         //DA TOGLIERE COMMENTO
         //this.pianificationPhase=new PianificationPhase(this);
         //this.actionPhase=new ActionPhase(this);
@@ -63,5 +62,9 @@ public class GameController {
 
     public MessageHandler getMessageHandler() {
         return messageHandler;
+    }
+
+    public boolean isExpert() {
+        return expert;
     }
 }
