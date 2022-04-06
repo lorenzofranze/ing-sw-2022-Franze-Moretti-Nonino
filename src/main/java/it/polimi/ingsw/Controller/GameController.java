@@ -12,8 +12,8 @@ public class GameController {
     private GamePhase endPhase;
     private Game game;
     private GamePhase currentPhase;
-    private Player firstPianificationPlayer;
     private boolean gameOver=false;
+    private MessageHandler messageHandler;
 
     public GameController(Lobby lobby, Integer gameid, boolean expert){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
@@ -37,15 +37,6 @@ public class GameController {
     }
 
 
-
-    public Player getFirstPianificationPlayer() {
-        return firstPianificationPlayer;
-    }
-
-    public void setFirstPianificationPlayer(Player firstPianificationPlayer) {
-        this.firstPianificationPlayer = firstPianificationPlayer;
-    }
-
     public Game getGame() {
         return game;
     }
@@ -68,5 +59,9 @@ public class GameController {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public MessageHandler getMessageHandler() {
+        return messageHandler;
     }
 }

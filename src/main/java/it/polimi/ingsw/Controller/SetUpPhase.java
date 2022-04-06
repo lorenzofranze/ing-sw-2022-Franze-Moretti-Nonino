@@ -20,7 +20,7 @@ public class SetUpPhase implements GamePhase {
         this.fillEntrances();
         this.setFirstPianificationPlayer();
 
-        this.gameController.setGamePhase(gameController.getActionPhase());
+        this.gameController.setGamePhase(gameController.getPianificationPhase());
     }
 
     /**Places MotherNature on a random island and 10 students (one of each colour) on the islands leaving the
@@ -74,13 +74,12 @@ public class SetUpPhase implements GamePhase {
     /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
     private void setFirstPianificationPlayer(){
 
-
         int n = gameController.getGame().getPlayers().size();
         Random rand = new Random();
         int randomNum = rand.nextInt(n);
 
         Player ris = gameController.getGame().getPlayers().get(randomNum);
-        gameController.setFirstPianificationPlayer(ris);
+        PianificationPhase p =  (PianificationPhase) gameController.getPianificationPhase();
 
     }
 
