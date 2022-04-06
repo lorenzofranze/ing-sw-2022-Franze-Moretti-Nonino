@@ -72,6 +72,7 @@ public class SetUpPhase implements GamePhase {
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
     private void fillEntrances(){
 
+
         int n = 7;
         if (gameController.getGame().getPlayers().size() == 3) {n = 9;}
 
@@ -89,7 +90,7 @@ public class SetUpPhase implements GamePhase {
         int randomNum = rand.nextInt(n);
 
         Player ris = gameController.getGame().getPlayers().get(randomNum);
-        gameController.setFirstPianificationPlayer(ris);
+        PianificationPhase p =  (PianificationPhase) gameController.getPianificationPhase();
 
     }
 
