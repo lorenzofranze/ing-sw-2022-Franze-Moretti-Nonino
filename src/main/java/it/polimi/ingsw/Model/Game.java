@@ -168,4 +168,10 @@ public class Game {
     public int getCoinSupply(){
         return coinSupply;
     }
+
+    public PawnsMap getProfessorsLeft(){
+        return professorsLeft;
+    }
+
+
 }

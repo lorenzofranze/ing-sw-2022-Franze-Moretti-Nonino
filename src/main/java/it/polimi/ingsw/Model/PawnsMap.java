@@ -31,8 +31,7 @@ public class PawnsMap{
     public void remove(PawnsMap toRemove) {
         ColourPawn pawnsList[] = ColourPawn.values();
         for (ColourPawn p : pawnsList) {
-            if (pawns.get(p) >= toRemove.get(p))
-                pawns.put(p, pawns.get(p) - toRemove.get(p));
+            pawns.put(p, pawns.get(p) - toRemove.get(p));
         }
     }
 

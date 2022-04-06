@@ -16,6 +16,7 @@ public class GameController {
     private boolean expert;
     private MessageHandler messageHandler;
 
+
     public GameController(Lobby lobby, Integer gameid, boolean expert){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
         this.expert=expert;
