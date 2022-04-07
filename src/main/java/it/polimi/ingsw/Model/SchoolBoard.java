@@ -65,7 +65,8 @@ public class SchoolBoard {
         return this.spareTowers;
     }
 
-    /** adds the students in input to dining room
+    /** adds the students in input to dining room,
+     *  move professors if necessary
      * @return the number of coins to add after the movement*/
     public int addToDiningRoom(PawnsMap pawns, Game game){
         ColourPawn pawnsList[] = ColourPawn.values();
