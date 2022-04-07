@@ -62,9 +62,6 @@ public class ActionPhase implements GamePhase {
         this.turnOrder = turnOrder;
     }
 
-    @Override
-    public void handle() {
-
     private void computePlayerPianification(){
         Player firstInPianification = turnOrder.get(0);
         PianificationPhase p = (PianificationPhase) this.gameController.getPianificationPhase();
@@ -72,15 +69,16 @@ public class ActionPhase implements GamePhase {
     }
 
     private void moveStudents(){
+        MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean valid=true;
         int indexColour;
-        int where;   // -1 refer for diningRoom, index of island for island
+        int where=0 ;   // -1 refer for diningRoom, index of island for island
 
         for(int i=0; i<3; i++){
             // to user: choose i+1 movement of 3
             do{
                 // to user: chhose one color pawn
-                indexColour = messageHandel.getValue();
+                indexColour = messageHandler.getValue();
                 if(indexColour<=-1 || indexColour >=5){
                     valid=false;
                     // to user: index not valid
@@ -96,8 +94,8 @@ public class ActionPhase implements GamePhase {
                 // to user: choose position
 
                 if(valid){
-                    where = messageHandel.getValues();
-                    if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 ){
+                    where = messageHandler.getValue();
+                    if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
                     }
@@ -105,7 +103,7 @@ public class ActionPhase implements GamePhase {
             }while(!valid);
 
             // to user: ok
-            this.moveSingleStudent(ColourPawn.values()[indexColour], where);
+            this.moveSingleStudent(ColourPawn.values()[indexColour], where );
             valid=true;
 
         }
