@@ -17,7 +17,7 @@ public class SetUpPhase implements GamePhase {
     @Override
     public void handle(){
         this.placePawnsIslands();
-        this.fillEntrances();
+        this.fillSchoolBoard();
         this.setFirstPianificationPlayer();
         if(gameController.isExpert()==true){
             this.distributeCoins();
@@ -66,22 +66,28 @@ public class SetUpPhase implements GamePhase {
                     !(island.equals(gameController.getGame().getIslands().get(opposite)))){
                 PawnsMap map = new PawnsMap();
                 map.add(studentsToPlace.get(i));
+                map.add(studentsToPlace.get(i+1));
                 island.addStudents(map);
-                i++;
+                i+=2;
             }
         }
     }
 
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
-    private void fillEntrances(){
+    private void fillSchoolBoard(){
 
 
         int n = 7;
-        if (gameController.getGame().getPlayers().size() == 3) {n = 9;}
+        int towersToRemove = 0;
+        if (gameController.getGame().getPlayers().size() == 3) {n = 9; towersToRemove=2;}
 
         for (Player player : gameController.getGame().getPlayers()) {
             player.getSchoolBoard().getEntrance().add(gameController.getGame().getStudentsBag().removeRandomly(n));
+            for(int i=0; i<towersToRemove; i++)
+                player.getSchoolBoard().removeTower();
         }
+
+
 
     }
 

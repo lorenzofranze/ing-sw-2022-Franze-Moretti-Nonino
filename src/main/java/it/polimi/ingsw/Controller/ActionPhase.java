@@ -62,11 +62,53 @@ public class ActionPhase implements GamePhase {
         this.turnOrder = turnOrder;
     }
 
+    @Override
+    public void handle() {
 
     private void computePlayerPianification(){
         Player firstInPianification = turnOrder.get(0);
         PianificationPhase p = (PianificationPhase) this.gameController.getPianificationPhase();
         p.setFirstPlayer(firstInPianification);
+    }
+
+    private void moveStudents(){
+        boolean valid=true;
+        int indexColour;
+        int where;   // -1 refer for diningRoom, index of island for island
+
+        for(int i=0; i<3; i++){
+            // to user: choose i+1 movement of 3
+            do{
+                // to user: chhose one color pawn
+                indexColour = messageHandel.getValue();
+                if(indexColour<=-1 || indexColour >=5){
+                    valid=false;
+                    // to user: index not valid
+                }
+                if(valid){
+                    if(! (gameController.getGame().getCurrentPlayer().getSchoolBoard()
+                            .getEntrance().get(ColourPawn.values()[indexColour]) >=1)){
+                        valid = false;
+                        //to user: change color pawn to move
+                    }
+                }
+
+                // to user: choose position
+
+                if(valid){
+                    where = messageHandel.getValues();
+                    if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 ){
+                        valid = false;
+                        //to user: position not valid
+                    }
+                }
+            }while(!valid);
+
+            // to user: ok
+            this.moveSingleStudent(ColourPawn.values()[indexColour], where);
+            valid=true;
+
+        }
     }
 
     private void moveMotherNature(Player currentPlayer){
@@ -96,7 +138,7 @@ public class ActionPhase implements GamePhase {
     //è da fare??
     public void calcultateInfluence(Island island){
 
-    };
+    }
 
     /**places a tower on a island or swap the color, then, if necessary, calls verifyUnion()
      * @param colour
