@@ -21,41 +21,35 @@ public class ActionPhase implements GamePhase {
 
         turnOrder = new ArrayList<>(list.size());
     }
-    public void computePlayerAction(){
-
-    }
-
-    public void moveSingleStudent(ColourPawn colour, Integer where){
-        PawnsMap student= new PawnsMap();
-        student.add(colour);
-        if(gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(colour)==0){
-            //Exception?
-        }
-        else {
-            if (where == -1) {
-                gameController.getCurrentPlayer().getSchoolBoard().fromEntranceToDiningRoom(student, gameController.getGame());
-            } else {
-                gameController.getCurrentPlayer().getSchoolBoard().removeFromDiningRoom(student);
-                gameController.getGame().getIslands().get(where).addStudents(student);
-            }
-        }
-    }
-
-    public void placeTower(ColourTower colour, Island island){
-        island.addTower(1);
-        if(!island.getTowerColour().equals(colour)){
-            island.setTowerColor(colour);
-        }
-    }
-
-    public void setCurrPlayer(Player currPlayer) {
-        this.gameController.setCurrentPlayer(currPlayer);
-    }
 
     @Override
     public void handle() {
-        //bisogna ricordarsi di fare SetCurrentPlayer
 
+
+    }
+
+
+    /** if where==-1 moves student from the schoolboard entrance to the diningroom
+     * else moves student from the schoolboard entrance to the island of index=where
+     * @param colour
+     * @param where
+     */
+    public void moveSingleStudent(ColourPawn colour, Integer where){
+        PawnsMap student= new PawnsMap();
+        student.add(colour);
+
+        if (where == -1) {
+            gameController.getCurrentPlayer().getSchoolBoard().fromEntranceToDiningRoom(student, gameController.getGame());
+        } else {
+            gameController.getCurrentPlayer().getSchoolBoard().removeFromDiningRoom(student);
+            gameController.getGame().getIslands().get(where).addStudents(student);
+        }
+
+    }
+
+
+    public void setCurrPlayer(Player currPlayer) {
+        this.gameController.setCurrentPlayer(currPlayer);
     }
 
 
@@ -98,9 +92,27 @@ public class ActionPhase implements GamePhase {
         }
     }
 
+
+    //è da fare??
     public void calcultateInfluence(Island island){
 
     };
+
+    /**places a tower on a island or swap the color, then, if necessary, calls verifyUnion()
+     * @param colour
+     * @param island
+     */
+    public void placeTower(ColourTower colour, Island island){
+        if(island.getTowerCount()==0){
+            island.addTower(1);
+            island.setTowerColor(colour);
+            verifyUnion();
+        }
+        if(!island.getTowerColour().equals(colour)){
+            island.setTowerColor(colour);
+            verifyUnion();
+        }
+    }
 
     private void verifyUnion() {
         List<Island> islandList = this.gameController.getGame().getIslands();
