@@ -23,11 +23,11 @@ public class ActionPhase implements GamePhase {
         }
         turnOrder = new ArrayList<>(list.size());
 
-        this.initiliaziCharacters();
+        this.initializeCharactersEffects();
     }
     // da vedere
 
-    private void initiliaziCharacters(){
+    private void initializeCharactersEffects(){
 
         for(Character cr: gameController.getGame().getCharacters()){
             if(cr.getCharacterId()==1)
