@@ -41,14 +41,14 @@ public class ActionPhase implements GamePhase {
         p.setFirstPlayer(firstInPianification);
     }
 
-    private void moveMotherNature(Player currentPlayer) throws IllegalArgumentException{
+    private void moveMotherNature(Player currentPlayer){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        int played;
 
-        int played = messageHandler.getValue(currentPlayer);
-
-        if (played < 1 || played > maximumMovements.get(currentPlayer)) {
-            throw new IllegalArgumentException();
+        do{
+            played = messageHandler.getValue(currentPlayer);
         }
+        while(played < 1 || played > maximumMovements.get(currentPlayer));
 
         List<Island> islandList = this.gameController.getGame().getIslands();
 
