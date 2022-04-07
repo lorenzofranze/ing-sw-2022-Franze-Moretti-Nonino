@@ -1,7 +1,8 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
-
+import it.polimi.ingsw.Model.Character;
+import it.polimi.ingsw.Controller.Characters.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ public class ActionPhase implements GamePhase {
     private GameController gameController;
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
+    private Map<Character, CharacterEffect> characterEffects; // per gli effetti
 
     public ActionPhase(GameController gc) {
         this.gameController = gc;
@@ -19,9 +21,29 @@ public class ActionPhase implements GamePhase {
         for(Player p : list){
             maximumMovements.put(p, 0);
         }
-
         turnOrder = new ArrayList<>(list.size());
+
+        this.initiliaziCharacters();
     }
+    // da vedere
+
+    private void initiliaziCharacters(){
+
+        for(Character cr: gameController.getGame().getCharacters()){
+            if(cr.getCharacterId()==1)
+                characterEffects.put(cr, new Card1());
+                // e così via...
+                //....
+
+            if(cr.getCharacterId()==12)
+            characterEffects.put(cr, new Card12());
+        }
+    }
+
+
+
+
+    //RICORDARE: alla fine del turno di ogni player resettare activeEffect di game
 
     @Override
     public void handle() {
@@ -232,6 +254,46 @@ public class ActionPhase implements GamePhase {
     }
 
     // fine metodi di gioco
+
+    /** this method does nothing if game is in simple mode because no player has more than 0 coins
+     * otherwise it ask the player for character card he wants to use between that he can afford */
+    private void askforCharacter(){
+        MessageHandler messageHandler = this.gameController.getMessageHandler();
+        int cardNumber;
+
+        List<Character> usable = new ArrayList<>();
+        for(Character character: gameController.getGame().getCharacters()) {
+            if (gameController.getGame().getCurrentPlayer().getCoins() >= character.getCost() &&
+                    gameController.getGame().getActiveEffect() == null) {
+                usable.add(character);
+            }
+        }
+
+        if(!usable.isEmpty()){
+            // to user: you can play one of theese cards.. select the number of card you want to
+            // use to play the card now, any other key to skip
+
+            for(Character character : usable) {
+                // to user: choose one of theese cards...print...
+            }
+            cardNumber = messageHandler.getValue();
+            if(cardNumber >= 0 && cardNumber<=usable.size()-1){
+                gameController.getGame().setActiveEffect(usable.get(cardNumber));
+                gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
+                gameController.getGame().addCoins(usable.get(cardNumber).getCost());
+
+                for(Character cr: gameController.getGame().getCharacters())
+                    if(cr.getCharacterId() == usable.get(cardNumber).getCharacterId()){
+                        cr.use();
+                    }
+
+                CharacterEffect currentCharacterEffect= characterEffects.get(usable.get(cardNumber));
+                currentCharacterEffect.doEffect();
+
+            }
+        }
+
+    }
 
     public void setCurrPlayer(Player currPlayer) {
         this.gameController.setCurrentPlayer(currPlayer);

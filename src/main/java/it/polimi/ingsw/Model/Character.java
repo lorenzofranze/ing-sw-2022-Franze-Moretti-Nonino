@@ -1,15 +1,17 @@
 package it.polimi.ingsw.Model;
 
+import java.util.Objects;
+
 public class Character {
 
     private int characterId;
-    private int defaultCost;
-    private int incrementCost;
+    private int actualCost;
+    private boolean incremented;
 
-    public Character(int characterId, int defaultCost) {
+    public Character(int characterId, int actualCost) {
         this.characterId = characterId;
-        this.defaultCost = defaultCost;
-        this.incrementCost = 0;
+        this.actualCost = actualCost;
+        this.incremented = false;
     }
 
     public int getCharacterId() {
@@ -17,10 +19,26 @@ public class Character {
     }
 
     public int getCost() {
-        return this.defaultCost + this.incrementCost;
+        return this.actualCost;
     }
 
-    public void increaseCost() {
-        this.incrementCost = this.incrementCost + 1;
+    public void use() {
+        if(!incremented) {
+            this.actualCost++;
+            this.incremented = true;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return characterId == character.characterId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(characterId);
     }
 }
