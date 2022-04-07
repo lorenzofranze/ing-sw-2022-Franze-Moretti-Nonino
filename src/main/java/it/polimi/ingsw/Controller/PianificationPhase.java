@@ -45,6 +45,7 @@ public class PianificationPhase implements GamePhase {
 
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
+            this.gameController.setCurrentPlayer(currentPlayer);
             try {playAssistantCard(currentPlayer, turnOrder, maximumMovements);}
             catch(AlreadyPlayedException e1) {e1.printStackTrace();}
             catch(InvalidCardException e2) {e2.printStackTrace();}

@@ -15,6 +15,7 @@ public class GameController {
     private boolean gameOver=false;
     private boolean expert;
     private MessageHandler messageHandler;
+    private Player currentPlayer;
 
 
     public GameController(Lobby lobby, Integer gameid, boolean expert){
@@ -67,5 +68,9 @@ public class GameController {
 
     public boolean isExpert() {
         return expert;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }

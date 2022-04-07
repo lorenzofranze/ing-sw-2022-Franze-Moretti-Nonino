@@ -23,7 +23,7 @@ public class SetUpPhase implements GamePhase {
             this.distributeCoins();
         }
 
-        this.gameController.setGamePhase(gameController.getActionPhase());
+        this.gameController.setGamePhase(gameController.getPianificationPhase());
 
     }
 

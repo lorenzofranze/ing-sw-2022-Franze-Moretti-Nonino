@@ -129,6 +129,22 @@ class PawnsMapTest {
         assertEquals(false, map.equals(map2));
     }
 
+    @Test
+    public String toString() {
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 3);
+        map.add(ColourPawn.Blue, 6);
+        map.add(ColourPawn.Green, 3);
+        map.add(ColourPawn.Pink, 3);
+        map.add(ColourPawn.Red, 8);
+        String prova = map.toString();
+        String[] lines = prova.split("\n");
+
+        assertEquals(5, lines.length);
+
+        return prova;
+    }
+
 
 
 
