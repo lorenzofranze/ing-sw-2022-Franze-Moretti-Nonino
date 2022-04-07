@@ -77,6 +77,7 @@ public class ActionPhase implements GamePhase {
         for(int i=0; i<3; i++){
             // to user: choose i+1 movement of 3
             do{
+                valid = true;
                 // to user: chhose one color pawn
                 indexColour = messageHandler.getValue();
                 if(indexColour<=-1 || indexColour >=5){
@@ -104,7 +105,6 @@ public class ActionPhase implements GamePhase {
 
             // to user: ok
             this.moveSingleStudent(ColourPawn.values()[indexColour], where );
-            valid=true;
 
         }
     }
