@@ -21,6 +21,44 @@ public class ActionPhase implements GamePhase {
 
         turnOrder = new ArrayList<>(list.size());
     }
+    public void computePlayerAction(){
+
+    }
+
+    public void moveSingleStudent(ColourPawn colour, Integer where){
+        PawnsMap student= new PawnsMap();
+        student.add(colour);
+        if(gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(colour)==0){
+            //Exception?
+        }
+        else {
+            if (where == -1) {
+                gameController.getCurrentPlayer().getSchoolBoard().fromEntranceToDiningRoom(student, gameController.getGame());
+            } else {
+                gameController.getCurrentPlayer().getSchoolBoard().removeFromDiningRoom(student);
+                gameController.getGame().getIslands().get(where).addStudents(student);
+            }
+        }
+    }
+
+    public void placeTower(ColourTower colour, Island island){
+        island.addTower(1);
+        if(!island.getTowerColour().equals(colour)){
+            island.setTowerColor(colour);
+        }
+    }
+
+    public void setCurrPlayer(Player currPlayer) {
+        this.gameController.setCurrentPlayer(currPlayer);
+    }
+
+    @Override
+    public void handle() {
+        //bisogna ricordarsi di fare SetCurrentPlayer
+
+    }
+
+
 
     public void setMaximumMovements(HashMap<Player, Integer> maximumMovements) {
         this.maximumMovements = maximumMovements;
@@ -30,10 +68,6 @@ public class ActionPhase implements GamePhase {
         this.turnOrder = turnOrder;
     }
 
-    @Override
-    public void handle() {
-
-    }
 
     private void computePlayerPianification(){
         Player firstInPianification = turnOrder.get(0);

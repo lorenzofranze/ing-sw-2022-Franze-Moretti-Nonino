@@ -27,6 +27,9 @@ public class SetUpPhase implements GamePhase {
 
     }
 
+    /** gives one coin per player at the start of the game if the game is expert-mode
+     */
+
     private void distributeCoins(){
         for(Player player: this.gameController.getGame().getPlayers()){
             player.addCoins(1);
