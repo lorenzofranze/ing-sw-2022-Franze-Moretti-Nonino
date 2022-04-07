@@ -3,6 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ActionPhase implements GamePhase {
 
@@ -28,57 +29,45 @@ public class ActionPhase implements GamePhase {
 
     }
 
+    private void computePlayerPianification () {
+        Player firstInPianification = turnOrder.get(0);
+        PianificationPhase p = (PianificationPhase) this.gameController.getPianificationPhase();
+        p.setFirstPlayer(firstInPianification);
+    }
 
     /** if where==-1 moves student from the schoolboard entrance to the diningroom
      * else moves student from the schoolboard entrance to the island of index=where
      * @param colour
      * @param where
      */
-    public void moveSingleStudent(ColourPawn colour, Integer where){
+    private void moveSingleStudent(ColourPawn colour, Integer where){
+        int coinsToAdd;
         PawnsMap student= new PawnsMap();
         student.add(colour);
 
         if (where == -1) {
-            gameController.getCurrentPlayer().getSchoolBoard().fromEntranceToDiningRoom(student, gameController.getGame());
+            coinsToAdd = gameController.getCurrentPlayer().getSchoolBoard().fromEntranceToDiningRoom(student, gameController.getGame());
+            // operatore ternario XD
+            gameController.getCurrentPlayer().addCoins(gameController.isExpert() ? coinsToAdd : 0);
         } else {
-            gameController.getCurrentPlayer().getSchoolBoard().removeFromDiningRoom(student);
+            gameController.getCurrentPlayer().getSchoolBoard().getEntrance().remove(colour);
             gameController.getGame().getIslands().get(where).addStudents(student);
         }
 
     }
 
 
-    public void setCurrPlayer(Player currPlayer) {
-        this.gameController.setCurrentPlayer(currPlayer);
-    }
-
-
-
-    public void setMaximumMovements(HashMap<Player, Integer> maximumMovements) {
-        this.maximumMovements = maximumMovements;
-    }
-
-    public void setTurnOrder(List<Player> turnOrder) {
-        this.turnOrder = turnOrder;
-    }
-
-    private void computePlayerPianification(){
-        Player firstInPianification = turnOrder.get(0);
-        PianificationPhase p = (PianificationPhase) this.gameController.getPianificationPhase();
-        p.setFirstPlayer(firstInPianification);
-    }
-
     private void moveStudents(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean valid=true;
         int indexColour;
-        int where=0 ;   // -1 refer for diningRoom, index of island for island
+        int where = 0;   // -1 refer for diningRoom, index of island for island
 
         for(int i=0; i<3; i++){
-            // to user: choose i+1 movement of 3
+            // to user: choose your i+1 movement of 3
             do{
                 valid = true;
-                // to user: chhose one color pawn
+                // to user: choose one color pawn
                 indexColour = messageHandler.getValue();
                 if(indexColour<=-1 || indexColour >=5){
                     valid=false;
@@ -88,7 +77,7 @@ public class ActionPhase implements GamePhase {
                     if(! (gameController.getGame().getCurrentPlayer().getSchoolBoard()
                             .getEntrance().get(ColourPawn.values()[indexColour]) >=1)){
                         valid = false;
-                        //to user: change color pawn to move
+                        //to user: change color pawn to move, you don't have that color
                     }
                 }
 
@@ -100,6 +89,11 @@ public class ActionPhase implements GamePhase {
                         valid = false;
                         //to user: position not valid
                     }
+                }
+                if(valid && gameController.getGame().getCurrentPlayer().getSchoolBoard().getDiningRoom().
+                        get(ColourPawn.values()[indexColour])==10 ){
+                    valid = false;
+                    // to user: your school board in that row of your dining room is full
                 }
             }while(!valid);
 
@@ -133,8 +127,13 @@ public class ActionPhase implements GamePhase {
     }
 
 
-    //è da fare??
     public void calcultateInfluence(Island island){
+        if(island.getHasNoEntryTile()){
+            island.setHasNoEntryTile(false);
+            return;
+        }
+        ColourTower towerToPut = (island.getInfluence(gameController.getGame())).getColourTower();
+        this.placeTower(towerToPut, island );
 
     }
 
@@ -198,6 +197,54 @@ public class ActionPhase implements GamePhase {
         }
 
         this.gameController.getGame().unifyIslands(ris);
+    }
+
+    private void chooseCloud(){
+        boolean valid;
+        MessageHandler messageHandler = this.gameController.getMessageHandler();
+        int indexCloud;
+        // if there is only one cloud left, it goes directly in player's schoolBoard
+        List<Cloud> cloudNotEmpty;
+        cloudNotEmpty = (gameController.getGame().getClouds()).stream()
+                .filter(x -> ! x.getStudents().isEmpty()).collect(Collectors.toList());
+        if(  cloudNotEmpty.size() == 1 ){
+            gameController.getCurrentPlayer().getSchoolBoard().insertCloud(cloudNotEmpty.get(0));
+            return;
+        }
+        // to user: choose one cloud
+        // print possibile cloud with values
+        do{
+            valid = true;
+            indexCloud = messageHandler.getValue();
+            if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
+                // to user: index not valid
+                valid = false;
+            }
+            if(valid){
+                if(gameController.getGame().getClouds().get(indexCloud).getStudents().isEmpty()){
+                    // to user: empty cloud, rechoose
+                    valid=false;
+                }
+            }
+        }while(!valid);
+        // to user: ok
+        gameController.getCurrentPlayer().getSchoolBoard().insertCloud(gameController.getGame().getClouds().get(indexCloud));
+    }
+
+    // fine metodi di gioco
+
+    public void setCurrPlayer(Player currPlayer) {
+        this.gameController.setCurrentPlayer(currPlayer);
+    }
+
+
+
+    public void setMaximumMovements(HashMap<Player, Integer> maximumMovements) {
+        this.maximumMovements = maximumMovements;
+    }
+
+    public void setTurnOrder(List<Player> turnOrder) {
+        this.turnOrder = turnOrder;
     }
 
 }

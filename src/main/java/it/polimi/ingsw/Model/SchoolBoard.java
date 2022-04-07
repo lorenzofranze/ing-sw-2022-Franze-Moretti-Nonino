@@ -52,6 +52,30 @@ public class SchoolBoard {
 
     }
 
+    /** swap 2 pawns between diningRoom and entrance, update professors */
+    public void swap(ColourPawn wasEntrance, ColourPawn wasDiningRoom, Game game){
+        this.entrance.remove(wasEntrance);
+        this.diningRoom.remove(wasDiningRoom);
+
+        // update professors after the remove
+        for(Player p : game.getPlayers()){
+            if(! (p.getSchoolBoard() == this)){
+                if( this.professors.get(wasDiningRoom)==1 &&  this.diningRoom.get(wasDiningRoom) < p.getSchoolBoard().diningRoom.get(wasDiningRoom)){
+                    this.professors.remove(wasDiningRoom);
+                    p.getSchoolBoard().professors.add(wasDiningRoom);
+                }
+            }
+        }
+
+        this.entrance.add(wasEntrance);
+        PawnsMap map = new PawnsMap();
+        map.add(wasEntrance);
+        this.addToDiningRoom(map, game);
+
+
+
+    }
+
     public PawnsMap getEntrance() {
         return this.entrance;
     }
@@ -66,7 +90,8 @@ public class SchoolBoard {
     }
 
     /** adds the students in input to dining room,
-     *  move professors if necessary
+     *  move professors if necessary,
+     *  remove coins from coinSupply in Game if there are enough coins
      * @return the number of coins to add after the movement*/
     public int addToDiningRoom(PawnsMap pawns, Game game){
         ColourPawn pawnsList[] = ColourPawn.values();
@@ -84,7 +109,15 @@ public class SchoolBoard {
             }
         }
 
-        return coinsToAdd;
+        if(coinsToAdd >= game.getCoinSupply()) {
+            game.removeCoins(coinsToAdd);
+            return coinsToAdd;
+        }else{
+            coinsToAdd = game.getCoinSupply();
+            game.removeCoins(coinsToAdd);
+            return coinsToAdd;
+        }
+
     }
 
 
