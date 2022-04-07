@@ -46,9 +46,7 @@ public class PianificationPhase implements GamePhase {
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);
-            try {playAssistantCard(currentPlayer, turnOrder, maximumMovements);}
-            catch(AlreadyPlayedException e1) {e1.printStackTrace();}
-            catch(InvalidCardException e2) {e2.printStackTrace();}
+            playAssistantCard(currentPlayer, turnOrder, maximumMovements);
             playedOrder.add(currentPlayer);
         }
 
@@ -69,42 +67,43 @@ public class PianificationPhase implements GamePhase {
         this.gameController.setGamePhase(gameController.getActionPhase());
     }
 
-    /**parameter: the player who must play the card. Throws 2 exceptions:
-     * AlreadyPlayedException -> the card played has already been played by someone else and the player has other
-     * cards that can be played (already checked).
-     * InvalidCardException -> the player doesn't have the card in his deck or the card doesn't exist*/
     private void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrder, HashMap<Player,
-            Integer> maximumMovements) throws AlreadyPlayedException, InvalidCardException{
+            Integer> maximumMovements){
 
         AssistantCard cardPlayed = null;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
         boolean valid = false;
 
-        int played = messageHandler.getValue(currentPlayer);
+        do {
+            mustChange = false;
+            valid = false;
 
-        for(AssistantCard c :currentPlayer.getDeck())
-        {
-            if (c.getTurnOrder() == played) {
-                cardPlayed = c;
-                valid = true;
+            int played = messageHandler.getValue(currentPlayer);
+
+            for (AssistantCard c : currentPlayer.getDeck()) {
+                if (c.getTurnOrder() == played) {
+                    cardPlayed = c;
+                    valid = true;
+                }
+            }
+
+            for (int i = 0; i < this.gameController.getGame().getPlayers().size(); i++) {
+                Player p = this.gameController.getGame().getPlayers().get(i);
+                if (p.getPlayedAssistantCard().equals(cardPlayed)) {
+                    mustChange = checkPermit(currentPlayer, cardPlayed);
+                }
+            }
+
+            if (mustChange == false) {
+                turnOrder.put(currentPlayer, played);
+                maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
+                currentPlayer.playAssistantCard(played);
             }
         }
-        if (valid = false) {throw new InvalidCardException();}
-
-        for(int i = 0; i < this.gameController.getGame().getPlayers().size(); i++){
-            Player p = this.gameController.getGame().getPlayers().get(i);
-            if (p.getPlayedAssistantCard().equals(cardPlayed)) {
-                mustChange = checkPermit(currentPlayer, cardPlayed);
-            }
-        }
-
-        if (mustChange == false) {
-            turnOrder.put(currentPlayer, played);
-            maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
-            currentPlayer.playAssistantCard(played);
-        }
-        else{throw new AlreadyPlayedException();}
+        while(valid == false || mustChange == true);
+            /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
+            * if mustChange == true, the player played a card that has already been played by other players.*/
     }
 
     public void setFirstPlayer(Player player){
