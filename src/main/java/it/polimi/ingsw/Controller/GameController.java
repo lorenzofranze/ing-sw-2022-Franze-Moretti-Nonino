@@ -9,7 +9,6 @@ public class GameController {
     private GamePhase setUpPhase;
     private GamePhase pianificationPhase;
     private GamePhase actionPhase;
-    private GamePhase endPhase;
     private Game game;
     private GamePhase currentPhase;
     private boolean gameOver=false;
@@ -52,10 +51,6 @@ public class GameController {
 
     public GamePhase getActionPhase() {
         return actionPhase;
-    }
-
-    public GamePhase getEndPhase() {
-        return endPhase;
     }
 
     public void setGameOver(boolean gameOver) {
