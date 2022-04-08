@@ -50,6 +50,10 @@ public class PianificationPhase implements GamePhase {
             playedOrder.add(currentPlayer);
         }
 
+
+        /*nextTurnOrder saraà la lista dei giocatori ordinata come giocheranno la ActionPhase. Se due giocatori hanno
+        lo stesso turnOrder, allora il giocatore che ha gocato dopo la carta verrà posto dopo il giocatore che
+        l'ha giocata prima. */
         for(int i = 1; i < 11; i++){
             for(Player p : playedOrder){
                 if (i == (int) turnOrder.get(p)) {

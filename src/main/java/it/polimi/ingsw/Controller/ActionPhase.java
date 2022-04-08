@@ -48,7 +48,16 @@ public class ActionPhase implements GamePhase {
     @Override
     public void handle() {
 
+        MessageHandler messageHandler = this.gameController.getMessageHandler();
 
+        for(Player p: turnOrder){
+            moveStudents();
+            moveMotherNature(p);
+            chooseCloud();
+        }
+
+        computePlayerPianification();
+        this.gameController.setGamePhase(gameController.getPianificationPhase());
     }
 
     private void computePlayerPianification () {
