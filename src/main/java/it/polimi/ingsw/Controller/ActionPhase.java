@@ -187,21 +187,23 @@ public class ActionPhase implements GamePhase {
             island.setTowerColor(color);
             verifyUnion();
         }
-        if(!island.getTowerColour().equals(color)){
-            int numLeftTowers=moreInfluentPlayer.getSchoolBoard().getSpareTowers();
-            if(numLeftTowers<island.getTowerCount()){
-                gameController.getMessageHandler().setWinner(gameController.getCurrentPlayer());
-                throw new EndGameException();
-            }
-            Player oldOwner=null;
-            for(Player player: turnOrder) {
-                if (player.getColourTower() == island.getTowerColour()) {
-                    oldOwner = player;
+        else {
+            if (!island.getTowerColour().equals(color)) {
+                int numLeftTowers = moreInfluentPlayer.getSchoolBoard().getSpareTowers();
+                if (numLeftTowers < island.getTowerCount()) {
+                    gameController.getMessageHandler().setWinner(gameController.getCurrentPlayer());
+                    throw new EndGameException();
                 }
+                Player oldOwner = null;
+                for (Player player : turnOrder) {
+                    if (player.getColourTower() == island.getTowerColour()) {
+                        oldOwner = player;
+                    }
+                }
+                oldOwner.getSchoolBoard().addTower(island.getTowerCount());
+                island.setTowerColor(color);
+                verifyUnion();
             }
-            oldOwner.getSchoolBoard().addTower(island.getTowerCount());
-            island.setTowerColor(color);
-            verifyUnion();
         }
     }
 
