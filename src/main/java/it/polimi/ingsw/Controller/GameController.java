@@ -16,6 +16,7 @@ public class GameController {
     private boolean expert;
     private MessageHandler messageHandler;
     private Player currentPlayer;
+    private Player winner;
 
 
 
@@ -36,12 +37,18 @@ public class GameController {
         while (!gameOver){
             currentPhase.handle();
         }
-
+        calculateWinner();
     }
 
 
     public Game getGame() {
         return game;
+    }
+
+    public void calculateWinner(){
+
+        ////////////////////RICORDA: PARITà
+
     }
 
     public void setGamePhase(GamePhase state){

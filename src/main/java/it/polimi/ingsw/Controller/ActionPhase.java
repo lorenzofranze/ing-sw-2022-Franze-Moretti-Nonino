@@ -60,6 +60,7 @@ public class ActionPhase implements GamePhase {
             }
         }catch (EndGameException exception){
             exception.printStackTrace();
+            this.gameController.setGameOver(true);
         }
 
         computePlayerPianification();
@@ -189,10 +190,16 @@ public class ActionPhase implements GamePhase {
         if(!island.getTowerColour().equals(color)){
             int numLeftTowers=moreInfluentPlayer.getSchoolBoard().getSpareTowers();
             if(numLeftTowers<island.getTowerCount()){
-                gameController.setGameOver(true);
                 gameController.getMessageHandler().setWinner(gameController.getCurrentPlayer());
                 throw new EndGameException();
             }
+            Player oldOwner=null;
+            for(Player player: turnOrder) {
+                if (player.getColourTower() == island.getTowerColour()) {
+                    oldOwner = player;
+                }
+            }
+            oldOwner.getSchoolBoard().addTower(island.getTowerCount());
             island.setTowerColor(color);
             verifyUnion();
         }

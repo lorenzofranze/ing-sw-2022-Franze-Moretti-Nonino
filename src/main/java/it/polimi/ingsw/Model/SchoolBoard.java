@@ -34,6 +34,10 @@ public class SchoolBoard {
         this.spareTowers ++;
     }
 
+    public void addTower(int num){
+        this.spareTowers +=num;
+    }
+
     /** remove a tower from the schoolboard*/
     public void removeTower() {
          this.spareTowers --;
@@ -79,6 +83,8 @@ public class SchoolBoard {
     public PawnsMap getEntrance() {
         return this.entrance;
     }
+
+
 
     public PawnsMap getProfessors() {
         return this.professors;
