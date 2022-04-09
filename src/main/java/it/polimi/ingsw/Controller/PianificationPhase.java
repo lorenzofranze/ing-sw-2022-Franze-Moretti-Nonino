@@ -1,16 +1,12 @@
 package it.polimi.ingsw.Controller;
+import it.polimi.ingsw.Controller.Characters.ActionPhaseLastRoundWithCloud;
 import it.polimi.ingsw.Exception.EndGameException;
 import it.polimi.ingsw.Exception.LastRoundException;
 import it.polimi.ingsw.Model.*;
 
-import it.polimi.ingsw.Controller.GamePhase;
-
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class PianificationPhase implements GamePhase {
 
@@ -47,7 +43,11 @@ public class PianificationPhase implements GamePhase {
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);
-            playAssistantCard(currentPlayer, turnOrder, maximumMovements);
+            try {
+                playAssistantCard(currentPlayer, turnOrder, maximumMovements);
+            } catch(LastRoundException ex){
+                this.gameController.setGamePhase(new ActionPhaseLastRoundWithCloud(this.gameController));
+            }
             playedOrder.add(currentPlayer);
         }
 
@@ -74,13 +74,13 @@ public class PianificationPhase implements GamePhase {
         try {
             fillClouds();
         }catch (LastRoundException exception){
-            this.gameController.setGamePhase(gameController.getActionPhaseLastRound());
+            this.gameController.setGamePhase(new ActionPhaseLastRoundWithoutCloud(this.gameController));
         }
 
     }
 
     private void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrder, HashMap<Player,
-            Integer> maximumMovements){
+            Integer> maximumMovements) throws LastRoundException{
 
         AssistantCard cardPlayed = null;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
@@ -116,6 +116,10 @@ public class PianificationPhase implements GamePhase {
         while(valid == false || mustChange == true);
             /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
             * if mustChange == true, the player played a card that has already been played by other players.*/
+        if(gameController.getGame().getCurrentPlayer().getDeck().size()==0 &&
+        gameController.getGame().getCurrentPlayer().equals(turnOrder.get(turnOrder.size()-1))){
+           throw new LastRoundException();
+        }
     }
 
     public void setFirstPlayer(Player player){

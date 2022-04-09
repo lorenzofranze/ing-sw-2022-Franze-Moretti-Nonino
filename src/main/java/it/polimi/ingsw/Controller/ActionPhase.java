@@ -248,7 +248,7 @@ public class ActionPhase implements GamePhase {
         }
     }
 
-    private void chooseCloud(){
+    protected void chooseCloud(){
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int indexCloud;

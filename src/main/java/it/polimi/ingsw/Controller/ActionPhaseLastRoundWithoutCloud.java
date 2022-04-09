@@ -5,8 +5,8 @@ import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Exception.EndGameException;
 import it.polimi.ingsw.Model.Player;
 
-public class ActionPhaseLastRound extends ActionPhase {
-    public ActionPhaseLastRound(GameController gc) {
+public class ActionPhaseLastRoundWithoutCloud extends ActionPhase {
+    public ActionPhaseLastRoundWithoutCloud(GameController gc) {
         super(gc);
     }
 
