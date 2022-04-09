@@ -1,4 +1,6 @@
 package it.polimi.ingsw.Controller;
+import it.polimi.ingsw.Exception.EndGameException;
+import it.polimi.ingsw.Exception.LastRoundException;
 import it.polimi.ingsw.Model.*;
 
 import it.polimi.ingsw.Controller.GamePhase;
@@ -25,7 +27,6 @@ public class PianificationPhase implements GamePhase {
         int playerIndex = this.gameController.getGame().getPlayers().indexOf(firstPlayer);
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
 
-        fillClouds();
 
         /*support hashmap and list. The list is used to keep track of the order in which players played: in case 2
         players have the same value played as nextTurn, in the actionPhase the first player will be the one who has
@@ -69,6 +70,13 @@ public class PianificationPhase implements GamePhase {
         a.setTurnOrder(nextTurnOrder);
 
         this.gameController.setGamePhase(gameController.getActionPhase());
+
+        try {
+            fillClouds();
+        }catch (LastRoundException exception){
+            this.gameController.setGamePhase(gameController.getActionPhaseLastRound());
+        }
+
     }
 
     private void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrder, HashMap<Player,
@@ -132,15 +140,21 @@ public class PianificationPhase implements GamePhase {
         return true;
     }
 
-    private void fillClouds(){
+    private void fillClouds() throws LastRoundException{
 
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
         PawnsMap toAdd;
 
         for(Cloud c: gameController.getGame().getClouds()){
             if (numberOfPlayers == 2) {
+                if(gameController.getGame().getStudentsBag().pawnsNumber()<3){
+                    throw new LastRoundException();
+                }
                 toAdd = this.gameController.getGame().getStudentsBag().removeRandomly(3);}
             else {
+                if(gameController.getGame().getStudentsBag().pawnsNumber()<4) {
+                    throw new LastRoundException();
+                }
                 toAdd = this.gameController.getGame().getStudentsBag().removeRandomly(4);}
 
             c.getStudents().add(toAdd);

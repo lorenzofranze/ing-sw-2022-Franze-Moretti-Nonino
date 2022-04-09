@@ -9,6 +9,7 @@ public class GameController {
     private GamePhase setUpPhase;
     private GamePhase pianificationPhase;
     private GamePhase actionPhase;
+    private GamePhase actionPhaseLastRound;
     private Game game;
     private GamePhase currentPhase;
     private boolean gameOver=false;
@@ -24,10 +25,10 @@ public class GameController {
 
         this.setUpPhase=new SetUpPhase(this);
         this.messageHandler= new MessageHandler();
-        //DA TOGLIERE COMMENTO
-        //this.pianificationPhase=new PianificationPhase(this);
-        //this.actionPhase=new ActionPhase(this);
-        //this.endPhase=new EndPhase(this);
+
+        this.pianificationPhase=new PianificationPhase(this);
+        this.actionPhase=new ActionPhase(this);
+
     }
 
     public void play(){
@@ -35,6 +36,7 @@ public class GameController {
         while (!gameOver){
             currentPhase.handle();
         }
+
     }
 
 
@@ -52,6 +54,10 @@ public class GameController {
 
     public GamePhase getActionPhase() {
         return actionPhase;
+    }
+
+    public GamePhase getActionPhaseLastRound() {
+        return actionPhaseLastRound;
     }
 
     public void setGameOver(boolean gameOver) {

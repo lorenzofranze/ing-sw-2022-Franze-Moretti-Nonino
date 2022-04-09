@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 
 public class ActionPhase implements GamePhase {
 
-    private GameController gameController;
-    private HashMap<Player, Integer> maximumMovements;
-    private List<Player> turnOrder;
-    private Map<Character, CharacterEffect> characterEffects; // per gli effetti
+    protected GameController gameController;
+    protected HashMap<Player, Integer> maximumMovements;
+    protected List<Player> turnOrder;
+    protected Map<Character, CharacterEffect> characterEffects; // per gli effetti
+
 
     public ActionPhase(GameController gc) {
         this.gameController = gc;
@@ -55,7 +56,6 @@ public class ActionPhase implements GamePhase {
             for (Player p : turnOrder) {
                 moveStudents();
                 moveMotherNature(p);
-
                 chooseCloud();
             }
         }catch (EndGameException exception){
@@ -64,6 +64,7 @@ public class ActionPhase implements GamePhase {
 
         computePlayerPianification();
         this.gameController.setGamePhase(gameController.getPianificationPhase());
+
     }
 
     private void computePlayerPianification () {
@@ -77,7 +78,7 @@ public class ActionPhase implements GamePhase {
      * @param colour
      * @param where
      */
-    private void moveSingleStudent(ColourPawn colour, Integer where){
+    protected void moveSingleStudent(ColourPawn colour, Integer where){
         int coinsToAdd;
         PawnsMap student= new PawnsMap();
         student.add(colour);
@@ -94,7 +95,7 @@ public class ActionPhase implements GamePhase {
     }
 
 
-    private void moveStudents(){
+    protected void moveStudents(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean valid=true;
         int indexColour;
@@ -140,7 +141,7 @@ public class ActionPhase implements GamePhase {
         }
     }
 
-    private void moveMotherNature(Player currentPlayer) throws EndGameException{
+    protected void moveMotherNature(Player currentPlayer) throws EndGameException{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int played;
 
@@ -197,7 +198,7 @@ public class ActionPhase implements GamePhase {
         }
     }
 
-    private void verifyUnion() throws EndGameException{
+    protected void verifyUnion() throws EndGameException{
         List<Island> islandList = this.gameController.getGame().getIslands();
         List<Integer> currColour;
         HashMap<ColourTower, List<Integer>> colourMap = new HashMap<ColourTower, List<Integer>>();
@@ -283,7 +284,7 @@ public class ActionPhase implements GamePhase {
 
     /** this method does nothing if game is in simple mode because no player has more than 0 coins
      * otherwise it ask the player for character card he wants to use between that he can afford */
-    private void askforCharacter(){
+    protected void askforCharacter(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int cardNumber;
 
