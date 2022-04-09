@@ -37,8 +37,8 @@ public class MessageHandler {
      non sappiamo ancora se 1 per ogni player o cosa....
     legge valore da std input, non funziona con i test
      */
-    public int getValue(){
-
+    public int getValueCLI(String type, Player player){
+        System.out.println(player.getNickname() +type);
         int a = scanner.nextInt();
         return a;
     }
@@ -48,6 +48,10 @@ public class MessageHandler {
     public int getValueTest(){
         index++;
         return buffer[index-1];
+    }
+
+    public void setWinner(Player winner){
+        System.out.println(winner);
     }
 
     public void communication(GameController gameController) throws IOException {

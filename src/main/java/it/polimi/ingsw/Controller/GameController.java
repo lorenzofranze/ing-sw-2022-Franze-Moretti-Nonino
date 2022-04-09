@@ -17,12 +17,13 @@ public class GameController {
     private Player currentPlayer;
 
 
+
     public GameController(Lobby lobby, Integer gameid, boolean expert){
         this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
         this.expert=expert;
 
         this.setUpPhase=new SetUpPhase(this);
-
+        this.messageHandler= new MessageHandler();
         //DA TOGLIERE COMMENTO
         //this.pianificationPhase=new PianificationPhase(this);
         //this.actionPhase=new ActionPhase(this);

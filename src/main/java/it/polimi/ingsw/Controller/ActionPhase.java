@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exception.EndGameException;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Character;
 import it.polimi.ingsw.Controller.Characters.*;
@@ -50,10 +51,15 @@ public class ActionPhase implements GamePhase {
 
         MessageHandler messageHandler = this.gameController.getMessageHandler();
 
-        for(Player p: turnOrder){
-            moveStudents();
-            moveMotherNature(p);
-            chooseCloud();
+        try {
+            for (Player p : turnOrder) {
+                moveStudents();
+                moveMotherNature(p);
+
+                chooseCloud();
+            }
+        }catch (EndGameException exception){
+            exception.printStackTrace();
         }
 
         computePlayerPianification();
@@ -99,7 +105,7 @@ public class ActionPhase implements GamePhase {
             do{
                 valid = true;
                 // to user: choose one color pawn
-                indexColour = messageHandler.getValue();
+                indexColour = messageHandler.getValueCLI("choose one color pawn",gameController.getCurrentPlayer());
                 if(indexColour<=-1 || indexColour >=5){
                     valid=false;
                     // to user: index not valid
@@ -115,7 +121,7 @@ public class ActionPhase implements GamePhase {
                 // to user: choose position
 
                 if(valid){
-                    where = messageHandler.getValue();
+                    where = messageHandler.getValueCLI("choose position", gameController.getCurrentPlayer());
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
@@ -134,7 +140,7 @@ public class ActionPhase implements GamePhase {
         }
     }
 
-    private void moveMotherNature(Player currentPlayer){
+    private void moveMotherNature(Player currentPlayer) throws EndGameException{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int played;
 
@@ -158,13 +164,13 @@ public class ActionPhase implements GamePhase {
     }
 
 
-    public void calcultateInfluence(Island island){
+    public void calcultateInfluence(Island island) throws EndGameException{
         if(island.getHasNoEntryTile()){
             island.setHasNoEntryTile(false);
             return;
         }
-        ColourTower towerToPut = (island.getInfluence(gameController.getGame())).getColourTower();
-        this.placeTower(towerToPut, island );
+        Player moreInfluentPlayer = island.getInfluence(gameController.getGame());
+        this.placeTowerOfPlayer(moreInfluentPlayer, island );
 
     }
 
@@ -172,19 +178,26 @@ public class ActionPhase implements GamePhase {
      * @param colour
      * @param island
      */
-    public void placeTower(ColourTower colour, Island island){
+    public void placeTowerOfPlayer(Player moreInfluentPlayer, Island island) throws EndGameException {
+        ColourTower color=moreInfluentPlayer.getColourTower();
         if(island.getTowerCount()==0){
             island.addTower(1);
-            island.setTowerColor(colour);
+            island.setTowerColor(color);
             verifyUnion();
         }
-        if(!island.getTowerColour().equals(colour)){
-            island.setTowerColor(colour);
+        if(!island.getTowerColour().equals(color)){
+            int numLeftTowers=moreInfluentPlayer.getSchoolBoard().getSpareTowers();
+            if(numLeftTowers<island.getTowerCount()){
+                gameController.setGameOver(true);
+                gameController.getMessageHandler().setWinner(gameController.getCurrentPlayer());
+                throw new EndGameException();
+            }
+            island.setTowerColor(color);
             verifyUnion();
         }
     }
 
-    private void verifyUnion() {
+    private void verifyUnion() throws EndGameException{
         List<Island> islandList = this.gameController.getGame().getIslands();
         List<Integer> currColour;
         HashMap<ColourTower, List<Integer>> colourMap = new HashMap<ColourTower, List<Integer>>();
@@ -228,6 +241,10 @@ public class ActionPhase implements GamePhase {
         }
 
         this.gameController.getGame().unifyIslands(ris);
+        int numIslands= this.gameController.getGame().getIslands().size();
+        if(numIslands<4){
+            throw new EndGameException();
+        }
     }
 
     private void chooseCloud(){
@@ -246,7 +263,7 @@ public class ActionPhase implements GamePhase {
         // print possibile cloud with values
         do{
             valid = true;
-            indexCloud = messageHandler.getValue();
+            indexCloud = messageHandler.getValueCLI("choose one cloud",gameController.getCurrentPlayer());
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
                 valid = false;
@@ -285,7 +302,7 @@ public class ActionPhase implements GamePhase {
             for(Character character : usable) {
                 // to user: choose one of theese cards...print...
             }
-            cardNumber = messageHandler.getValue();
+            cardNumber = messageHandler.getValueCLI("choose one of theese cards", gameController.getCurrentPlayer());
             if(cardNumber >= 0 && cardNumber<=usable.size()-1){
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
                 gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
