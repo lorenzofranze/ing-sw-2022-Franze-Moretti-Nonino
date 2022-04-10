@@ -7,6 +7,7 @@ import java.util.*;
 
 public class ServerController {
 
+    ///////////////////////////////////////// THREAD POOL //////////////////////////////////
     private static ServerController instance;
     private Map<Integer, Game> gameSavings;
     private List<GameController> gameControllers;

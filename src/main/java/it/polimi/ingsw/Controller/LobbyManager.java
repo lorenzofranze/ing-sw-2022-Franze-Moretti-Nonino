@@ -40,6 +40,11 @@ public class LobbyManager {
      * can have the same nickname)
      * @throws IOException
      */
+
+    /**
+     * ATTENTION: POSSIBLE ATTACK FROM A MALITIOUS CLIENT: never sends its nickname: i have to put a timeout
+     * otherwise no other players can connect and start a new game
+     */
     public void welcomeNewPlayers() throws IOException {
         JsonConverter jsonConverter=new JsonConverter();
         ArrayList<String> usedNicknames= new ArrayList<>();
@@ -76,21 +81,21 @@ public class LobbyManager {
                 //check waiting-clients
                 for(GameMode gameMode: GameMode.values()){
                     for(Lobby lobby: waitingLobbies.values() ){
-                        usedNicknames.addAll(lobby.getUsersReadyToPlay());
+                        usedNicknames.addAll(lobby.getUsersNicknames());
                     }
                 }
 
                 if(!usedNicknames.contains(nickname)){
                     GameMode gameMode=connectionMessage.getGameMode();
-                    addNickname(nickname, gameMode);
+                    addNickname(nickname, gameMode, clientSocket);
                 }
             }
         }
     }
 
-    public void addNickname(String nickname, GameMode mode){
+    public void addNickname(String nickname, GameMode mode, Socket clientSocket){
         if(waitingLobbies.containsKey(mode)){
-            waitingLobbies.get(mode).addUsersReadyToPlay(nickname);
+            waitingLobbies.get(mode).addUsersReadyToPlay(nickname,clientSocket);
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
                 this.serverController.addGameController(mode, waitingLobbies.get(mode));
@@ -99,11 +104,9 @@ public class LobbyManager {
         }
         else{
             Lobby newLobby= new Lobby();
-            newLobby.addUsersReadyToPlay(nickname);
+            newLobby.addUsersReadyToPlay(nickname,clientSocket);
             waitingLobbies.put(mode,newLobby);
         }
     }
-
-
 
 }

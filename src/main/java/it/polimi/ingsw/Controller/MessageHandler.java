@@ -3,11 +3,10 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Messages.ClientMessage;
 import it.polimi.ingsw.Model.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,8 +18,32 @@ public class MessageHandler {
     private ClientMessage lastMessage;
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
-    private Map<String,BufferedReader> bufferedReaderOut;
+    private Map<String,BufferedWriter> bufferedReaderOut;
     private ServerSocket serverSocket;
+
+
+    public MessageHandler(Lobby lobby){
+
+        try {
+            serverSocket=new ServerSocket();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+        bufferedReaderIn= new HashMap<>();
+        for(String s: lobby.getUsersReadyToPlay().keySet()){
+            try{
+                Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
+                BufferedReader in= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                bufferedReaderIn.put(s, in);
+                BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+                bufferedReaderOut.put(s, out);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     //restituisce il valore inserito dal giocatore player

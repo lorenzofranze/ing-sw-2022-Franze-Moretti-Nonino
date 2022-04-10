@@ -21,11 +21,11 @@ public class GameController {
 
 
     public GameController(Lobby lobby, Integer gameid, boolean expert){
-        this.game=new Game(lobby.getUsersReadyToPlay(), gameid);
+        this.game=new Game(lobby.getUsersNicknames(), gameid);
         this.expert=expert;
 
         this.setUpPhase=new SetUpPhase(this);
-        this.messageHandler= new MessageHandler();
+        this.messageHandler= new MessageHandler(lobby);
 
         this.pianificationPhase=new PianificationPhase(this);
         this.actionPhase=new ActionPhase(this);

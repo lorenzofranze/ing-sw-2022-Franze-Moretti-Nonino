@@ -1,15 +1,24 @@
 package it.polimi.ingsw.Controller;
 
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Lobby {
-    private List<String> usersReadyToPlay;
+    private Map<String, Socket> usersReadyToPlay;
 
-    public List<String> getUsersReadyToPlay() {
+    public Map<String, Socket> getUsersReadyToPlay() {
         return usersReadyToPlay;
     }
 
-    public void addUsersReadyToPlay(String userReadyToPlay){
-        usersReadyToPlay.add(userReadyToPlay);
+    public List<String> getUsersNicknames() {
+        ArrayList<String> nicknames= new ArrayList<>();
+        nicknames.addAll(usersReadyToPlay.keySet());
+        return nicknames;
+    }
+
+    public void addUsersReadyToPlay(String nickname, Socket clientSocket){
+        usersReadyToPlay.put(nickname,clientSocket);
     }
 }
