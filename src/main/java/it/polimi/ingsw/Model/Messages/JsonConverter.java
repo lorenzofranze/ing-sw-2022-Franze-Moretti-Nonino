@@ -12,8 +12,8 @@ public class JsonConverter {
         builder.setPrettyPrinting();
         gson = builder.create();
     }
-    public Message fromJsonToMessage(String jsonString){
-        Message message = gson.fromJson(jsonString, MoveStudentMessage.class);
+    public ClientMessage fromJsonToMessage(String jsonString){
+        ClientMessage message = gson.fromJson(jsonString, MoveStudentMessage.class);
         return message;
     }
 

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.Model.Messages;
 
+public class PingMessage {
 
-public interface Message {}
+}

@@ -2,17 +2,12 @@ package it.polimi.ingsw.Model.Messages;
 
 import it.polimi.ingsw.Controller.GameMode;
 
-public class ConnectionMessage implements Message{
-    private String nickname;
+public class ConnectionMessage extends ClientMessage  {
+
     private GameMode gameMode;
 
-
-    public void setGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public ConnectionMessage(){
+        this.getHeader().setMessageType("ConnectionMessage");
     }
 
     public GameMode getGameMode() {
@@ -20,6 +15,6 @@ public class ConnectionMessage implements Message{
     }
 
     public String getNickname() {
-        return nickname;
+        return this.getHeader().getNickname();
     }
 }

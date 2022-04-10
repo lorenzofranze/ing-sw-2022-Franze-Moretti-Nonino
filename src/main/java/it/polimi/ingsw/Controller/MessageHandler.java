@@ -1,17 +1,13 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.AssistantCard;
-import it.polimi.ingsw.Model.Messages.Message;
+import it.polimi.ingsw.Model.Messages.ClientMessage;
 import it.polimi.ingsw.Model.Player;
 
-import javax.naming.ldap.SortKey;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.http.HttpClient;
-import java.rmi.ServerError;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -20,10 +16,10 @@ public class MessageHandler {
     public int value;
     private int index =0;
     private int[] buffer = {1,2,3}; // inserire valori da provare con getValueTest()
-    private Message lastMessage;
+    private ClientMessage lastMessage;
     private int portNumber;
-    private Map<String, Socket> clientSockets;
     private Map<String,BufferedReader> bufferedReaderIn;
+    private Map<String,BufferedReader> bufferedReaderOut;
     private ServerSocket serverSocket;
 
 
@@ -58,8 +54,7 @@ public class MessageHandler {
         serverSocket = new ServerSocket(portNumber);
 
         for(Player player: gameController.getGame().getPlayers()){
-            clientSockets.put(player.getNickname(), new Socket());
-            bufferedReaderIn.put( player.getNickname(),new BufferedReader(new InputStreamReader(clientSockets.get(player.getNickname()).getInputStream())));
+            bufferedReaderIn.put( player.getNickname(),new BufferedReader(new InputStreamReader(new Socket().getInputStream())));
         }
         try {
             serverSocket = new ServerSocket(portNumber);
@@ -82,11 +77,11 @@ public class MessageHandler {
     }
 
 
-    public void setLastMessage(Message lastMessage) {
+    public void setLastMessage(ClientMessage lastMessage) {
         this.lastMessage = lastMessage;
     }
 
-    public Message getLastMessage() {
+    public ClientMessage getLastMessage() {
         return lastMessage;
     }
 }

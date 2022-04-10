@@ -1,6 +1,14 @@
 package it.polimi.ingsw.Model.Messages;
 
-public class UseEffectMessage implements Message{
+public class UseEffectMessage extends ClientMessage  {
     private Character effect;
-    private String nickname;
+    private GameState gameState;
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public Character getEffect() {
+        return effect;
+    }
 }
