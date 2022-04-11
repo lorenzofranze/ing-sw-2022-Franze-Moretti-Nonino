@@ -22,7 +22,6 @@ public class LobbyManager {
     private ServerSocket lobbyServerSocket;
     private int lobbyPortNumber;
     private ExecutorService executor;
-    private ServerSocket serverSocket;
 
     /** there is only one serverController used to manage the new connections. When a player is accepted,
      * the player interacts with one of the executor's servers
@@ -35,7 +34,7 @@ public class LobbyManager {
         ExecutorService executor = Executors.newCachedThreadPool();
 
         try{
-            serverSocket = new ServerSocket(lobbyPortNumber);
+            lobbyServerSocket = new ServerSocket(lobbyPortNumber);
         }catch (IOException e){
             System.err.println(e.getMessage()); //port not available
             return;
@@ -62,19 +61,12 @@ public class LobbyManager {
         ArrayList<String> usedNicknames= new ArrayList<>();
         ClientMessage firstMessage;
         System.out.println("Server ready");
-
+        Socket clientSocket = null;
         while(true){
             try{
-                Socket socket = serverSocket.accept();
+                Socket socket = lobbyServerSocket.accept();
             }catch(IOException e){
                 break; //In case the serverSocket gets closed
-            }
-
-            Socket clientSocket = null;
-            try {
-                clientSocket = lobbyServerSocket.accept();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             BufferedReader in = null;
             try {
@@ -84,9 +76,9 @@ public class LobbyManager {
                 e.printStackTrace();
             }
 
-            firstMessage=jsonConverter.fromJsonToMessage(in.readLine());
-            if(firstMessage.getHeader().getMessageType()=="ConnectionMessage"){
-                String nickname=firstMessage.getHeader().getNickname();
+            firstMessage=(ClientMessage) jsonConverter.fromJsonToMessage(in.readLine());
+            if(firstMessage.getMessageType()=="ConnectionMessage"){
+                String nickname=firstMessage.getNickname();
                 ConnectionMessage connectionMessage= (ConnectionMessage) firstMessage;
 
                 /**
@@ -114,7 +106,7 @@ public class LobbyManager {
         }
         //In case the serverSocket gets closed ( the break statement is called )
         executor.shutdown();
-        serverSocket.close();
+        lobbyServerSocket.close();
     }
 
     /** it add the nickname to the correct Lobby list and, if the list has gained the right number of players:

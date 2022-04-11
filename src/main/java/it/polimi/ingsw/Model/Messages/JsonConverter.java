@@ -12,14 +12,14 @@ public class JsonConverter {
         builder.setPrettyPrinting();
         gson = builder.create();
     }
-    public ClientMessage fromJsonToMessage(String jsonString){
-        ClientMessage message = gson.fromJson(jsonString, MoveStudentMessage.class);
+    public Message fromJsonToMessage(String jsonString){
+        Message message = gson.fromJson(jsonString, Message.class);
         return message;
     }
 
 
-    public String fromMessageToJson(){
-        String jsonString=this.gson.toJson(this);
+    public String fromMessageToJson(Message message){
+        String jsonString=this.gson.toJson(message);
         return(jsonString);
     }
 }

@@ -1,10 +1,14 @@
 package it.polimi.ingsw.Model.Messages;
 
 
-public abstract class ClientMessage {
-    private ClientMessageHeader header;
+public abstract class ClientMessage extends Message{
+    private String nickname;
 
-    public ClientMessageHeader getHeader() {
-        return header;
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

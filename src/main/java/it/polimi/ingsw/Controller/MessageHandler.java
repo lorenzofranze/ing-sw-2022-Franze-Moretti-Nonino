@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Messages.AskForMove;
 import it.polimi.ingsw.Model.Messages.ClientMessage;
+import it.polimi.ingsw.Model.Messages.JsonConverter;
+import it.polimi.ingsw.Model.Messages.Message;
 import it.polimi.ingsw.Model.Player;
 
 import java.io.*;
@@ -20,6 +23,7 @@ public class MessageHandler {
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
     private ServerSocket serverSocket;
+    private JsonConverter jsonConverter;
 
 
     public MessageHandler(Lobby lobby){
@@ -42,6 +46,7 @@ public class MessageHandler {
                 e.printStackTrace();
             }
         }
+        jsonConverter = new JsonConverter();
     }
 
 
@@ -76,30 +81,21 @@ public class MessageHandler {
         System.out.println(winner);
     }
 
-    public void communication(GameController gameController) throws IOException {
-        serverSocket = new ServerSocket(portNumber);
-
-        for(Player player: gameController.getGame().getPlayers()){
-            bufferedReaderIn.put( player.getNickname(),new BufferedReader(new InputStreamReader(new Socket().getInputStream())));
-        }
-        try {
-            serverSocket = new ServerSocket(portNumber);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Socket clientSocket = null;
-        try {
-            clientSocket = serverSocket.accept();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /** parses from message-type to json string, then sends to the player the message, reads the answer from the player,
+     * parses from json string to message-type
+     * @param gameController
+     * @param messageToSend
+     * @return answer-message to the game controller. The game controller has to verify the validity of the answer.
+     * @throws IOException
+     */
+    public Message communicationWithClient(GameController gameController, ClientMessage messageToSend) throws IOException {
+       String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
+       String nickname= messageToSend.getNickname();
+       bufferedReaderOut.get(nickname).write(stringToSend);
+       bufferedReaderOut.get(nickname).flush();
+       String receivedString= bufferedReaderIn.get(nickname).readLine();
+       Message receivedMessage= jsonConverter.fromJsonToMessage(receivedString);
+       return receivedMessage;
     }
 
 

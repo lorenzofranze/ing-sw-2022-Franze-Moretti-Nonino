@@ -1,5 +1,3 @@
 package it.polimi.ingsw.Model.Messages;
 
-public class PingMessage {
-
-}
+public class PingMessage extends Message{ }

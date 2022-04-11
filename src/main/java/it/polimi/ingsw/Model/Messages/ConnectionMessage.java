@@ -7,7 +7,7 @@ public class ConnectionMessage extends ClientMessage  {
     private GameMode gameMode;
 
     public ConnectionMessage(){
-        this.getHeader().setMessageType("ConnectionMessage");
+        this.setMessageType("ConnectionMessage");
     }
 
     public GameMode getGameMode() {
@@ -15,6 +15,6 @@ public class ConnectionMessage extends ClientMessage  {
     }
 
     public String getNickname() {
-        return this.getHeader().getNickname();
+        return this.getNickname();
     }
 }
