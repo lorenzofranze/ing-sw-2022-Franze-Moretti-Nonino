@@ -7,7 +7,7 @@ public class LobbyManager {
     private ServerController serverController;
 
     public LobbyManager(){
-        this.serverController=ServerController.getIntance();
+        this.serverController=ServerController.getInstance();
     }
 
     public void addNickname(String nickname, GameMode mode){
@@ -15,7 +15,7 @@ public class LobbyManager {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname);
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
-                this.serverController.addGameController(mode, waitingLobbies.get(mode));
+                GameController.getInstance(waitingLobbies.get(mode), mode.isExpert());
                 waitingLobbies.remove(mode);
             }
         }

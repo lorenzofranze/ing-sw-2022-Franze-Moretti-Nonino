@@ -43,6 +43,11 @@ public class SchoolBoard {
          this.spareTowers --;
     }
 
+    /** remove num towers from the schoolboard*/
+    public void removeTower(int num) {
+        this.spareTowers -= num;
+    }
+
     public PawnsMap getDiningRoom() {
         return this.diningRoom.clone();
     }

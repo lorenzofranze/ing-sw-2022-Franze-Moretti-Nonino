@@ -1,29 +1,25 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Exception.EndGameException;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Character;
 import it.polimi.ingsw.Controller.Characters.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ActionPhase implements GamePhase {
+public class ActionPhase extends GamePhase {
+    private final GameController gameController;
 
-    protected GameController gameController;
-    protected HashMap<Player, Integer> maximumMovements;
-    protected List<Player> turnOrder;
-    protected Map<Character, CharacterEffect> characterEffects; // per gli effetti
+    private HashMap<Player, Integer> maximumMovements;
+    private List<Player> turnOrder;
+
+    private Map<Character, CharacterEffect> characterEffects; // per gli effetti
 
 
-    public ActionPhase(GameController gc) {
-        this.gameController = gc;
+    public ActionPhase(Integer gameID) {
+        this.gameController = GameController.getInstance(gameID);
 
-        this.maximumMovements = new HashMap<Player, Integer>();
-        List<Player> list = gc.getGame().getPlayers();
-        for(Player p : list){
-            maximumMovements.put(p, 0);
-        }
-        turnOrder = new ArrayList<>(list.size());
+        maximumMovements = null;
+        turnOrder = null;
 
         this.initializeCharactersEffects();
     }
@@ -46,33 +42,41 @@ public class ActionPhase implements GamePhase {
 
 
     //RICORDARE: alla fine del turno di ogni player resettare activeEffect di game
-
-    @Override
-    public void handle() {
+    public ActionResult handle(List<Player> turnOrder, HashMap<Player, Integer> maximumMovements,
+                               boolean isLastRoundFinishedStudentsBag) {
 
         MessageHandler messageHandler = this.gameController.getMessageHandler();
 
-        try {
-            for (Player p : turnOrder) {
-                moveStudents();
-                moveMotherNature(p);
-                chooseCloud();
-            }
-        }catch (EndGameException exception){
-            exception.printStackTrace();
-            this.gameController.setGameOver(true);
+        this.maximumMovements = maximumMovements;
+        this.turnOrder = turnOrder;
+        boolean isEnded = false;
+
+        ActionResult actionResult = new ActionResult();
+        actionResult.setFirstPianificationPlayer(turnOrder.get(0));
+
+
+        for (Player p : turnOrder) {
+            moveStudents();
+            Island whereMotherNature = moveMotherNature(p);
+            Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
+            //isEnded is true if one player has finished his towers
+            isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
+            if (isEnded) {
+                actionResult.setFinishedTowers(true);
+                return actionResult;}
+            //isEnded is true if there are only 3 or less islands
+            isEnded = verifyUnion();
+            if (isEnded) {
+                actionResult.setThreeOrLessIslands(true);
+                return actionResult;}
+
+            if (!isLastRoundFinishedStudentsBag){chooseCloud();}
         }
 
-        computePlayerPianification();
-        this.gameController.setGamePhase(gameController.getPianificationPhase());
+        return actionResult;
 
     }
 
-    private void computePlayerPianification () {
-        Player firstInPianification = turnOrder.get(0);
-        PianificationPhase p = (PianificationPhase) this.gameController.getPianificationPhase();
-        p.setFirstPlayer(firstInPianification);
-    }
 
     /** if where==-1 moves student from the schoolboard entrance to the diningroom
      * else moves student from the schoolboard entrance to the island of index=where
@@ -142,8 +146,9 @@ public class ActionPhase implements GamePhase {
         }
     }
 
-    protected void moveMotherNature(Player currentPlayer) throws EndGameException{
+    protected Island moveMotherNature(Player currentPlayer){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        Island ris = null;
         int played;
 
         do{
@@ -153,47 +158,45 @@ public class ActionPhase implements GamePhase {
 
         List<Island> islandList = this.gameController.getGame().getIslands();
 
-        boolean flag = false;
+        boolean flag = false; //used to find the current position of motherNature
         for(int i = 0; i < islandList.size() && flag == false; i++){
             if (islandList.get(i).getHasMotherNature() == true){
                 flag = true;
                 islandList.get(i).setHasMotherNature(false);
                 islandList.get(i+played).setHasMotherNature(true);
 
-                calcultateInfluence(islandList.get(i+played));
+                ris = islandList.get(i+played);
             }
         }
+        return ris;
     }
 
 
-    public void calcultateInfluence(Island island) throws EndGameException{
+    public Player calcultateInfluence(Island island){
         if(island.getHasNoEntryTile()){
             island.setHasNoEntryTile(false);
-            return;
+            return null;
         }
         Player moreInfluentPlayer = island.getInfluence(gameController.getGame());
-        this.placeTowerOfPlayer(moreInfluentPlayer, island );
-
+        return moreInfluentPlayer;
     }
 
     /**places a tower on a island or swap the color, then, if necessary, calls verifyUnion()
      * @param colour
      * @param island
      */
-    public void placeTowerOfPlayer(Player moreInfluentPlayer, Island island) throws EndGameException {
+    public boolean placeTowerOfPlayer(Player moreInfluentPlayer, Island island){
         ColourTower color=moreInfluentPlayer.getColourTower();
         if(island.getTowerCount()==0){
             island.addTower(1);
+            moreInfluentPlayer.getSchoolBoard().removeTower();
             island.setTowerColor(color);
-            verifyUnion();
+            if (moreInfluentPlayer.getSchoolBoard().getSpareTowers() == 0) {return true;}
         }
         else {
             if (!island.getTowerColour().equals(color)) {
-                int numLeftTowers = moreInfluentPlayer.getSchoolBoard().getSpareTowers();
-                if (numLeftTowers < island.getTowerCount()) {
-                    gameController.getMessageHandler().setWinner(gameController.getCurrentPlayer());
-                    throw new EndGameException();
-                }
+
+                //RIAGGIUNGO LE TORRI ALLA SCHOOLBOARD DEL GIOCATOIRE CHE HA "PERSO" IL POSSESSO DELL'ISOLA
                 Player oldOwner = null;
                 for (Player player : turnOrder) {
                     if (player.getColourTower() == island.getTowerColour()) {
@@ -201,13 +204,18 @@ public class ActionPhase implements GamePhase {
                     }
                 }
                 oldOwner.getSchoolBoard().addTower(island.getTowerCount());
+
+                //TOLGO LE TORRI ALLA SCHOOLBOARD DEL GIOCATORE CHE HA "VINTO" IL POSSESSO DELL'ISOLA
+                int numLeftTowers = moreInfluentPlayer.getSchoolBoard().getSpareTowers();
+                moreInfluentPlayer.getSchoolBoard().removeTower(island.getTowerCount());
                 island.setTowerColor(color);
-                verifyUnion();
+                if (numLeftTowers < island.getTowerCount()) {return true;}
             }
         }
+        return false;
     }
 
-    protected void verifyUnion() throws EndGameException{
+    protected boolean verifyUnion() {
         List<Island> islandList = this.gameController.getGame().getIslands();
         List<Integer> currColour;
         HashMap<ColourTower, List<Integer>> colourMap = new HashMap<ColourTower, List<Integer>>();
@@ -253,8 +261,9 @@ public class ActionPhase implements GamePhase {
         this.gameController.getGame().unifyIslands(ris);
         int numIslands= this.gameController.getGame().getIslands().size();
         if(numIslands<4){
-            throw new EndGameException();
+            return true;
         }
+        return false;
     }
 
     protected void chooseCloud(){
@@ -334,7 +343,6 @@ public class ActionPhase implements GamePhase {
     public void setCurrPlayer(Player currPlayer) {
         this.gameController.setCurrentPlayer(currPlayer);
     }
-
 
 
     public void setMaximumMovements(HashMap<Player, Integer> maximumMovements) {

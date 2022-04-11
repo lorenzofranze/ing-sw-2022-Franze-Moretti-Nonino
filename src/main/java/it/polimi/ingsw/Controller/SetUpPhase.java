@@ -7,23 +7,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class SetUpPhase implements GamePhase {
+public class SetUpPhase extends GamePhase {
     private final GameController gameController;
 
-    public SetUpPhase(GameController gameController){
-        this.gameController = gameController;
+    public SetUpPhase(Integer gameID){
+        this.gameController = GameController.getInstance(gameID);
     }
 
-    @Override
-    public void handle(){
+    public SetUpResult handle(){
         this.placePawnsIslands();
         this.fillSchoolBoard();
-        this.setFirstPianificationPlayer();
+
+        Player p = chooseFirstPianificationPlayer();
+        SetUpResult ris= new SetUpResult();
+        ris.setFirstRandomPianificationPlayer(p);
+
         if(gameController.isExpert()==true){
             this.distributeCoins();
         }
 
-        this.gameController.setGamePhase(gameController.getPianificationPhase());
+        return ris;
 
     }
 
@@ -91,16 +94,15 @@ public class SetUpPhase implements GamePhase {
 
     }
 
-    /**Sets the attribute controller.firstPianificationPlayer that decides who is the first player of the PianificationPhase.*/
-    private void setFirstPianificationPlayer(){
+    /**returns a random Player*/
+    private Player chooseFirstPianificationPlayer(){
 
         int n = gameController.getGame().getPlayers().size();
         Random rand = new Random();
         int randomNum = rand.nextInt(n);
 
         Player ris = gameController.getGame().getPlayers().get(randomNum);
-        PianificationPhase p =  (PianificationPhase) gameController.getPianificationPhase();
-
+        return ris;
     }
 
 }
