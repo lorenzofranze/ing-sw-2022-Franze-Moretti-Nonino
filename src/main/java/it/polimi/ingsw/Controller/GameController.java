@@ -3,9 +3,10 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Player;
 
+import java.io.IOException;
 import java.util.List;
 
-public class GameController {
+public class GameController implements Runnable {
     private GamePhase setUpPhase;
     private GamePhase pianificationPhase;
     private GamePhase actionPhase;
@@ -17,6 +18,7 @@ public class GameController {
     private MessageHandler messageHandler;
     private Player currentPlayer;
     private Player winner;
+    private Lobby lobby;
 
 
 
@@ -30,14 +32,30 @@ public class GameController {
         this.pianificationPhase=new PianificationPhase(this);
         this.actionPhase=new ActionPhase(this);
 
+        this.lobby=lobby;
+
     }
 
-    public void play(){
+    public void run(){
         this.currentPhase=setUpPhase;
         while (!gameOver){
             currentPhase.handle();
         }
         calculateWinner();
+
+        //closes all player's socket and the server soket
+        for (String s: lobby.getUsersNicknames()){
+            try {
+                lobby.getUsersReadyToPlay().get(s).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            messageHandler.getSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

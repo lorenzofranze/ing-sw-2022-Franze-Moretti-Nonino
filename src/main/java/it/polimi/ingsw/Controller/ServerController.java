@@ -32,7 +32,7 @@ public class ServerController {
         return gameControllers;
     }
 
-    public void addGameController(GameMode mode, Lobby lobby) {
+    public GameController addGameController(GameMode mode, Lobby lobby) {
         Integer gameId;
 
         gameId=lastId+1;
@@ -46,6 +46,7 @@ public class ServerController {
         }
 
         this.gameControllers.add(newGameController);
+        return newGameController;
     }
 
     public Map<Integer, Game> getGameSavings() {

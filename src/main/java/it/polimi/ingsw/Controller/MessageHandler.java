@@ -23,7 +23,6 @@ public class MessageHandler {
 
 
     public MessageHandler(Lobby lobby){
-
         try {
             serverSocket=new ServerSocket();
         }catch (IOException ex){
@@ -50,6 +49,10 @@ public class MessageHandler {
     //in qualche modo chiedo il valore al giocatore e lo restituisco
     public int getValue(Player player) {
         return value;
+    }
+
+    public ServerSocket getSocket(){
+        return serverSocket;
     }
 
     /* chiede valore in generale a quel message handler,

@@ -13,21 +13,32 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LobbyManager {
     private Map<GameMode, Lobby> waitingLobbies;
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
     private int lobbyPortNumber;
+    private ExecutorService executor;
+    private ServerSocket serverSocket;
 
+    /** there is only one serverController used to manage the new connections. When a player is accepted,
+     * the player interacts with one of the executor's servers
+     * @param lobbyPortNumber
+     */
     public LobbyManager(int lobbyPortNumber){
         this.waitingLobbies=new HashMap<>();
         this.lobbyPortNumber=lobbyPortNumber;
         this.serverController=ServerController.getIntance();
-        try {
-            lobbyServerSocket = new ServerSocket(lobbyPortNumber);
-        } catch (IOException e) {
-            e.printStackTrace();
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        try{
+            serverSocket = new ServerSocket(lobbyPortNumber);
+        }catch (IOException e){
+            System.err.println(e.getMessage()); //port not available
+            return;
         }
 
     }
@@ -38,6 +49,7 @@ public class LobbyManager {
      * A buffer in reader is created.
      * It is read the first message and it is checked the validity of the nickname(no other connected-players
      * can have the same nickname)
+     * If the nickname is validated, it is added to the waiting players' list in the Lobby
      * @throws IOException
      */
 
@@ -49,7 +61,15 @@ public class LobbyManager {
         JsonConverter jsonConverter=new JsonConverter();
         ArrayList<String> usedNicknames= new ArrayList<>();
         ClientMessage firstMessage;
+        System.out.println("Server ready");
+
         while(true){
+            try{
+                Socket socket = serverSocket.accept();
+            }catch(IOException e){
+                break; //In case the serverSocket gets closed
+            }
+
             Socket clientSocket = null;
             try {
                 clientSocket = lobbyServerSocket.accept();
@@ -63,6 +83,7 @@ public class LobbyManager {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             firstMessage=jsonConverter.fromJsonToMessage(in.readLine());
             if(firstMessage.getHeader().getMessageType()=="ConnectionMessage"){
                 String nickname=firstMessage.getHeader().getNickname();
@@ -91,15 +112,28 @@ public class LobbyManager {
                 }
             }
         }
+        //In case the serverSocket gets closed ( the break statement is called )
+        executor.shutdown();
+        serverSocket.close();
     }
 
+    /** it add the nickname to the correct Lobby list and, if the list has gained the right number of players:
+     * 1) a new game controller is created
+     * 2) the executors gives a thread to the new game controller
+     * 3) the lobby is removed because the players can start to play and they don't wait anymore
+     * @param nickname
+     * @param mode
+     * @param clientSocket
+     */
     public void addNickname(String nickname, GameMode mode, Socket clientSocket){
         if(waitingLobbies.containsKey(mode)){
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname,clientSocket);
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
-                this.serverController.addGameController(mode, waitingLobbies.get(mode));
+                GameController gameController= this.serverController.addGameController(mode, waitingLobbies.get(mode));
                 waitingLobbies.remove(mode);
+                executor.submit(gameController);
+
             }
         }
         else{
