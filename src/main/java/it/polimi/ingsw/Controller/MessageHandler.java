@@ -60,6 +60,8 @@ public class MessageHandler {
         return serverSocket;
     }
 
+
+
     /* chiede valore in generale a quel message handler,
      non sappiamo ancora se 1 per ogni player o cosa....
     legge valore da std input, non funziona con i test
@@ -105,5 +107,13 @@ public class MessageHandler {
 
     public ClientMessage getLastMessage() {
         return lastMessage;
+    }
+
+    public Map<String, BufferedReader> getBufferedReaderIn() {
+        return bufferedReaderIn;
+    }
+
+    public Map<String, BufferedWriter> getBufferedReaderOut() {
+        return bufferedReaderOut;
     }
 }

@@ -19,6 +19,8 @@ public class GameController implements Runnable {
     private Player currentPlayer;
     private Player winner;
     private Lobby lobby;
+    private ConnectionManager connectionManager;
+
 
 
 
@@ -33,6 +35,8 @@ public class GameController implements Runnable {
         this.actionPhase=new ActionPhase(this);
 
         this.lobby=lobby;
+        this.connectionManager=new ConnectionManager(lobby, messageHandler);
+        this.connectionManager.startPing();
 
     }
 
