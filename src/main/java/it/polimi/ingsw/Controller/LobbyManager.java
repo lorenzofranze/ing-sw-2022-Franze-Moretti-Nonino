@@ -30,7 +30,7 @@ public class LobbyManager {
     public LobbyManager(int lobbyPortNumber){
         this.waitingLobbies=new HashMap<>();
         this.lobbyPortNumber=lobbyPortNumber;
-        this.serverController=ServerController.getIntance();
+        this.serverController=ServerController.getInstance();
         ExecutorService executor = Executors.newCachedThreadPool();
 
         try{
@@ -122,9 +122,11 @@ public class LobbyManager {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname,clientSocket);
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
-                GameController gameController= this.serverController.addGameController(mode, waitingLobbies.get(mode));
+                GameController gc= GameController.getInstance(waitingLobbies.get(mode), mode.isExpert());
+
                 waitingLobbies.remove(mode);
-                executor.submit(gameController);
+
+                executor.submit(gc);
 
             }
         }
@@ -134,5 +136,4 @@ public class LobbyManager {
             waitingLobbies.put(mode,newLobby);
         }
     }
-
 }

@@ -1,25 +1,24 @@
 package it.polimi.ingsw.Controller;
-import it.polimi.ingsw.Controller.Characters.ActionPhaseLastRoundWithCloud;
-import it.polimi.ingsw.Exception.EndGameException;
-import it.polimi.ingsw.Exception.LastRoundException;
 import it.polimi.ingsw.Model.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.*;
 
-public class PianificationPhase implements GamePhase {
+public class PianificationPhase extends GamePhase {
 
     private GameController gameController;
-    private Player firstPlayer;
+    private boolean isLastRoundFinishedAssistantCards;
+    private boolean isLastRoundFinishedStudentsBag;
 
-    public PianificationPhase(GameController gc){
-        this.gameController = gc;
+
+    public PianificationPhase(Integer gameID){
+        this.gameController = GameController.getInstance(gameID);
     }
 
-    @Override
-    public void handle(){
+    public PianificationResult handle(Player firstPlayer){
 
+        //index of the first player in the list of players contained in game
         int playerIndex = this.gameController.getGame().getPlayers().indexOf(firstPlayer);
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
 
@@ -28,10 +27,10 @@ public class PianificationPhase implements GamePhase {
         players have the same value played as nextTurn, in the actionPhase the first player will be the one who has
         played before*/
         List<Player> playedOrder = new ArrayList<>();
-        HashMap<Player, Integer> turnOrder = new HashMap<Player, Integer>();
+        HashMap<Player, Integer> turnOrderMap = new HashMap<Player, Integer>();
         HashMap<Player, Integer> maximumMovements = new HashMap<Player, Integer>();
 
-        List<Player> nextTurnOrder = new ArrayList<>();
+        List<Player> turnOrder = new ArrayList<>();
         Player currentPlayer;
 
         //initialize
@@ -43,44 +42,39 @@ public class PianificationPhase implements GamePhase {
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);
-            try {
-                playAssistantCard(currentPlayer, turnOrder, maximumMovements);
-            } catch(LastRoundException ex){
-                this.gameController.setGamePhase(new ActionPhaseLastRoundWithCloud(this.gameController));
-            }
+            playAssistantCard(currentPlayer, turnOrderMap, maximumMovements);
             playedOrder.add(currentPlayer);
         }
 
 
-        /*nextTurnOrder saraà la lista dei giocatori ordinata come giocheranno la ActionPhase. Se due giocatori hanno
+        /*turnOrder sarà la lista dei giocatori ordinata come giocheranno la ActionPhase. Se due giocatori hanno
         lo stesso turnOrder, allora il giocatore che ha gocato dopo la carta verrà posto dopo il giocatore che
         l'ha giocata prima. */
         for(int i = 1; i < 11; i++){
             for(Player p : playedOrder){
-                if (i == (int) turnOrder.get(p)) {
-                    nextTurnOrder.add(p);
+                if (i == (int) turnOrderMap.get(p)) {
+                    turnOrder.add(p);
                 }
             }
         }
 
-        /*at this point playerTurn is an ordered list of the players for the actionphase and maximumMovements is a map
+        /*at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
         that associates players to their maximum movements.*/
-        ActionPhase a = (ActionPhase) this.gameController.getActionPhase();
-        a.setMaximumMovements(maximumMovements);
-        a.setTurnOrder(nextTurnOrder);
 
-        this.gameController.setGamePhase(gameController.getActionPhase());
+        fillClouds();
 
-        try {
-            fillClouds();
-        }catch (LastRoundException exception){
-            this.gameController.setGamePhase(new ActionPhaseLastRoundWithoutCloud(this.gameController));
-        }
+
+
+        PianificationResult pianificationResult = new PianificationResult();
+        pianificationResult.setMaximumMovements(maximumMovements);
+        pianificationResult.setTurnOrder(turnOrder);
+
+        return pianificationResult;
 
     }
 
-    private void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrder, HashMap<Player,
-            Integer> maximumMovements) throws LastRoundException{
+    private void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrderMap, HashMap<Player,
+            Integer> maximumMovements){
 
         AssistantCard cardPlayed = null;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
@@ -108,7 +102,7 @@ public class PianificationPhase implements GamePhase {
             }
 
             if (mustChange == false) {
-                turnOrder.put(currentPlayer, played);
+                turnOrderMap.put(currentPlayer, played);
                 maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                 currentPlayer.playAssistantCard(played);
             }
@@ -116,14 +110,6 @@ public class PianificationPhase implements GamePhase {
         while(valid == false || mustChange == true);
             /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
             * if mustChange == true, the player played a card that has already been played by other players.*/
-        if(gameController.getGame().getCurrentPlayer().getDeck().size()==0 &&
-        gameController.getGame().getCurrentPlayer().equals(turnOrder.get(turnOrder.size()-1))){
-           throw new LastRoundException();
-        }
-    }
-
-    public void setFirstPlayer(Player player){
-        this.firstPlayer = player;
     }
 
 
@@ -144,25 +130,28 @@ public class PianificationPhase implements GamePhase {
         return true;
     }
 
-    private void fillClouds() throws LastRoundException{
+    private void fillClouds(){
 
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
         PawnsMap toAdd;
+        String result;
 
         for(Cloud c: gameController.getGame().getClouds()){
             if (numberOfPlayers == 2) {
-                if(gameController.getGame().getStudentsBag().pawnsNumber()<3){
-                    throw new LastRoundException();
+                if(gameController.getGame().getStudentsBag().pawnsNumber()<3) {
+                    return;
                 }
                 toAdd = this.gameController.getGame().getStudentsBag().removeRandomly(3);}
             else {
                 if(gameController.getGame().getStudentsBag().pawnsNumber()<4) {
-                    throw new LastRoundException();
+                    return;
                 }
                 toAdd = this.gameController.getGame().getStudentsBag().removeRandomly(4);}
 
             c.getStudents().add(toAdd);
         }
+
+        return;
     }
 
 }

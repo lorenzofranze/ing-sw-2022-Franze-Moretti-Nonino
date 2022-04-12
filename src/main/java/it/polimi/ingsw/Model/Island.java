@@ -95,4 +95,15 @@ public class Island {
 
          return moreInfluent;
     }
+
+    public Player getOwner(Game game){
+        Player owner = null;
+        for (Player p : game.getPlayers()){
+            if (p.getColourTower().equals(getTowerColour())){
+                owner = p;
+            }
+        }
+        return owner;
+    }
+
 }
