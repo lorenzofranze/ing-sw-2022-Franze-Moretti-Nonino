@@ -86,8 +86,8 @@ public class LobbyManager {
                  */
                 //check playing-clients
                 usedNicknames.clear();
-                for(int i=0; i<serverController.getGameControllers().size(); i++){
-                    for( Player p: serverController.getGameControllers().get(i).getGame().getPlayers() ){
+                for(int i: GameController.getInstances().keySet()){
+                    for( Player p: GameController.getInstances().get(i).getGame().getPlayers() ){
                         usedNicknames.add(p.getNickname());
                     }
                 }
@@ -125,7 +125,7 @@ public class LobbyManager {
                 GameController gc= GameController.getInstance(waitingLobbies.get(mode), mode.isExpert());
 
                 waitingLobbies.remove(mode);
-
+                ///// ????
                 executor.submit(gc);
 
             }

@@ -127,7 +127,8 @@ public class GameController {
 
     private GameController(Lobby lobby, boolean expert){
         this.gameID = rand.nextInt();
-        this.game=new Game(lobby.getUsersReadyToPlay(), this.gameID);
+        ///?????????????
+        this.game=new Game(lobby.getUsersReadyToPlay().values(), this.gameID);
         this.expert=expert;
 
         this.setUpPhase=new SetUpPhase(this.gameID);
@@ -141,6 +142,10 @@ public class GameController {
 
     public Game getGame() {
         return game;
+    }
+
+    public static Map<Integer, GameController> getInstances() {
+        return instances;
     }
 
     /**sets the GameController.winner
