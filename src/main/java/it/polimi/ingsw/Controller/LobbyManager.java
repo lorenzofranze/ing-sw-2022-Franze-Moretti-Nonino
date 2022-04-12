@@ -21,7 +21,6 @@ public class LobbyManager {
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
     private int lobbyPortNumber;
-    private ExecutorService executor;
 
     /** there is only one serverController used to manage the new connections. When a player is accepted,
      * the player interacts with one of the executor's servers
@@ -31,7 +30,6 @@ public class LobbyManager {
         this.waitingLobbies=new HashMap<>();
         this.lobbyPortNumber=lobbyPortNumber;
         this.serverController=ServerController.getInstance();
-        ExecutorService executor = Executors.newCachedThreadPool();
 
         try{
             lobbyServerSocket = new ServerSocket(lobbyPortNumber);
@@ -105,13 +103,13 @@ public class LobbyManager {
             }
         }
         //In case the serverSocket gets closed ( the break statement is called )
-        executor.shutdown();
+
         lobbyServerSocket.close();
     }
 
     /** it add the nickname to the correct Lobby list and, if the list has gained the right number of players:
      * 1) a new game controller is created
-     * 2) the executors gives a thread to the new game controller
+     * 2) it gives a thread to the new game controller
      * 3) the lobby is removed because the players can start to play and they don't wait anymore
      * @param nickname
      * @param mode
@@ -123,11 +121,7 @@ public class LobbyManager {
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
                 GameController gc= GameController.getInstance(waitingLobbies.get(mode), mode.isExpert());
-
                 waitingLobbies.remove(mode);
-                ///// ????
-                executor.submit(gc);
-
             }
         }
         else{

@@ -9,7 +9,7 @@ public class ServerController {
 
     ///////////////////////////////////////// THREAD POOL //////////////////////////////////
     private static ServerController instance;
-    private Map<Integer, Game> gameSavings;
+    private Map<Integer, GameController> currentGames;
 
     private ServerController(){
         this.instance=null;
@@ -21,6 +21,12 @@ public class ServerController {
         }
         return instance;
     }
+
+    public void play(){
+
+    }
+
+    public
 
     public Map<Integer, Game> getGameSavings() {
         return gameSavings;

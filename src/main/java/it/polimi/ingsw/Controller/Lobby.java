@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Lobby {
+    // string è nickname
     private Map<String, Socket> usersReadyToPlay;
 
     public Map<String, Socket> getUsersReadyToPlay() {
