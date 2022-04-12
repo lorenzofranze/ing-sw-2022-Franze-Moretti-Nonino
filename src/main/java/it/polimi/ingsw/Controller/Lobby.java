@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controller;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class Lobby {
     }
 
     public Lobby(GameMode gameMode){
+        this.usersReadyToPlay = new HashMap<>();
         this.gameMode = gameMode;
     }
 

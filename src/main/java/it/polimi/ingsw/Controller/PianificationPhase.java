@@ -85,7 +85,7 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             valid = false;
 
-            int played = messageHandler.getValue(currentPlayer);
+            int played = messageHandler.getValueCLI("scegli carta assistente(dimmi turnOrder)", currentPlayer);
 
             for (AssistantCard c : currentPlayer.getDeck()) {
                 if (c.getTurnOrder() == played) {
@@ -93,6 +93,8 @@ public class PianificationPhase extends GamePhase {
                     valid = true;
                 }
             }
+            currentPlayer.playAssistantCard(played);
+            System.out.println(currentPlayer.getPlayedAssistantCard().getTurnOrder());
 
             for (int i = 0; i < this.gameController.getGame().getPlayers().size(); i++) {
                 Player p = this.gameController.getGame().getPlayers().get(i);
