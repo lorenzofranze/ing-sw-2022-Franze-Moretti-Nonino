@@ -14,7 +14,7 @@ public class JsonConverter {
         gson = builder.create();
     }
 
-    public static JsonConverter getGsonIstance() {
+    public static JsonConverter getJsonConverterInstance() {
         if(jsonConverter==null) {
             jsonConverter=new JsonConverter();
         }

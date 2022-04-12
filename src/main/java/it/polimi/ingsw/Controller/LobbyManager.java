@@ -13,8 +13,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class LobbyManager implements Runnable{
     private Map<GameMode, Lobby> waitingLobbies;
@@ -63,7 +61,7 @@ public class LobbyManager implements Runnable{
      * otherwise no other players can connect and start a new game
      */
     public void welcomeNewPlayers() throws IOException {
-        JsonConverter jsonConverter=JsonConverter.getGsonIstance();
+        JsonConverter jsonConverter=JsonConverter.getJsonConverterInstance();
         ArrayList<String> usedNicknames= new ArrayList<>();
         ClientMessage firstMessage;
         System.out.println("Server ready");
