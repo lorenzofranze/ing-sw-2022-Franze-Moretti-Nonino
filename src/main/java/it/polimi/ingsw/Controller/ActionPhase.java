@@ -61,20 +61,28 @@ public class ActionPhase extends GamePhase {
         for (Player p : turnOrder) {
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
             gameController.setCurrentPlayer(p);
-            moveStudents();
-            Island whereMotherNature = moveMotherNature(p);
-            Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
-            //isEnded is true if one player has finished his towers
-            isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
-            if (isEnded) {
-                actionResult.setFinishedTowers(true);
-                return actionResult;}
-            //isEnded is true if there are only 3 or less islands
-            isEnded = verifyUnion();
-            if (isEnded) {
-                actionResult.setThreeOrLessIslands(true);
-                return actionResult;}
 
+            moveStudents();
+
+            System.out.println("ISLANDS:\n" + gameController.getGame().islandsToString());
+
+            Island whereMotherNature = moveMotherNature(p);
+            System.out.println("Actual position of MotherNature: Island number " +
+                    gameController.getGame().getIslands().indexOf(whereMotherNature));
+            Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
+            if (moreInfluentPlayer != null){
+                //isEnded is true if one player has finished his towers
+                isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
+                if (isEnded) {
+                    actionResult.setFinishedTowers(true);
+                    return actionResult;}
+                //isEnded is true if there are only 3 or less islands
+                isEnded = verifyUnion();
+                if (isEnded) {
+                    actionResult.setThreeOrLessIslands(true);
+                    return actionResult;
+                }
+            }
             if (!isLastRoundFinishedStudentsBag){chooseCloud();}}
         }
 
@@ -116,37 +124,45 @@ public class ActionPhase extends GamePhase {
             do{
                 valid = true;
                 // to user: choose one color pawn
-                indexColour = messageHandler.getValueCLI("choose one color pawn",gameController.getCurrentPlayer());
+                System.out.println(gameController.getCurrentPlayer().toString() + " - the students in your entrance are:\n" +
+                        gameController.getCurrentPlayer().getSchoolBoard().getEntrance().toString());
+
+                indexColour = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
                 if(indexColour<=-1 || indexColour >=5){
                     valid=false;
                     // to user: index not valid
+                    System.out.println("indexColour not valid.");
                 }
                 if(valid){
-                    if(! (gameController.getGame().getCurrentPlayer().getSchoolBoard()
-                            .getEntrance().get(ColourPawn.values()[indexColour]) >=1)){
+                    if (gameController.getCurrentPlayer().getSchoolBoard()
+                            .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                         valid = false;
                         //to user: change color pawn to move, you don't have that color
+                        System.out.println("You don't have that colour.");
                     }
                 }
 
                 // to user: choose position
 
                 if(valid){
-                    where = messageHandler.getValueCLI("choose position", gameController.getCurrentPlayer());
+                    System.out.println("ISLANDS:\n" + gameController.getGame().islandsToString());
+                    System.out.println("DINING ROOM:\n"+ gameController.getCurrentPlayer().getSchoolBoard()
+                            .getDiningRoom().toString());
+                    where = messageHandler.getValueCLI("choose position: ", gameController.getCurrentPlayer());
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
                     }
                 }
-                if(valid && gameController.getGame().getCurrentPlayer().getSchoolBoard().getDiningRoom().
-                        get(ColourPawn.values()[indexColour])==10 ){
+                if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
+                        get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
                     // to user: your school board in that row of your dining room is full
                 }
             }while(!valid);
 
             // to user: ok
-            this.moveSingleStudent(ColourPawn.values()[indexColour], where );
+            this.moveSingleStudent(ColourPawn.get(indexColour), where );
 
         }
     }
@@ -157,7 +173,8 @@ public class ActionPhase extends GamePhase {
         int played;
 
         do{
-            played = messageHandler.getValue(currentPlayer);
+            System.out.println("maximumMovements: " + maximumMovements.get(currentPlayer));
+            played = messageHandler.getValueCLI("choose how many steps should do MotherNature: ", gameController.getCurrentPlayer());
         }
         while(played < 1 || played > maximumMovements.get(currentPlayer));
 
@@ -168,9 +185,9 @@ public class ActionPhase extends GamePhase {
             if (islandList.get(i).getHasMotherNature() == true){
                 flag = true;
                 islandList.get(i).setHasMotherNature(false);
-                islandList.get(i+played).setHasMotherNature(true);
+                islandList.get((i+played) % islandList.size()).setHasMotherNature(true);
 
-                ris = islandList.get(i+played);
+                ris = islandList.get((i+played) % islandList.size());
             }
         }
         return ris;
@@ -263,6 +280,8 @@ public class ActionPhase extends GamePhase {
             }
         }
 
+        if (ris.size() == 0) {return false;}
+
         this.gameController.getGame().unifyIslands(ris);
         int numIslands= this.gameController.getGame().getIslands().size();
         if(numIslands<4){
@@ -287,7 +306,7 @@ public class ActionPhase extends GamePhase {
         // print possibile cloud with values
         do{
             valid = true;
-            indexCloud = messageHandler.getValueCLI("choose one cloud",gameController.getCurrentPlayer());
+            indexCloud = messageHandler.getValueCLI("choose one cloud: ",gameController.getCurrentPlayer());
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
                 valid = false;

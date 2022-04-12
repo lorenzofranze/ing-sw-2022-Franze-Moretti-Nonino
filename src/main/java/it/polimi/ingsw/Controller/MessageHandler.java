@@ -67,7 +67,7 @@ public class MessageHandler {
     legge valore da std input, non funziona con i test
      */
     public int getValueCLI(String type, Player player){
-        System.out.println(player.getNickname() +type);
+        System.out.print(player.getNickname() + " - " + type);
         int a = scanner.nextInt();
         return a;
     }

@@ -36,4 +36,11 @@ public class AssistantCard implements java.io.Serializable{
         return Objects.hash(turnOrder, movementsMotherNature);
     }
 
+    @Override
+    public String toString() {
+        return "AssistantCard{" +
+                "turnOrder=" + turnOrder +
+                ", movementsMotherNature=" + movementsMotherNature +
+                '}';
+    }
 }

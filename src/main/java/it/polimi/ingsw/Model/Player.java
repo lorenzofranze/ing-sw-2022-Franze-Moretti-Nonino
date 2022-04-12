@@ -125,5 +125,9 @@ public class Player {
         return colourTower;
     }
 
+    @Override
+    public String toString(){
+        return this.nickname;
+    }
 
 }

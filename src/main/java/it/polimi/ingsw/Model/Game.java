@@ -173,5 +173,15 @@ public class Game {
         return professorsLeft;
     }
 
+    public String islandsToString(){
+        String islandString = "";
+        int j = 0;
+        for (Island i : islands){
+            islandString = islandString +"Island number " + j + " - " + i.getStudents().toString() + "\n";
+            j++;
+        }
+        return islandString;
+    }
+
 
 }

@@ -85,7 +85,7 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             valid = false;
 
-            int played = messageHandler.getValueCLI("scegli carta assistente(dimmi turnOrder)", currentPlayer);
+            int played = messageHandler.getValueCLI("choose AssistantCard (insert turnOrder): ", currentPlayer);
 
             for (AssistantCard c : currentPlayer.getDeck()) {
                 if (c.getTurnOrder() == played) {
@@ -94,12 +94,11 @@ public class PianificationPhase extends GamePhase {
                 }
             }
             currentPlayer.playAssistantCard(played);
-            System.out.println(currentPlayer.getPlayedAssistantCard().getTurnOrder());
 
-            for (int i = 0; i < this.gameController.getGame().getPlayers().size(); i++) {
-                Player p = this.gameController.getGame().getPlayers().get(i);
-                if (p.getPlayedAssistantCard().equals(cardPlayed)) {
-                    mustChange = checkPermit(currentPlayer, cardPlayed);
+            for(Player p: this.gameController.getGame().getPlayers()){
+                if (!p.equals(currentPlayer) && p.getPlayedAssistantCard() != null &&
+                        p.getPlayedAssistantCard().equals(cardPlayed)){
+                    mustChange = !checkPermit(currentPlayer, cardPlayed);
                 }
             }
 
@@ -107,6 +106,9 @@ public class PianificationPhase extends GamePhase {
                 turnOrderMap.put(currentPlayer, played);
                 maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                 currentPlayer.playAssistantCard(played);
+            }
+            else{
+                System.out.println("You cannot play this card.");
             }
         }
         while(valid == false || mustChange == true);
@@ -118,18 +120,23 @@ public class PianificationPhase extends GamePhase {
     /**if a player plays a card already played, checkPemit checks if he/she can play another card instead.
      * Returns true if she/he cannot. Otherwise false.*/
     public boolean checkPermit(Player player, AssistantCard card){
-        boolean temp = false;
+        boolean temp = true;
+        boolean isPresent = false;
 
         for(AssistantCard c : player.getDeck()) {
-            temp = false;
+            if (temp == false){break;}
+            isPresent = false;
             for(Player p : this.gameController.getGame().getPlayers()){
-                if(p.getPlayedAssistantCard().equals(c)){
-                    temp = true;
+                if(p.getPlayedAssistantCard()!= null && p.getPlayedAssistantCard().equals(c) && isPresent==false){
+                    isPresent = true;
                 }
             }
-            if (temp = false) {return false;}
+            if (isPresent == false){
+                temp = false;
+            }
         }
-        return true;
+
+        return temp;
     }
 
     private void fillClouds(){

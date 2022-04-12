@@ -145,7 +145,7 @@ public class PawnsMap{
         String ris = new String();
         ColourPawn pawnsList[] = ColourPawn.values();
         for (ColourPawn p : pawnsList) {
-            ris += p.toString() + " = " + this.pawns.get(p) + "\n";
+            ris = ris + ("("+p.toString() + " , " + this.pawns.get(p) + ") ");
         }
         return ris;
     }
