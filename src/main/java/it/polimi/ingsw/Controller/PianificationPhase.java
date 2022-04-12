@@ -12,8 +12,8 @@ public class PianificationPhase extends GamePhase {
     private boolean isLastRoundFinishedStudentsBag;
 
 
-    public PianificationPhase(Integer gameID){
-        this.gameController = GameController.getInstance(gameID);
+    public PianificationPhase(GameController gameController){
+        this.gameController = gameController;
     }
 
     public PianificationResult handle(Player firstPlayer){

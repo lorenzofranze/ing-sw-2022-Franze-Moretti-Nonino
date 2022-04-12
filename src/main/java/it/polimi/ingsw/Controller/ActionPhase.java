@@ -15,8 +15,8 @@ public class ActionPhase extends GamePhase {
     private Map<Character, CharacterEffect> characterEffects; // per gli effetti
 
 
-    public ActionPhase(Integer gameID) {
-        this.gameController = GameController.getInstance(gameID);
+    public ActionPhase(GameController gameController) {
+        this.gameController = gameController;
 
         maximumMovements = null;
         turnOrder = null;

@@ -10,8 +10,8 @@ import java.util.Random;
 public class SetUpPhase extends GamePhase {
     private final GameController gameController;
 
-    public SetUpPhase(Integer gameID){
-        this.gameController = GameController.getInstance(gameID);
+    public SetUpPhase(GameController gameController){
+        this.gameController = gameController;
     }
 
     public SetUpResult handle(){

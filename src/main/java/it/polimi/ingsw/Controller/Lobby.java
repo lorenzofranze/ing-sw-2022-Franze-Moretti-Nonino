@@ -9,8 +9,18 @@ public class Lobby {
     // string è nickname
     private Map<String, Socket> usersReadyToPlay;
 
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
+    private GameMode gameMode;
+
     public Map<String, Socket> getUsersReadyToPlay() {
         return usersReadyToPlay;
+    }
+
+    public Lobby(GameMode gameMode){
+        this.gameMode = gameMode;
     }
 
     public List<String> getUsersNicknames() {

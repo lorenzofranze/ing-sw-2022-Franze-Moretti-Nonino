@@ -2,7 +2,7 @@ package it.polimi.ingsw.Model;
 
 import java.util.Objects;
 
-public class AssistantCard {
+public class AssistantCard implements java.io.Serializable{
     private final int turnOrder;
     private final int movementsMotherNature;
 

@@ -4,15 +4,25 @@ import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Player;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServerController {
 
     ///////////////////////////////////////// THREAD POOL //////////////////////////////////
     private static ServerController instance;
+    private ExecutorService executorService;
+
+    public Map<Integer, GameController> getCurrentGames() {
+        return currentGames;
+    }
+
     private Map<Integer, GameController> currentGames;
+    private Lobby toStart=null;
 
     private ServerController(){
         this.instance=null;
+        executorService= Executors.newCachedThreadPool();
     }
 
     public static ServerController getInstance(){
@@ -23,21 +33,27 @@ public class ServerController {
     }
 
     public void play(){
+        LobbyManager lobbyManager = new LobbyManager(50000);
+        Thread t1 = new Thread(lobbyManager);
+        t1.start();
+        while(true){
+            if(toStart!=null){
+                GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
+                currentGames.put(gameController.getGameID(), gameController);
+                executorService.submit(gameController);
+                toStart=null;
+            }
+        }
+        //executorService.shutdown();
 
     }
 
-    public
-
-    public Map<Integer, Game> getGameSavings() {
-        return gameSavings;
+    public void setToStart(Lobby toStart){
+        this.toStart = toStart;
     }
 
-    public void setGameSaving(Game gameSaving) {
-        this.gameSavings.put(gameSaving.getGameId(), gameSaving);
-    }
-
-    public void saveGame(Game gameToSave){
-        this.gameSavings.put(gameToSave.getGameId(), gameToSave );
+    public void removeCurrentGame(int gameID){
+        this.currentGames.remove(gameID);
     }
 
 

@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LobbyManager {
+public class LobbyManager implements Runnable{
     private Map<GameMode, Lobby> waitingLobbies;
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
@@ -38,6 +38,14 @@ public class LobbyManager {
             return;
         }
 
+    }
+
+    public void run(){
+        try {
+            this.welcomeNewPlayers();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
     }
 
 
@@ -84,8 +92,8 @@ public class LobbyManager {
                  */
                 //check playing-clients
                 usedNicknames.clear();
-                for(int i: GameController.getInstances().keySet()){
-                    for( Player p: GameController.getInstances().get(i).getGame().getPlayers() ){
+                for(int i: ServerController.getInstance().getCurrentGames().keySet()){
+                    for( Player p: ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers() ){
                         usedNicknames.add(p.getNickname());
                     }
                 }
@@ -120,12 +128,12 @@ public class LobbyManager {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname,clientSocket);
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
-                GameController gc= GameController.getInstance(waitingLobbies.get(mode), mode.isExpert());
+                serverController.setToStart(waitingLobbies.get(mode));
                 waitingLobbies.remove(mode);
             }
         }
         else{
-            Lobby newLobby= new Lobby();
+            Lobby newLobby= new Lobby(mode);
             newLobby.addUsersReadyToPlay(nickname,clientSocket);
             waitingLobbies.put(mode,newLobby);
         }

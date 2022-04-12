@@ -10,12 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class GameController {
-
-    private static Map<Integer, GameController> instances = null; //Integer is the gameId of that GameController
-
-    private Random rand = new Random(); //utilizzato per creare randomicamente gli id ai nuovi game
-    private Integer gameID;
+public class GameController implements Runnable {
+    private static int gameID = 1;
 
     private SetUpPhase setUpPhase;
     private PianificationPhase pianificationPhase;
@@ -38,6 +34,9 @@ public class GameController {
     private Player winner;
 
     public void run(){
+        this.setUpPhase=new SetUpPhase(this);
+        this.pianificationPhase=new PianificationPhase(this);
+        this.actionPhase=new ActionPhase(this);
 
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
@@ -69,6 +68,8 @@ public class GameController {
 
         calculateWinner();
         //se winner è null, allora la partita è finita in pareggio
+
+        ServerController.getInstance().removeCurrentGame(this.getGameID());
     }
 
     private boolean gameEnded(){
@@ -108,38 +109,13 @@ public class GameController {
 
     }
 
-    /*per ottenere il GameController con gameId = gameid devo fare GameController.getInstace(gameId)*/
-    public static GameController getInstance(int gameID){
-        return instances.get(gameID);
-    }
-
-    /*per creare un game controller data una lobby ed una modalità(esperto o semplice), devo fare
-    /GameController.getInstance(lobby, expert). Il gameId viene generato automaticamente, se voglio lo posso
-     chiedere con GameController.getGameID()*/
-    public static GameController getInstance(Lobby lobby, boolean expert){
-        if (instances == null){
-            instances = new HashMap<Integer, GameController>();
-        }
-
-        GameController newGameController = new GameController(lobby, expert);
-        Integer gameID = newGameController.getGameID();
-        instances.put(gameID, newGameController);
-
-        return newGameController;
-
-    }
-
-    private GameController(Lobby lobby, boolean expert){
-        this.gameID = rand.nextInt();
-        ///?????????????
-        this.game=new Game(lobby.getUsersReadyToPlay().values(), this.gameID);
+    public GameController(Lobby lobby, boolean expert){
+        this.game=new Game(lobby.getUsersNicknames(), this.gameID);
         this.expert=expert;
+        this.gameID ++;
 
-        this.setUpPhase=new SetUpPhase(this.gameID);
-        this.pianificationPhase=new PianificationPhase(this.gameID);
-        this.actionPhase=new ActionPhase(this.gameID);
 
-        this.messageHandler= new MessageHandler();
+        //this.messageHandler= new MessageHandler();
     }
 
 
@@ -148,9 +124,6 @@ public class GameController {
         return game;
     }
 
-    public static Map<Integer, GameController> getInstances() {
-        return instances;
-    }
 
     /**sets the GameController.winner
      * if it remains null, it means ther is no winner*/

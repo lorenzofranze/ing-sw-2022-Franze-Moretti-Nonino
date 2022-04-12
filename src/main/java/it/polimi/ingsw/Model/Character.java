@@ -2,16 +2,21 @@ package it.polimi.ingsw.Model;
 
 import java.util.Objects;
 
-public class Character {
+public class Character implements java.io.Serializable{
+
+    private static final long serialVersionUID = 884896313726842888L;
 
     private int characterId;
     private int actualCost;
     private boolean incremented;
+    private AssistantCard asscard;
+    public Character(){}
 
     public Character(int characterId, int actualCost) {
         this.characterId = characterId;
         this.actualCost = actualCost;
         this.incremented = false;
+        this.asscard = new AssistantCard(5,6);
     }
 
     public int getCharacterId() {
@@ -27,6 +32,10 @@ public class Character {
             this.actualCost++;
             this.incremented = true;
         }
+    }
+
+    public AssistantCard getAsscard() {
+        return asscard;
     }
 
     @Override
