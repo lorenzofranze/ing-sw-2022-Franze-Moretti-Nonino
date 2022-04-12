@@ -63,7 +63,7 @@ public class LobbyManager implements Runnable{
      * otherwise no other players can connect and start a new game
      */
     public void welcomeNewPlayers() throws IOException {
-        JsonConverter jsonConverter=new JsonConverter();
+        JsonConverter jsonConverter=JsonConverter.getGsonIstance();
         ArrayList<String> usedNicknames= new ArrayList<>();
         ClientMessage firstMessage;
         System.out.println("Server ready");
