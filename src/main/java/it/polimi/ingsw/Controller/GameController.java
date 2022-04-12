@@ -43,11 +43,15 @@ public class GameController {
         SetUpResult setUpResult = setUpPhase.handle();
 
         PianificationResult pianificationResult;
-        ActionResult actionResult;
+        ActionResult actionResult = null;
+        Player firstPlayer = setUpResult.getFirstRandomPianificationPlayer();
 
         do{
             currentPhase = pianificationPhase;
-            Player firstPlayer = setUpResult.getFirstRandomPianificationPlayer();
+            if (! actionResult.equals(null)) {
+                firstPlayer = actionResult.getFirstPianificationPlayer();
+            }
+
             pianificationResult = this.pianificationPhase.handle(firstPlayer);
 
             checkLastRound();
