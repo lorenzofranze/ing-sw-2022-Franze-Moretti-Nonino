@@ -56,6 +56,8 @@ public class ActionPhase extends GamePhase {
 
 
         for (Player p : turnOrder) {
+            if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
+            gameController.setCurrentPlayer(p);
             moveStudents();
             Island whereMotherNature = moveMotherNature(p);
             Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
@@ -70,7 +72,7 @@ public class ActionPhase extends GamePhase {
                 actionResult.setThreeOrLessIslands(true);
                 return actionResult;}
 
-            if (!isLastRoundFinishedStudentsBag){chooseCloud();}
+            if (!isLastRoundFinishedStudentsBag){chooseCloud();}}
         }
 
         return actionResult;
