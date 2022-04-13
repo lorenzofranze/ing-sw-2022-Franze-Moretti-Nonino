@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.Messages.AskForMove;
 import it.polimi.ingsw.Model.Messages.ClientMessage;
 import it.polimi.ingsw.Model.Messages.JsonConverter;
 import it.polimi.ingsw.Model.Messages.Message;
@@ -46,7 +45,7 @@ public class MessageHandler {
                 e.printStackTrace();
             }
         }
-        jsonConverter = new JsonConverter();
+        jsonConverter =JsonConverter.getJsonConverterInstance();
     }
 
 
