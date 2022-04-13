@@ -60,30 +60,49 @@ public class ActionPhase extends GamePhase {
 
         for (Player p : turnOrder) {
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
-            gameController.setCurrentPlayer(p);
 
-            moveStudents();
+                gameController.setCurrentPlayer(p);
 
-            System.out.println("ISLANDS:\n" + gameController.getGame().islandsToString());
+                System.out.println("\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
 
-            Island whereMotherNature = moveMotherNature(p);
-            System.out.println("Actual position of MotherNature: Island number " +
-                    gameController.getGame().getIslands().indexOf(whereMotherNature));
-            Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
-            if (moreInfluentPlayer != null){
-                //isEnded is true if one player has finished his towers
-                isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
-                if (isEnded) {
-                    actionResult.setFinishedTowers(true);
-                    return actionResult;}
-                //isEnded is true if there are only 3 or less islands
-                isEnded = verifyUnion();
-                if (isEnded) {
-                    actionResult.setThreeOrLessIslands(true);
-                    return actionResult;
+                System.out.println("ENTRANCE:\n" + gameController.getCurrentPlayer().getSchoolBoard().getEntrance().toString());
+
+                System.out.println("DINING ROOM:\n"+ gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().toString());
+
+                System.out.println("MOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
+
+                System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
+
+                moveStudents();
+
+                Island whereMotherNature = moveMotherNature(p);
+
+                System.out.println("MOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
+
+                Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
+
+                if (moreInfluentPlayer != null){
+                    //isEnded is true if one player has finished his towers
+                    isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
+                    if (isEnded) {
+                        actionResult.setFinishedTowers(true);
+                        System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
+                        return actionResult;
+                    }
+                    //isEnded is true if there are only 3 or less islands
+                    isEnded = verifyUnion();
+                    if (isEnded) {
+                       actionResult.setThreeOrLessIslands(true);
+                        System.out.println("There are 3 or less islands");
+                       return actionResult;
+                    }
+                }
+                if (!isLastRoundFinishedStudentsBag){
+                    System.out.println("CLOUDS:\n" + gameController.getGame().cloudsToString());
+                    chooseCloud();
+
                 }
             }
-            if (!isLastRoundFinishedStudentsBag){chooseCloud();}}
         }
 
         return actionResult;
@@ -124,8 +143,6 @@ public class ActionPhase extends GamePhase {
             do{
                 valid = true;
                 // to user: choose one color pawn
-                System.out.println(gameController.getCurrentPlayer().toString() + " - the students in your entrance are:\n" +
-                        gameController.getCurrentPlayer().getSchoolBoard().getEntrance().toString());
 
                 indexColour = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
                 if(indexColour<=-1 || indexColour >=5){
@@ -145,10 +162,7 @@ public class ActionPhase extends GamePhase {
                 // to user: choose position
 
                 if(valid){
-                    System.out.println("ISLANDS:\n" + gameController.getGame().islandsToString());
-                    System.out.println("DINING ROOM:\n"+ gameController.getCurrentPlayer().getSchoolBoard()
-                            .getDiningRoom().toString());
-                    where = messageHandler.getValueCLI("choose position: ", gameController.getCurrentPlayer());
+                    where = messageHandler.getValueCLI("choose position (insert island index or '-1' to place the student in the dining room): ", gameController.getCurrentPlayer());
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
@@ -300,6 +314,10 @@ public class ActionPhase extends GamePhase {
                 .filter(x -> ! x.getStudents().isEmpty()).collect(Collectors.toList());
         if(  cloudNotEmpty.size() == 1 ){
             gameController.getCurrentPlayer().getSchoolBoard().insertCloud(cloudNotEmpty.get(0));
+
+            System.out.println("There is only one Cloud left. You have received students form Cloud number " +
+                    gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
+
             return;
         }
         // to user: choose one cloud

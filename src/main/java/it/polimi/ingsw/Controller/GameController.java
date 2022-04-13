@@ -51,6 +51,8 @@ public class GameController implements Runnable {
                 firstPlayer = actionResult.getFirstPianificationPlayer();
             }
 
+            System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
+
             pianificationResult = this.pianificationPhase.handle(firstPlayer);
 
             checkLastRound();
@@ -59,6 +61,8 @@ public class GameController implements Runnable {
             HashMap<Player, Integer> maximumMovements = pianificationResult.getMaximumMovements();
             List<Player> turnOrder = pianificationResult.getTurnOrder();
 
+            System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
+
             actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
             this.isFinishedTowers = actionResult.isFinishedTowers();
             this.isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
@@ -66,8 +70,15 @@ public class GameController implements Runnable {
         }
         while(!gameEnded());
 
+        System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
         calculateWinner();
         //se winner è null, allora la partita è finita in pareggio
+        if (winner != null){
+            System.out.println("The winner is " + this.winner.toString());
+        }
+        else{
+            System.out.println("There is non winner.");
+        }
 
         ServerController.getInstance().removeCurrentGame(this.getGameID());
     }

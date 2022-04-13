@@ -93,19 +93,24 @@ public class PianificationPhase extends GamePhase {
                     valid = true;
                 }
             }
-            currentPlayer.playAssistantCard(played);
 
-            for(Player p: this.gameController.getGame().getPlayers()){
-                if (!p.equals(currentPlayer) && p.getPlayedAssistantCard() != null &&
-                        p.getPlayedAssistantCard().equals(cardPlayed)){
-                    mustChange = !checkPermit(currentPlayer, cardPlayed);
-                }
-            }
+            if (valid){
 
-            if (mustChange == false) {
-                turnOrderMap.put(currentPlayer, played);
-                maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                 currentPlayer.playAssistantCard(played);
+
+                for(Player p: this.gameController.getGame().getPlayers()){
+                    if (!p.equals(currentPlayer) && p.getPlayedAssistantCard() != null &&
+                            p.getPlayedAssistantCard().equals(cardPlayed)){
+                        mustChange = !checkPermit(currentPlayer, cardPlayed);
+                    }
+                }
+
+                if (mustChange == false) {
+                    turnOrderMap.put(currentPlayer, played);
+                    maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
+                    currentPlayer.playAssistantCard(played);
+                }
+
             }
             else{
                 System.out.println("You cannot play this card.");

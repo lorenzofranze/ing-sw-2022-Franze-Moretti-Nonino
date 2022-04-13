@@ -184,4 +184,31 @@ public class Game {
     }
 
 
+    /**returns the index of the island where MotherNature is placed (-1 MotherNature not found)*/
+    public int findMotherNature(){
+        int j = 0;
+        int foundAt = -1;
+        for(Island i: islands){
+            if (i.getHasMotherNature() == true){
+                foundAt = j;
+            }
+            j++;
+        }
+        return foundAt;
+    }
+
+    public String cloudsToString(){
+        String cloudsString = "";
+        int j = 0;
+        for (Cloud c : clouds){
+            if (!c.getStudents().isEmpty()) {
+                cloudsString = cloudsString + "Cloud number " + j + " - " + c.getStudents().toString() + "\n";
+            }
+            else{
+                cloudsString = cloudsString + "Cloud number " + j + " - empty\n";
+            }
+            j++;
+        }
+        return cloudsString;
+    }
 }
