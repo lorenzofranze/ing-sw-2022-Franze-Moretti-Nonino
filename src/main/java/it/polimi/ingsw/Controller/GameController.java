@@ -47,7 +47,7 @@ public class GameController implements Runnable {
 
         do{
             currentPhase = pianificationPhase;
-            if (! actionResult.equals(null)) {
+            if (actionResult!=null) {
                 firstPlayer = actionResult.getFirstPianificationPlayer();
             }
 
@@ -115,7 +115,7 @@ public class GameController implements Runnable {
         this.gameID ++;
 
 
-        //this.messageHandler= new MessageHandler();
+        this.messageHandler= new MessageHandler(lobby);
     }
 
 

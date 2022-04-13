@@ -69,9 +69,8 @@ public class SetUpPhase extends GamePhase {
                     !(island.equals(gameController.getGame().getIslands().get(opposite)))){
                 PawnsMap map = new PawnsMap();
                 map.add(studentsToPlace.get(i));
-                map.add(studentsToPlace.get(i+1));
                 island.addStudents(map);
-                i+=2;
+                i++;
             }
         }
     }

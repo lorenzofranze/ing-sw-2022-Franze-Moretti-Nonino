@@ -21,22 +21,25 @@ public class ActionPhase extends GamePhase {
         maximumMovements = null;
         turnOrder = null;
 
-        this.initializeCharactersEffects();
+        //this.initializeCharactersEffects();
+        this.characterEffects = new HashMap<>();
     }
     // da vedere
-
+    /*
     private void initializeCharactersEffects(){
 
         for(Character cr: gameController.getGame().getCharacters()){
             if(cr.getCharacterId()==1)
                 characterEffects.put(cr, new Card1());
-                // e così via...
-                //....
+                 e così via...
+                ....
 
             if(cr.getCharacterId()==12)
             characterEffects.put(cr, new Card12());
         }
     }
+
+     */
 
 
 
