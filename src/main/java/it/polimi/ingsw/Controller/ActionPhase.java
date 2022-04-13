@@ -149,7 +149,11 @@ public class ActionPhase extends GamePhase {
         int indexColour;
         int where = 0;   // -1 refer for diningRoom, index of island for island
 
-        for(int i=0; i<3; i++){
+        int studentsToMove = 0;
+        if (gameController.getGame().getPlayers().size() == 2){studentsToMove = 3;}
+        if (gameController.getGame().getPlayers().size() == 3){studentsToMove = 4;}
+
+        for(int i=0; i<studentsToMove; i++){
             // to user: choose your i+1 movement of 3
             do{
                 valid = true;
