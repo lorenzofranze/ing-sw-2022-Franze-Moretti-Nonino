@@ -50,6 +50,8 @@ public class PingSender implements Runnable{
             }
         }
         //SE ARRIVO QUI è DISCONNESSO!?!?!?!
+        //cambio message manager NAME UNIVOCITY : chiamo un nuovo metodo che si aspetta il nickname del giocatore sconnesso
+        //inizia un timeout per attendere la riconnessione
 
     }
 }
