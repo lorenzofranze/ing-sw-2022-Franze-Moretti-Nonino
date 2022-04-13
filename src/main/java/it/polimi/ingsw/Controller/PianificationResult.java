@@ -10,6 +10,9 @@ public class PianificationResult extends PhaseResult{
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
 
+    private boolean finishedAssistantCard;
+    private boolean finishedStudentBag;
+
     public PianificationResult(){
         maximumMovements = new HashMap<Player, Integer>();
         turnOrder = new ArrayList<Player>();
@@ -31,5 +34,23 @@ public class PianificationResult extends PhaseResult{
     public void setTurnOrder(List<Player> turnOrder) {
         this.turnOrder = turnOrder;
     }
+
+    public boolean isFinishedAssistantCard() {
+        return finishedAssistantCard;
+    }
+
+    public void setFinishedAssistantCard(boolean finishedAssistantCard) {
+        this.finishedAssistantCard = finishedAssistantCard;
+    }
+
+    public boolean isFinishedStudentBag() {
+        return finishedStudentBag;
+    }
+
+    public void setFinishedStudentBag(boolean finishedStudentBag) {
+        this.finishedStudentBag = finishedStudentBag;
+    }
+
+
     
 }

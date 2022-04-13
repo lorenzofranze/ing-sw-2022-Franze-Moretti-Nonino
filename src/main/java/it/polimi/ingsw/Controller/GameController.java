@@ -33,6 +33,15 @@ public class GameController implements Runnable {
     private Player currentPlayer;
     private Player winner;
 
+    public GameController(Lobby lobby, boolean expert){
+        this.game=new Game(lobby.getUsersNicknames(), this.gameID);
+        this.expert=expert;
+        this.gameID ++;
+
+
+        this.messageHandler= new MessageHandler(lobby);
+    }
+
     public void run(){
         this.setUpPhase=new SetUpPhase(this);
         this.pianificationPhase=new PianificationPhase(this);
@@ -55,7 +64,9 @@ public class GameController implements Runnable {
 
             pianificationResult = this.pianificationPhase.handle(firstPlayer);
 
-            checkLastRound();
+            this.isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
+            this.isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
+
 
             currentPhase = actionPhase;
             HashMap<Player, Integer> maximumMovements = pianificationResult.getMaximumMovements();
@@ -88,53 +99,6 @@ public class GameController implements Runnable {
                 isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards;
         return endgame;
     }
-
-    private void checkLastRound(){
-
-        boolean atLeastOnePlayerWithNoCards = false;
-        for(Player p: getGame().getPlayers()){
-            if (p.getDeck().size() == 0){
-                atLeastOnePlayerWithNoCards = true;
-            }
-        }
-
-        boolean atLeastOneCloudNotFull = false;
-        int numberOfPlayers = this.getGame().getPlayers().size();
-        if (numberOfPlayers == 2){
-            for(Cloud c: getGame().getClouds()){
-                if (c.getStudents().pawnsNumber() != 3){
-                    atLeastOneCloudNotFull = true;
-                }
-            }
-        }
-        if (numberOfPlayers == 3){
-            for(Cloud c: getGame().getClouds()){
-                if (c.getStudents().pawnsNumber() != 4){
-                    atLeastOneCloudNotFull = true;
-                }
-            }
-        }
-
-        this.isLastRoundFinishedAssistantCards = atLeastOnePlayerWithNoCards;
-        this.isLastRoundFinishedStudentsBag = atLeastOneCloudNotFull;
-
-    }
-
-    public GameController(Lobby lobby, boolean expert){
-        this.game=new Game(lobby.getUsersNicknames(), this.gameID);
-        this.expert=expert;
-        this.gameID ++;
-
-
-        this.messageHandler= new MessageHandler(lobby);
-    }
-
-
-
-    public Game getGame() {
-        return game;
-    }
-
 
     /**sets the GameController.winner
      * if it remains null, it means ther is no winner*/
@@ -212,6 +176,10 @@ public class GameController implements Runnable {
             return;
         }
 
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public void setGameOver(boolean gameOver) {

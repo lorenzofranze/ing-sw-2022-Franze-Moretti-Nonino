@@ -8,8 +8,8 @@ import java.util.*;
 public class PianificationPhase extends GamePhase {
 
     private GameController gameController;
-    private boolean isLastRoundFinishedAssistantCards;
-    private boolean isLastRoundFinishedStudentsBag;
+    private boolean finishedAssistantCard;
+    private boolean finishedStudentBag;
 
 
     public PianificationPhase(GameController gameController){
@@ -68,6 +68,8 @@ public class PianificationPhase extends GamePhase {
         PianificationResult pianificationResult = new PianificationResult();
         pianificationResult.setMaximumMovements(maximumMovements);
         pianificationResult.setTurnOrder(turnOrder);
+        pianificationResult.setFinishedAssistantCard(finishedAssistantCard);
+        pianificationResult.setFinishedStudentBag(finishedStudentBag);
 
         return pianificationResult;
 
@@ -153,11 +155,13 @@ public class PianificationPhase extends GamePhase {
         for(Cloud c: gameController.getGame().getClouds()){
             if (numberOfPlayers == 2) {
                 if(gameController.getGame().getStudentsBag().pawnsNumber()<3) {
+                    finishedStudentBag=true;
                     return;
                 }
                 toAdd = this.gameController.getGame().getStudentsBag().removeRandomly(3);}
             else {
                 if(gameController.getGame().getStudentsBag().pawnsNumber()<4) {
+                    finishedStudentBag=true;
                     return;
                 }
                 toAdd = this.gameController.getGame().getStudentsBag().removeRandomly(4);}
