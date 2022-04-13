@@ -65,21 +65,32 @@ public class ActionPhase extends GamePhase {
 
                 System.out.println("\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
 
-                System.out.println("ENTRANCE:\n" + gameController.getCurrentPlayer().getSchoolBoard().getEntrance().toString());
+                System.out.println("\nENTRANCE:" + gameController.getCurrentPlayer().getSchoolBoard().getEntrance().toString());
 
-                System.out.println("DINING ROOM:\n"+ gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().toString());
+                System.out.println("\nDINING ROOM:"+ gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().toString());
 
-                System.out.println("MOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
+                System.out.println("\nPROFESSORS:" + gameController.getCurrentPlayer().getSchoolBoard().getProfessors().toString());
+
+                System.out.println("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
 
                 System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
 
                 moveStudents();
+
+                System.out.println("\nPROFESSORS:" + gameController.getCurrentPlayer().getSchoolBoard().getProfessors().toString());
 
                 Island whereMotherNature = moveMotherNature(p);
 
                 System.out.println("MOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
 
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
+
+                if (moreInfluentPlayer == null){
+                    System.out.println("MOREINFLUENTPLAYER: none");
+                } else {
+                    System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
+                }
+
 
                 if (moreInfluentPlayer != null){
                     //isEnded is true if one player has finished his towers
@@ -337,6 +348,7 @@ public class ActionPhase extends GamePhase {
             }
         }while(!valid);
         // to user: ok
+
         gameController.getCurrentPlayer().getSchoolBoard().insertCloud(gameController.getGame().getClouds().get(indexCloud));
     }
 

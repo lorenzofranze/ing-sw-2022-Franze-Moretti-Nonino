@@ -177,7 +177,12 @@ public class Game {
         String islandString = "";
         int j = 0;
         for (Island i : islands){
-            islandString = islandString +"Island number " + j + " - " + i.getStudents().toString() + "\n";
+            islandString = islandString +"Island number " + j + " - " + i.getStudents().toString() + " - owner: ";
+            if (i.getOwner(this) == null) {
+                islandString = islandString + "none\n";
+            }else{
+                islandString = islandString + i.getOwner(this).toString() + "\n";
+            }
             j++;
         }
         return islandString;
