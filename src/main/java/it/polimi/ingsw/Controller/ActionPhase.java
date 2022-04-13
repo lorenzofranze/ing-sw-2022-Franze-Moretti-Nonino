@@ -12,7 +12,7 @@ public class ActionPhase extends GamePhase {
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
 
-    private Map<Character, CharacterEffect> characterEffects; // per gli effetti
+
 
 
     public ActionPhase(GameController gameController) {
@@ -20,23 +20,6 @@ public class ActionPhase extends GamePhase {
 
         maximumMovements = null;
         turnOrder = null;
-
-        this.characterEffects = new HashMap<>();
-        this.initializeCharactersEffects();
-
-    }
-    private void initializeCharactersEffects(){
-
-        for(Character cr: gameController.getGame().getCharacters()){
-            if(cr.getCharacterId()==1)
-                characterEffects.put(cr, new Card1(gameController));
-                characterEffects.get(cr).initializeCard();
-            if(cr.getCharacterId()==2){
-                characterEffects.put(cr, new Card2(gameController));
-                characterEffects.get(cr).initializeCard();
-            }
-            // da aggiungere altri
-        }
     }
 
 
@@ -388,7 +371,7 @@ public class ActionPhase extends GamePhase {
                         cr.use();
                     }
 
-                CharacterEffect currentCharacterEffect= characterEffects.get(usable.get(cardNumber));
+                CharacterEffect currentCharacterEffect= gameController.getCharacterEffects().get(usable.get(cardNumber));
                 currentCharacterEffect.doEffect();
 
             }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Controller.Characters.CharacterEffect;
+import it.polimi.ingsw.Model.Character;
 import it.polimi.ingsw.Model.Cloud;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Island;
@@ -32,6 +34,8 @@ public class GameController implements Runnable {
     private MessageHandler messageHandler;
     private Player currentPlayer;
     private Player winner;
+
+    private Map<Character, CharacterEffect> characterEffects = new HashMap<>(); // per gli effetti
 
     public GameController(Lobby lobby, boolean expert){
         this.game=new Game(lobby.getUsersNicknames(), this.gameID);
@@ -204,5 +208,9 @@ public class GameController implements Runnable {
 
     public Integer getGameID() {
         return gameID;
+    }
+
+    public Map<Character, CharacterEffect> getCharacterEffects() {
+        return characterEffects;
     }
 }

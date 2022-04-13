@@ -1,11 +1,11 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Controller.Characters.Card1;
+import it.polimi.ingsw.Controller.Characters.Card2;
 import it.polimi.ingsw.Model.*;
+import it.polimi.ingsw.Model.Character;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class SetUpPhase extends GamePhase {
     private final GameController gameController;
@@ -104,4 +104,17 @@ public class SetUpPhase extends GamePhase {
         return ris;
     }
 
+    private void initializeCharactersEffects(){
+
+        for(Character cr: gameController.getGame().getCharacters()){
+            if(cr.getCharacterId()==1)
+                gameController.getCharacterEffects().put(cr, new Card1(gameController));
+            gameController.getCharacterEffects().get(cr).initializeCard();
+            if(cr.getCharacterId()==2){
+                gameController.getCharacterEffects().put(cr, new Card2(gameController));
+                gameController.getCharacterEffects().get(cr).initializeCard();
+            }
+            // da aggiungere altri
+        }
+    }
 }
