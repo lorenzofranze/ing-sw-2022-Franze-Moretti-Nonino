@@ -95,7 +95,7 @@ public class GameController implements Runnable {
         System.out.println("numero di studenti nel bag:" + this.game.getStudentsBag().pawnsNumber());
         for(Player p : this.game.getPlayers())
             System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " torri rimaste sulla plancia");
-        ServerController.getInstance().removeCurrentGame(this.getGameID());
+
     }
 
     /**sets the GameController.winner

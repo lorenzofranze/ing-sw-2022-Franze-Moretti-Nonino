@@ -127,6 +127,7 @@ public class LobbyManager implements Runnable{
 
             if(waitingLobbies.get(mode).getUsersReadyToPlay().size()==mode.getNumPlayers()){
                 serverController.setToStart(waitingLobbies.get(mode));
+                serverController.notify();
                 waitingLobbies.remove(mode);
             }
         }
