@@ -54,7 +54,7 @@ public class SetUpPhase extends GamePhase {
         islandMotherNature.setHasMotherNature(true);
 
         int opposite = randomNum + 6;
-        if (opposite > 12) {opposite -= 12;}
+        if (opposite >= 12) {opposite -= 12;}
 
         List<ColourPawn> studentsToPlace = new ArrayList<ColourPawn>(10);
         for (ColourPawn currColor: ColourPawn.values()){

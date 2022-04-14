@@ -90,9 +90,11 @@ public class GameController implements Runnable {
             System.out.println("The winner is " + this.winner.toString());
         }
         else{
-            System.out.println("There is non winner.");
+            System.out.println("There is no winner.");
         }
-
+        System.out.println("numero di studenti nel bag:" + this.game.getStudentsBag().pawnsNumber());
+        for(Player p : this.game.getPlayers())
+            System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " torri rimaste sulla plancia");
         ServerController.getInstance().removeCurrentGame(this.getGameID());
     }
 
@@ -125,7 +127,8 @@ public class GameController implements Runnable {
         }
 
         for(Island i : getGame().getIslands()){
-            towerPlaced.put(i.getOwner(getGame()), towerPlaced.get(i.getOwner(getGame())) + i.getTowerCount());
+            if(i.getOwner(getGame()) != null)
+                towerPlaced.put(i.getOwner(getGame()), towerPlaced.get(i.getOwner(getGame())) + i.getTowerCount());
         }
 
         int maxPlaced = 0;

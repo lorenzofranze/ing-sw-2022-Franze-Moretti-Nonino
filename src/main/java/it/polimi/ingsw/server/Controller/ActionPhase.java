@@ -226,26 +226,27 @@ public class ActionPhase extends GamePhase {
         * according to the new effect (e.g. towers are not counted)
          */
         Player moreInfluentPlayer;
-
-        if(gameController.getGame().getActiveEffect().getCharacterId()==2){
-            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                    .effectInfluence(island);
-            return moreInfluentPlayer;
-        }
-        if(gameController.getGame().getActiveEffect().getCharacterId()==6){
-            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                    .effectInfluence(island);
-            return moreInfluentPlayer;
-        }
-        if(gameController.getGame().getActiveEffect().getCharacterId()==8){
-            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                    .effectInfluence(island);
-            return moreInfluentPlayer;
-        }
-        if(gameController.getGame().getActiveEffect().getCharacterId()==9){
-            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                    .effectInfluence(island);
-            return moreInfluentPlayer;
+        if(gameController.getGame().getActiveEffect()!=null) {
+            if (gameController.getGame().getActiveEffect().getCharacterId() == 2) {
+                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                        .effectInfluence(island);
+                return moreInfluentPlayer;
+            }
+            if (gameController.getGame().getActiveEffect().getCharacterId() == 6) {
+                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                        .effectInfluence(island);
+                return moreInfluentPlayer;
+            }
+            if (gameController.getGame().getActiveEffect().getCharacterId() == 8) {
+                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                        .effectInfluence(island);
+                return moreInfluentPlayer;
+            }
+            if (gameController.getGame().getActiveEffect().getCharacterId() == 9) {
+                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                        .effectInfluence(island);
+                return moreInfluentPlayer;
+            }
         }
         // if none of previous character effects is active, influence is as usual... :
         moreInfluentPlayer = island.getInfluence(gameController.getGame());
@@ -278,9 +279,13 @@ public class ActionPhase extends GamePhase {
 
                 //TOLGO LE TORRI ALLA SCHOOLBOARD DEL GIOCATORE CHE HA "VINTO" IL POSSESSO DELL'ISOLA
                 int numLeftTowers = moreInfluentPlayer.getSchoolBoard().getSpareTowers();
+                if (numLeftTowers < island.getTowerCount()) {
+                    moreInfluentPlayer.getSchoolBoard().removeTower(numLeftTowers);
+                    island.setTowerColor(color);
+                    return true;
+                }
                 moreInfluentPlayer.getSchoolBoard().removeTower(island.getTowerCount());
                 island.setTowerColor(color);
-                if (numLeftTowers < island.getTowerCount()) {return true;}
             }
         }
         return false;

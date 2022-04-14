@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MessageHandler {
@@ -71,6 +72,7 @@ public class MessageHandler {
         int a=0;
         boolean valid;
         System.out.print(player.getNickname() + " - " + type);
+        /*
         do {
             valid=false;
             if(scanner.hasNextInt()) {
@@ -80,6 +82,9 @@ public class MessageHandler {
                 scanner.next();
             }
         }while(!valid);
+         */
+        Random rand = new Random();
+        a = rand.nextInt(12)-1;
         return a;
     }
 
