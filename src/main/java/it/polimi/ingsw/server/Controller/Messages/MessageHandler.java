@@ -48,7 +48,7 @@ public class MessageHandler {
                 e.printStackTrace();
             }
         }
-        jsonConverter = new JsonConverter();
+        //jsonConverter = new JsonConverter();
     }
 
 
