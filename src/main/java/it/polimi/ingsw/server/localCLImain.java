@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.Controller.Lobby;
 
 import java.net.Socket;
 
-public class Main {
+public class localCLImain {
     public static void main (String Args[]) throws Exception {
         Lobby lobby = new Lobby(GameMode.Simple_3);
         lobby.addUsersReadyToPlay("vale", new Socket());

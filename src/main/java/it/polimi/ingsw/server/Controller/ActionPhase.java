@@ -93,14 +93,20 @@ public class ActionPhase extends GamePhase {
                        return actionResult;
                     }
                 }
-                askforCharacter();
-                if (!isLastRoundFinishedStudentsBag){
-                    System.out.println("CLOUDS:\n" + gameController.getGame().cloudsToString());
-                    chooseCloud();
+                if(!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())) {
+                    askforCharacter();
+                    if (!isLastRoundFinishedStudentsBag) {
+                        System.out.println("CLOUDS:\n" + gameController.getGame().cloudsToString());
+                        chooseCloud();
 
+                    }
+                    askforCharacter();
                 }
-                askforCharacter();
             }
+            // reset characterEffects activated
+            gameController.getGame().setActiveEffect(null);
+
+
         }
 
         return actionResult;
@@ -215,7 +221,34 @@ public class ActionPhase extends GamePhase {
             island.setHasNoEntryTile(false);
             return null;
         }
-        Player moreInfluentPlayer = island.getInfluence(gameController.getGame());
+        /* if some particualr characters are active it's not called the usual method: island.getInfluence() but
+        * it's called the getInfluence() method of that character: this method returns the more influence player
+        * according to the new effect (e.g. towers are not counted)
+         */
+        Player moreInfluentPlayer;
+
+        if(gameController.getGame().getActiveEffect().getCharacterId()==2){
+            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                    .effectInfluence(island);
+            return moreInfluentPlayer;
+        }
+        if(gameController.getGame().getActiveEffect().getCharacterId()==6){
+            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                    .effectInfluence(island);
+            return moreInfluentPlayer;
+        }
+        if(gameController.getGame().getActiveEffect().getCharacterId()==8){
+            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                    .effectInfluence(island);
+            return moreInfluentPlayer;
+        }
+        if(gameController.getGame().getActiveEffect().getCharacterId()==9){
+            moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
+                    .effectInfluence(island);
+            return moreInfluentPlayer;
+        }
+        // if none of previous character effects is active, influence is as usual... :
+        moreInfluentPlayer = island.getInfluence(gameController.getGame());
         return moreInfluentPlayer;
     }
 
@@ -383,11 +416,6 @@ public class ActionPhase extends GamePhase {
         }
 
     }
-
-    public void setCurrPlayer(Player currPlayer) {
-        this.gameController.setCurrentPlayer(currPlayer);
-    }
-
 
     public void setMaximumMovements(HashMap<Player, Integer> maximumMovements) {
         this.maximumMovements = maximumMovements;

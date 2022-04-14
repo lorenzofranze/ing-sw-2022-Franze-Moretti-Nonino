@@ -22,12 +22,6 @@ public class GameController implements Runnable {
 
     private boolean gameOver=false;
 
-    private boolean isLastRoundFinishedAssistantCards;
-    private boolean isLastRoundFinishedStudentsBag;
-    private boolean isFinishedTowers;
-    private boolean isThreeOrLessIslands;
-
-
     private Game game;
     private boolean expert;
     private MessageHandler messageHandler;
@@ -46,6 +40,11 @@ public class GameController implements Runnable {
     }
 
     public void run(){
+        boolean isLastRoundFinishedAssistantCards=false;
+        boolean isLastRoundFinishedStudentsBag=false;
+        boolean isFinishedTowers=false;
+        boolean isThreeOrLessIslands=false;
+
         this.setUpPhase=new SetUpPhase(this);
         this.pianificationPhase=new PianificationPhase(this);
         this.actionPhase=new ActionPhase(this);
@@ -67,8 +66,8 @@ public class GameController implements Runnable {
 
             pianificationResult = this.pianificationPhase.handle(firstPlayer);
 
-            this.isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
-            this.isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
+            isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
+            isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
 
 
             currentPhase = actionPhase;
@@ -78,11 +77,11 @@ public class GameController implements Runnable {
             System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
 
             actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
-            this.isFinishedTowers = actionResult.isFinishedTowers();
-            this.isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
+            isFinishedTowers = actionResult.isFinishedTowers();
+            isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
 
         }
-        while(!gameEnded());
+        while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards));
 
         System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
         calculateWinner();
@@ -95,12 +94,6 @@ public class GameController implements Runnable {
         }
 
         ServerController.getInstance().removeCurrentGame(this.getGameID());
-    }
-
-    private boolean gameEnded(){
-        boolean endgame = this.isFinishedTowers || this.isThreeOrLessIslands ||
-                isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards;
-        return endgame;
     }
 
     /**sets the GameController.winner

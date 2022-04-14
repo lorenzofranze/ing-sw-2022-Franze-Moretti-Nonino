@@ -3,7 +3,9 @@ package it.polimi.ingsw.server.Controller.Characters;
 import it.polimi.ingsw.server.Controller.GameController;
 import it.polimi.ingsw.server.Controller.Messages.MessageHandler;
 import it.polimi.ingsw.server.Model.ColourPawn;
+import it.polimi.ingsw.server.Model.Island;
 import it.polimi.ingsw.server.Model.PawnsMap;
+import it.polimi.ingsw.server.Model.Player;
 
 public class Card1 implements CharacterEffect{
 
@@ -17,12 +19,6 @@ public class Card1 implements CharacterEffect{
 
     public void initializeCard() {
         pawns.add(gameController.getGame().getStudentsBag().removeRandomly(4));
-    }
-
-    public void showPawns(){
-        //mostra pawns sulla carta
-
-
     }
 
     public void doEffect(){
@@ -55,6 +51,15 @@ public class Card1 implements CharacterEffect{
         if(gameController.getGame().getStudentsBag().pawnsNumber()>=1){
             pawns.add(gameController.getGame().getStudentsBag().removeRandomly());
         }
+
+    }
+
+    public Player effectInfluence(Island island) {
+        return null;
+    }
+
+    public void showPawns(){
+        //mostra pawns sulla carta
 
     }
 }
