@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network.Messages;
 
 import it.polimi.ingsw.server.Model.Character;
 import it.polimi.ingsw.server.Model.Cloud;

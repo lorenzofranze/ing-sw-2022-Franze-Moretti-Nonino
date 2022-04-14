@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server;
 import it.polimi.ingsw.server.Controller.GameController;
 import it.polimi.ingsw.server.Controller.GameMode;
-import it.polimi.ingsw.server.Controller.Lobby;
+import it.polimi.ingsw.server.Controller.Network.Lobby;
 
 import java.net.Socket;
 

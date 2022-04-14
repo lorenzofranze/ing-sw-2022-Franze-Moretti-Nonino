@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network.Messages;
 
 public enum TypeOfMove {
     PianificationMove(1), ActionMove(2), ChooseCloudMove(3);

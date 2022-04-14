@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server.Controller;
 
 import it.polimi.ingsw.server.Controller.Characters.CharacterEffect;
-import it.polimi.ingsw.server.Controller.Messages.MessageHandler;
+import it.polimi.ingsw.server.Controller.Network.Lobby;
+import it.polimi.ingsw.server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.server.Model.Character;
 import it.polimi.ingsw.server.Model.Game;
 import it.polimi.ingsw.server.Model.Island;

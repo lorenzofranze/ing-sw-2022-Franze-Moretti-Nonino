@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.Controller;
 
 import it.polimi.ingsw.server.Controller.Characters.CharacterEffect;
-import it.polimi.ingsw.server.Controller.Messages.MessageHandler;
+import it.polimi.ingsw.server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.server.Model.*;
 import it.polimi.ingsw.server.Model.Character;
 

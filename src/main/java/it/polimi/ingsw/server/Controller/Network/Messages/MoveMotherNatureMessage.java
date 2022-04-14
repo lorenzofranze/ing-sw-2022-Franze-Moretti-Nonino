@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network.Messages;
 
 public class MoveMotherNatureMessage extends ClientMessage {
     private Integer numOfHops;

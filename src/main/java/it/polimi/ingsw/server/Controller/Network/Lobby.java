@@ -1,4 +1,6 @@
-package it.polimi.ingsw.server.Controller;
+package it.polimi.ingsw.server.Controller.Network;
+
+import it.polimi.ingsw.server.Controller.GameMode;
 
 import java.net.Socket;
 import java.util.ArrayList;

@@ -1,14 +1,15 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.server.Controller.Network.Messages.Message;
 
 public class JsonConverter {
     private static JsonConverter jsonConverter;
     private GsonBuilder builder;
     private Gson gson;
 
-    private JsonConverter(){
+    public JsonConverter(){
         builder = new GsonBuilder();
         builder.setPrettyPrinting();
         gson = builder.create();

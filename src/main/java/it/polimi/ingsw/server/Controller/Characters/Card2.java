@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.Controller.Characters;
 
 
 import it.polimi.ingsw.server.Controller.GameController;
-import it.polimi.ingsw.server.Controller.Messages.MessageHandler;
 import it.polimi.ingsw.server.Model.ColourPawn;
 import it.polimi.ingsw.server.Model.Island;
 import it.polimi.ingsw.server.Model.PawnsMap;

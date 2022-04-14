@@ -1,4 +1,8 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network.Messages;
+
+import it.polimi.ingsw.server.Controller.Network.JsonConverter;
+import it.polimi.ingsw.server.Controller.Network.LobbyManager;
+import it.polimi.ingsw.server.Controller.Network.MessageHandler;
 
 import java.io.IOException;
 
@@ -10,7 +14,6 @@ public class PingSender implements Runnable{
 
     public PingSender(String nickname, MessageHandler messageHandler){
         this.nickname=nickname;
-        this.messageHandler=messageHandler;
         isConnected=true;
     }
 
@@ -24,7 +27,7 @@ public class PingSender implements Runnable{
         while(isConnected){
             PingMessage message= new PingMessage();
             message.setMessageType("PingMessage");
-            JsonConverter jsonConverter=JsonConverter.getJsonConverterInstance();
+            JsonConverter jsonConverter=new JsonConverter();
             String messageString= jsonConverter.fromMessageToJson(message);
 
             this.isConnected=false;
@@ -42,9 +45,11 @@ public class PingSender implements Runnable{
                 e.printStackTrace();
             }
         }
+
+        LobbyManager lobbyManager=LobbyManager.getInstance();
+        lobbyManager.addDisconnectedPlayers(nickname);
+
         //SE ARRIVO QUI è DISCONNESSO!?!?!?!
-        //cambio message manager NAME UNIVOCITY : chiamo un nuovo metodo che si aspetta il nickname del giocatore sconnesso
-        //inizia un timeout per attendere la riconnessione
 
     }
 }

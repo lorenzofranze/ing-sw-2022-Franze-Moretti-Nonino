@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network.Messages;
 
 public enum TypeOfError {
     WrongMove(1), OnePlayerDisconnectedPermanently(2);

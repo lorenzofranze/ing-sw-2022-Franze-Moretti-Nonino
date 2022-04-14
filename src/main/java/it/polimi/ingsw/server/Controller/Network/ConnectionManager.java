@@ -1,7 +1,6 @@
-package it.polimi.ingsw.server.Controller;
+package it.polimi.ingsw.server.Controller.Network;
 
-import it.polimi.ingsw.server.Controller.Messages.MessageHandler;
-import it.polimi.ingsw.server.Controller.Messages.PingSender;
+import it.polimi.ingsw.server.Controller.Network.Messages.PingSender;
 
 import java.net.Socket;
 

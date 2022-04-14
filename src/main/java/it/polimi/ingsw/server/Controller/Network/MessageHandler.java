@@ -1,10 +1,8 @@
-package it.polimi.ingsw.server.Controller.Messages;
+package it.polimi.ingsw.server.Controller.Network;
 
 import it.polimi.ingsw.server.Controller.GameController;
-import it.polimi.ingsw.server.Controller.Lobby;
-import it.polimi.ingsw.server.Controller.Messages.ClientMessage;
-import it.polimi.ingsw.server.Controller.Messages.JsonConverter;
-import it.polimi.ingsw.server.Controller.Messages.Message;
+import it.polimi.ingsw.server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.server.Controller.Network.Messages.Message;
 import it.polimi.ingsw.server.Model.Player;
 
 import java.io.*;
@@ -48,7 +46,7 @@ public class MessageHandler {
                 e.printStackTrace();
             }
         }
-        //jsonConverter = new JsonConverter();
+        jsonConverter = new JsonConverter();
     }
 
 

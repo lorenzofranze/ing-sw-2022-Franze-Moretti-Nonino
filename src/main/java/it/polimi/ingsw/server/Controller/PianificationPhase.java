@@ -1,5 +1,5 @@
 package it.polimi.ingsw.server.Controller;
-import it.polimi.ingsw.server.Controller.Messages.MessageHandler;
+import it.polimi.ingsw.server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.server.Model.AssistantCard;
 import it.polimi.ingsw.server.Model.Cloud;
 import it.polimi.ingsw.server.Model.PawnsMap;
