@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.Model.*;
-import it.polimi.ingsw.server.Model.Character;
+import it.polimi.ingsw.Server.Model.*;
+import it.polimi.ingsw.Server.Model.Character;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

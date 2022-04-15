@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Client;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -9,34 +8,37 @@ import java.util.Scanner;
 public class LineClient {
     private String ip;
     private int port;
+    private BufferedReader in;
+    private BufferedWriter out;
 
     public LineClient(String ip, int port){
         this.ip = ip;
         this.port = port;
+
+        Socket socket = null;
+
+        try
+        {
+            socket = new Socket("localhost", 5000);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        }
+        catch(Exception e) { System.out.println(e.getMessage());}
     }
 
     public void startClient() throws IOException {
 
-        Socket socket = new Socket(ip, port);
-        System.out.println("Connection established");
-        Scanner socketIn = new Scanner(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-        Scanner stdin = new Scanner(System.in);
-        try{
-            while (true){
-                String inputLine = stdin.nextLine();
-                socketOut.println(inputLine);
-                socketOut.flush();
-                String socketLine = socketIn.nextLine();
-                System.out.println(socketLine);
-            }
-        } catch(NoSuchElementException e){
-            System.out.println("Connection closed");
-        } finally {
-            stdin.close();
-            socketIn.close();
-            socketOut.close();
-            socket.close();
+        String message;
+        message = in.readLine();
+        System.out.print("Messaggio Ricevuto : " + message);
+    }
+
+    public void endClient(){
+        try {
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
