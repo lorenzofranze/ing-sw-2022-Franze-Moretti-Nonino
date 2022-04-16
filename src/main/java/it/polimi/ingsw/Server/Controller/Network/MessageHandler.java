@@ -76,20 +76,21 @@ public class MessageHandler {
         int a=0;
         boolean valid;
 
-        System.out.print(player.getNickname() + " - " + type);
-
         if (randomState == 1){
+            System.out.print(player.getNickname() + " - " + type);
             Random rand = new Random();
             a = rand.nextInt(12)-1;
         }else{
             if (randomState == 0){
                 do {
+                    System.out.print(player.getNickname() + " - " + type);
                     valid=false;
                     if(scanner.hasNextInt()) {
                         a = scanner.nextInt();
                         valid = true;
                     }else{
                         scanner.next();
+                        System.out.println("Input not valid");
                     }
                 }while(!valid);
             }
