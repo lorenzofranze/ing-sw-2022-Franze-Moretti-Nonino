@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server.Controller;
 
 import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
+import it.polimi.ingsw.Server.Controller.Characters.CharacterEffectInfluence;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
@@ -128,7 +129,6 @@ public class ActionPhase extends GamePhase {
             // reset characterEffects activated
             gameController.getGame().setActiveEffect(null);
 
-
         }
 
         return actionResult;
@@ -249,24 +249,10 @@ public class ActionPhase extends GamePhase {
          */
         Player moreInfluentPlayer;
         if(gameController.getGame().getActiveEffect()!=null) {
-            if (gameController.getGame().getActiveEffect().getCharacterId() == 2) {
-                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                        .effectInfluence(island);
-                return moreInfluentPlayer;
-            }
-            if (gameController.getGame().getActiveEffect().getCharacterId() == 6) {
-                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                        .effectInfluence(island);
-                return moreInfluentPlayer;
-            }
-            if (gameController.getGame().getActiveEffect().getCharacterId() == 8) {
-                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                        .effectInfluence(island);
-                return moreInfluentPlayer;
-            }
-            if (gameController.getGame().getActiveEffect().getCharacterId() == 9) {
-                moreInfluentPlayer = gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect())
-                        .effectInfluence(island);
+            int characterId=gameController.getGame().getActiveEffect().getCharacterId();
+            if(characterId==2 || characterId==6 || characterId==8 || characterId==9){
+                CharacterEffectInfluence character= (CharacterEffectInfluence) gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect());
+                moreInfluentPlayer = character.effectInfluence(island);
                 return moreInfluentPlayer;
             }
         }

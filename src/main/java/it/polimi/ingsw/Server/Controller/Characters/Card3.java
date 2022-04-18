@@ -5,7 +5,7 @@ import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 import it.polimi.ingsw.Server.Model.Player;
 
-public class Card3 implements CharacterEffect{
+public class Card3 extends CharacterEffect{
     private final GameController gameController;
     private Island island;
 

@@ -4,7 +4,7 @@ import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.Player;
 
-public class Card4 implements CharacterEffect{
+public class Card4 extends CharacterEffect{
     private final GameController gameController;
 
 

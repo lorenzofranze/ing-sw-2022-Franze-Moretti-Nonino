@@ -9,7 +9,7 @@ import it.polimi.ingsw.Server.Model.Player;
 
 import java.util.List;
 
-public class Card11 implements CharacterEffect{
+public class Card11 extends CharacterEffect{
     private final GameController gameController;
     private PawnsMap pawns;
 
