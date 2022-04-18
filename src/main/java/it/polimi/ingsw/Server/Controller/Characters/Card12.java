@@ -1,5 +1,6 @@
-package it.polimi.ingsw.Server.Controller;
+package it.polimi.ingsw.Server.Controller.Characters;
 
+import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Player;
 
