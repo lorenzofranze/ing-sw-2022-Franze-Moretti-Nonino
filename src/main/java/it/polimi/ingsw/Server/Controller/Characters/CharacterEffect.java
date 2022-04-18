@@ -9,11 +9,6 @@ public abstract class CharacterEffect {
     *  e metodi
      */
 
-    /** the method is called when the character card is choosen; it initializes the card if necessary
-     *  (e.g place 4 students on the card)
-     */
-    public abstract void initializeCard();
-
     /** the method will be called when the player decides to use the effect and implements the
      * card's effect */
     public abstract void doEffect();

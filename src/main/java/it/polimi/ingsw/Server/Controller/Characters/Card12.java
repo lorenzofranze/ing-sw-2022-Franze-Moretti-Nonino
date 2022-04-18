@@ -11,9 +11,6 @@ public class Card12 extends CharacterEffect{
         this.colourPawn=colourPawn;
     }
 
-    public void initializeCard(){
-        //empty
-    }
 
     public void doEffect(){
         for(Player p: gameController.getGame().getPlayers()){

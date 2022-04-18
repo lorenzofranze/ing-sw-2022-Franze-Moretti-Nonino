@@ -17,9 +17,6 @@ public class Card2 extends CharacterEffectInfluence {
         this.stolenProfessors = new PawnsMap();
     }
 
-    public void initializeCard() {
-        //empty
-    }
 
     public void doEffect(){
         for(Player p : gameController.getGame().getPlayers()){

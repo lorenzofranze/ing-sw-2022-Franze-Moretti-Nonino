@@ -15,10 +15,6 @@ public class Card3 extends CharacterEffect{
         this.island=island;
     }
 
-    public void initializeCard() {
-        //empty
-    }
-
 
 
     /** calculates the influence on the chosen tower and, if some tower have to be added or removed from the island,

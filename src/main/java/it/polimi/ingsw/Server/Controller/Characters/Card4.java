@@ -12,9 +12,6 @@ public class Card4 extends CharacterEffect{
         this.gameController = gameController;
     }
 
-    public void initializeCard() {
-        //empty
-    }
 
     /**
      * During the actionPhase the the player can choose to move
