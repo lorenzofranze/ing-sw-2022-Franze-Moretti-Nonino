@@ -28,3 +28,5 @@ public class Card4 {
     }
 
 }
+
+//DECORATOR???????????? it modifies move mother nature method in action phase
