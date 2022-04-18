@@ -128,6 +128,7 @@ public class ActionPhase extends GamePhase {
             // reset characterEffects activated
             gameController.getGame().setActiveEffect(null);
 
+
         }
 
         return actionResult;
@@ -218,13 +219,8 @@ public class ActionPhase extends GamePhase {
         do{
             played = messageHandler.getValueCLI("choose how many steps should do MotherNature: ", gameController.getCurrentPlayer());
         }
-        while(played < 1|| (played > maximumMovements.get(currentPlayer)+2) ||
-                (played > maximumMovements.get(currentPlayer) && !gameController.getPlayersCard4().contains(currentPlayer)));
+        while(played < 1 || played > maximumMovements.get(currentPlayer));
 
-        /** used by Card4-doEffect() */
-        if(gameController.getPlayersCard4().contains(currentPlayer)){
-            gameController.getPlayersCard4().remove(currentPlayer);
-        }
 
         List<Island> islandList = this.gameController.getGame().getIslands();
 

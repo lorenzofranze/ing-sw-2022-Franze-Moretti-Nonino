@@ -4,7 +4,7 @@ import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Player;
 
-public class Card12 {
+public class Card12 implements CharacterEffect{
     private ColourPawn colourPawn;
     private GameController gameController;
     public Card12(GameController gameController, ColourPawn colourPawn){

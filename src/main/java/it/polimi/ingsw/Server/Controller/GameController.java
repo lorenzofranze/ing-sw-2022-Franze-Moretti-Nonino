@@ -36,7 +36,9 @@ public class GameController implements Runnable {
     private ConnectionManager connectionManager;
     private Player currentPlayer;
     private Player winner;
-    private List<Player> playersCard4;
+
+    private PianificationResult pianificationResult;
+    private ActionResult actionResult = null;
 
 
     private Map<Character, CharacterEffect> characterEffects; // per gli effetti
@@ -49,7 +51,6 @@ public class GameController implements Runnable {
 
         this.messageHandler= new MessageHandler(lobby);
         this.connectionManager=new ConnectionManager(lobby, messageHandler);
-        this.playersCard4=new ArrayList<>();
     }
 
     public void run(){
@@ -61,8 +62,7 @@ public class GameController implements Runnable {
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
 
-        PianificationResult pianificationResult;
-        ActionResult actionResult = null;
+
         Player firstPlayer = setUpResult.getFirstRandomPianificationPlayer();
 
         do{
@@ -213,15 +213,15 @@ public class GameController implements Runnable {
         return characterEffects;
     }
 
-    public void addPlayersCard4(Player player) {
-        this.playersCard4.add(player);
-    }
-
-    public void removePlayersCard4(Player player) {
-        this.playersCard4.remove(player);
-    }
-
-    public List<Player> getPlayersCard4(){
-        return playersCard4;
+    /** used by Char4 doEffect()
+     * it adds to the maximum movements of mother nature permitted by the assistant card chosen by the player
+     * two additional steps
+     * @param player
+     */
+    public void addTwoMovements(Player player){
+        Integer numMax= pianificationResult.getMaximumMovements().get(player)+2;
+        HashMap<Player,Integer> newMaxMovements= pianificationResult.getMaximumMovements();
+        newMaxMovements.put(player,numMax);
+        pianificationResult.setMaximumMovements(newMaxMovements);
     }
 }

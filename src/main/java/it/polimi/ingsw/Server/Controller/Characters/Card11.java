@@ -9,15 +9,13 @@ import it.polimi.ingsw.Server.Model.Player;
 
 import java.util.List;
 
-public class Card11 {
+public class Card11 implements CharacterEffect{
     private final GameController gameController;
     private PawnsMap pawns;
-    private Player player;
 
-    public Card11(GameController gameController, Player player){
+    public Card11(GameController gameController){
         this.gameController = gameController;
         pawns = new PawnsMap();
-        this.player=player;
     }
 
 
@@ -45,7 +43,7 @@ public class Card11 {
         PawnsMap chosenPawnsMap= new PawnsMap();
         chosenPawnsMap.add(ColourPawn.values()[chosenPawn], 1);
 
-        player.getSchoolBoard().addToDiningRoom(chosenPawnsMap, gameController.getGame());
+        gameController.getCurrentPlayer().getSchoolBoard().addToDiningRoom(chosenPawnsMap, gameController.getGame());
 
 
         if(gameController.getGame().getStudentsBag().pawnsNumber()>=1){

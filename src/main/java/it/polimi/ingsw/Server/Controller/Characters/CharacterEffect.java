@@ -18,8 +18,4 @@ public interface CharacterEffect {
      * card's effect */
     public void doEffect();
 
-    /** for all charcter cards that calculates influence in a different way */
-    public Player effectInfluence(Island island);
-
-
 }

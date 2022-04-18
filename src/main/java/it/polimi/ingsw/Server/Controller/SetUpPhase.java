@@ -34,7 +34,6 @@ public class SetUpPhase extends GamePhase {
 
     /** gives one coin per player at the start of the game if the game is expert-mode
      */
-
     private void distributeCoins(){
         for(Player player: this.gameController.getGame().getPlayers()){
             player.addCoins(1);
@@ -79,8 +78,6 @@ public class SetUpPhase extends GamePhase {
 
     /**Places 7 (2 players) or 9 (3 players) random students at the entrance of each player's SchoolBoard.*/
     private void fillSchoolBoard(){
-
-
         int n = 7;
         int towersToRemove = 0;
         if (gameController.getGame().getPlayers().size() == 3) {n = 9; towersToRemove=2;}
@@ -90,9 +87,6 @@ public class SetUpPhase extends GamePhase {
             for(int i=0; i<towersToRemove; i++)
                 player.getSchoolBoard().removeTower();
         }
-
-
-
     }
 
     /**returns a random Player*/
