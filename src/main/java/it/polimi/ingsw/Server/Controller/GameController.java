@@ -9,6 +9,7 @@ import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class GameController implements Runnable {
     private ConnectionManager connectionManager;
     private Player currentPlayer;
     private Player winner;
+    private List<Player> playersCard4;
+
 
     private Map<Character, CharacterEffect> characterEffects; // per gli effetti
 
@@ -46,6 +49,7 @@ public class GameController implements Runnable {
 
         this.messageHandler= new MessageHandler(lobby);
         this.connectionManager=new ConnectionManager(lobby, messageHandler);
+        this.playersCard4=new ArrayList<>();
     }
 
     public void run(){
@@ -207,5 +211,17 @@ public class GameController implements Runnable {
 
     public Map<Character, CharacterEffect> getCharacterEffects() {
         return characterEffects;
+    }
+
+    public void addPlayersCard4(Player player) {
+        this.playersCard4.add(player);
+    }
+
+    public void removePlayersCard4(Player player) {
+        this.playersCard4.remove(player);
+    }
+
+    public List<Player> getPlayersCard4(){
+        return playersCard4;
     }
 }

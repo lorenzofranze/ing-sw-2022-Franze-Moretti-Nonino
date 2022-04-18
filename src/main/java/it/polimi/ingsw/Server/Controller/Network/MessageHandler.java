@@ -8,6 +8,7 @@ import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Model.Player;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class MessageHandler {
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
+    //private Map<String,InetAddress> inetAddresses;
     private ServerSocket serverSocket;
     private JsonConverter jsonConverter;
 
@@ -36,6 +38,8 @@ public class MessageHandler {
         }
 
         bufferedReaderIn= new HashMap<>();
+        bufferedReaderOut= new HashMap<>();
+        //inetAddresses= new HashMap<>();
         for(String s: lobby.getUsersReadyToPlay().keySet()){
             try{
                 Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
@@ -43,6 +47,8 @@ public class MessageHandler {
                 bufferedReaderIn.put(s, in);
                 BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 bufferedReaderOut.put(s, out);
+                InetAddress inet= clientSocket.getInetAddress();
+                //inetAddresses.put(s, inet);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -122,6 +128,8 @@ public class MessageHandler {
        String nickname= messageToSend.getNickname();
        bufferedReaderOut.get(nickname).write(stringToSend);
        bufferedReaderOut.get(nickname).flush();
+       //InetAddress inet=inetAddresses.get(nickname);
+       //while(inet.isReachable(15000)){}
        String receivedString= bufferedReaderIn.get(nickname).readLine();
        Message receivedMessage= jsonConverter.fromJsonToMessage(receivedString);
        return receivedMessage;
