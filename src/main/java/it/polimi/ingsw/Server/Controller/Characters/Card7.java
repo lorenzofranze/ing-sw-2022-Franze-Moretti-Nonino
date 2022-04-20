@@ -5,7 +5,7 @@ import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 
-public class Card7 extends CharacterEffect{
+public class Card7 extends CharacterEffectInitialize{
 
     private final GameController gameController;
     private PawnsMap pawns;

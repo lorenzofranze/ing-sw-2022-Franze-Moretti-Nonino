@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-public class Card5 extends CharacterEffect{
+public class Card5 extends CharacterEffectInitialize{
 
     private final GameController gameController;
     private int NoEntryTilesLeft;
