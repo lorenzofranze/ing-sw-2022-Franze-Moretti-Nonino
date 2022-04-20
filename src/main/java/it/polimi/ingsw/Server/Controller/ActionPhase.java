@@ -32,6 +32,7 @@ public class ActionPhase extends GamePhase {
 
 
     //RICORDARE: alla fine del turno di ogni player resettare activeEffect di game
+
     public ActionResult handle(List<Player> turnOrder, HashMap<Player, Integer> maximumMovements,
                                boolean isLastRoundFinishedStudentsBag) {
 
@@ -81,71 +82,58 @@ public class ActionPhase extends GamePhase {
 
                 System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
-                if (whereMotherNature.getHasNoEntryTile() == true){
-                    Character myCharacter = null;
-                    for(Character cr : gameController.getGame().getCharacters()){
-                        if (cr.getCharacterId() == 5){
-                            myCharacter = cr;
-                        }
-                    }
 
-                    Card5 card5 = (Card5) gameController.getCharacterEffects().get(myCharacter);
-                    card5.addNoEntryTile();
-                    whereMotherNature.setHasNoEntryTile(false);
-                    System.out.println("The Island is BLOCKED. The influence won't be calculated and no Towers will be placed.");
-                }else{
+                Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
 
-                    Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
-
-                    if (moreInfluentPlayer == null){
-                        System.out.println("MOREINFLUENTPLAYER: none");
-                    } else {
-                        System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
-                    }
-
-
-                    if (moreInfluentPlayer != null){
-                        //isEnded is true if one player has finished his towers
-                        isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
-                        if (isEnded) {
-                            actionResult.setFinishedTowers(true);
-                            System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
-                            return actionResult;
-                        }
-
-                        //union is true if there was a union
-                        boolean union = verifyUnion();
-
-                        //isEnded is true if there are only 3 or less islands
-                        isEnded = verifyUnion();
-
-                        int numIslands= this.gameController.getGame().getIslands().size();
-
-                        if(numIslands<4){
-                            actionResult.setThreeOrLessIslands(true);
-                            System.out.println("There are 3 or less islands");
-                            return actionResult;
-                        }
-
-                    }
+                if (moreInfluentPlayer == null){
+                    System.out.println("MOREINFLUENTPLAYER: none");
+                } else {
+                    System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
                 }
 
-                if(!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())) {
 
-                    askforCharacter();
-
-                    if (!isLastRoundFinishedStudentsBag) {
-                        System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
-                        chooseCloud();
+                if (moreInfluentPlayer != null){
+                    //isEnded is true if one player has finished his towers
+                    isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
+                    if (isEnded) {
+                        actionResult.setFinishedTowers(true);
+                        System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
+                        return actionResult;
                     }
-                    askforCharacter();
+
+                    //union is true if there was a union
+                    boolean union = verifyUnion();
+
+                    //isEnded is true if there are only 3 or less islands
+                    isEnded = verifyUnion();
+
+                    int numIslands= this.gameController.getGame().getIslands().size();
+
+                    if(numIslands<4){
+                        actionResult.setThreeOrLessIslands(true);
+                        System.out.println("There are 3 or less islands");
+                        return actionResult;
+                    }
+
                 }
             }
 
-            // reset characterEffects activated
-            gameController.getGame().setActiveEffect(null);
+            if(!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())) {
 
+                askforCharacter();
+
+                if (!isLastRoundFinishedStudentsBag) {
+                    System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
+                    chooseCloud();
+                }
+                askforCharacter();
+            }
         }
+
+        // reset characterEffects activated
+        gameController.getGame().setActiveEffect(null);
+
+
 
         return actionResult;
 
@@ -257,6 +245,10 @@ public class ActionPhase extends GamePhase {
     public Player calcultateInfluence(Island island){
         if(island.getHasNoEntryTile()){
             island.setHasNoEntryTile(false);
+            for(Character c : gameController.getGame().getCharacters())
+                if(c.getCharacterId()==5) {
+                    ((Card5)gameController.getCharacterEffects().get(c)).addNoEntryTile();
+                }
             return null;
         }
         /* if some particualr characters are active it's not called the usual method: island.getInfluence() but
