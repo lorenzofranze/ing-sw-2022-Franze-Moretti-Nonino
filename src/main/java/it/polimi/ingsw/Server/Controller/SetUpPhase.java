@@ -113,6 +113,7 @@ public class SetUpPhase extends GamePhase {
     private void initializeCharactersEffects() {
         for (Character cr : gameController.getGame().getCharacters()) {
 
+            //SERVE INIZIALIZZARE ANCHE CARTA 6?
             if (cr.getCharacterId() == 1 || cr.getCharacterId() == 5 || cr.getCharacterId() == 6 || cr.getCharacterId() == 11) {
                 CharacterEffectInitialize characterEffect = (CharacterEffectInitialize) gameController.getCharacterEffects().get(cr);
                 characterEffect.initializeCard();
