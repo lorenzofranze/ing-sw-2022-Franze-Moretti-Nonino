@@ -35,7 +35,7 @@ public class Card1 extends CharacterEffectInitialize{
                 }
             }
 
-        }while(valid);
+        }while(!valid);
         pawns.remove(ColourPawn.values()[chosenPawn]);
 
         do {

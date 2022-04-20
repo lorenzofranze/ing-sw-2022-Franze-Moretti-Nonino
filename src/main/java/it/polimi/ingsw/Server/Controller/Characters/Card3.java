@@ -1,18 +1,20 @@
 package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
+import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 import it.polimi.ingsw.Server.Model.Player;
 
 public class Card3 extends CharacterEffect{
     private final GameController gameController;
+    private final MessageHandler messageHandler;
     private Island island;
 
 
-    public Card3(GameController gameController, Island island){
+    public Card3(GameController gameController){
         this.gameController = gameController;
-        this.island=island;
+        messageHandler = gameController.getMessageHandler();
     }
 
 
@@ -21,6 +23,9 @@ public class Card3 extends CharacterEffect{
      * the method move correctly the towers from the players' schoolboard to the island and viceversa
      */
     public void doEffect(){
+        int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
+        island = gameController.getGame().getIslandOfIndex(islandIndex);
+
         Player moreInfluent=island.getInfluence(gameController.getGame());
         if(island.getTowerCount()==0){
             island.setTowerColor(moreInfluent.getColourTower());
