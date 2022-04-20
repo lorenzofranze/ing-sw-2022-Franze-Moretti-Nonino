@@ -82,9 +82,17 @@ public class ActionPhase extends GamePhase {
                 System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
                 if (whereMotherNature.getHasNoEntryTile() == true){
-                    Card5 card5 = Card5.getInstance(gameController);
+                    Character myCharacter = null;
+                    for(Character cr : gameController.getGame().getCharacters()){
+                        if (cr.getCharacterId() == 5){
+                            myCharacter = cr;
+                        }
+                    }
+
+                    Card5 card5 = (Card5) gameController.getCharacterEffects().get(myCharacter);
                     card5.addNoEntryTile();
                     whereMotherNature.setHasNoEntryTile(false);
+                    System.out.println("The Island is BLOCKED. The influence won't be calculated and no Towers will be placed.");
                 }else{
 
                     Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
