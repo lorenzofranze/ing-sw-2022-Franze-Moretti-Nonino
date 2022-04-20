@@ -32,6 +32,7 @@ public class ActionPhase extends GamePhase {
 
 
     //RICORDARE: alla fine del turno di ogni player resettare activeEffect di game
+
     public ActionResult handle(List<Player> turnOrder, HashMap<Player, Integer> maximumMovements,
                                boolean isLastRoundFinishedStudentsBag) {
 
@@ -257,6 +258,10 @@ public class ActionPhase extends GamePhase {
     public Player calcultateInfluence(Island island){
         if(island.getHasNoEntryTile()){
             island.setHasNoEntryTile(false);
+            for(Character c : gameController.getGame().getCharacters())
+                if(c.getCharacterId()==5) {
+                    ((Card5)gameController.getCharacterEffects().get(c)).addNoEntryTile();
+                }
             return null;
         }
         /* if some particualr characters are active it's not called the usual method: island.getInfluence() but
