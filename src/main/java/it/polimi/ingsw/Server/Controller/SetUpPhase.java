@@ -124,7 +124,6 @@ public class SetUpPhase extends GamePhase {
             if (cr.getCharacterId() == 2) {
                 gameController.getCharacterEffects().put(cr, new Card2(gameController));
             }
-            //??
             if (cr.getCharacterId() == 3) {
                 gameController.getCharacterEffects().put(cr, new Card3(gameController));
             }
