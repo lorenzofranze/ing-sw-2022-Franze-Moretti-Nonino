@@ -9,7 +9,8 @@ public class Card8 extends CharacterEffectInfluence{
     public Card8(GameController gameController){
         this.gameController = gameController;
     }
-
+    @Override
+    /**During the influence calculation this turn, you count as having 2 more influence*/
     public Player effectInfluence(Island island) {
         if(island.getHasNoEntryTile()){
             island.setHasNoEntryTile(false);
@@ -23,6 +24,9 @@ public class Card8 extends CharacterEffectInfluence{
         int currScore;
         for(Player p: game.getPlayers()) {
             currScore = 0;
+            if (p.equals(gameController.getCurrentPlayer())){
+                currScore += 2;
+            }
             for (ColourPawn professor : ColourPawn.values()) {
                 if(p.getSchoolBoard().getProfessors().get(professor)==1)
                     currScore += island.getStudents().get(professor);
