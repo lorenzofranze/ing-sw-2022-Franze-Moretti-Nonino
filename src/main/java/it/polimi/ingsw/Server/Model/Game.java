@@ -211,4 +211,12 @@ public class Game {
         }
         return cloudsString;
     }
+
+    public Island getIslandOfIndex(int i){
+        Island ris;
+        if (i >= islands.size() || i < 0) return null;
+
+        ris = islands.get(i);
+        return ris;
+    }
 }

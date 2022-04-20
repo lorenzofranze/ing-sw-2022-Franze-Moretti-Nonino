@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Controller;
 
+import it.polimi.ingsw.Server.Controller.Characters.Card5;
 import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
 import it.polimi.ingsw.Server.Controller.Characters.CharacterEffectInfluence;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
@@ -80,38 +81,45 @@ public class ActionPhase extends GamePhase {
 
                 System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
-                Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
+                if (whereMotherNature.getHasNoEntryTile() == true){
+                    Card5 card5 = Card5.getInstance(gameController);
+                    card5.addNoEntryTile();
+                    whereMotherNature.setHasNoEntryTile(false);
+                }else{
 
-                if (moreInfluentPlayer == null){
-                    System.out.println("MOREINFLUENTPLAYER: none");
-                } else {
-                    System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
-                }
+                    Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
 
-
-                if (moreInfluentPlayer != null){
-                    //isEnded is true if one player has finished his towers
-                    isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
-                    if (isEnded) {
-                        actionResult.setFinishedTowers(true);
-                        System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
-                        return actionResult;
+                    if (moreInfluentPlayer == null){
+                        System.out.println("MOREINFLUENTPLAYER: none");
+                    } else {
+                        System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
                     }
 
-                    //union is true if there was a union
-                    boolean union = verifyUnion();
 
-                    //isEnded is true if there are only 3 or less islands
-                    isEnded = verifyUnion();
+                    if (moreInfluentPlayer != null){
+                        //isEnded is true if one player has finished his towers
+                        isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
+                        if (isEnded) {
+                            actionResult.setFinishedTowers(true);
+                            System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
+                            return actionResult;
+                        }
 
-                    int numIslands= this.gameController.getGame().getIslands().size();
+                        //union is true if there was a union
+                        boolean union = verifyUnion();
 
-                    if(numIslands<4){
-                        actionResult.setThreeOrLessIslands(true);
-                        System.out.println("There are 3 or less islands");
-                        return actionResult;
+                        //isEnded is true if there are only 3 or less islands
+                        isEnded = verifyUnion();
+
+                        int numIslands= this.gameController.getGame().getIslands().size();
+
+                        if(numIslands<4){
+                            actionResult.setThreeOrLessIslands(true);
+                            System.out.println("There are 3 or less islands");
+                            return actionResult;
+                        }
+
                     }
-
                 }
 
                 if(!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())) {
