@@ -6,7 +6,7 @@ import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Player;
 
 public class Card12 extends CharacterEffect{
-    private ColourPawn colourPawn;
+
     private GameController gameController;
     public Card12(GameController gameController){
         this.gameController=gameController;
@@ -15,6 +15,7 @@ public class Card12 extends CharacterEffect{
 
     public void doEffect(){
         boolean valid;
+        ColourPawn colourPawn;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int chosenPawn; // index of ColourPawn enumeration
         do{
@@ -23,10 +24,13 @@ public class Card12 extends CharacterEffect{
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn){
                     valid=true;
+
                 }
             }
 
-        }while(valid);
+        }while(!valid);
+
+        colourPawn=ColourPawn.values()[chosenPawn];
 
         for(Player p: gameController.getGame().getPlayers()){
             if(p.getSchoolBoard().getDiningRoom().get(colourPawn)>=3){

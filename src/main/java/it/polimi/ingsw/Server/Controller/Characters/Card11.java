@@ -37,7 +37,8 @@ public class Card11 extends CharacterEffectInitialize{
                 }
             }
 
-        }while(valid);
+        }while(!valid);
+
         pawns.remove(ColourPawn.values()[chosenPawn]);
 
         PawnsMap chosenPawnsMap= new PawnsMap();
