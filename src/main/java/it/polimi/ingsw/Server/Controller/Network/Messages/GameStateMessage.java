@@ -18,7 +18,7 @@ public class GameStateMessage extends ServerMessage {
     private int coinSupply;
     private List<Character> characters;
 
-    public GameStateMessage(String nickname, Game game) {
-        this.setMessageType(TypeOfMessage.GameState);
+    public GameStateMessage(String nickname, TypeOfMessage typeOfMessage) {
+        super(nickname, typeOfMessage);
     }
 }

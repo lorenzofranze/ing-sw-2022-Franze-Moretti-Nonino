@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Controller.Network.ConnectionManager;
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.Character;
 import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
@@ -109,7 +110,7 @@ public class GameController implements Runnable {
     public void update(){
         //FRANZO
         for(Player p: game.getPlayers()){
-            GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), game);
+            GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState);
 
             messageHandler.communicationWithClient(this, gameStateMessage);
         }
