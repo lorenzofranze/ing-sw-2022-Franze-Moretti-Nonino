@@ -93,6 +93,7 @@ public class PianificationPhase extends GamePhase {
 
             int played = messageHandler.getValueCLI("choose AssistantCard (insert turnOrder): ", currentPlayer);
 
+
             for (AssistantCard c : currentPlayer.getDeck()) {
                 if (c.getTurnOrder() == played) {
                     cardPlayed = c;
@@ -125,6 +126,8 @@ public class PianificationPhase extends GamePhase {
         while(valid == false || mustChange == true);
             /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
             * if mustChange == true, the player played a card that has already been played by other players.*/
+
+
     }
 
 

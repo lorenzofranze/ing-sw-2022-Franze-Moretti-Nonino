@@ -104,9 +104,6 @@ public class ActionPhase extends GamePhase {
                     //union is true if there was a union
                     boolean union = verifyUnion();
 
-                    //isEnded is true if there are only 3 or less islands
-                    isEnded = verifyUnion();
-
                     int numIslands= this.gameController.getGame().getIslands().size();
 
                     if(numIslands<4){

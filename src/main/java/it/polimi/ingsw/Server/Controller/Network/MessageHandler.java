@@ -70,7 +70,7 @@ public class MessageHandler {
 
 
 
-    /* chiede valore in generale a quel message handler,
+    /** chiede valore in generale a quel message handler,
      non sappiamo ancora se 1 per ogni player o cosa....
     legge valore da std input, non funziona con i test
      */
@@ -132,9 +132,13 @@ public class MessageHandler {
        //while(inet.isReachable(15000)){}
        String receivedString= bufferedReaderIn.get(nickname).readLine();
        Message receivedMessage= jsonConverter.fromJsonToMessage(receivedString);
+       boolean isValid = checkAnswerType(messageToSend, receivedMessage);
        return receivedMessage;
     }
 
+    private boolean checkAnswerType(ClientMessage answer,){
+
+    }
 
     public void setLastMessage(ClientMessage lastMessage) {
         this.lastMessage = lastMessage;
