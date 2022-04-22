@@ -1,13 +1,15 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
-public abstract class Message {
-    private String messageType;
+import java.awt.*;
 
-    public String getMessageType() {
+public abstract class Message {
+    private TypeOfMessage messageType;
+
+    public TypeOfMessage getMessageType() {
         return messageType;
     }
 
-    public void setMessageType(String messageType) {
+    public void setMessageType(TypeOfMessage messageType) {
         this.messageType = messageType;
     }
 }

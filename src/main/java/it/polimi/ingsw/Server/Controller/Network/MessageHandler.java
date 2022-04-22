@@ -122,7 +122,7 @@ public class MessageHandler {
      * @return answer-message to the game controller. The game controller has to verify the validity of the answer.
      * @throws IOException
      */
-    public Message communicationWithClient(GameController gameController, ServerMessage messageToSend) throws IOException {
+    public Message communicationWithClient(GameController gameController, ServerMessage messageToSend){
        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
        String nickname= messageToSend.getNickname();
        String receivedString;
@@ -132,9 +132,13 @@ public class MessageHandler {
        //while(inet.isReachable(15000)){}
         boolean isValid= false;
         while(!isValid){
-            bufferedReaderOut.get(nickname).write(stringToSend);
-            bufferedReaderOut.get(nickname).flush();
-            receivedString= bufferedReaderIn.get(nickname).readLine();
+            try {
+                bufferedReaderOut.get(nickname).write(stringToSend);
+                bufferedReaderOut.get(nickname).flush();
+                receivedString= bufferedReaderIn.get(nickname).readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             receivedMessage= (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
             isValid = checkAnswerType(messageToSend, receivedMessage);
         }

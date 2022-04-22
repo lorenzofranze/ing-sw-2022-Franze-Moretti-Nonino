@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Server.Controller;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.AssistantCardMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.AssistantCard;
 import it.polimi.ingsw.Server.Model.Cloud;
 import it.polimi.ingsw.Server.Model.PawnsMap;
@@ -92,8 +95,9 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             valid = false;
 
-            ServerMessage messageToSend= new ServerMessage()
-            int played = messageHandler.getValueCLI("choose AssistantCard (insert turnOrder): ", currentPlayer);
+            ServerMessage messageToSend= new ServerMessage(currentPlayer.getNickname(), null, TypeOfMessage.AssistantCard);
+            AssistantCardMessage receivedMessage = (AssistantCardMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            int played=receivedMessage.getCard();
 
 
             for (AssistantCard c : currentPlayer.getDeck()) {

@@ -1,9 +1,14 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
 
-public abstract class ServerMessage extends Message{
+public class ServerMessage extends Message{
     private String nickname;
     private GameState gameState;
+
+    public ServerMessage(String nickname, GameState gameState, TypeOfMessage typeOfMessage){
+        this.nickname=nickname;
+        this.gameState=gameState;
+    }
 
     public String getNickname() {
         return nickname;
