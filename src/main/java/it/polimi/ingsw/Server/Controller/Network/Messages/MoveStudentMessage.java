@@ -1,21 +1,18 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
+import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 
-public class MoveStudentMessage extends ClientMessage  {
-    private PawnsMap studentsToMove;
+public class MoveStudentMessage extends ClientMessage {
+    private ColourPawn studentToMove;
     private Integer where;
-    private GameState gameState;
 
-    public GameState getGameState() {
-        return gameState;
-    }
 
     public Integer getWhere() {
         return where;
     }
 
-    public PawnsMap getStudentsToMove() {
-        return studentsToMove;
+    public ColourPawn getStudentsToMove() {
+        return studentToMove;
     }
 }

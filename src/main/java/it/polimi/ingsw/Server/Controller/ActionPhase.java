@@ -119,6 +119,9 @@ public class ActionPhase extends GamePhase {
 
                 askforCharacter();
 
+                /*in this round players choose the cloud only if in the pianification phase i had enough
+                studentsPawns in the bag to fill ALL the clouds
+                 */
                 if (!isLastRoundFinishedStudentsBag) {
                     System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
                     chooseCloud();
@@ -149,7 +152,6 @@ public class ActionPhase extends GamePhase {
 
         if (where == -1) {
             coinsToAdd = gameController.getCurrentPlayer().getSchoolBoard().fromEntranceToDiningRoom(student, gameController.getGame());
-            // operatore ternario XD
             gameController.getCurrentPlayer().addCoins(gameController.isExpert() ? coinsToAdd : 0);
         } else {
             gameController.getCurrentPlayer().getSchoolBoard().getEntrance().remove(colour);

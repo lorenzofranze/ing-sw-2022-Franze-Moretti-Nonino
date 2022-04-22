@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Server.Controller.Network;
 
 import it.polimi.ingsw.Server.Controller.GameMode;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ConnectionMessage;
-import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 import it.polimi.ingsw.Server.Controller.ServerController;
-import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Model.Player;
 
 import java.io.BufferedReader;
@@ -81,7 +79,7 @@ public class LobbyManager implements Runnable {
     public void welcomeNewPlayers() throws IOException {
         JsonConverter jsonConverter = new JsonConverter();
         ArrayList<String> usedNicknames = new ArrayList<>();
-        ClientMessage firstMessage;
+        ServerMessage firstMessage;
         System.out.println("Server ready");
         Socket clientSocket = null;
         while (true) {
@@ -98,7 +96,7 @@ public class LobbyManager implements Runnable {
                 e.printStackTrace();
             }
 
-            firstMessage = (ClientMessage) jsonConverter.fromJsonToMessage(in.readLine());
+            firstMessage = (ServerMessage) jsonConverter.fromJsonToMessage(in.readLine());
             if (firstMessage.getMessageType() == "ConnectionMessage") {
                 String nickname = firstMessage.getNickname();
                 ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;

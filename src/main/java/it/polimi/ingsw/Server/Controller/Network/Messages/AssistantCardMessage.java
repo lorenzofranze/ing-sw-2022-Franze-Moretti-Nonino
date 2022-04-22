@@ -3,14 +3,10 @@ package it.polimi.ingsw.Server.Controller.Network.Messages;
 import it.polimi.ingsw.Server.Model.AssistantCard;
 
 public class AssistantCardMessage extends ClientMessage {
-    private AssistantCard card;
-    private GameState gameState;
+    private Integer card;
 
-    public AssistantCard getCard() {
+    public Integer getCard() {
         return card;
     }
 
-    public GameState getGameState() {
-        return gameState;
-    }
 }

@@ -1,14 +1,9 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
-public class UseEffectMessage extends ClientMessage  {
-    private Character effect;
-    private GameState gameState;
+public class UseEffectMessage extends ClientMessage {
+    private Integer effect;
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    public Character getEffect() {
+    public Integer getEffect() {
         return effect;
     }
 }

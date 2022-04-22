@@ -2,7 +2,7 @@ package it.polimi.ingsw.Server.Controller.Network.Messages;
 
 import it.polimi.ingsw.Server.Controller.GameMode;
 
-public class ConnectionMessage extends ClientMessage  {
+public class ConnectionMessage extends ClientMessage {
 
     private GameMode gameMode;
 

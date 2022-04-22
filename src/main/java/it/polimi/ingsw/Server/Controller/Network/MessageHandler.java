@@ -2,9 +2,8 @@ package it.polimi.ingsw.Server.Controller.Network;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
-import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
-import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Model.Player;
 
 import java.io.*;
@@ -21,7 +20,7 @@ public class MessageHandler {
     public int value;
     private int index =0;
     private int[] buffer = {1,2,3}; // inserire valori da provare con getValueTest()
-    private ClientMessage lastMessage;
+    private ServerMessage lastMessage;
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
@@ -123,28 +122,36 @@ public class MessageHandler {
      * @return answer-message to the game controller. The game controller has to verify the validity of the answer.
      * @throws IOException
      */
-    public Message communicationWithClient(GameController gameController, ClientMessage messageToSend) throws IOException {
+    public Message communicationWithClient(GameController gameController, ServerMessage messageToSend) throws IOException {
        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
        String nickname= messageToSend.getNickname();
-       bufferedReaderOut.get(nickname).write(stringToSend);
-       bufferedReaderOut.get(nickname).flush();
-       //InetAddress inet=inetAddresses.get(nickname);
+       String receivedString;
+       ClientMessage receivedMessage=null;
+
+        //InetAddress inet=inetAddresses.get(nickname);
        //while(inet.isReachable(15000)){}
-       String receivedString= bufferedReaderIn.get(nickname).readLine();
-       Message receivedMessage= jsonConverter.fromJsonToMessage(receivedString);
-       boolean isValid = checkAnswerType(messageToSend, receivedMessage);
+        boolean isValid= false;
+        while(!isValid){
+            bufferedReaderOut.get(nickname).write(stringToSend);
+            bufferedReaderOut.get(nickname).flush();
+            receivedString= bufferedReaderIn.get(nickname).readLine();
+            receivedMessage= (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
+            isValid = checkAnswerType(messageToSend, receivedMessage);
+        }
+
        return receivedMessage;
     }
 
-    private boolean checkAnswerType(ClientMessage answer,){
+    private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
+        return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
 
     }
 
-    public void setLastMessage(ClientMessage lastMessage) {
+    public void setLastMessage(ServerMessage lastMessage) {
         this.lastMessage = lastMessage;
     }
 
-    public ClientMessage getLastMessage() {
+    public ServerMessage getLastMessage() {
         return lastMessage;
     }
 
