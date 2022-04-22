@@ -178,10 +178,10 @@ public class ActionPhase extends GamePhase {
                 valid = true;
                 // to user: choose one color pawn
 
-                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), null, TypeOfMessage.StudentToMove);
+                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname() , TypeOfMessage.StudentToMove);
                 StudentToMoveMessage receivedMessage = (StudentToMoveMessage) messageHandler.communicationWithClient(gameController, messageToSend);
                 indexColour= receivedMessage.getColourPawn().getIndexColour();
-
+                if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     // to user: index not valid
                     System.out.println("indexColour not valid.");
@@ -223,7 +223,7 @@ public class ActionPhase extends GamePhase {
         int played;
 
         do {
-            ServerMessage messageToSend = new ServerMessage(currentPlayer.getNickname(), null, TypeOfMessage.MoveMotherNature);
+            ServerMessage messageToSend = new ServerMessage(currentPlayer.getNickname(), TypeOfMessage.MoveMotherNature);
             MoveMotherNatureMessage receivedMessage = (MoveMotherNatureMessage) messageHandler.communicationWithClient(gameController, messageToSend);
             played = receivedMessage.getNumOfHops();
         }
@@ -376,7 +376,7 @@ public class ActionPhase extends GamePhase {
         // print possibile cloud with values
         do{
             valid = true;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), null, TypeOfMessage.AssistantCard);
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.AssistantCard);
             CloudChoiceMessage receivedMessage = (CloudChoiceMessage) messageHandler.communicationWithClient(gameController, messageToSend);
             indexCloud=receivedMessage.getCloudIndex();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
@@ -418,7 +418,7 @@ public class ActionPhase extends GamePhase {
             for(Character character : usable) {
                 // to user: choose one of theese cards...print...
             }
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), null, TypeOfMessage.CharacterCard);
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(),TypeOfMessage.CharacterCard);
             CharacterCardMessage receivedMessage = (CharacterCardMessage) messageHandler.communicationWithClient(gameController, messageToSend);
             cardNumber=receivedMessage.getEffect();
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {

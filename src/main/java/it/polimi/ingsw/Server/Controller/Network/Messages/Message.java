@@ -3,13 +3,13 @@ package it.polimi.ingsw.Server.Controller.Network.Messages;
 import java.awt.*;
 
 public abstract class Message {
-    private TypeOfMessage messageType;
+    private TypeOfMessage typeOfMessage;
 
     public TypeOfMessage getMessageType() {
-        return messageType;
+        return typeOfMessage;
     }
 
     public void setMessageType(TypeOfMessage messageType) {
-        this.messageType = messageType;
+        this.typeOfMessage = messageType;
     }
 }

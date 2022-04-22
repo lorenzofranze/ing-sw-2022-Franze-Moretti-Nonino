@@ -6,6 +6,7 @@ public class ServerMessage extends Message{
 
     public ServerMessage(String nickname, TypeOfMessage typeOfMessage){
         this.nickname=nickname;
+        super.setMessageType(typeOfMessage);
     }
 
     public String getNickname() {
