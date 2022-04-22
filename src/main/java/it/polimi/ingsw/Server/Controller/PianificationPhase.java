@@ -95,7 +95,7 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             valid = false;
 
-            ServerMessage messageToSend= new ServerMessage(currentPlayer.getNickname(), null, TypeOfMessage.AssistantCard);
+            ServerMessage messageToSend= new ServerMessage(currentPlayer.getNickname(), TypeOfMessage.AssistantCard);
             AssistantCardMessage receivedMessage = (AssistantCardMessage) messageHandler.communicationWithClient(gameController, messageToSend);
             int played=receivedMessage.getCard();
 
@@ -132,6 +132,8 @@ public class PianificationPhase extends GamePhase {
         while(valid == false || mustChange == true);
             /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
             * if mustChange == true, the player played a card that has already been played by other players.*/
+
+        gameController.update();
 
         if (currentPlayer.getDeck().size() == 0){
             finishedAssistantCard = true;

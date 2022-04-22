@@ -63,11 +63,11 @@ public class ActionPhase extends GamePhase {
 
                 System.out.println("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
                 System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
-
+                gameController.update();
                 askforCharacter();
-
+                gameController.update();
                 moveStudents();
-
+                gameController.update();
                 System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
                 for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
                     System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
@@ -75,11 +75,14 @@ public class ActionPhase extends GamePhase {
                 }
 
                 askforCharacter();
+                gameController.update();
 
                 System.out.print("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
                 System.out.println(" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
 
+
                 Island whereMotherNature = moveMotherNature(p);
+
 
                 System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
@@ -92,7 +95,7 @@ public class ActionPhase extends GamePhase {
                         }
                 }
 
-
+                gameController.update();
 
                 if (moreInfluentPlayer == null){
                     System.out.println("MOREINFLUENTPLAYER: none");
@@ -104,6 +107,7 @@ public class ActionPhase extends GamePhase {
                 if (moreInfluentPlayer != null){
                     //isEnded is true if one player has finished his towers
                     isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
+                    gameController.update();
                     if (isEnded) {
                         actionResult.setFinishedTowers(true);
                         System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
@@ -113,6 +117,7 @@ public class ActionPhase extends GamePhase {
                     //union is true if there was a union
                     boolean union = verifyUnion();
 
+                    gameController.update();
                     int numIslands= this.gameController.getGame().getIslands().size();
 
                     if(numIslands<4){
@@ -127,6 +132,7 @@ public class ActionPhase extends GamePhase {
             if(!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())) {
 
                 askforCharacter();
+                gameController.update();
 
                 /*in this round players choose the cloud only if in the pianification phase i had enough
                 studentsPawns in the bag to fill ALL the clouds
@@ -135,7 +141,9 @@ public class ActionPhase extends GamePhase {
                     System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
                     chooseCloud();
                 }
+                gameController.update();
                 askforCharacter();
+                gameController.update();
             }
         }
 

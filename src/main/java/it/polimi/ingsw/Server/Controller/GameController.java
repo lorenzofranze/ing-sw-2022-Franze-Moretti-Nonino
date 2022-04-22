@@ -108,9 +108,8 @@ public class GameController implements Runnable {
     }
 
     public void update(){
-        //FRANZO
         for(Player p: game.getPlayers()){
-            GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState);
+            GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
 
             messageHandler.communicationWithClient(this, gameStateMessage);
         }
