@@ -10,7 +10,7 @@ public class Island {
     private int towerCount;
 
     //COMPLEX GAME ATTRIBUTES
-    private boolean hasNoEntryTile;
+    private int numNoEntryTile;
 
      public Island(){
          hasMotherNature=false;
@@ -18,7 +18,7 @@ public class Island {
          towerColour=null;
          towerCount=0;
 
-         hasNoEntryTile = false;
+         numNoEntryTile = 0;
      }
 
     public void setHasMotherNature(boolean hasMotherNature) {
@@ -60,12 +60,12 @@ public class Island {
         this.students.add(colour, num);
     }
 
-    public boolean getHasNoEntryTile() {
-        return hasNoEntryTile;
+    public int getNumNoEntryTile() {
+        return numNoEntryTile;
     }
 
-    public void setHasNoEntryTile(boolean hasNoEntryTile) {
-        this.hasNoEntryTile = hasNoEntryTile;
+    public void setNumNoEntryTile(int numNoEntryTile) {
+        this.numNoEntryTile = numNoEntryTile;
     }
 
     /** calculates the most influent player on the island,

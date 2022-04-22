@@ -8,9 +8,7 @@ import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -91,9 +89,11 @@ public class LobbyManager implements Runnable {
                 break; //In case the serverSocket gets closed
             }
             BufferedReader in = null;
+            BufferedWriter out = null;
             try {
                 in = new BufferedReader(
                         new InputStreamReader(clientSocket.getInputStream()));
+                out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -125,6 +125,9 @@ public class LobbyManager implements Runnable {
                     if (!usedNicknames.contains(nickname)) {
                         GameMode gameMode = connectionMessage.getGameMode();
                         addNickname(nickname, gameMode, clientSocket);
+                    } else{
+                        // to client: -1 if name isn't available
+                        out.write(-1);
                     }
                 } else {
                     usedNicknames.remove(nickname);

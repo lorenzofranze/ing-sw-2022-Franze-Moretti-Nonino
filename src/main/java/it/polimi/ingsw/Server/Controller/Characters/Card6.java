@@ -17,10 +17,6 @@ public class Card6 extends CharacterEffectInfluence{
     /**When resolving a Conquering on a Island, Towers do not count towards influence*/
     public Player effectInfluence(Island island) {
 
-        if(island.getHasNoEntryTile()){
-            island.setHasNoEntryTile(false);
-            return null;
-        }
 
         Game game = this.gameController.getGame();
         Player moreInfluentPlayer = null;

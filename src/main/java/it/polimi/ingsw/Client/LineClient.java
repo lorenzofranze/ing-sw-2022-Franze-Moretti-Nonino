@@ -19,19 +19,13 @@ public class LineClient {
 
         try
         {
-            socket = new Socket("localhost", 5000);
+            socket = new Socket("localhost", 50000);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         }
         catch(Exception e) { System.out.println(e.getMessage());}
     }
 
-    public void startClient() throws IOException {
-
-        String message;
-        message = in.readLine();
-        System.out.print("Messaggio Ricevuto : " + message);
-    }
 
     public void endClient(){
         try {

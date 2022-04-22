@@ -20,7 +20,7 @@ public class Card5 extends CharacterEffectInitialize{
         NoEntryTilesLeft = 4;
         blockedIslands = new ArrayList<>();
         for(Island is : gameController.getGame().getIslands()){
-            is.setHasNoEntryTile(false);
+            is.setNumNoEntryTile(0);
         }
     }
 
@@ -49,13 +49,9 @@ public class Card5 extends CharacterEffectInitialize{
                 System.out.println("The island chosen doesn't exist");
                 valid = false;
             }
-            if (valid == true && chosenIsland.getHasNoEntryTile() == true){
-                System.out.println("The island chosen has already a No Entry tiles placed on");
-                valid = false;
-            }
             if (valid == true){
                 NoEntryTilesLeft--;
-                chosenIsland.setHasNoEntryTile(true);
+                chosenIsland.setNumNoEntryTile(chosenIsland.getNumNoEntryTile()+1);
                 blockedIslands.add(chosenIsland);
             }
         }while(valid == false);

@@ -113,6 +113,7 @@ public class Game {
         for(int i = 1; i<toUnify.size(); i++){
             toUnify.get(0).addTower(toUnify.get(i).getTowerCount());
             toUnify.get(0).addStudents(toUnify.get(i).getStudents());
+            toUnify.get(0).setNumNoEntryTile(toUnify.get(0).getNumNoEntryTile() + toUnify.get(i).getNumNoEntryTile());
             islands.remove(toUnify.get(i));
         }
     }

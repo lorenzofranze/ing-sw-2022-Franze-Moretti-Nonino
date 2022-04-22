@@ -83,8 +83,16 @@ public class ActionPhase extends GamePhase {
 
                 System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
-
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
+                if(whereMotherNature.getNumNoEntryTile()>0){
+                    whereMotherNature.setNumNoEntryTile(whereMotherNature.getNumNoEntryTile()-1);
+                    for(Character c : gameController.getGame().getCharacters())
+                        if(c.getCharacterId()==5) {
+                            ((Card5)gameController.getCharacterEffects().get(c)).addNoEntryTile();
+                        }
+                }
+
+
 
                 if (moreInfluentPlayer == null){
                     System.out.println("MOREINFLUENTPLAYER: none");
@@ -247,12 +255,7 @@ public class ActionPhase extends GamePhase {
 
 
     public Player calcultateInfluence(Island island){
-        if(island.getHasNoEntryTile()){
-            island.setHasNoEntryTile(false);
-            for(Character c : gameController.getGame().getCharacters())
-                if(c.getCharacterId()==5) {
-                    ((Card5)gameController.getCharacterEffects().get(c)).addNoEntryTile();
-                }
+        if(island.getNumNoEntryTile() >0){
             return null;
         }
         /* if some particualr characters are active it's not called the usual method: island.getInfluence() but
