@@ -1,14 +1,11 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
+import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
-import it.polimi.ingsw.Server.Model.Cloud;
-import it.polimi.ingsw.Server.Model.Island;
-import it.polimi.ingsw.Server.Model.PawnsMap;
-import it.polimi.ingsw.Server.Model.Player;
 
 import java.util.List;
 
-public class GameStateMessage extends Message {
+public class GameStateMessage extends ServerMessage {
 
     private Integer gameId;
     private List<Player> players;
@@ -21,7 +18,7 @@ public class GameStateMessage extends Message {
     private int coinSupply;
     private List<Character> characters;
 
-    public GameStateMessage(String nickname, TypeOfMessage typeOfMessage) {
-
+    public GameStateMessage(String nickname, Game game) {
+        this.setMessageType(TypeOfMessage.GameState);
     }
 }

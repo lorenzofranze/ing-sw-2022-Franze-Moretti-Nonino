@@ -133,6 +133,9 @@ public class PianificationPhase extends GamePhase {
             /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
             * if mustChange == true, the player played a card that has already been played by other players.*/
 
+        if (currentPlayer.getDeck().size() == 0){
+            finishedAssistantCard = true;
+        }
 
     }
 

@@ -182,7 +182,6 @@ public class ActionPhase extends GamePhase {
                 StudentToMoveMessage receivedMessage = (StudentToMoveMessage) messageHandler.communicationWithClient(gameController, messageToSend);
                 indexColour= receivedMessage.getColourPawn().getIndexColour();
 
-                if(indexColour<=-1 || indexColour >=5){
                     valid=false;
                     // to user: index not valid
                     System.out.println("indexColour not valid.");
