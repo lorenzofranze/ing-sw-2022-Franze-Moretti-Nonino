@@ -8,7 +8,8 @@ import it.polimi.ingsw.Server.Model.Player;
 
 import java.util.List;
 
-public class GameState {
+public class GameStateMessage extends Message {
+
     private Integer gameId;
     private List<Player> players;
     private Player currentPlayer;
@@ -19,4 +20,8 @@ public class GameState {
     private it.polimi.ingsw.Server.Model.Character activeEffect;
     private int coinSupply;
     private List<Character> characters;
+
+    public GameStateMessage(String nickname, TypeOfMessage typeOfMessage) {
+
+    }
 }

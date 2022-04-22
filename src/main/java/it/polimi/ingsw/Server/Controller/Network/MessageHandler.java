@@ -125,7 +125,7 @@ public class MessageHandler {
     public Message communicationWithClient(GameController gameController, ServerMessage messageToSend){
        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
        String nickname= messageToSend.getNickname();
-       String receivedString;
+       String receivedString=null;
        ClientMessage receivedMessage=null;
 
         //InetAddress inet=inetAddresses.get(nickname);

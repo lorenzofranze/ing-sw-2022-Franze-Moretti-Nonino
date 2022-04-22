@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
 import it.polimi.ingsw.Server.Controller.Network.ConnectionManager;
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
 import it.polimi.ingsw.Server.Model.Character;
 import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
@@ -103,6 +104,15 @@ public class GameController implements Runnable {
         for(Player p : this.game.getPlayers())
             System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
 
+    }
+
+    public void update(){
+        //FRANZO
+        for(Player p: game.getPlayers()){
+            GameStateMessage gameStateMessage= new GameStateMessage();
+
+            messageHandler.communicationWithClient(this, gameStateMessage);
+        }
     }
 
     /**sets the GameController.winner

@@ -182,6 +182,8 @@ public class PianificationPhase extends GamePhase {
             c.getStudents().add(toAdd);
         }
 
+
+
         return;
     }
 

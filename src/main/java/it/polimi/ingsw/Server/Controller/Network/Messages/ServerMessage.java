@@ -3,11 +3,11 @@ package it.polimi.ingsw.Server.Controller.Network.Messages;
 
 public class ServerMessage extends Message{
     private String nickname;
-    private GameState gameState;
+    private GameStateMessage gameStateMessage;
 
-    public ServerMessage(String nickname, GameState gameState, TypeOfMessage typeOfMessage){
+    public ServerMessage(String nickname, GameStateMessage gameStateMessage, TypeOfMessage typeOfMessage){
         this.nickname=nickname;
-        this.gameState=gameState;
+        this.gameStateMessage = gameStateMessage;
     }
 
     public String getNickname() {
@@ -18,5 +18,5 @@ public class ServerMessage extends Message{
         this.nickname = nickname;
     }
 
-    public void setGameState(GameState gameState) {this.gameState= gameState;}
+    public void setGameState(GameStateMessage gameStateMessage) {this.gameStateMessage = gameStateMessage;}
 }
