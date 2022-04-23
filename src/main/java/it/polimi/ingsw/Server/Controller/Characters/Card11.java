@@ -2,12 +2,11 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.StudentChoice;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.ColourPawn;
-import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.PawnsMap;
-import it.polimi.ingsw.Server.Model.Player;
-
-import java.util.List;
 
 public class Card11 extends CharacterEffectInitialize{
     private final GameController gameController;
@@ -30,7 +29,11 @@ public class Card11 extends CharacterEffectInitialize{
 
         do{
             valid=false;
-            chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
+            //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentChoice);
+            StudentChoice receivedMessage = (StudentChoice) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenPawn =receivedMessage.getColourPawn().getIndexColour();
+
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){
                     valid=true;

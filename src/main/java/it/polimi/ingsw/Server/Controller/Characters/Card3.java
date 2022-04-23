@@ -3,9 +3,10 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.ActionPhase;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
-import it.polimi.ingsw.Server.Model.Character;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IslandChoice3Message;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.Island;
-import it.polimi.ingsw.Server.Model.PawnsMap;
 import it.polimi.ingsw.Server.Model.Player;
 
 public class Card3 extends CharacterEffect{
@@ -32,7 +33,10 @@ public class Card3 extends CharacterEffect{
      * At the end correctly sets the values of finishedTowers and threeOrLessIslands of ActionResult in ActionPhase.
      */
     public void doEffect(){
-        int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
+        ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice3);
+        IslandChoice3Message receivedMessage = (IslandChoice3Message) messageHandler.communicationWithClient(gameController, messageToSend);
+        int islandIndex =receivedMessage.getIndexIsland();
+        //int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();
         Player moreInfluentPlayer = actionPhase.calcultateInfluence(island);
