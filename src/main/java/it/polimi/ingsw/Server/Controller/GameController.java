@@ -80,7 +80,6 @@ public class GameController implements Runnable {
             isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
             isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
 
-
             currentPhase = actionPhase;
             HashMap<Player, Integer> maximumMovements = pianificationResult.getMaximumMovements();
             List<Player> turnOrder = pianificationResult.getTurnOrder();
@@ -233,5 +232,9 @@ public class GameController implements Runnable {
         HashMap<Player,Integer> newMaxMovements= pianificationResult.getMaximumMovements();
         newMaxMovements.put(player,numMax);
         pianificationResult.setMaximumMovements(newMaxMovements);
+    }
+
+    public ActionPhase getActionPhase() {
+        return actionPhase;
     }
 }

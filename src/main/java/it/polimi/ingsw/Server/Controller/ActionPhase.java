@@ -16,34 +16,22 @@ public class ActionPhase extends GamePhase {
 
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
-
-
-
-
+    private ActionResult actionResult;
 
     public ActionPhase(GameController gameController) {
         this.gameController = gameController;
-
         maximumMovements = null;
         turnOrder = null;
-
+        actionResult = new ActionResult();
     }
-
-
-
-
-    //RICORDARE: alla fine del turno di ogni player resettare activeEffect di game
 
     public ActionResult handle(List<Player> turnOrder, HashMap<Player, Integer> maximumMovements,
                                boolean isLastRoundFinishedStudentsBag) {
 
         MessageHandler messageHandler = this.gameController.getMessageHandler();
-
         this.maximumMovements = maximumMovements;
         this.turnOrder = turnOrder;
         boolean isEnded = false;
-
-        ActionResult actionResult = new ActionResult();
         actionResult.setFirstPianificationPlayer(turnOrder.get(0));
 
 
@@ -76,13 +64,12 @@ public class ActionPhase extends GamePhase {
 
                 askforCharacter();
                 gameController.update();
+                if (checkEnd() == true){return actionResult;}
 
                 System.out.print("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
                 System.out.println(" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
 
-
                 Island whereMotherNature = moveMotherNature(p);
-
 
                 System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
@@ -103,9 +90,7 @@ public class ActionPhase extends GamePhase {
                     System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
                 }
 
-
                 if (moreInfluentPlayer != null){
-                    //isEnded is true if one player has finished his towers
                     isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
                     gameController.update();
                     if (isEnded) {
@@ -114,10 +99,10 @@ public class ActionPhase extends GamePhase {
                         return actionResult;
                     }
 
-                    //union is true if there was a union
                     boolean union = verifyUnion();
 
                     gameController.update();
+
                     int numIslands= this.gameController.getGame().getIslands().size();
 
                     if(numIslands<4){
@@ -129,31 +114,30 @@ public class ActionPhase extends GamePhase {
                 }
             }
 
-            if(!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())) {
+            askforCharacter();
+            gameController.update();
+            if (checkEnd() == true){return actionResult;}
 
-                askforCharacter();
-                gameController.update();
 
-                /*in this round players choose the cloud only if in the pianification phase i had enough
-                studentsPawns in the bag to fill ALL the clouds
-                 */
-                if (!isLastRoundFinishedStudentsBag) {
-                    System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
-                    chooseCloud();
-                }
-                gameController.update();
-                askforCharacter();
-                gameController.update();
+            /*in this round players choose the cloud only if in the pianification phase i had enough
+            studentsPawns in the bag to fill ALL the clouds*/
+            if (!isLastRoundFinishedStudentsBag) {
+                System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
+                chooseCloud();
             }
+
+            gameController.update();
+
+            askforCharacter();
+            gameController.update();
+            if (checkEnd() == true){return actionResult;}
+
         }
 
-        // reset characterEffects activated
+        /*reset characterEffects activated*/
         gameController.getGame().setActiveEffect(null);
 
-
-
         return actionResult;
-
     }
 
 
@@ -262,6 +246,10 @@ public class ActionPhase extends GamePhase {
     }
 
 
+    /**if some particualr characters are active it's not called the usual method: island.getInfluence() but
+     * it's called the getInfluence() method of that character: this method returns the more influence player
+     * according to the new effect (e.g. towers are not counted)
+     */
     public Player calcultateInfluence(Island island){
         if(island.getNumNoEntryTile() >0){
             return null;
@@ -284,10 +272,7 @@ public class ActionPhase extends GamePhase {
         return moreInfluentPlayer;
     }
 
-    /**places a tower on a island or swap the color, then, if necessary, calls verifyUnion()
-     * @param colour
-     * @param island
-     */
+    /**places the tower of the player on the island. Returns true if one player has finished his towers*/
     public boolean placeTowerOfPlayer(Player moreInfluentPlayer, Island island){
         ColourTower color=moreInfluentPlayer.getColourTower();
         if(island.getTowerCount()==0){
@@ -298,7 +283,7 @@ public class ActionPhase extends GamePhase {
         } else {
             if (!island.getTowerColour().equals(color)) {
 
-                //RIAGGIUNGO LE TORRI ALLA SCHOOLBOARD DEL GIOCATOIRE CHE HA "PERSO" IL POSSESSO DELL'ISOLA
+                /*adding the towers on the schoolboard of the player who has lost the island control*/
                 Player oldOwner = null;
                 for (Player player : turnOrder) {
                     if (player.getColourTower() == island.getTowerColour()) {
@@ -307,7 +292,7 @@ public class ActionPhase extends GamePhase {
                 }
                 oldOwner.getSchoolBoard().addTower(island.getTowerCount());
 
-                //TOLGO LE TORRI ALLA SCHOOLBOARD DEL GIOCATORE CHE HA "VINTO" IL POSSESSO DELL'ISOLA
+                /*removing the towers on the schoolboard of the player who won the island control*/
                 int numLeftTowers = moreInfluentPlayer.getSchoolBoard().getSpareTowers();
                 moreInfluentPlayer.getSchoolBoard().removeTower(island.getTowerCount());
                 island.setTowerColor(color);
@@ -317,7 +302,8 @@ public class ActionPhase extends GamePhase {
         return false;
     }
 
-    protected boolean verifyUnion() {
+    /**returns true if there was a union, false otherwise*/
+    public boolean verifyUnion() {
         List<Island> islandList = this.gameController.getGame().getIslands();
         List<Integer> currColour;
         HashMap<ColourTower, List<Integer>> colourMap = new HashMap<ColourTower, List<Integer>>();
@@ -351,7 +337,6 @@ public class ActionPhase extends GamePhase {
                 }
             }
         }
-
 
         List<Island> ris = new ArrayList<>(); //list of the islands to unify
         if (flag == true){
@@ -461,5 +446,14 @@ public class ActionPhase extends GamePhase {
         this.turnOrder = turnOrder;
     }
 
+    public ActionResult getActionResult() {
+        return actionResult;
+    }
 
+    /**returns true if a player has finished his towers / there are less than 4 islands*/
+    private boolean checkEnd(){
+        if (actionResult.isFinishedTowers() == true) return true;
+        if (actionResult.isThreeOrLessIslands() == true) return true;
+        return false;
+    }
 }
