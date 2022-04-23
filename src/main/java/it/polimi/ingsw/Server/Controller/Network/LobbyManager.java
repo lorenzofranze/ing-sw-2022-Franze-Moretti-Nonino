@@ -7,10 +7,12 @@ import it.polimi.ingsw.Server.Controller.Network.Messages.ConnectionMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Player;
+import jdk.net.ExtendedSocketOptions;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,9 +87,22 @@ public class LobbyManager implements Runnable {
         while (true) {
             try {
                 Socket socket = lobbyServerSocket.accept();
+                socket.setKeepAlive(true);
+
+                /*The value of this socket option is an Integer that is the number of seconds of idle time before
+                keep-alive initiates a probe.*/
+                socket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
+
+                /*The value of this socket option is an Integer that is the number of seconds to wait before
+                retransmitting a keep-alive probe.*/
+                socket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
+
+                /*The value of this socket option is an Integer that is the maximum number of keep-alive probes to be sent.*/
+                socket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
             }
+
             BufferedReader in = null;
             BufferedWriter out = null;
             try {
