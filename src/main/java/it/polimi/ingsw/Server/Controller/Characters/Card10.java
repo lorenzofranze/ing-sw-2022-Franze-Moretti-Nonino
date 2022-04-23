@@ -2,6 +2,9 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 
 public class Card10 extends CharacterEffect{
@@ -18,7 +21,9 @@ public class Card10 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         do{
             valid=true;
-            num = messageHandler.getValueCLI("quante pedine vuoi cambiare?(max 2)", gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.Number);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            num = receivedMessage.getValue();
             if(num<0 || num >2)
                 valid = false;
         }while(!valid);
@@ -28,7 +33,9 @@ public class Card10 extends CharacterEffect{
                 valid = true;
                 // to user: choose one color pawn
 
-                colourEntrance = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
+                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+                IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+                colourEntrance = receivedMessage.getValue();
                 if(colourEntrance<=-1 || colourEntrance >=5){
                     valid=false;
                     // to user: index not valid
@@ -52,7 +59,9 @@ public class Card10 extends CharacterEffect{
 
             do{
                 valid=true;
-                colourDining = messageHandler.getValueCLI("colore studente all'ingresso?", gameController.getCurrentPlayer());
+                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+                IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+                colourDining= receivedMessage.getValue();
                 if(gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0)
                     valid = false;
             }while(!valid);

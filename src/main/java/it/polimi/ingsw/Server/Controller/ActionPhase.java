@@ -178,9 +178,9 @@ public class ActionPhase extends GamePhase {
                 valid = true;
                 // to user: choose one color pawn
 
-                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname() , TypeOfMessage.StudentToMove);
-                StudentToMoveMessage receivedMessage = (StudentToMoveMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-                indexColour= receivedMessage.getColourPawn().getIndexColour();
+                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname() , TypeOfMessage.StudentColour);
+                IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+                indexColour= receivedMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     // to user: index not valid
@@ -198,7 +198,9 @@ public class ActionPhase extends GamePhase {
                 // to user: choose position
 
                 if(valid){
-                    where= receivedMessage.getWhere();
+                    messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname() , TypeOfMessage.Where);
+                    receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+                    where = receivedMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
@@ -224,8 +226,8 @@ public class ActionPhase extends GamePhase {
 
         do {
             ServerMessage messageToSend = new ServerMessage(currentPlayer.getNickname(), TypeOfMessage.MoveMotherNature);
-            MoveMotherNatureMessage receivedMessage = (MoveMotherNatureMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            played = receivedMessage.getNumOfHops();
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            played = receivedMessage.getValue();
         }
         while(played < 1 || played > maximumMovements.get(currentPlayer));
 
@@ -372,9 +374,9 @@ public class ActionPhase extends GamePhase {
         // print possibile cloud with values
         do{
             valid = true;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.AssistantCard);
-            CloudChoiceMessage receivedMessage = (CloudChoiceMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            indexCloud=receivedMessage.getCloudIndex();
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.CloudChoice);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            indexCloud=receivedMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
                 valid = false;
@@ -415,8 +417,8 @@ public class ActionPhase extends GamePhase {
                 // to user: choose one of theese cards...print...
             }
             ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(),TypeOfMessage.CharacterCard);
-            CharacterCardMessage receivedMessage = (CharacterCardMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            cardNumber=receivedMessage.getEffect();
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            cardNumber=receivedMessage.getValue();
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
                 gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());

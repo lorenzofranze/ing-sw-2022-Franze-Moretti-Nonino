@@ -2,6 +2,9 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.PawnsMap;
@@ -28,7 +31,9 @@ public class Card1 extends CharacterEffectInitialize{
         int chosenIsland; // index island
         do{
             valid=false;
-            chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenPawn = receivedMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){
                     valid=true;
@@ -40,7 +45,9 @@ public class Card1 extends CharacterEffectInitialize{
 
         do {
             valid = true;
-            chosenIsland = messageHandler.getValueCLI("choose one island: ", gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenIsland= receivedMessage.getValue();
             if(chosenIsland<0 || chosenIsland>gameController.getGame().getIslands().size()-1){
                 valid=false;
             }
@@ -52,10 +59,6 @@ public class Card1 extends CharacterEffectInitialize{
             pawns.add(gameController.getGame().getStudentsBag().removeRandomly());
         }
 
-    }
-
-    public Player effectInfluence(Island island) {
-        return null;
     }
 
     public void showPawns(){

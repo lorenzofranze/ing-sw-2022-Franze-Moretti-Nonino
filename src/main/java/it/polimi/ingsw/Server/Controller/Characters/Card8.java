@@ -12,10 +12,6 @@ public class Card8 extends CharacterEffectInfluence{
     @Override
     /**During the influence calculation this turn, you count as having 2 more influence*/
     public Player effectInfluence(Island island) {
-        if(island.getHasNoEntryTile()){
-            island.setHasNoEntryTile(false);
-            return null;
-        }
 
         Game game = this.gameController.getGame();
         Player moreInfluentPlayer = null;

@@ -2,6 +2,9 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 
@@ -35,7 +38,9 @@ public class Card7 extends CharacterEffectInitialize{
         boolean end = false;
         do{
             valid=false;
-            chosenPawn = messageHandler.getValueCLI("choose one color pawn from this card: ",gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenPawn= receivedMessage.getValue();
             if (chosenPawn == -1){
                 valid=true;
                 end = true;
@@ -53,7 +58,9 @@ public class Card7 extends CharacterEffectInitialize{
 
         valid = true;
         while(!valid || count > 0){
-            chosenPawn = messageHandler.getValueCLI("choose one color pawn from your entrance: ",gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenPawn= receivedMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1 ){
                     count--;

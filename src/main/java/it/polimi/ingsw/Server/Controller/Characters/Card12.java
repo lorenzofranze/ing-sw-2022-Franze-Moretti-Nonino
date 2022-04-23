@@ -2,8 +2,8 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.StudentChoice;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Player;
@@ -23,9 +23,9 @@ public class Card12 extends CharacterEffect{
         int chosenPawn; // index of ColourPawn enumeration
         do{
             valid=false;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentChoice);
-            StudentChoice receivedMessage = (StudentChoice) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenPawn =receivedMessage.getColourPawn().getIndexColour();
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenPawn =receivedMessage.getValue();
             //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn){

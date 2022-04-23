@@ -2,6 +2,9 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Island;
 
@@ -34,6 +37,8 @@ public class Card5 extends CharacterEffectInitialize{
     }
 
     public void doEffect(){
+        int chosenIslandIndex;
+
         if (NoEntryTilesLeft == 0) {
             System.out.println("There are no No Entry tiles available");
             return;
@@ -43,7 +48,9 @@ public class Card5 extends CharacterEffectInitialize{
 
         do{
             valid = true;
-            int chosenIslandIndex = messageHandler.getValueCLI("choose the Island you want to place the No Entry tile on: ",gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            chosenIslandIndex = receivedMessage.getValue();
             Island chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);
             if(chosenIsland == null){
                 System.out.println("The island chosen doesn't exist");

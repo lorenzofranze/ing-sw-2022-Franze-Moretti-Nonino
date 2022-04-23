@@ -2,6 +2,9 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.Player;
@@ -21,7 +24,9 @@ public class Card9 extends CharacterEffectInfluence{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         do{
             valid = true;
-            index = messageHandler.getValueCLI("colore che non si vuole venga contato:", gameController.getCurrentPlayer());
+            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
+            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+            index= receivedMessage.getValue();
             if(index<0 || index >4)
                 valid = false;
         }while(!valid);

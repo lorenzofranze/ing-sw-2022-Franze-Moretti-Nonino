@@ -3,7 +3,7 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.ActionPhase;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IslandChoice3Message;
+import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.Island;
@@ -33,9 +33,9 @@ public class Card3 extends CharacterEffect{
      * At the end correctly sets the values of finishedTowers and threeOrLessIslands of ActionResult in ActionPhase.
      */
     public void doEffect(){
-        ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice3);
-        IslandChoice3Message receivedMessage = (IslandChoice3Message) messageHandler.communicationWithClient(gameController, messageToSend);
-        int islandIndex =receivedMessage.getIndexIsland();
+        ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice);
+        IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
+        int islandIndex =receivedMessage.getValue();
         //int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();
