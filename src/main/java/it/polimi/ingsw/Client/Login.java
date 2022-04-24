@@ -1,18 +1,26 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Server.Controller.GameMode;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ConnectionMessage;
+
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Login {
-    private final Scanner scanner;
+import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 
-    public Login(Scanner scanner){
-        this.scanner = scanner;
+public class Login {
+    private final LineClient lineClient;
+
+    public Login(LineClient lineClient){
+        this.lineClient = lineClient;
     }
 
-    public void login(){
+    public String login(){
+        Scanner scanner = new Scanner(System.in);
         String nickname;
         int mod;
         boolean valid;
+        String result="0";
         do{
             valid = true;
             System.out.println("inserire nickname(almeno 4 caratteri):");
@@ -21,7 +29,8 @@ public class Login {
                 valid = false;
         } while(!valid);
 
-        System.out.println("modalità di gioco: 1. 2 players simple\n" +
+        System.out.println("modalità di gioco:\n" +
+                "1. 2 players simple\n" +
                 "2. 3 players simple\n" +
                 "3. 2 players complex\n" +
                 "4. 3 players complex");
@@ -32,6 +41,26 @@ public class Login {
                 valid = false;
             }
         }while(!valid);
+
+        ConnectionMessage cm = new ConnectionMessage(nickname, GameMode.values()[mod-1]);
+        System.out.println(cm.toString());
+
+        String stringToSend = JsonConverter.fromMessageToJson(cm);
+        try {
+            lineClient.getOut().write(stringToSend);
+            System.out.println(stringToSend);
+            lineClient.getOut().flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("messaggio connessione inviato...");
+        try {
+            result = lineClient.getIn().readLine();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return result;
 
     }
 

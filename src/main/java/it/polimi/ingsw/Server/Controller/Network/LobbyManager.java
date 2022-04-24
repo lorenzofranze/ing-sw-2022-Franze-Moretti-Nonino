@@ -17,12 +17,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LobbyManager implements Runnable {
     private Map<GameMode, Lobby> waitingLobbies;
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
-    private int lobbyPortNumber = 5000;
+    private Socket clientSocket;
+    private int lobbyPortNumber = 32501;
     private List<String> disconnectedPlayers;
     private static LobbyManager lobbyManager = null;
 
@@ -36,16 +38,16 @@ public class LobbyManager implements Runnable {
     private LobbyManager() {
 
         this.waitingLobbies = new HashMap<>();
-        this.lobbyPortNumber = lobbyPortNumber;
         this.serverController = ServerController.getInstance();
         this.disconnectedPlayers = new ArrayList<>();
 
-        try {
-            lobbyServerSocket = new ServerSocket(lobbyPortNumber);
-        } catch (IOException e) {
-            System.err.println(e.getMessage()); //port not available
-            return;
-        }
+
+            try {
+                lobbyServerSocket = new ServerSocket(lobbyPortNumber);
+            } catch (IOException e) {
+                System.err.println(e.getMessage()); //port not available
+                return;
+            }
 
     }
 
@@ -81,24 +83,25 @@ public class LobbyManager implements Runnable {
     public void welcomeNewPlayers() throws IOException {
         JsonConverter jsonConverter = new JsonConverter();
         ArrayList<String> usedNicknames = new ArrayList<>();
-        ClientMessage unknown;
+        ConnectionMessage unknown;
         System.out.println("Server ready");
-        Socket clientSocket = null;
         while (true) {
             try {
-                Socket socket = lobbyServerSocket.accept();
-                socket.setKeepAlive(true);
+                clientSocket = lobbyServerSocket.accept();
+                clientSocket.setKeepAlive(true);
+                System.out.println("nuova connessione accettata");
 
                 /*The value of this socket option is an Integer that is the number of seconds of idle time before
                 keep-alive initiates a probe.*/
-                socket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
+                //socket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
 
                 /*The value of this socket option is an Integer that is the number of seconds to wait before
                 retransmitting a keep-alive probe.*/
-                socket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
+                //socket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
 
                 /*The value of this socket option is an Integer that is the maximum number of keep-alive probes to be sent.*/
-                socket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
+                //socket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
+
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
             }
@@ -113,7 +116,20 @@ public class LobbyManager implements Runnable {
                 e.printStackTrace();
             }
 
-            unknown = (ClientMessage) jsonConverter.fromJsonToMessage(in.readLine());
+
+            String words="";
+            String tmp= "";
+            do {
+                tmp=in.readLine();
+                words = words+tmp;
+                System.out.println(words);
+            }while(tmp!=null);
+
+            System.out.println(words);
+
+            System.out.println("flag");
+            unknown = (ConnectionMessage) jsonConverter.fromJsonToMessage(words);
+            System.out.println(unknown);
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
                 ConnectionMessage firstMessage=(ConnectionMessage) unknown;
                 String nickname = firstMessage.getNickname();
@@ -140,6 +156,8 @@ public class LobbyManager implements Runnable {
                     if (!usedNicknames.contains(nickname)) {
                         GameMode gameMode = connectionMessage.getGameMode();
                         addNickname(nickname, gameMode, clientSocket);
+                        System.out.println(nickname+" si è connesso");
+                        out.write(1);
                     } else{
                         // to client: -1 if name isn't available
                         out.write(-1);
@@ -150,6 +168,8 @@ public class LobbyManager implements Runnable {
                     //GESTIRE
                 }
 
+            }else{
+                System.out.println("sono nell'else");
             }
         }
         //In case the serverSocket gets closed ( the break statement is called )

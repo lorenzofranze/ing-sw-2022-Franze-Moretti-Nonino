@@ -14,8 +14,6 @@ public class ServerController {
     private static ServerController instance;
     private ExecutorService executorService;
 
-
-
     private Map<Integer, GameController> currentGames;
     private Lobby toStart=null;
     private Integer toStop=null;
@@ -32,6 +30,8 @@ public class ServerController {
         return instance;
     }
 
+
+
     /* ATTENZIONE:
     *  executorService non va bene perchè qualunque cosa facciamo per cancellare un gameController ad esempio
     * aggiorniamo un attributo o altro essendo 2 thread separati è possibile che ancora il metodo di gameController
@@ -39,7 +39,7 @@ public class ServerController {
     *  join() per aspettare la terminazione e poi cancellare
      */
 
-    public void play() throws InterruptedException{
+    public void play(){
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
         Thread t1 = new Thread(lobbyManager);
@@ -51,9 +51,6 @@ public class ServerController {
         t2.start();
 
         while(true){
-            while(toStart==null && toStop==null ){
-                wait();
-            }
             if(toStart!=null){
                 GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
                 currentGames.put(gameController.getGameID(), gameController);

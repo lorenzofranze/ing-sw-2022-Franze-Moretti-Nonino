@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 import it.polimi.ingsw.Server.Controller.Network.LobbyManager;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.PingMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ public class PingSender implements Runnable{
     public void run() {
         while(isConnected){
             PingMessage message= new PingMessage();
-            message.setMessageType("PingMessage");
+            message.setMessageType(TypeOfMessage.Ping);
             JsonConverter jsonConverter=new JsonConverter();
             String messageString= jsonConverter.fromMessageToJson(message);
 

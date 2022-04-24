@@ -32,15 +32,6 @@ class IslandTest {
     }
 
     @Test
-    public void testSetHasNoEntryTile() {
-        Island island=new Island();
-        island.setHasNoEntryTile(true);
-        assertEquals(true, island.getHasNoEntryTile());
-        island.setHasNoEntryTile(false);
-        assertEquals(false, island.getHasNoEntryTile());
-    }
-
-    @Test
     public void testAddStudents() {
         Island island=new Island();
         island.getStudents().add(ColourPawn.Green, 3);
