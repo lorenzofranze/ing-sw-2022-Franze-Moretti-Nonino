@@ -483,4 +483,9 @@ public class ActionPhase extends GamePhase {
         if (actionResult.isThreeOrLessIslands() == true) return true;
         return false;
     }
+
+    @Override
+    public String toString(){
+        return "ActionPhase";
+    }
 }

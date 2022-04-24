@@ -134,6 +134,7 @@ public class GameController implements Runnable {
         for(Player p: game.getPlayers()){
             GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
 
+
             messageHandler.communicationWithClient(this, gameStateMessage);
         }
     }
@@ -260,5 +261,9 @@ public class GameController implements Runnable {
 
     public ActionPhase getActionPhase() {
         return actionPhase;
+    }
+
+    public GamePhase getCurrentPhase() {
+        return currentPhase;
     }
 }

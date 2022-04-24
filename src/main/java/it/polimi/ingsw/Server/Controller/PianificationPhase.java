@@ -194,4 +194,9 @@ public class PianificationPhase extends GamePhase {
         return;
     }
 
+    @Override
+    public String toString(){
+        return "PianificationPhase";
+    }
+
 }
