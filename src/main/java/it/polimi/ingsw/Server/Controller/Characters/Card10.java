@@ -39,14 +39,16 @@ public class Card10 extends CharacterEffect{
                 if(colourEntrance<=-1 || colourEntrance >=5){
                     valid=false;
                     // to user: index not valid
-                    System.out.println("indexColour not valid.");
+                    messageHandler.stringMessageToClient(gameController,"indexColour not valid.", gameController.getCurrentPlayer().getNickname());
+                    //System.out.println("indexColour not valid.");
                 }
                 if(valid){
                     if (gameController.getCurrentPlayer().getSchoolBoard()
                             .getEntrance().get(ColourPawn.get(colourEntrance)) <= 0){
                         valid = false;
                         //to user: change color pawn to move, you don't have that color
-                        System.out.println("You don't have that colour.");
+                        messageHandler.stringMessageToClient(gameController,"You don't have that colour.", gameController.getCurrentPlayer().getNickname());
+                        //System.out.println("You don't have that colour.");
                     }
                 }
                 if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().

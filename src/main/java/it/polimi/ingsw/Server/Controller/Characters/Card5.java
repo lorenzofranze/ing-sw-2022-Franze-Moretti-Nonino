@@ -53,7 +53,8 @@ public class Card5 extends CharacterEffectInitialize{
             chosenIslandIndex = receivedMessage.getValue();
             Island chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);
             if(chosenIsland == null){
-                System.out.println("The island chosen doesn't exist");
+                messageHandler.stringMessageToClient(gameController,"The island chosen doesn't exist", gameController.getCurrentPlayer().getNickname());
+                //System.out.println("The island chosen doesn't exist");
                 valid = false;
             }
             if (valid == true){

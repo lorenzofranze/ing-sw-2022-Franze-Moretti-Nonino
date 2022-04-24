@@ -121,12 +121,14 @@ public class PianificationPhase extends GamePhase {
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    System.out.println("an other player has alrealy played this card in this round, rechoose.");
+                    messageHandler.stringMessageToClient(gameController,"an other player has alrealy played this card in this round, rechoose.",currentPlayer.getNickname());
+                    //System.out.println("an other player has alrealy played this card in this round, rechoose.");
                 }
 
             }
             else{
-                System.out.println("You have already played this card, rechoose.");
+                messageHandler.stringMessageToClient(gameController,"\"You have already played this card, rechoose.\"",currentPlayer.getNickname());
+                //System.out.println("You have already played this card, rechoose.");
             }
         }
         while(valid == false || mustChange == true);

@@ -43,9 +43,11 @@ public class Card3 extends CharacterEffect{
 
 
         if (moreInfluentPlayer == null){
-            System.out.println("MOREINFLUENTPLAYER: none");
+            messageHandler.stringMessageToClient(gameController,"MOREINFLUENTPLAYER: none",gameController.getCurrentPlayer().getNickname());
+            //System.out.println("MOREINFLUENTPLAYER: none");
         } else {
-            System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
+            messageHandler.stringMessageToClient(gameController,"MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString(),gameController.getCurrentPlayer().getNickname());
+            //System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
         }
 
         if (moreInfluentPlayer != null){
@@ -54,7 +56,12 @@ public class Card3 extends CharacterEffect{
             gameController.update();
             if (finishedTowers) {
                 actionPhase.getActionResult().setFinishedTowers(true);
-                System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
+                for(Player player: gameController.getGame().getPlayers())
+                {
+                    messageHandler.stringMessageToClient(gameController,gameController.getCurrentPlayer().toString() + " has finished his/her Towers",player.getNickname());
+                }
+            }
+            //System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
                 return;
             }
 
@@ -66,9 +73,13 @@ public class Card3 extends CharacterEffect{
 
             if(numIslands<4){
                 actionPhase.getActionResult().setThreeOrLessIslands(true);
-                System.out.println("There are 3 or less islands");
+                for(Player player: gameController.getGame().getPlayers())
+                {
+                    messageHandler.stringMessageToClient(gameController,"There are 3 or less islands",player.getNickname());
+                }
+                //System.out.println("There are 3 or less islands");
                 return;
             }
         }
     }
-}
+
