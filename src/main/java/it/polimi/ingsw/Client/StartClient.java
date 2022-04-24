@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class StartClient {
     public static void main(String Args[]){
-        String result;
+        int result;
 
         //System.out.println("inserire ip server: ");
         Scanner scanner = new Scanner(System.in);
@@ -17,19 +17,12 @@ public class StartClient {
             }
             Login login = new Login(lineClient);
             result=login.login();
-            if(result.equals("-1"))
+            if(result==-1)
                 System.out.println("nickname già in uso, riprovare");
-            else if(result.equals("1"))
+            else if(result==(1))
                 System.out.println("benvenuto, la partita inizierà a breve, attendendo altri giocatori...");
             else
                 System.out.println("errore generico");
-        }while(!result.equals("1"));
-
-
-
-
-
+        }while(result!=1);
     }
-
-
 }

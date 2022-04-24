@@ -20,6 +20,7 @@ public class ServerController {
 
     private ServerController(){
         this.instance=null;
+        this.currentGames=new HashMap<>();
         executorService= Executors.newCachedThreadPool();
     }
 

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Server.Controller.Network;
 
 import it.polimi.ingsw.Server.Controller.GameMode;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ConnectionMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.*;
 import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Player;
 import jdk.net.ExtendedSocketOptions;
@@ -83,7 +80,7 @@ public class LobbyManager implements Runnable {
     public void welcomeNewPlayers() throws IOException {
         JsonConverter jsonConverter = new JsonConverter();
         ArrayList<String> usedNicknames = new ArrayList<>();
-        ConnectionMessage unknown;
+        Message unknown;
         System.out.println("Server ready");
         while (true) {
             try {
@@ -118,17 +115,21 @@ public class LobbyManager implements Runnable {
 
 
             String words="";
-            String tmp= "";
-            do {
+            int ind=0;
+            String tmp="";
+            while(ind<4) {
                 tmp=in.readLine();
                 words = words+tmp;
+                System.out.println("tmp"+ tmp);
                 System.out.println(words);
-            }while(tmp!=null);
+                ind++;
+            }
 
             System.out.println(words);
 
             System.out.println("flag");
-            unknown = (ConnectionMessage) jsonConverter.fromJsonToMessage(words);
+            words=words+"}";
+            unknown = jsonConverter.fromJsonToMessage(words);
             System.out.println(unknown);
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
                 ConnectionMessage firstMessage=(ConnectionMessage) unknown;
@@ -141,7 +142,7 @@ public class LobbyManager implements Runnable {
                 //check playing-clients
                 if (!disconnectedPlayers.contains(nickname)) {
                     usedNicknames.clear();
-                    for (int i : ServerController.getInstance().getCurrentGames().keySet()) {
+                    for (int i : serverController.getInstance().getCurrentGames().keySet()) {
                         for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
                             usedNicknames.add(p.getNickname());
                         }
@@ -158,9 +159,12 @@ public class LobbyManager implements Runnable {
                         addNickname(nickname, gameMode, clientSocket);
                         System.out.println(nickname+" si è connesso");
                         out.write(1);
+                        out.flush();
+
                     } else{
                         // to client: -1 if name isn't available
-                        out.write(-1);
+                        out.write(1);
+                        out.flush();
                     }
                 } else {
                     usedNicknames.remove(nickname);

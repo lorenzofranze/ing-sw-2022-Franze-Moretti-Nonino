@@ -15,12 +15,12 @@ public class Login {
         this.lineClient = lineClient;
     }
 
-    public String login(){
+    public int login(){
         Scanner scanner = new Scanner(System.in);
         String nickname;
         int mod;
         boolean valid;
-        String result="0";
+        int result=0;
         do{
             valid = true;
             System.out.println("inserire nickname(almeno 4 caratteri):");
@@ -55,7 +55,9 @@ public class Login {
         }
         System.out.println("messaggio connessione inviato...");
         try {
-            result = lineClient.getIn().readLine();
+            System.out.println("aspetto result");
+            result = lineClient.getIn().read();
+            System.out.println("result");
         }catch (IOException e){
             e.printStackTrace();
         }
