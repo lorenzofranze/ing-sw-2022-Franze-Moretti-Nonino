@@ -43,8 +43,10 @@ public class ActionPhase extends GamePhase {
 
                 for(Player player: gameController.getGame().getPlayers()){
                     messageHandler.stringMessageToClient(gameController,p+ " TURN \n", player.getNickname());
+                    messageHandler.stringMessageToClient(gameController,"\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n" , player.getNickname());
                 }
                 //System.out.println("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
+
 
                 //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
                 //    System.out.println("\n\t\t\t\t" + gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " SCHOOLBOARD");
@@ -61,12 +63,13 @@ public class ActionPhase extends GamePhase {
                 gameController.update();
                 moveStudents();
                 gameController.update();
-                //??
-                System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
-                for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
-                    System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
-                    System.out.print(gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString() + "\n");
-                }
+
+                messageHandler.stringMessageToClient(gameController, "\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION", p.getNickname());
+                //System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
+                //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
+                //    System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
+                //    System.out.print(gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString() + "\n");
+                //}
 
                 askforCharacter();
                 gameController.update();
@@ -78,8 +81,9 @@ public class ActionPhase extends GamePhase {
 
                 Island whereMotherNature = moveMotherNature(p);
 
-                //??
-                System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
+                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature() + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n",p.getNickname());
+
+                //System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
                 if(whereMotherNature.getNumNoEntryTile()>0){
@@ -136,11 +140,11 @@ public class ActionPhase extends GamePhase {
 
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
-            //??
-            if (!isLastRoundFinishedStudentsBag) {
-                System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
-                chooseCloud();
-            }
+
+            //if (!isLastRoundFinishedStudentsBag) {
+            //    System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
+            //    chooseCloud();
+            //}
 
             gameController.update();
 
