@@ -19,6 +19,26 @@ public class  JsonConverter {
             ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
             return messageReal;
         }
+        if(message.getMessageType()== TypeOfMessage.StudentColour||
+                message.getMessageType()== TypeOfMessage.IslandChoice ||
+                message.getMessageType()== TypeOfMessage.AssistantCard ||
+                message.getMessageType()== TypeOfMessage.CharacterCard ||
+                message.getMessageType()== TypeOfMessage.CloudChoice ||
+                message.getMessageType()== TypeOfMessage.MoveMotherNature ||
+                message.getMessageType()==TypeOfMessage.Where ||
+                message.getMessageType()==TypeOfMessage.Number){
+            IntMessage messageReal=  gson.fromJson(jsonString, IntMessage.class);
+            return messageReal;
+        }
+        if(message.getMessageType()== TypeOfMessage.Ping){
+            PingMessage messageReal=  gson.fromJson(jsonString, PingMessage.class);
+            return messageReal;
+        }
+        if(message.getMessageType()== TypeOfMessage.GameState){
+            GameStateMessage messageReal=  gson.fromJson(jsonString, GameStateMessage.class);
+            return messageReal;
+        }
+
         return message;
     }
 
