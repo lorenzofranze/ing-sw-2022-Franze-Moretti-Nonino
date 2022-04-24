@@ -156,4 +156,9 @@ public class SetUpPhase extends GamePhase {
             }
         }
     }
+
+    @Override
+    public String toString(){
+        return "SetUpPhase";
+    }
 }

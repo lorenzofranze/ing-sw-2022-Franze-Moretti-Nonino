@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
+import it.polimi.ingsw.Server.Controller.Network.Messages.StringMessage;
 import it.polimi.ingsw.Server.Model.Player;
 
 import java.io.*;
@@ -144,6 +145,19 @@ public class MessageHandler {
         }
 
        return receivedMessage;
+    }
+
+    public void stringMessageToClient(GameController gameController, String stringToSend, String nickname){
+        StringMessage stringMessage= new StringMessage(nickname,stringToSend);
+        String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
+
+        String receivedString=null;
+        try {
+            bufferedReaderOut.get(nickname).write(stringToSend);
+            bufferedReaderOut.get(nickname).flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){

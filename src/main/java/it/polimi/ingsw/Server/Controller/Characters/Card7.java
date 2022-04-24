@@ -27,10 +27,10 @@ public class Card7 extends CharacterEffectInitialize{
         PawnsMap pawnsChosen = new PawnsMap();
         PawnsMap pawnsToRemove = new PawnsMap();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
-        System.out.println("The students on the card are:\n" + pawns);
+        //System.out.println("The students on the card are:\n" + pawns);
 
-        System.out.println("You can choose up to 3 Students from this card and replace them with the same amount of " +
-                "Students form your entrance ( colour pawn '-1' to end):\n");
+        //System.out.println("You can choose up to 3 Students from this card and replace them with the same amount of " +
+        //        "Students form your entrance ( colour pawn '-1' to end):\n");
         boolean valid;
         int chosenPawn; // index of ColourPawn enumeration
         int chosenIsland; // index island
@@ -76,11 +76,7 @@ public class Card7 extends CharacterEffectInitialize{
         gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(pawnsChosen);
         pawns.add(pawnsToRemove);
 
-        System.out.println("Your current entrance is: " + gameController.getCurrentPlayer().getSchoolBoard().getEntrance());
-
-
-
-
+        //System.out.println("Your current entrance is: " + gameController.getCurrentPlayer().getSchoolBoard().getEntrance());
 
     }
 }

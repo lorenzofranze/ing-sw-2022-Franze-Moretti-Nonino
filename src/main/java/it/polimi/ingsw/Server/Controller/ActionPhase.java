@@ -40,38 +40,50 @@ public class ActionPhase extends GamePhase {
 
                 gameController.setCurrentPlayer(p);
 
-                System.out.println("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
 
-                for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
-                    System.out.println("\n\t\t\t\t" + gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " SCHOOLBOARD");
-                    System.out.println("ENTRANCE:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getEntrance().toString());
-                    System.out.println("DINING ROOM:"+ gameController.getGame().getPlayers().get(i).getSchoolBoard().getDiningRoom().toString());
-                    System.out.println("PROFESSORS:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString());
+                for(Player player: gameController.getGame().getPlayers()){
+                    messageHandler.stringMessageToClient(gameController,p+ " TURN \n", player.getNickname());
+                    messageHandler.stringMessageToClient(gameController,"\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n" , player.getNickname());
                 }
+                //System.out.println("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
 
-                System.out.println("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
-                System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
+
+                //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
+                //    System.out.println("\n\t\t\t\t" + gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " SCHOOLBOARD");
+                //    System.out.println("ENTRANCE:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getEntrance().toString());
+                //    System.out.println("DINING ROOM:"+ gameController.getGame().getPlayers().get(i).getSchoolBoard().getDiningRoom().toString());
+                //   System.out.println("PROFESSORS:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString());
+                //}
+
+                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+ "\nISLANDS:\\n\" + gameController.getGame().islandsToString()",p.getNickname());
+                //System.out.println("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
+                //System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
                 gameController.update();
                 askforCharacter();
                 gameController.update();
                 moveStudents();
                 gameController.update();
-                System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
-                for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
-                    System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
-                    System.out.print(gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString() + "\n");
-                }
+
+                messageHandler.stringMessageToClient(gameController, "\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION", p.getNickname());
+                //System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
+                //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
+                //    System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
+                //    System.out.print(gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString() + "\n");
+                //}
 
                 askforCharacter();
                 gameController.update();
                 if (checkEnd() == true){return actionResult;}
 
-                System.out.print("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
-                System.out.println(" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
+                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n",p.getNickname());
+                //System.out.print("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
+                //System.out.println(" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
 
                 Island whereMotherNature = moveMotherNature(p);
 
-                System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
+                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature() + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n",p.getNickname());
+
+                //System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
                 if(whereMotherNature.getNumNoEntryTile()>0){
@@ -85,9 +97,11 @@ public class ActionPhase extends GamePhase {
                 gameController.update();
 
                 if (moreInfluentPlayer == null){
-                    System.out.println("MOREINFLUENTPLAYER: none");
+                    messageHandler.stringMessageToClient(gameController,"MOREINFLUENTPLAYER: none",p.getNickname());
+                    //System.out.println("MOREINFLUENTPLAYER: none");
                 } else {
-                    System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
+                    messageHandler.stringMessageToClient(gameController,"MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString(),p.getNickname());
+                    //System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
                 }
 
                 if (moreInfluentPlayer != null){
@@ -95,7 +109,10 @@ public class ActionPhase extends GamePhase {
                     gameController.update();
                     if (isEnded) {
                         actionResult.setFinishedTowers(true);
-                        System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
+                        for(Player player: gameController.getGame().getPlayers()){
+                            messageHandler.stringMessageToClient(gameController,gameController.getCurrentPlayer().toString() + " has finished his/her Towers",player.getNickname());
+                        }
+                        //System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
                         return actionResult;
                     }
 
@@ -107,7 +124,9 @@ public class ActionPhase extends GamePhase {
 
                     if(numIslands<4){
                         actionResult.setThreeOrLessIslands(true);
-                        System.out.println("There are 3 or less islands");
+                        for(Player player: gameController.getGame().getPlayers()){
+                            messageHandler.stringMessageToClient(gameController,"There are 3 or less islands",player.getNickname());
+                        }
                         return actionResult;
                     }
 
@@ -121,10 +140,11 @@ public class ActionPhase extends GamePhase {
 
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
-            if (!isLastRoundFinishedStudentsBag) {
-                System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
-                chooseCloud();
-            }
+
+            //if (!isLastRoundFinishedStudentsBag) {
+            //    System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
+            //    chooseCloud();
+            //}
 
             gameController.update();
 
@@ -184,14 +204,17 @@ public class ActionPhase extends GamePhase {
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     // to user: index not valid
-                    System.out.println("indexColour not valid.");
+                    messageHandler.stringMessageToClient(gameController,"indexColour not valid.",gameController.getCurrentPlayer().getNickname());
+                    //System.out.println("indexColour not valid.");
                 }
                 if(valid){
                     if (gameController.getCurrentPlayer().getSchoolBoard()
                             .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                         valid = false;
                         //to user: change color pawn to move, you don't have that color
-                        System.out.println("You don't have that colour.");
+                        messageHandler.stringMessageToClient(gameController,"You don't have that colour.",gameController.getCurrentPlayer().getNickname());
+
+                        //System.out.println("You don't have that colour.");
                     }
                 }
 
@@ -365,8 +388,10 @@ public class ActionPhase extends GamePhase {
         if(  cloudNotEmpty.size() == 1 ){
             gameController.getCurrentPlayer().getSchoolBoard().insertCloud(cloudNotEmpty.get(0));
 
-            System.out.println("There is only one Cloud left. You have received students form Cloud number " +
-                    gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
+            messageHandler.stringMessageToClient(gameController,"There is only one Cloud left. You have received students form Cloud number " +
+                    gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)), gameController.getCurrentPlayer().getNickname());
+            //System.out.println("There is only one Cloud left. You have received students form Cloud number " +
+            //        gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
 
             return;
         }
@@ -457,5 +482,10 @@ public class ActionPhase extends GamePhase {
         if (actionResult.isFinishedTowers() == true) return true;
         if (actionResult.isThreeOrLessIslands() == true) return true;
         return false;
+    }
+
+    @Override
+    public String toString(){
+        return "ActionPhase";
     }
 }
