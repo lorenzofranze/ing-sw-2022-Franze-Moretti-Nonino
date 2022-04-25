@@ -168,8 +168,6 @@ public class LobbyManager implements Runnable {
                     //GESTIRE
                 }
 
-            }else{
-                System.out.println("sono nell'else");
             }
         }
         //In case the serverSocket gets closed ( the break statement is called )
@@ -193,6 +191,7 @@ public class LobbyManager implements Runnable {
 
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
                 serverController.setToStart(waitingLobbies.get(mode));
+                System.out.println("creazione Lobby modalità "+mode);
                 waitingLobbies.remove(mode);
             }
         } else {

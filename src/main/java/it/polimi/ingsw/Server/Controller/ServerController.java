@@ -15,8 +15,8 @@ public class ServerController {
     private ExecutorService executorService;
 
     private Map<Integer, GameController> currentGames;
-    private Lobby toStart=null;
-    private Integer toStop=null;
+    private Lobby toStart;
+    private Integer toStop;
 
     private ServerController(){
         this.instance=null;
@@ -46,13 +46,15 @@ public class ServerController {
         Thread t1 = new Thread(lobbyManager);
         t1.start();
 
+        System.out.println("falg1");
         //thread that stop games
         StopManager stopManager = StopManager.getInstance();
         Thread t2 = new Thread(stopManager);
         t2.start();
-
+        System.out.println("falg2");
         while(true){
             if(toStart!=null){
+                System.out.println("creato game controller per la lobby");
                 GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
                 currentGames.put(gameController.getGameID(), gameController);
                 executorService.submit(gameController);
@@ -62,20 +64,16 @@ public class ServerController {
                 setToStop(null);
             }
         }
-        //executorService.shutdown();
 
     }
 
 
-    public void setToStart(Lobby toStart){
-        synchronized (toStart) {
+    public synchronized void setToStart(Lobby toStart){
             this.toStart = toStart;
-        }
+            System.out.println("falg5");
     }
-    public void setToStop(Integer toStop){
-        synchronized (toStop) {
+    public synchronized void setToStop(Integer toStop){
             this.toStop = toStop;
-        }
     }
 
     public void removeCurrentGame(int gameID){
