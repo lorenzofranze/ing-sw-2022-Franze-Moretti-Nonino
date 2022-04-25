@@ -8,14 +8,15 @@ import java.util.Scanner;
 
 import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 
-public class Login {
+public class Login implements Runnable {
     private final LineClient lineClient;
+    private int result=0;
 
     public Login(LineClient lineClient){
         this.lineClient = lineClient;
     }
 
-    public int login(){
+    public void run (){
         Scanner scanner = new Scanner(System.in);
         String nickname;
         int mod;
@@ -60,8 +61,6 @@ public class Login {
         }catch (IOException e){
             e.printStackTrace();
         }
-
-        return result;
 
     }
 

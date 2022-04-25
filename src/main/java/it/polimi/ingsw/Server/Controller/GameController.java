@@ -56,6 +56,9 @@ public class GameController implements Runnable {
     }
 
     public void run(){
+        for(Player p: game.getPlayers()){
+            messageHandler.stringMessageToClient(this, "THE GAME IS STARTING", p.getNickname());
+        }
 
         this.setUpPhase=new SetUpPhase(this);
         this.pianificationPhase=new PianificationPhase(this);
@@ -73,7 +76,10 @@ public class GameController implements Runnable {
                 firstPlayer = actionResult.getFirstPianificationPlayer();
             }
 
-            System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
+            for(Player p: game.getPlayers()){
+                messageHandler.stringMessageToClient(this, "PIANIFICATION PHASE", p.getNickname());
+            }
+            //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
 
             pianificationResult = this.pianificationPhase.handle(firstPlayer);
 
