@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 
-public class Login implements Runnable {
+public class Login {
     private final LineClient lineClient;
     private int result=0;
 
@@ -16,7 +16,7 @@ public class Login implements Runnable {
         this.lineClient = lineClient;
     }
 
-    public void run (){
+    public int start () throws IOException {
         Scanner scanner = new Scanner(System.in);
         String nickname;
         int mod;
@@ -39,6 +39,7 @@ public class Login implements Runnable {
             valid= true;
             mod = readInt(scanner);
             if(mod<=0 || mod >=5) {
+                System.out.println("not valid");
                 valid = false;
             }
         }while(!valid);
@@ -48,20 +49,21 @@ public class Login implements Runnable {
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
             lineClient.getOut().write(stringToSend);
-            System.out.println(stringToSend);
             lineClient.getOut().flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("impossibile inviare il messaggio: disconnesso");
+            throw e;
         }
         System.out.println("messaggio connessione inviato...");
         try {
-            System.out.println("aspetto result");
             result = lineClient.getIn().read();
-            System.out.println("result");
+            System.out.println("esito ricevuto");
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("nessuna risposta dal server: disconnesso");
+            throw  e;
         }
 
+        return result;
     }
 
     public int readInt(Scanner scanner){
