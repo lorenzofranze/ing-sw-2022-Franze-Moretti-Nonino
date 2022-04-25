@@ -44,7 +44,7 @@ public class  JsonConverter {
 
 
     public static String fromMessageToJson(Message message){
-        String jsonString=gson.toJson(message);
+        String jsonString=gson.toJson(message) + "\nEOF\n";
         return(jsonString);
     }
 

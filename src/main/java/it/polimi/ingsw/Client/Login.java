@@ -43,7 +43,6 @@ public class Login {
         }while(!valid);
 
         ConnectionMessage cm = new ConnectionMessage(nickname, GameMode.values()[mod-1]);
-        System.out.println(cm.toString());
 
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {

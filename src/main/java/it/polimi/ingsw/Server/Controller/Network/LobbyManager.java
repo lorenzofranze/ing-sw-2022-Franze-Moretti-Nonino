@@ -114,21 +114,17 @@ public class LobbyManager implements Runnable {
             }
 
 
-            String words="";
-            int ind=0;
-            String tmp="";
-            while(ind<4) {
-                tmp=in.readLine();
-                words = words+tmp;
-                System.out.println("tmp"+ tmp);
-                System.out.println(words);
-                ind++;
+            String words = "";
+            String line = in.readLine();
+            while (!line.equals("EOF")){
+                words = words + line + "\n";
+                line = in.readLine();
             }
 
             System.out.println(words);
 
             System.out.println("flag");
-            words=words+"}";
+
             unknown = jsonConverter.fromJsonToMessage(words);
             System.out.println(unknown);
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
