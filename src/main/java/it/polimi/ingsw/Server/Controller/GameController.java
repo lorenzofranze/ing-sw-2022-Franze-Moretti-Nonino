@@ -10,13 +10,11 @@ import it.polimi.ingsw.Server.Model.Character;
 import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.Player;
+import it.polimi.ingsw.utils.Observable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class GameController implements Runnable {
+public class GameController  implements Runnable  {
     private static int gameID = 1;
 
     private SetUpPhase setUpPhase;
@@ -136,14 +134,16 @@ public class GameController implements Runnable {
 
     }
 
+
+
     public void update(){
-        for(Player p: game.getPlayers()){
+        for(Player p: this.game.getPlayers()){
             GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
-
-
             messageHandler.communicationWithClient(this, gameStateMessage);
         }
     }
+
+
 
     /**sets the GameController.winner
      * if it remains null, it means ther is no winner*/

@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class Game {
+public class Game{
 
     //SIMPLE GAME ATTRIBUTES
     private Integer gameId;

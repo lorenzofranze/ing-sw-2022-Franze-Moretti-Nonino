@@ -160,6 +160,15 @@ public class MessageHandler {
         }
     }
 
+    public void asyncSend(GameController gameController, String stringToSend, String nickname){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                stringMessageToClient(gameController,stringToSend,nickname);
+            }
+        }).start();
+    }
+
     private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
         return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
 
