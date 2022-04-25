@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Client;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class ClientApp {
@@ -18,8 +17,8 @@ public class ClientApp {
 
             Login login = new Login(lineClient);
             login.run();
-            PlayGame playGame=new PlayGame(lineClient);
-            playGame.run();
+            PlayGamePianification playGamePianification =new PlayGamePianification(lineClient);
+            playGamePianification.run();
 
         }
 }
