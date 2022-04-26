@@ -26,13 +26,13 @@ public class ConnectionManager{
     }
 
 
-    public void startPing(){
+    /*public void startPing(){
         for(String s: lobby.getUsersNicknames()){
             Socket socket= lobby.getUsersReadyToPlay().get(s);
             PingSender pingSender=new PingSender(s, messageHandler);
             pingSender.run();
         }
-    }
+    }*/
 
     public boolean isActive() {
         return active;
