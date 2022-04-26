@@ -12,7 +12,7 @@ public class ClientApp {
 
             do {
                 try {
-                    lineClient = new LineClient("localhost", 32501);
+                    lineClient = new LineClient("localhost", 32502);
                 } catch (IOException ex) {
                     System.out.println("impossibile connettersi");
                     return;

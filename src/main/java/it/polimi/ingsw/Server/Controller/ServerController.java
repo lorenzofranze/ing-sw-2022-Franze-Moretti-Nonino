@@ -50,29 +50,24 @@ public class ServerController {
         StopManager stopManager = StopManager.getInstance();
         Thread t2 = new Thread(stopManager);
         t2.start();
-        while(true){
-            if(toStart!=null){
-                System.out.println("creato game controller per la lobby");
-                GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
-                currentGames.put(gameController.getGameID(), gameController);
-                executorService.submit(gameController);
-                setToStart(null);
-            }else if(toStop!=null){
-                removeCurrentGame(toStop);
-                setToStop(null);
-            }
-        }
-
     }
 
 
-    public synchronized void setToStart(Lobby toStart){
-            this.toStart = toStart;
-            boolean check=(this.toStart==null);
-            System.out.println(check);
+    public void start(Lobby toStart){
+        this.toStart = toStart;
+        boolean check=(this.toStart==null);
+        System.out.println(check);
+
+        System.out.println("creato game controller per la lobby");
+        GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
+        currentGames.put(gameController.getGameID(), gameController);
+        executorService.submit(gameController);
+
     }
-    public synchronized void setToStop(Integer toStop){
+
+    public void setToStop(Integer toStop){
             this.toStop = toStop;
+            removeCurrentGame(toStop);
     }
 
     public void removeCurrentGame(int gameID){

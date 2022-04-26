@@ -21,7 +21,7 @@ public class LobbyManager implements Runnable {
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
     private Socket clientSocket;
-    private int lobbyPortNumber = 32501;
+    private int lobbyPortNumber = 32502;
     private List<String> disconnectedPlayers;
     private static LobbyManager lobbyManager = null;
 
@@ -39,12 +39,12 @@ public class LobbyManager implements Runnable {
         this.disconnectedPlayers = new ArrayList<>();
 
 
-            try {
-                lobbyServerSocket = new ServerSocket(lobbyPortNumber);
-            } catch (IOException e) {
-                System.err.println(e.getMessage()); //port not available
-                return;
-            }
+        try {
+            lobbyServerSocket = new ServerSocket(lobbyPortNumber);
+        } catch (IOException e) {
+            System.err.println(e.getMessage()); //port not available
+            return;
+        }
 
     }
 
@@ -89,14 +89,14 @@ public class LobbyManager implements Runnable {
 
                 /*The value of this socket option is an Integer that is the number of seconds of idle time before
                 keep-alive initiates a probe.*/
-                clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
+                //clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
 
                 /*The value of this socket option is an Integer that is the number of seconds to wait before
                 retransmitting a keep-alive probe.*/
-                clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
+                //clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
 
                 /*The value of this socket option is an Integer that is the maximum number of keep-alive probes to be sent.*/
-                clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
+                //clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
 
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
@@ -185,7 +185,7 @@ public class LobbyManager implements Runnable {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket);
 
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
-                serverController.setToStart(waitingLobbies.get(mode));
+                serverController.start(waitingLobbies.get(mode));
                 System.out.println("creazione Lobby modalità "+mode);
                 System.out.println("flag6");
                 waitingLobbies.remove(mode);
