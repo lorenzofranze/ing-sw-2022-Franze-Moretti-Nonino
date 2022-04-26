@@ -60,6 +60,7 @@ public class ServerController {
                 executorService.submit(gameController);
                 setToStart(null);
             }else if(toStop!=null){
+                System.out.println("flag9");
                 removeCurrentGame(toStop);
                 setToStop(null);
             }
@@ -71,6 +72,8 @@ public class ServerController {
     public synchronized void setToStart(Lobby toStart){
             this.toStart = toStart;
             System.out.println("falg5");
+            boolean check=(this.toStart==null);
+            System.out.println(check);
     }
     public synchronized void setToStop(Integer toStop){
             this.toStop = toStop;

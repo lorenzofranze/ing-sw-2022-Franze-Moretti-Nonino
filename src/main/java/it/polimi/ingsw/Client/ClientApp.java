@@ -42,8 +42,17 @@ public class ClientApp {
                 PlayGamePianification playGamePianification = new PlayGamePianification(lineClient);
                 playGamePianification.run();
 
+            /* questo copre solo il caso in cui il server si spegne
+            o questo giocatore si disconnette, da fare ancora caso in cui
+            un altro giocatore contro cui sto giocando si disconnette -> pareggio a tutti
+             */
+            }catch(IOException so){
+                System.out.println("connessione con il server persa");
+            }
 
-
+            try {
+                PlayGameAction playGameAction = new PlayGameAction(lineClient);
+                playGameAction.run();
 
             /* questo copre solo il caso in cui il server si spegne
             o questo giocatore si disconnette, da fare ancora caso in cui

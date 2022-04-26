@@ -192,7 +192,10 @@ public class LobbyManager implements Runnable {
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
                 serverController.setToStart(waitingLobbies.get(mode));
                 System.out.println("creazione Lobby modalità "+mode);
+                System.out.println("flag6");
                 waitingLobbies.remove(mode);
+                System.out.println("flag7");
+
             }
         } else {
             Lobby newLobby = new Lobby(mode);
