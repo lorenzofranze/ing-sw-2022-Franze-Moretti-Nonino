@@ -14,7 +14,7 @@ import it.polimi.ingsw.utils.Observable;
 
 import java.util.*;
 
-public class GameController  implements Runnable  {
+public class GameController implements Runnable  {
     private static int gameID = 1;
 
     private SetUpPhase setUpPhase;
@@ -132,15 +132,6 @@ public class GameController  implements Runnable  {
         //for(Player p : this.game.getPlayers())
         //    System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
 
-    }
-
-
-
-    public void update(){
-        for(Player p: this.game.getPlayers()){
-            GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
-            messageHandler.communicationWithClient(this, gameStateMessage);
-        }
     }
 
 
@@ -271,5 +262,12 @@ public class GameController  implements Runnable  {
 
     public GamePhase getCurrentPhase() {
         return currentPhase;
+    }
+
+    public void update(){
+        for (Player p: this.getGame().getPlayers()){
+            GameStateMessage gameStateMessage=new GameStateMessage(p.getNickname(),TypeOfMessage.GameState,this);
+            messageHandler.communicationWithClient(this, gameStateMessage);
+        }
     }
 }

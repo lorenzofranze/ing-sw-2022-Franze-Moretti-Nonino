@@ -1,10 +1,17 @@
 package it.polimi.ingsw.Server.Model;
 
+import it.polimi.ingsw.Client.View.View;
+import it.polimi.ingsw.Server.Controller.GameController;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.ServerController;
+import it.polimi.ingsw.utils.Observable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class Game{
+public class Game {
 
     //SIMPLE GAME ATTRIBUTES
     private Integer gameId;
@@ -13,6 +20,9 @@ public class Game{
     private PawnsMap studentsBag;
     private List<Cloud> clouds;
     private PawnsMap professorsLeft;
+
+
+
 
     //EXPERT GAME ATTRIBUTES
     /**keeps track of the effect used by the current player. It represents the characterId
@@ -220,4 +230,7 @@ public class Game{
         ris = islands.get(i);
         return ris;
     }
+
+
+
 }
