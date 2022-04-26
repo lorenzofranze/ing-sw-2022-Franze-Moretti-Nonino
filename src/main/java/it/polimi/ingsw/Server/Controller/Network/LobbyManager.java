@@ -86,18 +86,17 @@ public class LobbyManager implements Runnable {
             try {
                 clientSocket = lobbyServerSocket.accept();
                 clientSocket.setKeepAlive(true);
-                System.out.println("nuova connessione accettata");
 
                 /*The value of this socket option is an Integer that is the number of seconds of idle time before
                 keep-alive initiates a probe.*/
-                //socket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
+                clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
 
                 /*The value of this socket option is an Integer that is the number of seconds to wait before
                 retransmitting a keep-alive probe.*/
-                //socket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
+                clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
 
                 /*The value of this socket option is an Integer that is the maximum number of keep-alive probes to be sent.*/
-                //socket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
+                clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
 
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
@@ -120,10 +119,6 @@ public class LobbyManager implements Runnable {
                 words = words + line + "\n";
                 line = in.readLine();
             }
-
-            System.out.println(words);
-
-            System.out.println("flag");
 
             unknown = jsonConverter.fromJsonToMessage(words);
             System.out.println(unknown);

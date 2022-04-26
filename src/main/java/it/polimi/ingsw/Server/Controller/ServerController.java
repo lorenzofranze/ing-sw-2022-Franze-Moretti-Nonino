@@ -46,12 +46,10 @@ public class ServerController {
         Thread t1 = new Thread(lobbyManager);
         t1.start();
 
-        System.out.println("falg1");
         //thread that stop games
         StopManager stopManager = StopManager.getInstance();
         Thread t2 = new Thread(stopManager);
         t2.start();
-        System.out.println("falg2");
         while(true){
             if(toStart!=null){
                 System.out.println("creato game controller per la lobby");
@@ -60,7 +58,6 @@ public class ServerController {
                 executorService.submit(gameController);
                 setToStart(null);
             }else if(toStop!=null){
-                System.out.println("flag9");
                 removeCurrentGame(toStop);
                 setToStop(null);
             }
@@ -71,7 +68,6 @@ public class ServerController {
 
     public synchronized void setToStart(Lobby toStart){
             this.toStart = toStart;
-            System.out.println("falg5");
             boolean check=(this.toStart==null);
             System.out.println(check);
     }
