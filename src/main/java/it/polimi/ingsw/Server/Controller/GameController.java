@@ -9,11 +9,14 @@ import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
+import it.polimi.ingsw.Server.Model.Game;
+import it.polimi.ingsw.Server.Model.Island;
+import it.polimi.ingsw.Server.Model.Player;
 import it.polimi.ingsw.utils.Observable;
 
 import java.util.*;
 
-public class GameController  implements Runnable  {
+public class GameController implements Runnable  {
     private static int gameID = 1;
 
     private SetUpPhase setUpPhase;
