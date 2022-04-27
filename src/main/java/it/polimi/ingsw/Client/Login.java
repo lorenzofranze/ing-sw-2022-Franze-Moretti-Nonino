@@ -20,7 +20,7 @@ public class Login {
         String nickname;
         int mod;
         boolean valid;
-        int resultConnection = 0;
+        int resultConnection = -1;
         do{
             valid = true;
             System.out.println("inserire nickname(almeno 4 caratteri):");

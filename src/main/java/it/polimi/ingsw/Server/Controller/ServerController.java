@@ -2,7 +2,6 @@ package it.polimi.ingsw.Server.Controller;
 
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.LobbyManager;
-import it.polimi.ingsw.Server.Controller.Network.StopManager;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -40,16 +39,11 @@ public class ServerController {
     *  join() per aspettare la terminazione e poi cancellare
      */
 
-    public void play(){
+    public void play() {
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
         Thread t1 = new Thread(lobbyManager);
         t1.start();
-
-        //thread that stop games
-        StopManager stopManager = StopManager.getInstance();
-        Thread t2 = new Thread(stopManager);
-        t2.start();
     }
 
 
@@ -60,13 +54,8 @@ public class ServerController {
         executorService.submit(gameController);
     }
 
-    public void setToStop(Integer toStop){
-            this.toStop = toStop;
-            removeCurrentGame(toStop);
-    }
-
-    public void removeCurrentGame(int gameID){
-        this.currentGames.remove(gameID);
+    public synchronized void setToStop(Integer toStop){
+            this.currentGames.remove(toStop);
     }
 
     public Map<Integer, GameController> getCurrentGames() {

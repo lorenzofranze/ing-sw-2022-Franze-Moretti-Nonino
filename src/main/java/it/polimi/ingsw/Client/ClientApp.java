@@ -10,14 +10,13 @@ public class ClientApp {
             boolean gameOver=false;
             LineClient lineClient;
 
+            try {
+                lineClient = new LineClient("localhost", 32502);
+            } catch (IOException ex) {
+                System.out.println("impossibile connettersi");
+                return;
+            }
             do {
-                try {
-                    lineClient = new LineClient("localhost", 32502);
-                } catch (IOException ex) {
-                    System.out.println("impossibile connettersi");
-                    return;
-                }
-
                 Login login = new Login(lineClient);
 
                 try {
@@ -26,7 +25,7 @@ public class ClientApp {
                     return;
                 }
 
-                if(resultConnection==-1)
+                if(resultConnection==0)
                     System.out.println("nickname already in use");
                 else if(resultConnection==1)
                     System.out.println("WELCOME IN ERIANTYS! The game will start soon");
