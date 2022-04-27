@@ -14,6 +14,7 @@ public class SetUpPhase extends GamePhase {
     }
 
     public SetUpResult handle() {
+
         this.placePawnsIslands();
         this.fillSchoolBoard();
 
@@ -23,9 +24,8 @@ public class SetUpPhase extends GamePhase {
 
         if (gameController.isExpert() == true) {
             this.distributeCoins();
+            this.initializeCharactersEffects();
         }
-
-        this.initializeCharactersEffects();
 
         return ris;
 

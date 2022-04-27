@@ -147,14 +147,15 @@ public class LobbyManager implements Runnable {
 
                     if (!usedNicknames.contains(nickname)) {
                         GameMode gameMode = connectionMessage.getGameMode();
-                        addNickname(nickname, gameMode, clientSocket);
                         System.out.println(nickname+" si è connesso");
+                        addNickname(nickname, gameMode, clientSocket);
+                        // to client: 1 if name is available
                         out.write(1);
                         out.flush();
 
                     } else{
                         // to client: -1 if name isn't available
-                        out.write(1);
+                        out.write(-1);
                         out.flush();
                     }
                 } else {
@@ -183,14 +184,10 @@ public class LobbyManager implements Runnable {
     public void addNickname(String nickname, GameMode mode, Socket clientSocket) {
         if (waitingLobbies.containsKey(mode)) {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket);
-
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
                 serverController.start(waitingLobbies.get(mode));
                 System.out.println("creazione Lobby modalità "+mode);
-                System.out.println("flag6");
                 waitingLobbies.remove(mode);
-                System.out.println("flag7");
-
             }
         } else {
             Lobby newLobby = new Lobby(mode);

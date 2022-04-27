@@ -49,4 +49,20 @@ public class LineClient {
     public void setOut(BufferedWriter out) {
         this.out = out;
     }
+
+    public String readFromBuffer(){
+        String lastMessage = "";
+
+        try{
+            String line = in.readLine();
+            while (!line.equals("EOF")){
+                lastMessage = lastMessage + line + "\n";
+                line = in.readLine();
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+        return lastMessage;
+    }
 }

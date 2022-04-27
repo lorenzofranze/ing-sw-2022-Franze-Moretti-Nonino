@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ClientApp {
         public static void main(String[] args) {
-            int result;
+            int resultConnection;
             boolean gameOver=false;
             LineClient lineClient;
 
@@ -21,18 +21,18 @@ public class ClientApp {
                 Login login = new Login(lineClient);
 
                 try {
-                    result = login.start();
+                    resultConnection = login.start();
                 } catch (IOException ex) {
                     return;
                 }
 
-                if(result==-1)
-                    System.out.println("nickname già in uso, riprovare");
-                else if(result==1)
-                    System.out.println("benvenuto, la partita inizierà a breve, attendendo altri giocatori...");
+                if(resultConnection==-1)
+                    System.out.println("nickname already in use");
+                else if(resultConnection==1)
+                    System.out.println("WELCOME IN ERIANTYS! The game will start soon");
                 else
-                    System.out.println("errore generico");
-            }while(result!=1);
+                    System.out.println("general error: resultConnection = " + resultConnection);
+            }while(resultConnection!=1);
 
 
             /* ora tutto nel try per proteggersi dalle disconnessioni
@@ -47,7 +47,7 @@ public class ClientApp {
             un altro giocatore contro cui sto giocando si disconnette -> pareggio a tutti
              */
             }catch(IOException so){
-                System.out.println("connessione con il server persa");
+                System.out.println("lost connection with the server");
             }
 
             try {
@@ -59,7 +59,7 @@ public class ClientApp {
             un altro giocatore contro cui sto giocando si disconnette -> pareggio a tutti
              */
             }catch(IOException so){
-                System.out.println("connessione con il server persa");
+                System.out.println("lost connection with the server");
             }
         }
 }

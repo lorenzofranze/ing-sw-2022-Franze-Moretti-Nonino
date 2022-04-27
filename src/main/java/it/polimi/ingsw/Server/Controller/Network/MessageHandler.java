@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Server.Controller.Network;
 
 import it.polimi.ingsw.Server.Controller.GameController;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
-import it.polimi.ingsw.Server.Controller.Network.Messages.StringMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.*;
 import it.polimi.ingsw.Server.Model.Player;
 
 import java.io.*;
@@ -129,29 +126,27 @@ public class MessageHandler {
        String receivedString=null;
        ClientMessage receivedMessage=null;
 
-        //InetAddress inet=inetAddresses.get(nickname);
+       //InetAddress inet=inetAddresses.get(nickname);
        //while(inet.isReachable(15000)){}
         boolean isValid= false;
         while(!isValid){
             try {
                 bufferedReaderOut.get(nickname).write(stringToSend);
                 bufferedReaderOut.get(nickname).flush();
-                receivedString= bufferedReaderIn.get(nickname).readLine();
+                receivedString= readFromBuffer(nickname);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            receivedMessage= (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
+            receivedMessage = (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
             isValid = checkAnswerType(messageToSend, receivedMessage);
         }
-
        return receivedMessage;
     }
 
     public void stringMessageToClient(GameController gameController, String stringToSend, String nickname){
+        stringToSend = stringToSend + "\nEOF\n";
         StringMessage stringMessage= new StringMessage(nickname,stringToSend);
         String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
-
-        String receivedString=null;
         try {
             bufferedReaderOut.get(nickname).write(stringToSend);
             bufferedReaderOut.get(nickname).flush();
@@ -170,6 +165,9 @@ public class MessageHandler {
     }
 
     private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
+        if (messageToSend.getMessageType().equals(TypeOfMessage.GameState) && (messageRecieved.getMessageType().equals(TypeOfMessage.GameStateACK))){
+            return true;
+        }
         return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
 
     }
@@ -189,4 +187,21 @@ public class MessageHandler {
     public Map<String, BufferedWriter> getBufferedReaderOut() {
         return bufferedReaderOut;
     }
+
+    public String readFromBuffer(String nickname){
+        BufferedReader in = bufferedReaderIn.get(nickname);
+        String lastMessage = "";
+
+        try{
+            String line = in.readLine();
+            while (!line.equals("EOF")){
+                lastMessage = lastMessage + line + "\n";
+                line = in.readLine();
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return lastMessage;
+    }
+
 }

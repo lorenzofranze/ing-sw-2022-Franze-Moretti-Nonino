@@ -55,14 +55,9 @@ public class ServerController {
 
     public void start(Lobby toStart){
         this.toStart = toStart;
-        boolean check=(this.toStart==null);
-        System.out.println(check);
-
-        System.out.println("creato game controller per la lobby");
         GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
         currentGames.put(gameController.getGameID(), gameController);
         executorService.submit(gameController);
-
     }
 
     public void setToStop(Integer toStop){

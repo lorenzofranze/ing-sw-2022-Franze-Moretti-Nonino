@@ -15,6 +15,7 @@ public class  JsonConverter {
 
     public static Message fromJsonToMessage(String jsonString){
         Message message = gson.fromJson(jsonString, Message.class);
+
         if(message.getMessageType()== TypeOfMessage.Connection){
             ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
             return messageReal;
@@ -36,6 +37,10 @@ public class  JsonConverter {
         }
         if(message.getMessageType()== TypeOfMessage.GameState){
             GameStateMessage messageReal=  gson.fromJson(jsonString, GameStateMessage.class);
+            return messageReal;
+        }
+        if(message.getMessageType()== TypeOfMessage.GameStateACK){
+            ACKMessage messageReal=  gson.fromJson(jsonString, ACKMessage.class);
             return messageReal;
         }
 

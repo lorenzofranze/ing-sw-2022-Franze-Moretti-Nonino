@@ -10,7 +10,6 @@ import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 
 public class Login {
     private final LineClient lineClient;
-    private int result=0;
 
     public Login(LineClient lineClient){
         this.lineClient = lineClient;
@@ -21,7 +20,7 @@ public class Login {
         String nickname;
         int mod;
         boolean valid;
-        int result=0;
+        int resultConnection = 0;
         do{
             valid = true;
             System.out.println("inserire nickname(almeno 4 caratteri):");
@@ -54,16 +53,15 @@ public class Login {
             System.out.println("impossibile inviare il messaggio: disconnesso");
             throw e;
         }
-        System.out.println("messaggio connessione inviato...");
+
         try {
-            result = lineClient.getIn().read();
-            System.out.println("esito ricevuto");
+            resultConnection = lineClient.getIn().read();
         }catch (IOException e){
             System.out.println("nessuna risposta dal server: disconnesso");
             throw  e;
         }
 
-        return result;
+        return resultConnection;
     }
 
     public int readInt(Scanner scanner){

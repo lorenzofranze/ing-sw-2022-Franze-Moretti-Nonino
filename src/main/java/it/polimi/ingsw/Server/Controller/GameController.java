@@ -5,11 +5,10 @@ import it.polimi.ingsw.Server.Controller.Network.ConnectionManager;
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
-import it.polimi.ingsw.Server.Model.Game;
-import it.polimi.ingsw.Server.Model.Island;
-import it.polimi.ingsw.Server.Model.Player;
 import it.polimi.ingsw.utils.Observable;
 
 import java.util.*;
@@ -54,6 +53,7 @@ public class GameController  implements Runnable  {
     }
 
     public void run(){
+
         for(Player p: game.getPlayers()){
             messageHandler.stringMessageToClient(this, "THE GAME IS STARTING", p.getNickname());
         }
@@ -66,12 +66,12 @@ public class GameController  implements Runnable  {
         SetUpResult setUpResult = setUpPhase.handle();
 
 
-        Player firstPlayer = setUpResult.getFirstRandomPianificationPlayer();
+        currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
 
         do{
             currentPhase = pianificationPhase;
             if (actionResult!=null) {
-                firstPlayer = actionResult.getFirstPianificationPlayer();
+                currentPlayer = actionResult.getFirstPianificationPlayer();
             }
 
             for(Player p: game.getPlayers()){
@@ -79,7 +79,7 @@ public class GameController  implements Runnable  {
             }
             //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
 
-            pianificationResult = this.pianificationPhase.handle(firstPlayer);
+            pianificationResult = this.pianificationPhase.handle(currentPlayer);
 
             isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
             isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
@@ -137,10 +137,36 @@ public class GameController  implements Runnable  {
 
 
     public void update(){
+
+        Map<Player, Boolean> updatedPlayers = new HashMap<Player, Boolean>();
+        for(Player p : game.getPlayers()){
+            updatedPlayers.put(p, false);
+        }
+
         for(Player p: this.game.getPlayers()){
             GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
-            messageHandler.communicationWithClient(this, gameStateMessage);
+            Message ack = messageHandler.communicationWithClient(this, gameStateMessage);
+            if (ack.getMessageType() == TypeOfMessage.GameStateACK){
+                updatedPlayers.put(p, true);
+            }else{
+                System.out.println("Messaggio ricevuto non valido");
+            }
         }
+
+        boolean allPlayersUpdated = true;
+        for(Boolean b : updatedPlayers.values()){
+            if (b == false){
+                allPlayersUpdated = false;
+            }
+        }
+
+        if(allPlayersUpdated) {
+            for (Player p : this.game.getPlayers()) {
+                messageHandler.stringMessageToClient(this, "EVERYONE UPDATED", p.getNickname());
+            }
+        }
+
+        return;
     }
 
 

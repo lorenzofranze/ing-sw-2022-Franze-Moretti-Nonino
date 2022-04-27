@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
-import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
-import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.*;
 import it.polimi.ingsw.Server.Model.AssistantCard;
 
 import java.io.IOException;
@@ -16,28 +13,41 @@ public class PlayGamePianification {
     public PlayGamePianification(LineClient lineClient){
         this.lineClient = lineClient;
     }
-
     String messageString;
+
     public void run() throws IOException {
 
-        messageString= lineClient.getIn().readLine(); //the game is starting - message
+        messageString = lineClient.readFromBuffer(); //the game is starting - message
         System.out.println(messageString);
-        lineClient.getIn().readLine(); //pianification game - message
+        System.out.flush();
+
+        messageString =lineClient.readFromBuffer(); //pianification game - message
         System.out.println(messageString);
+        System.out.flush();
 
-
-        messageString= lineClient.getIn().readLine(); //game state message
+        messageString= lineClient.readFromBuffer(); //game state message
         GameStateMessage gameStateMessage= (GameStateMessage) JsonConverter.fromJsonToMessage(messageString);
+
+        //Non vado avanti fino a quando tutti i giocatori non hanno ricevuot il gamestate. Per coordinaremi, il server
+        // deve ricevere un ACK da tutti i plyer
+        ACKMessage gameStateCorrectlyReceived = new ACKMessage();
+        gameStateCorrectlyReceived.setMessageType(TypeOfMessage.GameStateACK);
+        String stringACKMessage = JsonConverter.fromMessageToJson(gameStateCorrectlyReceived);
+        lineClient.getOut().write(stringACKMessage);
+        lineClient.getOut().flush();
+
+        //non vado avanto finchè non ricevo la notifica che tutti sono stati aggiornati
+        messageString = lineClient.readFromBuffer(); //everyone updated - message   (non mi serve scriverlo in schermo)
 
         int num;
         boolean firstWhile=true;
         Message message;
-        messageString=lineClient.getIn().readLine();
+        messageString=lineClient.readFromBuffer();
         message=JsonConverter.fromJsonToMessage(messageString);
         while(message.getMessageType()!=TypeOfMessage.GameState) {
             if(!firstWhile){
                 firstWhile=false;
-                System.out.println(lineClient.getIn().readLine()); //worong choice - message
+                System.out.println(lineClient.getIn().readLine()); //wrong choice - message
                 messageString=lineClient.getIn().readLine();
                 message=JsonConverter.fromJsonToMessage(messageString); //richiede scelta carta assistente
             }
