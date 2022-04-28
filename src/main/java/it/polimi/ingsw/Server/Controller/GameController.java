@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Server.Controller;
 
 import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
-import it.polimi.ingsw.Server.Controller.Network.ConnectionManager;
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
@@ -35,7 +34,6 @@ public class GameController implements Runnable  {
     private Game game;
     private boolean expert;
     private MessageHandler messageHandler;
-    private ConnectionManager connectionManager;
     private Player currentPlayer;
     private Player winner;
 
@@ -52,7 +50,6 @@ public class GameController implements Runnable  {
         this.characterEffects = new HashMap<>();
 
         this.messageHandler= new MessageHandler(lobby);
-        this.connectionManager=new ConnectionManager(lobby, messageHandler);
     }
 
     public void run(){
@@ -148,7 +145,8 @@ public class GameController implements Runnable  {
 
         for(Player p: this.game.getPlayers()){
             GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
-            Message ack = messageHandler.communicationWithClient(this, gameStateMessage);
+            messageHandler.sendUpdate(this, gameStateMessage);
+            //??
             if (ack.getMessageType() == TypeOfMessage.GameStateACK){
                 updatedPlayers.put(p, true);
             }else{

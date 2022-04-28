@@ -126,8 +126,6 @@ public class MessageHandler {
        String receivedString=null;
        ClientMessage receivedMessage=null;
 
-       //InetAddress inet=inetAddresses.get(nickname);
-       //while(inet.isReachable(15000)){}
         boolean isValid= false;
         while(!isValid){
             try {
@@ -142,6 +140,24 @@ public class MessageHandler {
         }
        return receivedMessage;
     }
+
+    public void sendUpdate(GameController gameController, ServerMessage messageToSend){
+        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
+        String nickname= messageToSend.getNickname();
+        String receivedString=null;
+        ClientMessage receivedMessage=null;
+
+        boolean isValid= false;
+        while(!isValid) {
+            try {
+                bufferedReaderOut.get(nickname).write(stringToSend);
+                bufferedReaderOut.get(nickname).flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public void stringMessageToClient(GameController gameController, String stringToSend, String nickname){
         stringToSend = stringToSend + "\nEOF\n";

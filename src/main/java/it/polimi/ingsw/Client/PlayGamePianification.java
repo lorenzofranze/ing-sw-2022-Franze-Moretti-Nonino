@@ -48,7 +48,7 @@ public class PlayGamePianification {
             if(!firstWhile){
                 firstWhile=false;
                 System.out.println(lineClient.getIn().readLine()); //wrong choice - message
-                messageString=lineClient.getIn().readLine();
+                messageString=lineClient.readFromBuffer();
                 message=JsonConverter.fromJsonToMessage(messageString); //richiede scelta carta assistente
             }
             System.out.println("Scegli carta assistente");
@@ -56,14 +56,18 @@ public class PlayGamePianification {
             assistantCardMessage.setMessageType(TypeOfMessage.AssistantCard);
             do {
                 System.out.println("inserisci carta assistente");
-                num = scanner.nextInt();
+                num = lineClient.readInt(scanner);
             } while (num < 1 || num > 10);
             assistantCardMessage.setValue(num);
             String stringAssistantCard = JsonConverter.fromMessageToJson(assistantCardMessage);
             lineClient.getOut().write(stringAssistantCard);
             lineClient.getOut().flush();
-            messageString=lineClient.getIn().readLine();
+            System.out.println("flag1");
+            messageString=lineClient.readFromBuffer();
+            System.out.println("flag2");
             message=JsonConverter.fromJsonToMessage(messageString);
+            System.out.println("flag3");
+
         }
 
         // ho già letto l'update - message

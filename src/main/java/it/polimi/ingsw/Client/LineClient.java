@@ -65,4 +65,21 @@ public class LineClient {
 
         return lastMessage;
     }
+
+    public int readInt(Scanner scanner){
+        int val=0;
+        boolean valid;
+        do {
+            valid=false;
+            if(scanner.hasNextInt()) {
+                val = scanner.nextInt();
+                valid = true;
+            }else{
+                scanner.next();
+                System.out.println("Input not valid");
+            }
+        }while(!valid);
+        return val;
+    }
+
 }

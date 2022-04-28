@@ -7,5 +7,7 @@ public class PlayGameAction {
     public PlayGameAction(LineClient lineClient){
         this.lineClient=lineClient;
     }
-    public void run() throws IOException {}
+    public void run() throws IOException {
+
+    }
 }

@@ -1,4 +1,6 @@
+/*
 package it.polimi.ingsw.Server.Controller.Network;
+
 
 import java.io.IOException;
 import java.net.Socket;
@@ -33,7 +35,7 @@ public class ConnectionManager{
             pingSender.run();
         }
     }*/
-
+/*
     public boolean isActive() {
         return active;
     }
@@ -42,3 +44,4 @@ public class ConnectionManager{
         this.active = active;
     }
 }
+        */
