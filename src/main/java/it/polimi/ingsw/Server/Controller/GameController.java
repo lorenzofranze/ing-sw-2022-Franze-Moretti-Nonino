@@ -132,6 +132,7 @@ public class GameController implements Runnable  {
         //for(Player p : this.game.getPlayers())
         //    System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
 
+        ServerController.getInstance().setToStop(this.getGameID());
     }
 
 

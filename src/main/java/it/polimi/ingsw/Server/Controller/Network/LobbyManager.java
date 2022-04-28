@@ -81,6 +81,7 @@ public class LobbyManager implements Runnable {
         JsonConverter jsonConverter = new JsonConverter();
         ArrayList<String> usedNicknames = new ArrayList<>();
         Message unknown;
+        boolean nameOk;
         System.out.println("Server ready");
         while (true) {
             try {
@@ -111,59 +112,62 @@ public class LobbyManager implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-            String words = "";
-            String line = in.readLine();
-            while (!line.equals("EOF")){
-                words = words + line + "\n";
-                line = in.readLine();
-            }
-
-            unknown = jsonConverter.fromJsonToMessage(words);
-            System.out.println(unknown);
-            if (unknown.getMessageType() == TypeOfMessage.Connection) {
-                ConnectionMessage firstMessage=(ConnectionMessage) unknown;
-                String nickname = firstMessage.getNickname();
-                ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
-
-                /**
-                 * Check of the nickname-univocity
-                 */
-                //check playing-clients
-                if (!disconnectedPlayers.contains(nickname)) {
-                    usedNicknames.clear();
-                    for (int i : serverController.getInstance().getCurrentGames().keySet()) {
-                        for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
-                            usedNicknames.add(p.getNickname());
-                        }
-                    }
-                    //check waiting-clients
-                    for (GameMode gameMode : GameMode.values()) {
-                        for (Lobby lobby : waitingLobbies.values()) {
-                            usedNicknames.addAll(lobby.getUsersNicknames());
-                        }
-                    }
-
-                    if (!usedNicknames.contains(nickname)) {
-                        GameMode gameMode = connectionMessage.getGameMode();
-                        System.out.println(nickname+" si è connesso");
-                        addNickname(nickname, gameMode, clientSocket);
-                        // to client: 1 if name is available
-                        out.write(1);
-                        out.flush();
-
-                    } else{
-                        // to client: -1 if name isn't available
-                        out.write(-1);
-                        out.flush();
-                    }
-                } else {
-                    usedNicknames.remove(nickname);
-                    //si è riconnesso
-                    //GESTIRE
+            nameOk=false;
+            while (!nameOk) {
+                nameOk=true;
+                String words = "";
+                String line = in.readLine();
+                while (!line.equals("EOF")) {
+                    words = words + line + "\n";
+                    line = in.readLine();
                 }
 
+                unknown = jsonConverter.fromJsonToMessage(words);
+                System.out.println(unknown);
+                if (unknown.getMessageType() == TypeOfMessage.Connection) {
+                    ConnectionMessage firstMessage = (ConnectionMessage) unknown;
+                    String nickname = firstMessage.getNickname();
+                    ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
+
+                    /**
+                     * Check of the nickname-univocity
+                     */
+                    //check playing-clients
+                    if (!disconnectedPlayers.contains(nickname)) {
+                        usedNicknames.clear();
+                        for (int i : serverController.getInstance().getCurrentGames().keySet()) {
+                            for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
+                                usedNicknames.add(p.getNickname());
+                            }
+                        }
+                        //check waiting-clients
+                        for (GameMode gameMode : GameMode.values()) {
+                            for (Lobby lobby : waitingLobbies.values()) {
+                                usedNicknames.addAll(lobby.getUsersNicknames());
+                            }
+                        }
+
+                        if (!usedNicknames.contains(nickname)) {
+                            GameMode gameMode = connectionMessage.getGameMode();
+                            System.out.println(nickname + " si è connesso");
+                            addNickname(nickname, gameMode, clientSocket);
+                            // to client: 1 if name is available
+                            out.write(1);
+                            out.flush();
+
+                        } else {
+                            // to client: 0 if name isn't available
+                            out.write(0);
+                            out.flush();
+                            nameOk = false;
+                        }
+                    } else {
+                        usedNicknames.remove(nickname);
+                        //si è riconnesso
+                        //GESTIRE
+                    }
+
+                }
             }
         }
         //In case the serverSocket gets closed ( the break statement is called )
