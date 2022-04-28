@@ -46,24 +46,27 @@ public class PlayGamePianification {
         message=JsonConverter.fromJsonToMessage(messageString);
 
         System.out.println("messaggio ricevuto di tipo" + message.getMessageType());
-        while(message.getMessageType()!=TypeOfMessage.GameState) {
-            if(!firstWhile){
-                firstWhile=false;
-                System.out.println(lineClient.getIn().readLine()); //wrong choice - message
-                messageString=lineClient.readFromBuffer();
-                message=JsonConverter.fromJsonToMessage(messageString); //richiede scelta carta assistente
+        while(message.getMessageType()==TypeOfMessage.GameState || message.getMessageType()==TypeOfMessage.AssistantCard) {
+            if(message.getMessageType()==TypeOfMessage.AssistantCard) {
+                if (!firstWhile) {
+                    firstWhile = false;
+                    System.out.println(lineClient.getIn().readLine()); //wrong choice - message
+                    messageString = lineClient.readFromBuffer();
+                    message = JsonConverter.fromJsonToMessage(messageString); //richiede scelta carta assistente
+                }
+                System.out.println("Scegli carta assistente");
+                IntMessage assistantCardMessage = new IntMessage();
+                assistantCardMessage.setMessageType(TypeOfMessage.AssistantCard);
+                do {
+                    System.out.println("inserisci carta assistente");
+                    num = lineClient.readInt(scanner);
+                } while (num < 1 || num > 10);
+                assistantCardMessage.setValue(num);
+                String stringAssistantCard = JsonConverter.fromMessageToJson(assistantCardMessage);
+                lineClient.getOut().write(stringAssistantCard);
+                lineClient.getOut().flush();
             }
-            System.out.println("Scegli carta assistente");
-            IntMessage assistantCardMessage = new IntMessage();
-            assistantCardMessage.setMessageType(TypeOfMessage.AssistantCard);
-            do {
-                System.out.println("inserisci carta assistente");
-                num = lineClient.readInt(scanner);
-            } while (num < 1 || num > 10);
-            assistantCardMessage.setValue(num);
-            String stringAssistantCard = JsonConverter.fromMessageToJson(assistantCardMessage);
-            lineClient.getOut().write(stringAssistantCard);
-            lineClient.getOut().flush();
+
             messageString=lineClient.readFromBuffer();
             message=JsonConverter.fromJsonToMessage(messageString);
             System.out.println("messaggio ricevuto di tipo" + message.getMessageType());
