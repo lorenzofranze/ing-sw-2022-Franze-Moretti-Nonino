@@ -44,6 +44,8 @@ public class PlayGamePianification {
         Message message;
         messageString=lineClient.readFromBuffer();
         message=JsonConverter.fromJsonToMessage(messageString);
+
+        System.out.println("messaggio ricevuto di tipo" + message.getMessageType());
         while(message.getMessageType()!=TypeOfMessage.GameState) {
             if(!firstWhile){
                 firstWhile=false;
@@ -62,11 +64,9 @@ public class PlayGamePianification {
             String stringAssistantCard = JsonConverter.fromMessageToJson(assistantCardMessage);
             lineClient.getOut().write(stringAssistantCard);
             lineClient.getOut().flush();
-            System.out.println("flag1");
             messageString=lineClient.readFromBuffer();
-            System.out.println("flag2");
             message=JsonConverter.fromJsonToMessage(messageString);
-            System.out.println("flag3");
+            System.out.println("messaggio ricevuto di tipo" + message.getMessageType());
 
         }
 

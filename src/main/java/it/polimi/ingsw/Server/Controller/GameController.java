@@ -147,26 +147,12 @@ public class GameController implements Runnable  {
         for(Player p: this.game.getPlayers()){
             GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
             messageHandler.sendUpdate(this, gameStateMessage);
-            //??
-            if (ack.getMessageType() == TypeOfMessage.GameStateACK){
-                updatedPlayers.put(p, true);
-            }else{
-                System.out.println("Messaggio ricevuto non valido");
-            }
         }
 
-        boolean allPlayersUpdated = true;
-        for(Boolean b : updatedPlayers.values()){
-            if (b == false){
-                allPlayersUpdated = false;
-            }
+        for (Player p : this.game.getPlayers()) {
+            messageHandler.stringMessageToClient(this, "EVERYONE UPDATED", p.getNickname());
         }
 
-        if(allPlayersUpdated) {
-            for (Player p : this.game.getPlayers()) {
-                messageHandler.stringMessageToClient(this, "EVERYONE UPDATED", p.getNickname());
-            }
-        }
 
         return;
     }

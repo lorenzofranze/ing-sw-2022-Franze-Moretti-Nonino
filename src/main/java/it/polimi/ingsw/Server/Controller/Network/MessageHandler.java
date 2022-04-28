@@ -148,14 +148,14 @@ public class MessageHandler {
         ClientMessage receivedMessage=null;
 
         boolean isValid= false;
-        while(!isValid) {
-            try {
-                bufferedReaderOut.get(nickname).write(stringToSend);
-                bufferedReaderOut.get(nickname).flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        try {
+            bufferedReaderOut.get(nickname).write(stringToSend);
+            bufferedReaderOut.get(nickname).flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
 

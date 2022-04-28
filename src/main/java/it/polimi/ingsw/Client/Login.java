@@ -36,7 +36,7 @@ public class Login {
                 "4. 3 players complex");
         do{
             valid= true;
-            mod = readInt(scanner);
+            mod = lineClient.readInt(scanner);
             if(mod<=0 || mod >=5) {
                 System.out.println("not valid");
                 valid = false;
@@ -64,19 +64,5 @@ public class Login {
         return resultConnection;
     }
 
-    public int readInt(Scanner scanner){
-        int val=0;
-        boolean valid;
-        do {
-            valid=false;
-            if(scanner.hasNextInt()) {
-                val = scanner.nextInt();
-                valid = true;
-            }else{
-                scanner.next();
-                System.out.println("Input not valid");
-            }
-        }while(!valid);
-        return val;
-    }
+
 }
