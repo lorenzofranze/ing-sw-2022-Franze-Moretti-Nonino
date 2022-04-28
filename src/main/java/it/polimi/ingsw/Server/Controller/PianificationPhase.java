@@ -93,7 +93,7 @@ public class PianificationPhase extends GamePhase {
         do {
             mustChange = false;
             valid = false;
-            valid=gameController.update();
+            gameController.update();
 
 
             ServerMessage messageToSend= new ServerMessage(currentPlayer.getNickname(), TypeOfMessage.AssistantCard);

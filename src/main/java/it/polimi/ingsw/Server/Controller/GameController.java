@@ -137,7 +137,7 @@ public class GameController implements Runnable  {
 
 
 
-    public boolean update(){
+    public synchronized void update(){
 
         Map<Player, Boolean> updatedPlayers = new HashMap<Player, Boolean>();
         for(Player p : game.getPlayers()){
@@ -149,11 +149,7 @@ public class GameController implements Runnable  {
             messageHandler.sendUpdate(this, gameStateMessage);
         }
 
-        for (Player p : this.game.getPlayers()) {
-            messageHandler.stringMessageToClient(this, "EVERYONE UPDATED", p.getNickname());
-        }
-
-        return true;
+        return;
     }
 
 
