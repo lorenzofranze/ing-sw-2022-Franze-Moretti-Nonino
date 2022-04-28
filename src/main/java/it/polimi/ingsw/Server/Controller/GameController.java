@@ -137,7 +137,7 @@ public class GameController implements Runnable  {
 
 
 
-    public void update(){
+    public boolean update(){
 
         Map<Player, Boolean> updatedPlayers = new HashMap<Player, Boolean>();
         for(Player p : game.getPlayers()){
@@ -153,8 +153,7 @@ public class GameController implements Runnable  {
             messageHandler.stringMessageToClient(this, "EVERYONE UPDATED", p.getNickname());
         }
 
-
-        return;
+        return true;
     }
 
 
