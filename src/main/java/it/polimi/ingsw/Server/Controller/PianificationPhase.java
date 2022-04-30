@@ -1,8 +1,10 @@
 package it.polimi.ingsw.Server.Controller;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.AssistantCard;
 import it.polimi.ingsw.Server.Model.Cloud;
 import it.polimi.ingsw.Server.Model.PawnsMap;
@@ -86,19 +88,24 @@ public class PianificationPhase extends GamePhase {
             Integer> maximumMovements){
 
         AssistantCard cardPlayed = null;
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
         boolean valid = false;
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
+        PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
 
         do {
             mustChange = false;
             valid = false;
             gameController.update();
 
-
-            ServerMessage messageToSend= new ServerMessage(currentPlayer.getNickname(), TypeOfMessage.AssistantCard);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            int played=receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.AssistantCard);
+            intMessage=(IntMessage)receivedMessage;
+            int played=intMessage.getValue();
 
 
             for (AssistantCard c : currentPlayer.getDeck()) {
@@ -122,13 +129,13 @@ public class PianificationPhase extends GamePhase {
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    messageHandler.stringMessageToClient(gameController,"an other player has alrealy played this card in this round, rechoose.",currentPlayer.getNickname());
+                    playerManager.stringMessageToClient("an other player has alrealy played this card in this round, rechoose.");
                     //System.out.println("an other player has alrealy played this card in this round, rechoose.");
                 }
 
             }
             else{
-                messageHandler.stringMessageToClient(gameController,"\"You have already played this card, rechoose.\"",currentPlayer.getNickname());
+                playerManager.stringMessageToClient("\"You have already played this card, rechoose.\"");
                 //System.out.println("You have already played this card, rechoose.");
             }
         }

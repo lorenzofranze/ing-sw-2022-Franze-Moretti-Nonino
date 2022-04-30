@@ -22,6 +22,7 @@ public class MessageHandler {
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
+    private Map<String,PlayerManager> playerManagerMap;
 
     private JsonConverter jsonConverter;
 
@@ -31,6 +32,7 @@ public class MessageHandler {
 
         bufferedReaderIn= new HashMap<>();
         bufferedReaderOut= new HashMap<>();
+        playerManagerMap=new HashMap<>();
         //inetAddresses= new HashMap<>();
         for(String s: lobby.getUsersReadyToPlay().keySet()){
             PlayerManager playerManager;
@@ -41,6 +43,7 @@ public class MessageHandler {
                 BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 bufferedReaderOut.put(s, out);
                 playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
+                playerManagerMap.put(s,playerManager);
                 playerManager.run();
             }
             catch (IOException e) {
@@ -50,6 +53,10 @@ public class MessageHandler {
         jsonConverter = new JsonConverter();
     }
 
+
+    public PlayerManager getPlayerManager(String nickname) {
+        return playerManagerMap.get(nickname);
+    }
 
     //restituisce il valore inserito dal giocatore player
     //in qualche modo chiedo il valore al giocatore e lo restituisco
@@ -112,7 +119,7 @@ public class MessageHandler {
      * @return answer-message to the game controller. The game controller has to verify the validity of the answer.
      * @throws IOException
      */
-    public Message communicationWithClient(GameController gameController, ServerMessage messageToSend){
+    public Message communicationWithClient(ServerMessage messageToSend){
        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
        String nickname= messageToSend.getNickname();
        String receivedString=null;
@@ -128,7 +135,6 @@ public class MessageHandler {
                 e.printStackTrace();
             }
             receivedMessage = (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
-            isValid = checkAnswerType(messageToSend, receivedMessage);
         }
        return receivedMessage;
     }
@@ -151,35 +157,6 @@ public class MessageHandler {
     }
 
 
-    public void stringMessageToClient(GameController gameController, String stringToSend, String nickname){
-        stringToSend = stringToSend + "\nEOF\n";
-        StringMessage stringMessage= new StringMessage(nickname,stringToSend);
-        String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
-        try {
-            bufferedReaderOut.get(nickname).write(stringToSend);
-            bufferedReaderOut.get(nickname).flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void asyncSend(GameController gameController, String stringToSend, String nickname){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                stringMessageToClient(gameController,stringToSend,nickname);
-            }
-        }).start();
-    }
-
-    private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
-        if (messageToSend.getMessageType().equals(TypeOfMessage.GameState) && (messageRecieved.getMessageType().equals(TypeOfMessage.GameStateACK))){
-            return true;
-        }
-        return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
-
-    }
-
     public void setLastMessage(ServerMessage lastMessage) {
         this.lastMessage = lastMessage;
     }
@@ -196,7 +173,7 @@ public class MessageHandler {
         return bufferedReaderOut;
     }
 
-    public String readFromBuffer(String nickname){
+    private String readFromBuffer(String nickname){
         BufferedReader in = bufferedReaderIn.get(nickname);
         String lastMessage = "";
 
@@ -210,6 +187,21 @@ public class MessageHandler {
             e.printStackTrace();
         }
         return lastMessage;
+    }
+
+    public void stringMessageToClient(String stringToSend){
+        for(BufferedWriter bufferedWriter:bufferedReaderOut.values()){
+            stringToSend = stringToSend + "\nEOF\n";
+            StringMessage stringMessage= new StringMessage(stringToSend);
+            String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
+            try {
+                bufferedWriter.write(stringToSend);
+                bufferedWriter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+        }
+
+        }
     }
 
 }

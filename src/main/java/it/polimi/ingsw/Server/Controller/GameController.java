@@ -54,11 +54,6 @@ public class GameController implements Runnable  {
 
     public void run(){
 
-
-        for(Player p: game.getPlayers()){
-            messageHandler.stringMessageToClient(this, "THE GAME IS STARTING", p.getNickname());
-        }
-
         this.setUpPhase=new SetUpPhase(this);
         this.pianificationPhase=new PianificationPhase(this);
         this.actionPhase=new ActionPhase(this);
@@ -75,9 +70,6 @@ public class GameController implements Runnable  {
                 currentPlayer = actionResult.getFirstPianificationPlayer();
             }
 
-            for(Player p: game.getPlayers()){
-                messageHandler.stringMessageToClient(this, "PIANIFICATION PHASE", p.getNickname());
-            }
             //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
 
             pianificationResult = this.pianificationPhase.handle(currentPlayer);
@@ -89,9 +81,6 @@ public class GameController implements Runnable  {
             HashMap<Player, Integer> maximumMovements = pianificationResult.getMaximumMovements();
             List<Player> turnOrder = pianificationResult.getTurnOrder();
 
-            for(Player p: game.getPlayers()){
-                messageHandler.stringMessageToClient(this, "ACTION PHASE", p.getNickname());
-            }
             //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
 
             actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
@@ -101,34 +90,27 @@ public class GameController implements Runnable  {
         }
         while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards));
 
-        for(Player p: game.getPlayers()){
-            messageHandler.stringMessageToClient(this, "GAME ENDED", p.getNickname());
-        }
         //System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
 
         calculateWinner(); //se winner è null, allora la partita è finita in pareggio
 
         if (winner != null){
-            for(Player p: game.getPlayers()){
-                messageHandler.stringMessageToClient(this, "The winner is " + this.winner.toString(), p.getNickname());
-            }
+                messageHandler.stringMessageToClient("The winner is " + this.winner.toString());
+
             //System.out.println("The winner is " + this.winner.toString());
         }
         else{
-            for(Player p: game.getPlayers()){
-                messageHandler.stringMessageToClient(this, "There is no winner.", p.getNickname());
+                messageHandler.stringMessageToClient("There is no winner.");
             }
             //System.out.println("There is no winner.");
+
+
+
+        messageHandler.stringMessageToClient( "Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
+        for (Player player : this.game.getPlayers()){
+            messageHandler.stringMessageToClient(player.getNickname()+": " + player.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
         }
 
-
-
-        for(Player p: game.getPlayers()) {
-            messageHandler.stringMessageToClient(this, "Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber(), p.getNickname());
-            for (Player player : this.game.getPlayers()){
-                messageHandler.stringMessageToClient(this,player.getNickname()+": " + player.getSchoolBoard().getSpareTowers() + " towers left on schoolboard", p.getNickname());
-            }
-        }
         //System.out.println("Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
         //for(Player p : this.game.getPlayers())
         //    System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");

@@ -5,12 +5,14 @@ import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
 import it.polimi.ingsw.Server.Controller.Characters.CharacterEffectInfluence;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.*;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+//DA TOGLIERE TUTTI GLI STRING MESSAGES TO CLIENT
 public class ActionPhase extends GamePhase {
     private final GameController gameController;
 
@@ -41,10 +43,9 @@ public class ActionPhase extends GamePhase {
                 gameController.setCurrentPlayer(p);
 
 
-                for(Player player: gameController.getGame().getPlayers()){
-                    messageHandler.stringMessageToClient(gameController,p+ " TURN \n", player.getNickname());
-                    messageHandler.stringMessageToClient(gameController,"\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n" , player.getNickname());
-                }
+                messageHandler.stringMessageToClient(p+ " TURN \n");
+                messageHandler.stringMessageToClient("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
+
                 //System.out.println("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
 
 
@@ -55,7 +56,7 @@ public class ActionPhase extends GamePhase {
                 //   System.out.println("PROFESSORS:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString());
                 //}
 
-                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+ "\nISLANDS:\\n\" + gameController.getGame().islandsToString()",p.getNickname());
+                messageHandler.stringMessageToClient("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+ "\nISLANDS:\\n\" + gameController.getGame().islandsToString()");
                 //System.out.println("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
                 //System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
                 gameController.update();
@@ -64,7 +65,7 @@ public class ActionPhase extends GamePhase {
                 moveStudents();
                 gameController.update();
 
-                messageHandler.stringMessageToClient(gameController, "\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION", p.getNickname());
+                messageHandler.stringMessageToClient( "\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
                 //System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
                 //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
                 //    System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
@@ -75,13 +76,13 @@ public class ActionPhase extends GamePhase {
                 gameController.update();
                 if (checkEnd() == true){return actionResult;}
 
-                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n",p.getNickname());
+                messageHandler.stringMessageToClient("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
                 //System.out.print("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
                 //System.out.println(" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
 
                 Island whereMotherNature = moveMotherNature(p);
 
-                messageHandler.stringMessageToClient(gameController,"\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature() + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n",p.getNickname());
+                messageHandler.stringMessageToClient("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature() + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
 
                 //System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
 
@@ -97,10 +98,10 @@ public class ActionPhase extends GamePhase {
                 gameController.update();
 
                 if (moreInfluentPlayer == null){
-                    messageHandler.stringMessageToClient(gameController,"MOREINFLUENTPLAYER: none",p.getNickname());
+                    messageHandler.stringMessageToClient("MOREINFLUENTPLAYER: none");
                     //System.out.println("MOREINFLUENTPLAYER: none");
                 } else {
-                    messageHandler.stringMessageToClient(gameController,"MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString(),p.getNickname());
+                    messageHandler.stringMessageToClient("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
                     //System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
                 }
 
@@ -109,9 +110,9 @@ public class ActionPhase extends GamePhase {
                     gameController.update();
                     if (isEnded) {
                         actionResult.setFinishedTowers(true);
-                        for(Player player: gameController.getGame().getPlayers()){
-                            messageHandler.stringMessageToClient(gameController,gameController.getCurrentPlayer().toString() + " has finished his/her Towers",player.getNickname());
-                        }
+
+                        messageHandler.stringMessageToClient(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
+
                         //System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
                         return actionResult;
                     }
@@ -124,9 +125,8 @@ public class ActionPhase extends GamePhase {
 
                     if(numIslands<4){
                         actionResult.setThreeOrLessIslands(true);
-                        for(Player player: gameController.getGame().getPlayers()){
-                            messageHandler.stringMessageToClient(gameController,"There are 3 or less islands",player.getNickname());
-                        }
+                        messageHandler.stringMessageToClient("There are 3 or less islands");
+
                         return actionResult;
                     }
 
@@ -184,8 +184,12 @@ public class ActionPhase extends GamePhase {
 
     protected void moveStudents(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
+        PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
+        ClientMessage receivedMessage;
         boolean valid=true;
         int indexColour;
+        IntMessage intMessage;
         int where = 0;   // -1 refer for diningRoom, index of island for island
 
         int studentsToMove = 0;
@@ -198,13 +202,16 @@ public class ActionPhase extends GamePhase {
                 valid = true;
                 // to user: choose one color pawn
 
-                ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname() , TypeOfMessage.StudentColour);
-                IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-                indexColour= receivedMessage.getValue();
+                do{
+                    receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
+                intMessage=(IntMessage)receivedMessage;
+
+                indexColour= intMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     // to user: index not valid
-                    messageHandler.stringMessageToClient(gameController,"indexColour not valid.",gameController.getCurrentPlayer().getNickname());
+                    playerManager.stringMessageToClient("indexColour not valid.");
                     //System.out.println("indexColour not valid.");
                 }
                 if(valid){
@@ -212,7 +219,7 @@ public class ActionPhase extends GamePhase {
                             .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                         valid = false;
                         //to user: change color pawn to move, you don't have that color
-                        messageHandler.stringMessageToClient(gameController,"You don't have that colour.",gameController.getCurrentPlayer().getNickname());
+                        playerManager.stringMessageToClient("You don't have that colour.");
 
                         //System.out.println("You don't have that colour.");
                     }
@@ -221,9 +228,11 @@ public class ActionPhase extends GamePhase {
                 // to user: choose position
 
                 if(valid){
-                    messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname() , TypeOfMessage.Where);
-                    receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-                    where = receivedMessage.getValue();
+                    do{
+                        receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                    }while(receivedMessage.getMessageType()!=TypeOfMessage.Where);
+                    intMessage=(IntMessage)receivedMessage;
+                    where = intMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
@@ -243,14 +252,19 @@ public class ActionPhase extends GamePhase {
     }
 
     protected Island moveMotherNature(Player currentPlayer){
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         Island ris = null;
         int played;
 
         do {
-            ServerMessage messageToSend = new ServerMessage(currentPlayer.getNickname(), TypeOfMessage.MoveMotherNature);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            played = receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature);
+            intMessage=(IntMessage)receivedMessage;
+            played = intMessage.getValue();
         }
         while(played < 1 || played > maximumMovements.get(currentPlayer));
 
@@ -378,8 +392,12 @@ public class ActionPhase extends GamePhase {
     }
 
     protected void chooseCloud(){
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        String currPlayer=gameController.getCurrentPlayer().getNickname();
+        PlayerManager playerManager = messageHandler.getPlayerManager(currPlayer);
         int indexCloud;
         // if there is only one cloud left, it goes directly in player's schoolBoard
         List<Cloud> cloudNotEmpty;
@@ -388,8 +406,8 @@ public class ActionPhase extends GamePhase {
         if(  cloudNotEmpty.size() == 1 ){
             gameController.getCurrentPlayer().getSchoolBoard().insertCloud(cloudNotEmpty.get(0));
 
-            messageHandler.stringMessageToClient(gameController,"There is only one Cloud left. You have received students form Cloud number " +
-                    gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)), gameController.getCurrentPlayer().getNickname());
+            playerManager.stringMessageToClient("There is only one Cloud left. You have received students form Cloud number " +
+                    gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
             //System.out.println("There is only one Cloud left. You have received students form Cloud number " +
             //        gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
 
@@ -399,9 +417,11 @@ public class ActionPhase extends GamePhase {
         // print possibile cloud with values
         do{
             valid = true;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.CloudChoice);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            indexCloud=receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.CloudChoice);
+            intMessage=(IntMessage)receivedMessage;
+            indexCloud=intMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
                 valid = false;
@@ -423,6 +443,9 @@ public class ActionPhase extends GamePhase {
     /** this method does nothing if game is in simple mode because no player has more than 0 coins
      * otherwise it ask the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int cardNumber;
 
@@ -441,9 +464,12 @@ public class ActionPhase extends GamePhase {
             for(Character character : usable) {
                 // to user: choose one of theese cards...print...
             }
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(),TypeOfMessage.CharacterCard);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            cardNumber=receivedMessage.getValue();
+
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.CharacterCard);
+            intMessage=(IntMessage)receivedMessage;
+            cardNumber=intMessage.getValue();
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
                 gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
