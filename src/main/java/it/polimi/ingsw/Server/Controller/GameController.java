@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
 import it.polimi.ingsw.Server.Model.Game;
@@ -40,7 +41,6 @@ public class GameController implements Runnable  {
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
 
-
     private Map<Character, CharacterEffect> characterEffects; // per gli effetti
 
     public GameController(Lobby lobby, boolean expert){
@@ -53,6 +53,7 @@ public class GameController implements Runnable  {
     }
 
     public void run(){
+
 
         for(Player p: game.getPlayers()){
             messageHandler.stringMessageToClient(this, "THE GAME IS STARTING", p.getNickname());

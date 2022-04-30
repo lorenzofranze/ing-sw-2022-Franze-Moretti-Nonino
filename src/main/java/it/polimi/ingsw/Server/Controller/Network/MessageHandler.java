@@ -22,30 +22,26 @@ public class MessageHandler {
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
-    //private Map<String,InetAddress> inetAddresses;
-    private ServerSocket serverSocket;
+
     private JsonConverter jsonConverter;
 
 
     public MessageHandler(Lobby lobby){
-        try {
-            serverSocket=new ServerSocket();
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
+
 
         bufferedReaderIn= new HashMap<>();
         bufferedReaderOut= new HashMap<>();
         //inetAddresses= new HashMap<>();
         for(String s: lobby.getUsersReadyToPlay().keySet()){
+            PlayerManager playerManager;
             try{
                 Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
                 BufferedReader in= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 bufferedReaderIn.put(s, in);
                 BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 bufferedReaderOut.put(s, out);
-                InetAddress inet= clientSocket.getInetAddress();
-                //inetAddresses.put(s, inet);
+                playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
+                playerManager.run();
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -59,10 +55,6 @@ public class MessageHandler {
     //in qualche modo chiedo il valore al giocatore e lo restituisco
     public int getValue(Player player) {
         return value;
-    }
-
-    public ServerSocket getSocket(){
-        return serverSocket;
     }
 
 
