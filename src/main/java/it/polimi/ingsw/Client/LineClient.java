@@ -1,5 +1,9 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Server.Controller.GameMode;
+import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ConnectionMessage;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -8,6 +12,7 @@ import java.util.Scanner;
 public class LineClient {
     private String ip;
     private int port;
+    private String nickname;
 
     private BufferedReader in;
     private BufferedWriter out;
@@ -82,4 +87,26 @@ public class LineClient {
         return val;
     }
 
+
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public int reconnect(String nickname){
+        ConnectionMessage cm = new ConnectionMessage(nickname, null);
+        String stringToSend = JsonConverter.fromMessageToJson(cm);
+        try {
+            this.getOut().write(stringToSend);
+            this.getOut().flush();
+        } catch (IOException e) {
+            System.out.println("impossibile inviare il messaggio: disconnesso");
+            return 0;
+        }
+        return 1;
+    }
 }

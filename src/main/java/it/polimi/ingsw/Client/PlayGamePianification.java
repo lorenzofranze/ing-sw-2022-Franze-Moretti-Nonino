@@ -15,7 +15,14 @@ public class PlayGamePianification {
     }
     String messageString;
 
+    public void run() throws IOException{
+        System.out.println("the game is starting");
+
+    }
+
+    /*
     public void run() throws IOException {
+
 
         messageString = lineClient.readFromBuffer(); //the game is starting - message
         System.out.println(messageString);
@@ -77,5 +84,7 @@ public class PlayGamePianification {
 
 
     }
+
+     */
 
 }

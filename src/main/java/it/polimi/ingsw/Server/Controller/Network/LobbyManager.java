@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Controller.Network;
 
+import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.GameMode;
 import it.polimi.ingsw.Server.Controller.Network.Messages.*;
 import it.polimi.ingsw.Server.Controller.ServerController;
@@ -163,6 +164,14 @@ public class LobbyManager implements Runnable {
                         }
                     } else {
                         usedNicknames.remove(nickname);
+                        for (int i : serverController.getInstance().getCurrentGames().keySet()) {
+                            for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
+                                if(p.getNickname()==nickname){
+                                    GameController gameController=serverController.getInstance().getCurrentGames().get(i);
+                                    gameController.update();
+                                }
+                            }
+                        }
                         //si è riconnesso
                         //GESTIRE
                     }

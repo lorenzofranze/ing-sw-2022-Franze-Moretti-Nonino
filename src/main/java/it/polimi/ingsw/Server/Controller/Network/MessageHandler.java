@@ -112,6 +112,12 @@ public class MessageHandler {
         System.out.println(winner);
     }
 
+    public Map<String, PlayerManager> getPlayerManagerMap() {
+        return playerManagerMap;
+    }
+
+    /*
+
     /** parses from message-type to json string, then sends to the player the message, reads the answer from the player,
      * parses from json string to message-type
      * @param gameController
@@ -119,6 +125,7 @@ public class MessageHandler {
      * @return answer-message to the game controller. The game controller has to verify the validity of the answer.
      * @throws IOException
      */
+    /*
     public Message communicationWithClient(ServerMessage messageToSend){
        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
        String nickname= messageToSend.getNickname();
@@ -139,6 +146,7 @@ public class MessageHandler {
        return receivedMessage;
     }
 
+
     public void sendUpdate(GameController gameController, ServerMessage messageToSend){
         String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
         String nickname= messageToSend.getNickname();
@@ -153,8 +161,9 @@ public class MessageHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+    */
+
 
 
     public void setLastMessage(ServerMessage lastMessage) {
@@ -190,17 +199,8 @@ public class MessageHandler {
     }
 
     public void stringMessageToAllClients(String stringToSend){
-        for(BufferedWriter bufferedWriter:bufferedReaderOut.values()){
-            stringToSend = stringToSend + "\nEOF\n";
-            StringMessage stringMessage= new StringMessage(stringToSend);
-            String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
-            try {
-                bufferedWriter.write(stringToSend);
-                bufferedWriter.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-        }
-
+        for(PlayerManager playerManager:this.getPlayerManagerMap().values()){
+            playerManager.stringMessageToClient(stringToSend);
         }
     }
 

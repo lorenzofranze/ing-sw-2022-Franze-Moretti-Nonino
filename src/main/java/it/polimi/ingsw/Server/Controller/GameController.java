@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Server.Controller;
 
 import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
+import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.Character;
 import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
@@ -117,16 +119,21 @@ public class GameController implements Runnable  {
 
 
     public synchronized void update(){
+        GameStateMessage gameStateMessage= new GameStateMessage(TypeOfMessage.GameState, this);
 
-        Map<Player, Boolean> updatedPlayers = new HashMap<Player, Boolean>();
-        for(Player p : game.getPlayers()){
-            updatedPlayers.put(p, false);
+        boolean isValid= false;
+
+        for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
+            playerManager.sendMessage(gameStateMessage);
         }
 
-        for(Player p: this.game.getPlayers()){
-            GameStateMessage gameStateMessage= new GameStateMessage(p.getNickname(), TypeOfMessage.GameState, this);
-            messageHandler.sendUpdate(this, gameStateMessage);
-        }
+        return;
+    }
+
+    public synchronized void updateSinglePlayer(String nickname){
+        PlayerManager playerManager= messageHandler.getPlayerManager(nickname);
+        GameStateMessage gameStateMessage= new GameStateMessage(TypeOfMessage.GameState, this);
+        playerManager.sendMessage(gameStateMessage);
 
         return;
     }

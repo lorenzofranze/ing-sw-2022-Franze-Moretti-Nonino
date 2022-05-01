@@ -14,8 +14,8 @@ public class GameStateMessage extends ServerMessage {
     private Map<Character, CharacterEffect> characterEffects;
     private String currentPhase;
 
-    public GameStateMessage(String nickname, TypeOfMessage typeOfMessage, GameController gameController) {
-        super(nickname, typeOfMessage);
+    public GameStateMessage(TypeOfMessage typeOfMessage, GameController gameController) {
+        super(typeOfMessage);
         this.game = gameController.getGame();
         this.characterEffects= gameController.getCharacterEffects();
         this.currentPlayer=gameController.getCurrentPlayer().getNickname();

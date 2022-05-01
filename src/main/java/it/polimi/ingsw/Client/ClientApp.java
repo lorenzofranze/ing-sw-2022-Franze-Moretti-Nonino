@@ -5,6 +5,7 @@ import java.net.SocketException;
 import java.util.Scanner;
 
 public class ClientApp {
+
         public static void main(String[] args) {
             int resultConnection;
             boolean gameOver=false;
@@ -27,8 +28,11 @@ public class ClientApp {
 
                 if(resultConnection==0)
                     System.out.println("nickname already in use");
-                else if(resultConnection==1)
+                else if(resultConnection==1){
                     System.out.println("WELCOME IN ERIANTYS! The game will start soon");
+                }
+
+
                 else
                     System.out.println("general error: resultConnection = " + resultConnection);
             }while(resultConnection!=1);
@@ -47,6 +51,8 @@ public class ClientApp {
              */
             }catch(IOException so){
                 System.out.println("lost connection with the server");
+                int reconnection = lineClient.reconnect(lineClient.getNickname());
+                if(reconnection==0) return;
             }
 
             try {
@@ -59,6 +65,10 @@ public class ClientApp {
              */
             }catch(IOException so){
                 System.out.println("lost connection with the server");
+                int reconnection = lineClient.reconnect(lineClient.getNickname());
+                if(reconnection==0) return;
             }
         }
+
+
 }

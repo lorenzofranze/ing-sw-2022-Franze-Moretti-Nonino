@@ -89,9 +89,19 @@ public class PlayerManager implements Runnable{
     }
 
     public void stringMessageToClient(String stringToSend){
-        stringToSend = stringToSend + "\nEOF\n";
         StringMessage stringMessage= new StringMessage(stringToSend);
         String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
+        messageToSend = messageToSend + "\nEOF\n";
+        try {
+            bufferedReaderOut.write(messageToSend);
+            bufferedReaderOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(ServerMessage message){
+        String stringToSend = jsonConverter.fromMessageToJson(message);
         try {
             bufferedReaderOut.write(stringToSend);
             bufferedReaderOut.flush();
