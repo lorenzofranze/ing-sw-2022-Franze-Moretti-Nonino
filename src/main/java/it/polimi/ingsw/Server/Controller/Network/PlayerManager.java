@@ -88,6 +88,10 @@ public class PlayerManager implements Runnable{
         return isMyTurn;
     }
 
+    public String getPlayerNickname() {
+        return playerNickname;
+    }
+
     private String readFromBuffer(){
         String lastMessage = "";
 

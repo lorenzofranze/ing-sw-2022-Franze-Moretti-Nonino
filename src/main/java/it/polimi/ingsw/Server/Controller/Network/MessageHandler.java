@@ -204,4 +204,20 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * for all the player managers:
+     * it sets isMyTurn=false for all players exept the current player
+     * it sets isMyTurn=true for the current player
+     * @param currPlayer
+     */
+    public void setTurn(String currPlayer){
+        for(PlayerManager playerManager: playerManagerMap.values()){
+            if(playerManager.getPlayerNickname().equals(currPlayer)){
+                playerManager.setMyTurn(true);
+            }
+            else playerManager.setMyTurn(false);
+        }
+    }
+
+
 }

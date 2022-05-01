@@ -234,7 +234,10 @@ public class GameController implements Runnable  {
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
+
         this.currentPlayer = currentPlayer;
+        //it sets MyTurn of all players in PlayerManager
+        this.getMessageHandler().setTurn(currentPlayer.getNickname());
     }
 
     public Player getCurrentPlayer() {
