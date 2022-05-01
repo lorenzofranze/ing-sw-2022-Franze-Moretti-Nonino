@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ErrorGameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
@@ -25,7 +26,7 @@ public class Card7 extends CharacterEffectInitialize{
 
     public void doEffect(){
 
-        ClientMessage receivedMessage;
+        ErrorGameMessage errorGameMessage;
         GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PawnsMap pawnsChosen = new PawnsMap();
@@ -43,10 +44,7 @@ public class Card7 extends CharacterEffectInitialize{
         boolean end = false;
         do{
             valid=false;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             chosenPawn= gameMessage.getValue();
             if (chosenPawn == -1){
                 valid=true;
@@ -66,11 +64,7 @@ public class Card7 extends CharacterEffectInitialize{
         valid = true;
         while(!valid || count > 0){
                 valid=false;
-                do{
-                    receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-
-                gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
 
             chosenPawn= gameMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){

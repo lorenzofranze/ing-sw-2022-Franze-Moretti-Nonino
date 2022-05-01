@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Controller.ActionPhase;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ErrorGameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
@@ -36,13 +37,15 @@ public class Card3 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        ClientMessage receivedMessage;
+
+        ErrorGameMessage errorGameMessage;
         GameMessage gameMessage;
-        do{
-            receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-        }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
-        gameMessage =(GameMessage)receivedMessage;
+        gameMessage = playerManager.readMessage(TypeOfMessage.IslandChoice);
         int islandIndex = gameMessage.getValue();
+        if(islandIndex<0 || islandIndex>gameController.getGame().getIslands().size()-1){
+            errorGameMessage=new ErrorGameMessage("not valid card, rechoose.");
+            playerManager.sendMessage(errorGameMessage);
+        }
         //int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();
@@ -51,10 +54,10 @@ public class Card3 extends CharacterEffect{
 
         if (moreInfluentPlayer == null){
             playerManager.stringMessageToClient("MOREINFLUENTPLAYER: none");
-            //System.out.println("MOREINFLUENTPLAYER: none");
+
         } else {
             messageHandler.stringMessageToAllClients("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
-            //System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
+
         }
 
         if (moreInfluentPlayer != null){

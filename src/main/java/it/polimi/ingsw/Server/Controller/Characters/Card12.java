@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ErrorGameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
@@ -19,7 +20,7 @@ public class Card12 extends CharacterEffect{
 
     public void doEffect(){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
-        ClientMessage receivedMessage;
+        ErrorGameMessage errorGameMessage;
         GameMessage gameMessage;
         boolean valid;
         ColourPawn colourPawn;
@@ -28,17 +29,17 @@ public class Card12 extends CharacterEffect{
         int chosenPawn; // index of ColourPawn enumeration
         do{
             valid=false;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             chosenPawn = gameMessage.getValue();
             //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn){
                     valid=true;
-
                 }
+            }
+            if(!valid){
+                errorGameMessage=new ErrorGameMessage("the island doesn't exists.");
+                playerManager.sendMessage(errorGameMessage);
             }
 
         }while(!valid);

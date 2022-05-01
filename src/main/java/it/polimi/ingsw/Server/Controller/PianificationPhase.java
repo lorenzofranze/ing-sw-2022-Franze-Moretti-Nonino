@@ -130,15 +130,12 @@ public class PianificationPhase extends GamePhase {
                 }else{
                     errorGameMessage=new ErrorGameMessage("an other player has alrealy played this card in this round, rechoose.");
                     playerManager.sendMessage(errorGameMessage);
-                    //System.out.println("an other player has alrealy played this card in this round, rechoose.");
-                }
+                     }
 
             }
             else{
                 errorGameMessage=new ErrorGameMessage("\"You have already played this card, rechoose.\"");
                 playerManager.sendMessage(errorGameMessage);
-
-                //System.out.println("You have already played this card, rechoose.");
             }
         }
         while(valid == false || mustChange == true);

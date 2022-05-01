@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ErrorGameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
@@ -25,17 +26,16 @@ public class Card9 extends CharacterEffectInfluence{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        ClientMessage receivedMessage;
+        ErrorGameMessage errorGameMessage;
         GameMessage gameMessage;
         do{
             valid = true;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             index= gameMessage.getValue();
             if(index<0 || index >4)
                 valid = false;
+                errorGameMessage=new ErrorGameMessage("the island doesn't exists.");
+                playerManager.sendMessage(errorGameMessage);
         }while(!valid);
 
         this.colourPawn = ColourPawn.get(index);
