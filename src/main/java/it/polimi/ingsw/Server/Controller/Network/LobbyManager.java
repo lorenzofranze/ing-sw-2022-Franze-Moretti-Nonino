@@ -162,7 +162,11 @@ public class LobbyManager implements Runnable {
                             out.flush();
                             nameOk = false;
                         }
-                    } else {
+                    }
+                    //RESILIENZA ALLE DISCONNESSIONI
+                    /*
+                    else {
+
                         usedNicknames.remove(nickname);
                         for (int i : serverController.getInstance().getCurrentGames().keySet()) {
                             for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
@@ -175,6 +179,7 @@ public class LobbyManager implements Runnable {
                         //si è riconnesso
                         //GESTIRE
                     }
+                    */
 
                 }
             }
