@@ -47,7 +47,7 @@ public class PlayerManager implements Runnable{
         while (true) {
             receivedString = readFromBuffer();
             message = jsonConverter.fromJsonToMessage(receivedString);
-            if(message.getMessageType()!=TypeOfMessage.Error){
+            if(message.getMessageType()!=TypeOfMessage.Async){
                 if(isMyTurn==false){
                     stringMessageToClient("It is not your turn");
                 }
@@ -58,12 +58,11 @@ public class PlayerManager implements Runnable{
                     if(receivedMessage.getMessageType()==TypeOfMessage.CharacterCard){
                         characterReceived=true;
                     }
-
                     messageQueue.add(receivedMessage);
                 }
             }
             else{
-
+                System.out.println(message.getMessageType().toString());
             }
         }
     }
