@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.Messages.*;
 import it.polimi.ingsw.Server.Model.Player;
 
+import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -16,11 +17,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class PlayerManager implements Runnable{
     private Queue<ClientMessage> messageQueue;
+    private boolean characterReceived=false;
     private JsonConverter jsonConverter;
     private String playerNickname;
     private BufferedReader bufferedReaderIn;
     private BufferedWriter bufferedReaderOut;
     private boolean isMyTurn=false;
+
 
     public PlayerManager(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = playerNickname;
@@ -39,23 +42,42 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         ClientMessage receivedMessage;
+        Message message;
 
         while (true) {
             receivedString = readFromBuffer();
-            if(isMyTurn==false){
-                stringMessageToClient("It is not your turn");
-            }
-            else
-            {
-                receivedMessage = (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
-                messageQueue.add(receivedMessage);
-            }
+            message = jsonConverter.fromJsonToMessage(receivedString);
+            if(message.getMessageType()!=TypeOfMessage.Async){
+                if(isMyTurn==false){
+                    stringMessageToClient("It is not your turn");
+                }
+                else
+                {
+                    receivedMessage = (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
 
+                    if(receivedMessage.getMessageType()==TypeOfMessage.CharacterCard){
+                        characterReceived=true;
+                    }
+
+                    messageQueue.add(receivedMessage);
+                }
+            }
+            else{
+
+            }
         }
     }
 
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
+    }
+
+    public void setCharacterReceived(boolean characterReceived) {
+        this.characterReceived = characterReceived;
+    }
+
+    public boolean isCharacterReceived() {
+        return characterReceived;
     }
 
     public ClientMessage getLastMessage() {
@@ -82,7 +104,7 @@ public class PlayerManager implements Runnable{
     }
 
     private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
-        if (messageToSend.getMessageType().equals(TypeOfMessage.GameState) && (messageRecieved.getMessageType().equals(TypeOfMessage.GameStateACK))){
+        if (messageToSend.getMessageType().equals(TypeOfMessage.GameState)){
             return true;
         }
         return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));

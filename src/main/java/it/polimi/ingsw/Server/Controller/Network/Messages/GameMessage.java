@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
-public class IntMessage extends ClientMessage{
+public class GameMessage extends ClientMessage{
     private int value;
 
     public int getValue() {

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Server.Controller;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.AssistantCard;
@@ -89,7 +88,7 @@ public class PianificationPhase extends GamePhase {
 
         AssistantCard cardPlayed = null;
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
         boolean valid = false;
@@ -104,8 +103,8 @@ public class PianificationPhase extends GamePhase {
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.AssistantCard);
-            intMessage=(IntMessage)receivedMessage;
-            int played=intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            int played= gameMessage.getValue();
 
 
             for (AssistantCard c : currentPlayer.getDeck()) {

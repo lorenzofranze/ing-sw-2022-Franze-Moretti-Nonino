@@ -3,8 +3,7 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.ColourPawn;
@@ -27,7 +26,7 @@ public class Card7 extends CharacterEffectInitialize{
     public void doEffect(){
 
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PawnsMap pawnsChosen = new PawnsMap();
         PawnsMap pawnsToRemove = new PawnsMap();
@@ -47,8 +46,8 @@ public class Card7 extends CharacterEffectInitialize{
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            intMessage=(IntMessage)receivedMessage;
-            chosenPawn= intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            chosenPawn= gameMessage.getValue();
             if (chosenPawn == -1){
                 valid=true;
                 end = true;
@@ -71,9 +70,9 @@ public class Card7 extends CharacterEffectInitialize{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
 
-                intMessage=(IntMessage)receivedMessage;
+                gameMessage =(GameMessage)receivedMessage;
 
-            chosenPawn= intMessage.getValue();
+            chosenPawn= gameMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1 ){
                     count--;

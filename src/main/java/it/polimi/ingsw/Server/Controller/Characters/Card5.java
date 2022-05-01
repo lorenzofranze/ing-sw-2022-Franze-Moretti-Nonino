@@ -3,16 +3,13 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
-import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Island;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 public class Card5 extends CharacterEffectInitialize{
 
@@ -50,15 +47,15 @@ public class Card5 extends CharacterEffectInitialize{
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
 
         do{
             valid = true;
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
-            intMessage=(IntMessage)receivedMessage;
-            chosenIslandIndex = intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            chosenIslandIndex = gameMessage.getValue();
             Island chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);
             if(chosenIsland == null){
                 playerManager.stringMessageToClient("The island chosen doesn't exist");

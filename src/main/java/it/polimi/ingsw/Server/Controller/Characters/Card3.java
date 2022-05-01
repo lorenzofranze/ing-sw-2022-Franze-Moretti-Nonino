@@ -4,7 +4,7 @@ import it.polimi.ingsw.Server.Controller.ActionPhase;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.Island;
@@ -37,12 +37,12 @@ public class Card3 extends CharacterEffect{
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         do{
             receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
         }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
-        intMessage=(IntMessage)receivedMessage;
-        int islandIndex =intMessage.getValue();
+        gameMessage =(GameMessage)receivedMessage;
+        int islandIndex = gameMessage.getValue();
         //int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();

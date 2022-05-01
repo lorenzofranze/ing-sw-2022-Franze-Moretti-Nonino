@@ -3,8 +3,7 @@ package it.polimi.ingsw.Server.Controller.Characters;
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
+import it.polimi.ingsw.Server.Controller.Network.Messages.GameMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
 import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.ColourPawn;
@@ -24,15 +23,15 @@ public class Card10 extends CharacterEffect{
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
 
         do{
             valid=true;
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.Number);
-            intMessage=(IntMessage)receivedMessage;
-            num = intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            num = gameMessage.getValue();
             if(num<0 || num >2)
                 valid = false;
         }while(!valid);
@@ -45,8 +44,8 @@ public class Card10 extends CharacterEffect{
                 do{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-                intMessage=(IntMessage)receivedMessage;
-                colourEntrance = intMessage.getValue();
+                gameMessage =(GameMessage)receivedMessage;
+                colourEntrance = gameMessage.getValue();
                 if(colourEntrance<=-1 || colourEntrance >=5){
                     valid=false;
                     // to user: index not valid
@@ -75,8 +74,8 @@ public class Card10 extends CharacterEffect{
                 do{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-                intMessage=(IntMessage)receivedMessage;
-                colourDining= intMessage.getValue();
+                gameMessage =(GameMessage)receivedMessage;
+                colourDining= gameMessage.getValue();
                 if(gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0)
                     valid = false;
             }while(!valid);

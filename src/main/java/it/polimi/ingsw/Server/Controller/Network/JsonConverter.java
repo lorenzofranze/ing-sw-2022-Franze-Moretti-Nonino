@@ -28,7 +28,7 @@ public class  JsonConverter {
                 message.getMessageType()== TypeOfMessage.MoveMotherNature ||
                 message.getMessageType()==TypeOfMessage.Where ||
                 message.getMessageType()==TypeOfMessage.Number){
-            IntMessage messageReal=  gson.fromJson(jsonString, IntMessage.class);
+            GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
             return messageReal;
         }
         if(message.getMessageType()== TypeOfMessage.Ping){
@@ -37,10 +37,6 @@ public class  JsonConverter {
         }
         if(message.getMessageType()== TypeOfMessage.GameState){
             GameStateMessage messageReal=  gson.fromJson(jsonString, GameStateMessage.class);
-            return messageReal;
-        }
-        if(message.getMessageType()== TypeOfMessage.GameStateACK){
-            ACKMessage messageReal=  gson.fromJson(jsonString, ACKMessage.class);
             return messageReal;
         }
 

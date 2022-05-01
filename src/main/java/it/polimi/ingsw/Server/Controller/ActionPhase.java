@@ -189,7 +189,7 @@ public class ActionPhase extends GamePhase {
         ClientMessage receivedMessage;
         boolean valid=true;
         int indexColour;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         int where = 0;   // -1 refer for diningRoom, index of island for island
 
         int studentsToMove = 0;
@@ -205,9 +205,9 @@ public class ActionPhase extends GamePhase {
                 do{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-                intMessage=(IntMessage)receivedMessage;
+                gameMessage =(GameMessage)receivedMessage;
 
-                indexColour= intMessage.getValue();
+                indexColour= gameMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     // to user: index not valid
@@ -231,8 +231,8 @@ public class ActionPhase extends GamePhase {
                     do{
                         receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
                     }while(receivedMessage.getMessageType()!=TypeOfMessage.Where);
-                    intMessage=(IntMessage)receivedMessage;
-                    where = intMessage.getValue();
+                    gameMessage =(GameMessage)receivedMessage;
+                    where = gameMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
@@ -254,7 +254,7 @@ public class ActionPhase extends GamePhase {
     protected Island moveMotherNature(Player currentPlayer){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         Island ris = null;
         int played;
@@ -263,8 +263,8 @@ public class ActionPhase extends GamePhase {
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature);
-            intMessage=(IntMessage)receivedMessage;
-            played = intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            played = gameMessage.getValue();
         }
         while(played < 1 || played > maximumMovements.get(currentPlayer));
 
@@ -393,7 +393,7 @@ public class ActionPhase extends GamePhase {
 
     protected void chooseCloud(){
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer=gameController.getCurrentPlayer().getNickname();
@@ -420,8 +420,8 @@ public class ActionPhase extends GamePhase {
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.CloudChoice);
-            intMessage=(IntMessage)receivedMessage;
-            indexCloud=intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            indexCloud= gameMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
                 valid = false;
@@ -444,11 +444,15 @@ public class ActionPhase extends GamePhase {
      * otherwise it ask the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
         ClientMessage receivedMessage;
-        IntMessage intMessage;
+        GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int cardNumber;
+        PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
 
+        if(playerManager.isCharacterReceived()==false){
+            return;
+        }
         List<Character> usable = new ArrayList<>();
         for(Character character: gameController.getGame().getCharacters()) {
             if (gameController.getCurrentPlayer().getCoins() >= character.getCost() &&
@@ -468,8 +472,8 @@ public class ActionPhase extends GamePhase {
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
             }while(receivedMessage.getMessageType()!=TypeOfMessage.CharacterCard);
-            intMessage=(IntMessage)receivedMessage;
-            cardNumber=intMessage.getValue();
+            gameMessage =(GameMessage)receivedMessage;
+            cardNumber= gameMessage.getValue();
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
                 gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
@@ -484,6 +488,7 @@ public class ActionPhase extends GamePhase {
                 currentCharacterEffect.doEffect();
             }
         }
+        playerManager.setCharacterReceived(false);
 
     }
 

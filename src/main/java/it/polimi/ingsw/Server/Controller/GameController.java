@@ -62,6 +62,7 @@ public class GameController implements Runnable  {
 
         currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
 
+
         do{
             currentPhase = pianificationPhase;
             if (actionResult!=null) {
@@ -267,4 +268,6 @@ public class GameController implements Runnable  {
     public GamePhase getCurrentPhase() {
         return currentPhase;
     }
+
+    public void receiveMessage(TypeOfMessage typeOfMessage)
 }
