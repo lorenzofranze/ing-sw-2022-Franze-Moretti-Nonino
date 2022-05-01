@@ -4,7 +4,9 @@ public class StringMessage extends ServerMessage{
     private String stringMessage;
 
 
-    public StringMessage(TypeOfMessage typeOfMessage) {
-        super(typeOfMessage);
+
+    public StringMessage(String stringMessage) {
+        super(TypeOfMessage.String);
+        this.stringMessage=stringMessage;
     }
 }

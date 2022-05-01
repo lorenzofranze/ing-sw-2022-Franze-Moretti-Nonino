@@ -5,7 +5,7 @@ public enum TypeOfMessage {
     CharacterCard(4),CloudChoice(5) , Connection(6),
     GameState(7), IslandChoice(8), Where(10),
     Number(11),
-    ErrorMessage(12);
+    Error(12), String(13);
     private int numOfMove;
 
     private TypeOfMessage(int i) {

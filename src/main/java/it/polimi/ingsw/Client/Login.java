@@ -10,11 +10,9 @@ import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
 
 public class Login {
     private final LineClient lineClient;
-    private Scanner scanner;
 
     public Login(LineClient lineClient){
         this.lineClient = lineClient;
-        this.scanner = new Scanner(System.in);
     }
 
     public int start () throws IOException {
@@ -25,7 +23,7 @@ public class Login {
         do {
             valid = true;
             System.out.println("inserire nickname(almeno 4 caratteri):");
-            nickname = scanner.nextLine();
+            nickname = lineClient.getScanner().nextLine();
             if (nickname == null || nickname.length() < 4)
                 valid = false;
         } while (!valid);
@@ -41,7 +39,7 @@ public class Login {
         int resultConnection = -1;
         do {
             valid = true;
-            mod = lineClient.readInt(scanner);
+            mod = lineClient.readInt(lineClient.getScanner());
             if (mod <= 0 || mod >= 5) {
                 System.out.println("not valid");
                 valid = false;
@@ -66,8 +64,8 @@ public class Login {
             throw  e;
         }
 
-        return resultConnection;
 
+        return resultConnection;
     }
 
 }

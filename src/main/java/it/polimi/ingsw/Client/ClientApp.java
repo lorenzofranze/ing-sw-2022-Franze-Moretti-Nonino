@@ -37,6 +37,9 @@ public class ClientApp {
                     System.out.println("general error: resultConnection = " + resultConnection);
             }while(resultConnection!=1);
 
+            /* client sceglie tra cli e gui */
+            lineClient.chooseCLIorGUI();
+
 
             /* ora tutto nel try per proteggersi dalle disconnessioni
             * così se riceve un eccezione fa return e termina
