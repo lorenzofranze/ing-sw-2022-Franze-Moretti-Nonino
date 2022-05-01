@@ -164,7 +164,8 @@ public class LobbyManager implements Runnable {
                         }
                     }
                     //RESILIENZA ALLE DISCONNESSIONI
-                    /*
+                    //si è riconnesso
+                    //GESTIRE
                     else {
 
                         usedNicknames.remove(nickname);
@@ -176,10 +177,8 @@ public class LobbyManager implements Runnable {
                                 }
                             }
                         }
-                        //si è riconnesso
-                        //GESTIRE
+
                     }
-                    */
 
                 }
             }
