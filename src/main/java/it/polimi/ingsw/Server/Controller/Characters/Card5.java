@@ -2,9 +2,11 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Island;
 
@@ -45,15 +47,21 @@ public class Card5 extends CharacterEffectInitialize{
         }
 
         boolean valid = true;
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
+        PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
 
         do{
             valid = true;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenIslandIndex = receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
+            intMessage=(IntMessage)receivedMessage;
+            chosenIslandIndex = intMessage.getValue();
             Island chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);
             if(chosenIsland == null){
-                messageHandler.stringMessageToClient(gameController,"The island chosen doesn't exist", gameController.getCurrentPlayer().getNickname());
+                playerManager.stringMessageToClient("The island chosen doesn't exist");
                 //System.out.println("The island chosen doesn't exist");
                 valid = false;
             }

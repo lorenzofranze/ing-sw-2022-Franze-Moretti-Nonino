@@ -2,9 +2,11 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 
@@ -25,14 +27,20 @@ public class Card11 extends CharacterEffectInitialize{
     public void doEffect(){
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
+        PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
         int chosenPawn; // index of ColourPawn enumeration
 
         do{
             valid=false;
             //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenPawn =receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
+            intMessage=(IntMessage)receivedMessage;
+            chosenPawn =intMessage.getValue();
 
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){

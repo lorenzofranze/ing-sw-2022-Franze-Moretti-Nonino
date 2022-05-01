@@ -4,15 +4,11 @@ import it.polimi.ingsw.Server.Controller.Characters.CharacterEffect;
 import it.polimi.ingsw.Server.Controller.Network.Lobby;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
 import it.polimi.ingsw.Server.Controller.Network.Messages.GameStateMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.Message;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
-import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
-import it.polimi.ingsw.Server.Model.*;
 import it.polimi.ingsw.Server.Model.Character;
 import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.Player;
-import it.polimi.ingsw.utils.Observable;
 
 import java.util.*;
 
@@ -95,20 +91,20 @@ public class GameController implements Runnable  {
         calculateWinner(); //se winner è null, allora la partita è finita in pareggio
 
         if (winner != null){
-                messageHandler.stringMessageToClient("The winner is " + this.winner.toString());
+                messageHandler.stringMessageToAllClients("The winner is " + this.winner.toString());
 
             //System.out.println("The winner is " + this.winner.toString());
         }
         else{
-                messageHandler.stringMessageToClient("There is no winner.");
+                messageHandler.stringMessageToAllClients("There is no winner.");
             }
             //System.out.println("There is no winner.");
 
 
 
-        messageHandler.stringMessageToClient( "Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
+        messageHandler.stringMessageToAllClients( "Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
         for (Player player : this.game.getPlayers()){
-            messageHandler.stringMessageToClient(player.getNickname()+": " + player.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
+            messageHandler.stringMessageToAllClients(player.getNickname()+": " + player.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
         }
 
         //System.out.println("Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());

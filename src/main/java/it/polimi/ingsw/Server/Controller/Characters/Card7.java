@@ -2,9 +2,11 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 
@@ -24,9 +26,13 @@ public class Card7 extends CharacterEffectInitialize{
 
     public void doEffect(){
 
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
         PawnsMap pawnsChosen = new PawnsMap();
         PawnsMap pawnsToRemove = new PawnsMap();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         //System.out.println("The students on the card are:\n" + pawns);
 
         //System.out.println("You can choose up to 3 Students from this card and replace them with the same amount of " +
@@ -38,9 +44,11 @@ public class Card7 extends CharacterEffectInitialize{
         boolean end = false;
         do{
             valid=false;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenPawn= receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
+            intMessage=(IntMessage)receivedMessage;
+            chosenPawn= intMessage.getValue();
             if (chosenPawn == -1){
                 valid=true;
                 end = true;
@@ -58,9 +66,14 @@ public class Card7 extends CharacterEffectInitialize{
 
         valid = true;
         while(!valid || count > 0){
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenPawn= receivedMessage.getValue();
+                valid=false;
+                do{
+                    receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
+
+                intMessage=(IntMessage)receivedMessage;
+
+            chosenPawn= intMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1 ){
                     count--;

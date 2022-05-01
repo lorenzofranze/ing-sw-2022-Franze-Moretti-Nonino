@@ -189,7 +189,7 @@ public class MessageHandler {
         return lastMessage;
     }
 
-    public void stringMessageToClient(String stringToSend){
+    public void stringMessageToAllClients(String stringToSend){
         for(BufferedWriter bufferedWriter:bufferedReaderOut.values()){
             stringToSend = stringToSend + "\nEOF\n";
             StringMessage stringMessage= new StringMessage(stringToSend);

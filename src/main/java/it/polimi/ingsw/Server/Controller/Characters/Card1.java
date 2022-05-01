@@ -2,9 +2,11 @@ package it.polimi.ingsw.Server.Controller.Characters;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
+import it.polimi.ingsw.Server.Controller.Network.Messages.ClientMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.IntMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.ServerMessage;
 import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.PawnsMap;
@@ -27,13 +29,19 @@ public class Card1 extends CharacterEffectInitialize{
     public void doEffect(){
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        String currPlayer= gameController.getCurrentPlayer().getNickname();
+        PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
+        ClientMessage receivedMessage;
+        IntMessage intMessage;
         int chosenPawn; // index of ColourPawn enumeration
         int chosenIsland; // index island
         do{
             valid=false;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.StudentColour);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenPawn = receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
+            intMessage=(IntMessage)receivedMessage;
+            chosenPawn = intMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){
                     valid=true;
@@ -45,9 +53,11 @@ public class Card1 extends CharacterEffectInitialize{
 
         do {
             valid = true;
-            ServerMessage messageToSend= new ServerMessage(gameController.getCurrentPlayer().getNickname(), TypeOfMessage.IslandChoice);
-            IntMessage receivedMessage = (IntMessage) messageHandler.communicationWithClient(gameController, messageToSend);
-            chosenIsland= receivedMessage.getValue();
+            do{
+                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+            }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
+            intMessage=(IntMessage)receivedMessage;
+            chosenIsland= intMessage.getValue();
             if(chosenIsland<0 || chosenIsland>gameController.getGame().getIslands().size()-1){
                 valid=false;
             }
