@@ -1,9 +1,9 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Server.Model.AssistantCard;
-import it.polimi.ingsw.Server.Model.ColourTower;
-import it.polimi.ingsw.Server.Model.ColourWizard;
-import it.polimi.ingsw.Server.Model.Player;
+import it.polimi.ingsw.common.gamePojo.ColourTower;
+import it.polimi.ingsw.common.gamePojo.ColourWizard;
+import it.polimi.ingsw.server.model.AssistantCard;
+import it.polimi.ingsw.server.model.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

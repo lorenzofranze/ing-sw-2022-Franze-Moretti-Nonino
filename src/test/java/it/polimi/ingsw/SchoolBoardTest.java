@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Server.Model.*;
+import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

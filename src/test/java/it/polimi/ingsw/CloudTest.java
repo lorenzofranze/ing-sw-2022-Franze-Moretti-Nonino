@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Server.Model.Cloud;
-import it.polimi.ingsw.Server.Model.ColourPawn;
-import it.polimi.ingsw.Server.Model.PawnsMap;
+import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.server.model.Cloud;
+import it.polimi.ingsw.server.model.PawnsMap;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

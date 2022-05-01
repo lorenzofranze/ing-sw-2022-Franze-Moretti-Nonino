@@ -1,14 +1,14 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Server.Controller.GameController;
-import it.polimi.ingsw.Server.Controller.GameMode;
-import it.polimi.ingsw.Server.Controller.Network.Lobby;
-import it.polimi.ingsw.Server.Controller.SetUpPhase;
-import it.polimi.ingsw.Server.Controller.SetUpResult;
-import it.polimi.ingsw.Server.Model.*;
+import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.server.controller.logic.GameController;
+import it.polimi.ingsw.server.controller.logic.GameMode;
+import it.polimi.ingsw.server.controller.network.Lobby;
+import it.polimi.ingsw.server.controller.logic.SetUpPhase;
+import it.polimi.ingsw.server.controller.logic.SetUpResult;
+import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
