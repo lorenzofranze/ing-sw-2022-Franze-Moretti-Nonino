@@ -47,7 +47,7 @@ public class PlayerManager implements Runnable{
         while (true) {
             receivedString = readFromBuffer();
             message = jsonConverter.fromJsonToMessage(receivedString);
-            if(message.getMessageType()!=TypeOfMessage.Async){
+            if(message.getMessageType()!=TypeOfMessage.ErrorMessage){
                 if(isMyTurn==false){
                     stringMessageToClient("It is not your turn");
                 }
