@@ -46,8 +46,6 @@ public class ActionPhase extends GamePhase {
                 messageHandler.stringMessageToAllClients(p+ " TURN \n");
                 messageHandler.stringMessageToAllClients("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
 
-                //System.out.println("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
-
 
                 //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
                 //    System.out.println("\n\t\t\t\t" + gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " SCHOOLBOARD");
@@ -57,8 +55,7 @@ public class ActionPhase extends GamePhase {
                 //}
 
                 messageHandler.stringMessageToAllClients("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+ "\nISLANDS:\\n\" + gameController.getGame().islandsToString()");
-                //System.out.println("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
-                //System.out.println("\nISLANDS:\n" + gameController.getGame().islandsToString());
+
                 gameController.update();
                 askforCharacter();
                 gameController.update();
@@ -186,7 +183,8 @@ public class ActionPhase extends GamePhase {
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        ClientMessage receivedMessage;
+        ErrorGameMessage errorGameMessage;
+
         boolean valid=true;
         int indexColour;
         GameMessage gameMessage;
@@ -202,16 +200,15 @@ public class ActionPhase extends GamePhase {
                 valid = true;
                 // to user: choose one color pawn
 
-                do{
-                    receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-                gameMessage =(GameMessage)receivedMessage;
+                gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
 
                 indexColour= gameMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     // to user: index not valid
-                    playerManager.stringMessageToClient("indexColour not valid.");
+                    errorGameMessage=new ErrorGameMessage("indexColour not valid.");
+                    playerManager.sendMessage(errorGameMessage);
+
                     //System.out.println("indexColour not valid.");
                 }
                 if(valid){
@@ -219,7 +216,8 @@ public class ActionPhase extends GamePhase {
                             .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                         valid = false;
                         //to user: change color pawn to move, you don't have that color
-                        playerManager.stringMessageToClient("You don't have that colour.");
+                        errorGameMessage=new ErrorGameMessage("You don't have that colour.");
+                        playerManager.sendMessage(errorGameMessage);
 
                         //System.out.println("You don't have that colour.");
                     }
@@ -228,19 +226,20 @@ public class ActionPhase extends GamePhase {
                 // to user: choose position
 
                 if(valid){
-                    do{
-                        receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                    }while(receivedMessage.getMessageType()!=TypeOfMessage.Where);
-                    gameMessage =(GameMessage)receivedMessage;
+                    gameMessage = playerManager.readMessage(TypeOfMessage.Where);
                     where = gameMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         //to user: position not valid
+                        errorGameMessage=new ErrorGameMessage("position not valid");
+                        playerManager.sendMessage(errorGameMessage);
                     }
                 }
                 if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
+                    errorGameMessage=new ErrorGameMessage("your school board in that row of your dining room is full");
+                    playerManager.sendMessage(errorGameMessage);
                     // to user: your school board in that row of your dining room is full
                 }
             }while(!valid);
@@ -253,23 +252,20 @@ public class ActionPhase extends GamePhase {
 
     protected Island moveMotherNature(Player currentPlayer){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
-        ClientMessage receivedMessage;
         GameMessage gameMessage;
+        ErrorGameMessage errorGameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
         Island ris = null;
         int played;
 
         do {
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                if(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature){
-                    ErrorMes;
-                    playerManager.sendMessage();
-                }
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             played = gameMessage.getValue();
+            if(played < 1 || played > maximumMovements.get(currentPlayer)){
+                errorGameMessage=new ErrorGameMessage();
+                playerManager.sendMessage(errorGameMessage);
+            }
         }
         while(played < 1 || played > maximumMovements.get(currentPlayer));
 
@@ -397,11 +393,12 @@ public class ActionPhase extends GamePhase {
     }
 
     protected void chooseCloud(){
-        ClientMessage receivedMessage;
+
         GameMessage gameMessage;
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer=gameController.getCurrentPlayer().getNickname();
+        ErrorGameMessage errorGameMessage;
         PlayerManager playerManager = messageHandler.getPlayerManager(currPlayer);
         int indexCloud;
         // if there is only one cloud left, it goes directly in player's schoolBoard
@@ -422,18 +419,21 @@ public class ActionPhase extends GamePhase {
         // print possibile cloud with values
         do{
             valid = true;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.CloudChoice);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.CloudChoice);
+
             indexCloud= gameMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
+                errorGameMessage=new ErrorGameMessage("index not valid.");
+                playerManager.sendMessage(errorGameMessage);
+
                 valid = false;
             }
             if(valid){
                 if(gameController.getGame().getClouds().get(indexCloud).getStudents().isEmpty()){
                     // to user: empty cloud, rechoose
+                    errorGameMessage=new ErrorGameMessage(" empty cloud, rechoose");
+                    playerManager.sendMessage(errorGameMessage);
                     valid=false;
                 }
             }
@@ -448,7 +448,7 @@ public class ActionPhase extends GamePhase {
     /** this method does nothing if game is in simple mode because no player has more than 0 coins
      * otherwise it ask the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
-        ClientMessage receivedMessage;
+        ErrorGameMessage errorGameMessage;
         GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
@@ -470,14 +470,8 @@ public class ActionPhase extends GamePhase {
             // to user: you can play one of theese cards.. select the number of card you want to
             // use to play the card now, any other key to skip
 
-            for(Character character : usable) {
-                // to user: choose one of theese cards...print...
-            }
 
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.CharacterCard);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.CharacterCard);
             cardNumber= gameMessage.getValue();
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
@@ -492,6 +486,10 @@ public class ActionPhase extends GamePhase {
                 CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(usable.get(cardNumber));
                 currentCharacterEffect.doEffect();
             }
+        }
+        else{
+            errorGameMessage=new ErrorGameMessage("this character card is not valid.");
+            playerManager.sendMessage(errorGameMessage);
         }
         playerManager.setCharacterReceived(false);
 

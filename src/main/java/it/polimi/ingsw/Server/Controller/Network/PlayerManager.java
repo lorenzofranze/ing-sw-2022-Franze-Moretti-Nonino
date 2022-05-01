@@ -107,12 +107,6 @@ public class PlayerManager implements Runnable{
         return lastMessage;
     }
 
-    private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
-        if (messageToSend.getMessageType().equals(TypeOfMessage.GameState)){
-            return true;
-        }
-        return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
-    }
 
     public void stringMessageToClient(String stringToSend){
         StringMessage stringMessage= new StringMessage(stringToSend);
