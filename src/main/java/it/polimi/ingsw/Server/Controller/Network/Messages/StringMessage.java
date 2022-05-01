@@ -1,9 +1,10 @@
 package it.polimi.ingsw.Server.Controller.Network.Messages;
 
-public class StringMessage extends Message{
+public class StringMessage extends ServerMessage{
     private String stringMessage;
 
-    public StringMessage(String stringMessage){
-        this.stringMessage=stringMessage;
+
+    public StringMessage(TypeOfMessage typeOfMessage) {
+        super(typeOfMessage);
     }
 }

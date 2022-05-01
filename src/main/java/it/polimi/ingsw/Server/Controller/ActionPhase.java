@@ -256,12 +256,17 @@ public class ActionPhase extends GamePhase {
         ClientMessage receivedMessage;
         GameMessage gameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+        PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
         Island ris = null;
         int played;
 
         do {
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                if(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature){
+                    ErrorMes;
+                    playerManager.sendMessage();
+                }
             }while(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature);
             gameMessage =(GameMessage)receivedMessage;
             played = gameMessage.getValue();

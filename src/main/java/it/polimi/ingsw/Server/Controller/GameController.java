@@ -269,5 +269,4 @@ public class GameController implements Runnable  {
         return currentPhase;
     }
 
-    public void receiveMessage(TypeOfMessage typeOfMessage)
 }
