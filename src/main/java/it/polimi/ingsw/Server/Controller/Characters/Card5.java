@@ -12,14 +12,19 @@ import it.polimi.ingsw.Server.Model.Island;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Card5 extends CharacterEffectInitialize{
+public class Card5 extends CharacterEffect{
 
     private final GameController gameController;
     private int NoEntryTilesLeft;
     private List<Island> blockedIslands;
     MessageHandler messageHandler;
 
-    public void initializeCard() {
+    /**In Setup, put the 4 No Entry tiles on this card.
+     * Place a No Entry tile on an Island of your choice. The first time Mother Nature ends her movement there,
+     * put the No Entry tile back onto this card DO NOT calculate influence on that Island, or place ant Towers.*/
+    public Card5(GameController gameController) {
+        this.gameController = gameController;
+        messageHandler = gameController.getMessageHandler();
         NoEntryTilesLeft = 4;
         blockedIslands = new ArrayList<>();
         for(Island is : gameController.getGame().getIslands()){
@@ -28,13 +33,6 @@ public class Card5 extends CharacterEffectInitialize{
     }
 
 
-    /**In Setup, put the 4 No Entry tiles on this card.
-     * Place a No Entry tile on an Island of your choice. The first time Mother Nature ends her movement there,
-     * put the No Entry tile back onto this card DO NOT calculate influence on that Island, or place ant Towers.*/
-    public Card5(GameController gameController){
-        this.gameController = gameController;
-        messageHandler = gameController.getMessageHandler();
-    }
 
     public void doEffect(){
         int chosenIslandIndex;

@@ -31,10 +31,7 @@ public class  JsonConverter {
             GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
             return messageReal;
         }
-        if(message.getMessageType()== TypeOfMessage.Ping){
-            PingMessage messageReal=  gson.fromJson(jsonString, PingMessage.class);
-            return messageReal;
-        }
+
         if(message.getMessageType()== TypeOfMessage.GameState){
             GameStateMessage messageReal=  gson.fromJson(jsonString, GameStateMessage.class);
             return messageReal;

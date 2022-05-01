@@ -10,7 +10,7 @@ import it.polimi.ingsw.Server.Controller.Network.PlayerManager;
 import it.polimi.ingsw.Server.Model.ColourPawn;
 import it.polimi.ingsw.Server.Model.PawnsMap;
 
-public class Card1 extends CharacterEffectInitialize{
+public class Card1 extends CharacterEffect{
 
     private final GameController gameController;
     private PawnsMap pawns;
@@ -18,9 +18,6 @@ public class Card1 extends CharacterEffectInitialize{
     public Card1(GameController gameController){
         this.gameController = gameController;
         pawns = new PawnsMap();
-    }
-
-    public void initializeCard() {
         pawns.add(gameController.getGame().getStudentsBag().removeRandomly(4));
     }
 

@@ -13,5 +13,4 @@ public abstract class CharacterEffect {
      * card's effect */
     public abstract void doEffect();
 
-
 }

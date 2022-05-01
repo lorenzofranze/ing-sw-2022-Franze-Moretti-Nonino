@@ -14,6 +14,8 @@ import it.polimi.ingsw.Server.Model.Game;
 import it.polimi.ingsw.Server.Model.Island;
 import it.polimi.ingsw.Server.Model.Player;
 
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.*;
 
 public class GameController implements Runnable  {
@@ -37,6 +39,7 @@ public class GameController implements Runnable  {
     private MessageHandler messageHandler;
     private Player currentPlayer;
     private Player winner;
+    private Lobby lobby;
 
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
@@ -45,11 +48,14 @@ public class GameController implements Runnable  {
 
     public GameController(Lobby lobby, boolean expert){
         this.game=new Game(lobby.getUsersNicknames(), this.gameID);
+        this.lobby=lobby;
         this.expert=expert;
         this.gameID ++;
         this.characterEffects = new HashMap<>();
 
         this.messageHandler= new MessageHandler(lobby);
+
+        this.setTimeout();
     }
 
     public void run(){
@@ -272,6 +278,22 @@ public class GameController implements Runnable  {
 
     public GamePhase getCurrentPhase() {
         return currentPhase;
+    }
+
+    /** stops the game if a player do not answer for more than 3 minutes
+     *
+     */
+    public void setTimeout(){
+        for(Socket socket: lobby.getUsersReadyToPlay().values()){
+            //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
+            try {
+                socket.setSoTimeout(180000);
+            } catch (SocketException e) {
+                e.printStackTrace();
+                ServerController.getInstance().setToStop(gameID);
+            }
+        }
+
     }
 
 

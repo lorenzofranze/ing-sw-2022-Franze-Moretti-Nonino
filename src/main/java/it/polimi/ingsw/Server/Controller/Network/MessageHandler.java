@@ -2,12 +2,14 @@ package it.polimi.ingsw.Server.Controller.Network;
 
 import it.polimi.ingsw.Server.Controller.GameController;
 import it.polimi.ingsw.Server.Controller.Network.Messages.*;
+import it.polimi.ingsw.Server.Controller.ServerController;
 import it.polimi.ingsw.Server.Model.Player;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -36,8 +38,8 @@ public class MessageHandler {
         //inetAddresses= new HashMap<>();
         for(String s: lobby.getUsersReadyToPlay().keySet()){
             PlayerManager playerManager;
+            Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
             try{
-                Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
                 BufferedReader in= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 bufferedReaderIn.put(s, in);
                 BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -49,7 +51,9 @@ public class MessageHandler {
             catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
+
         jsonConverter = new JsonConverter();
     }
 
