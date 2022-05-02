@@ -202,10 +202,6 @@ public class LobbyManager implements Runnable {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket);
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
 
-                // activates player manager for each player
-                for(String playerNickname: waitingLobbies.get(mode).getUsersNicknames()){
-                    Socket socket= waitingLobbies.get(mode).getUsersReadyToPlay().get(playerNickname);
-                }
                 serverController.start(waitingLobbies.get(mode));
                 System.out.println("creazione Lobby modalità "+mode);
                 waitingLobbies.remove(mode);
