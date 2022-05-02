@@ -25,17 +25,18 @@ public class Card9 extends CharacterEffectInfluence{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        Message receivedMessage;
+        Message errorGameMessage;
         GameMessage gameMessage;
         do{
             valid = true;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             index= gameMessage.getValue();
-            if(index<0 || index >4)
+            if(index<0 || index >4){
                 valid = false;
+                //the island doesn't exist
+                errorGameMessage=new Message(TypeOfMessage.Error);
+                playerManager.sendMessage(errorGameMessage);
+            }
         }while(!valid);
 
         this.colourPawn = ColourPawn.get(index);

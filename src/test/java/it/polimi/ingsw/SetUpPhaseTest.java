@@ -147,8 +147,4 @@ public class SetUpPhaseTest {
         assertTrue(gameController.getGame().getPlayers().contains(ris.getFirstRandomPianificationPlayer()));
     }
 
-    @Test
-    public void testInitializeCharactersEffects(){
-
-    }
 }

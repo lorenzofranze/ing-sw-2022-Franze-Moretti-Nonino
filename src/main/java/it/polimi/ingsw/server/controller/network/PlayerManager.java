@@ -38,7 +38,7 @@ public class PlayerManager implements Runnable{
         while (true) {
             receivedString = readFromBuffer();
             message = jsonConverter.fromJsonToMessage(receivedString);
-            if(message.getMessageType()!=TypeOfMessage.ErrorMessage){
+            if(message.getMessageType()!=TypeOfMessage.Async){
                 if(isMyTurn==false){
                     stringMessageToClient("It is not your turn");
                 }
@@ -54,7 +54,7 @@ public class PlayerManager implements Runnable{
                 }
             }
             else{
-
+                System.out.println(message.getMessageType().toString());
             }
         }
     }
@@ -94,13 +94,6 @@ public class PlayerManager implements Runnable{
         return lastMessage;
     }
 
-    private boolean checkAnswerType(Message messageToSend, Message messageRecieved){
-        if (messageToSend.getMessageType().equals(TypeOfMessage.Update)){
-            return true;
-        }
-        return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
-    }
-
     public void stringMessageToClient(String stringToSend){
         StringMessage stringMessage= new StringMessage(stringToSend);
         String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
@@ -121,5 +114,37 @@ public class PlayerManager implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getPlayerNickname() {
+        return playerNickname;
+    }
+
+    /**
+     * it reads the last message of the queue: if it is of the type expected it return the message
+     * otherwise it sends an errorGameMessage to the client and it reads the last message of the queue again
+     * until it finds the message it is waiting for
+     * @param typeOfMessage
+     * @return
+     */
+    public GameMessage readMessage(TypeOfMessage typeOfMessage) {
+        Message receivedMessage;
+        GameMessage gameMessage;
+
+        do {
+            receivedMessage = getLastMessage();
+            if(receivedMessage.getMessageType()!=typeOfMessage){
+                Message errorGameMessage=new Message(TypeOfMessage.Error);
+                String stringToSend = jsonConverter.fromMessageToJson(errorGameMessage);
+                try {
+                    bufferedReaderOut.write(stringToSend);
+                    bufferedReaderOut.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } while (receivedMessage.getMessageType() != typeOfMessage);
+        gameMessage = (GameMessage) receivedMessage;
+        return gameMessage;
     }
 }

@@ -4,9 +4,11 @@ import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.server.controller.logic.ServerController;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -28,15 +30,14 @@ public class MessageHandler {
 
     public MessageHandler(Lobby lobby){
 
-
         bufferedReaderIn= new HashMap<>();
         bufferedReaderOut= new HashMap<>();
         playerManagerMap=new HashMap<>();
         //inetAddresses= new HashMap<>();
         for(String s: lobby.getUsersReadyToPlay().keySet()){
             PlayerManager playerManager;
+            Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
             try{
-                Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
                 BufferedReader in= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 bufferedReaderIn.put(s, in);
                 BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -203,4 +204,18 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * for all the player managers:
+     * it sets isMyTurn=false for all players exept the current player
+     * it sets isMyTurn=true for the current player
+     * @param currPlayer
+     */
+    public void setTurn(String currPlayer){
+        for(PlayerManager playerManager: playerManagerMap.values()){
+            if(playerManager.getPlayerNickname().equals(currPlayer)){
+                playerManager.setMyTurn(true);
+            }
+            else playerManager.setMyTurn(false);
+        }
+    }
 }

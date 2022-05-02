@@ -9,6 +9,8 @@ import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.Character;
+import java.net.Socket;
+import java.net.SocketException;
 
 import java.util.*;
 
@@ -33,6 +35,7 @@ public class GameController implements Runnable  {
     private MessageHandler messageHandler;
     private Player currentPlayer;
     private Player winner;
+    private Lobby lobby;
 
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
@@ -44,8 +47,10 @@ public class GameController implements Runnable  {
         this.expert=expert;
         this.gameID ++;
         this.characterEffects = new HashMap<>();
+        this.lobby=lobby;
 
         this.messageHandler= new MessageHandler(lobby);
+        this.setTimeout();
     }
 
     public void run(){
@@ -113,6 +118,20 @@ public class GameController implements Runnable  {
     }
 
 
+    /** stops the game if a player do not answer for more than 3 minutes
+     *
+     */
+    public void setTimeout(){
+        for(Socket socket: lobby.getUsersReadyToPlay().values()){
+            //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
+            try {
+                socket.setSoTimeout(180000);
+            } catch (SocketException e) {
+                e.printStackTrace();
+                ServerController.getInstance().setToStop(gameID);
+            }
+        }
+    }
 
     public synchronized void update(){
         UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
@@ -230,6 +249,8 @@ public class GameController implements Runnable  {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        //it sets myTurn of all players in PlayerManager
+        this.getMessageHandler().setTurn(currentPlayer.getNickname());
     }
 
     public Player getCurrentPlayer() {

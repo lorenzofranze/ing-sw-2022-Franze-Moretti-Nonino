@@ -11,21 +11,12 @@ import it.polimi.ingsw.server.model.Island;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Card5 extends CharacterEffectInitialize{
+public class Card5 extends CharacterEffect{
 
     private final GameController gameController;
     private int NoEntryTilesLeft;
     private List<Island> blockedIslands;
     MessageHandler messageHandler;
-
-    public void initializeCard() {
-        NoEntryTilesLeft = 4;
-        blockedIslands = new ArrayList<>();
-        for(Island is : gameController.getGame().getIslands()){
-            is.setNumNoEntryTile(0);
-        }
-    }
-
 
     /**In Setup, put the 4 No Entry tiles on this card.
      * Place a No Entry tile on an Island of your choice. The first time Mother Nature ends her movement there,
@@ -33,6 +24,11 @@ public class Card5 extends CharacterEffectInitialize{
     public Card5(GameController gameController){
         this.gameController = gameController;
         messageHandler = gameController.getMessageHandler();
+        NoEntryTilesLeft = 4;
+        blockedIslands = new ArrayList<>();
+        for(Island is : gameController.getGame().getIslands()){
+            is.setNumNoEntryTile(0);
+        }
     }
 
     public void doEffect(){
@@ -46,20 +42,18 @@ public class Card5 extends CharacterEffectInitialize{
         boolean valid = true;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        Message receivedMessage;
+        Message errorGameMessage;
         GameMessage gameMessage;
 
         do{
             valid = true;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.IslandChoice);
             chosenIslandIndex = gameMessage.getValue();
             Island chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);
             if(chosenIsland == null){
-                playerManager.stringMessageToClient("The island chosen doesn't exist");
                 //System.out.println("The island chosen doesn't exist");
+                errorGameMessage=new Message(TypeOfMessage.Error);
+                playerManager.sendMessage(errorGameMessage);
                 valid = false;
             }
             if (valid == true){

@@ -19,7 +19,7 @@ public class Card12 extends CharacterEffect{
 
     public void doEffect(){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
-        Message receivedMessage;
+        Message errorGameMessage;
         GameMessage gameMessage;
         boolean valid;
         ColourPawn colourPawn;
@@ -28,10 +28,7 @@ public class Card12 extends CharacterEffect{
         int chosenPawn; // index of ColourPawn enumeration
         do{
             valid=false;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             chosenPawn = gameMessage.getValue();
             //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
             for(ColourPawn p : ColourPawn.values()){
@@ -39,6 +36,12 @@ public class Card12 extends CharacterEffect{
                     valid=true;
 
                 }
+            }
+
+            if(!valid){
+                //the island doesn't exist
+                errorGameMessage=new Message(TypeOfMessage.Error);
+                playerManager.sendMessage(errorGameMessage);
             }
 
         }while(!valid);

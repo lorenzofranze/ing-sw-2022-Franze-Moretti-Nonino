@@ -36,13 +36,17 @@ public class Card3 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        Message receivedMessage;
+        Message errorGameMessage;
         GameMessage gameMessage;
-        do{
-            receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-        }while(receivedMessage.getMessageType()!=TypeOfMessage.IslandChoice);
-        gameMessage =(GameMessage)receivedMessage;
+
+
+        gameMessage = playerManager.readMessage(TypeOfMessage.IslandChoice);
         int islandIndex = gameMessage.getValue();
+        if(islandIndex<0 || islandIndex>gameController.getGame().getIslands().size()-1){
+            //not valid card, rechoose
+            errorGameMessage=new Message(TypeOfMessage.Error);
+            playerManager.sendMessage(errorGameMessage);
+        }
         //int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();
@@ -51,10 +55,8 @@ public class Card3 extends CharacterEffect{
 
         if (moreInfluentPlayer == null){
             playerManager.stringMessageToClient("MOREINFLUENTPLAYER: none");
-            //System.out.println("MOREINFLUENTPLAYER: none");
         } else {
             messageHandler.stringMessageToAllClients("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
-            //System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
         }
 
         if (moreInfluentPlayer != null){

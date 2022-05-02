@@ -15,11 +15,14 @@ public class LineClient {
 
     private BufferedReader in;
     private BufferedWriter out;
+    private Scanner scanner;
+    private boolean GUImode;
 
     public LineClient(String ip, int port) throws IOException {
         this.ip = ip;
         this.port = port;
 
+        this.scanner = new Scanner(System.in);
         Socket socket = null;
 
         socket = new Socket("localhost", port);
@@ -107,5 +110,24 @@ public class LineClient {
             return 0;
         }
         return 1;
+    }
+
+    public void chooseCLIorGUI(){
+        System.out.println("premi 1 per la cli, 2 per la gui");
+        int result;
+        do{
+            result=readInt(scanner);
+        }while(result!=1 && result!=2);
+        if(result==1){
+            GUImode=false;
+        }
+        else{
+            GUImode=true;
+        }
+
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 }

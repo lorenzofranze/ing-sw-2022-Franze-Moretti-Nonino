@@ -89,6 +89,7 @@ public class PianificationPhase extends GamePhase {
         AssistantCard cardPlayed = null;
         GameMessage gameMessage;
         Message fromClient;
+        Message errorGameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
         boolean valid = false;
@@ -100,14 +101,7 @@ public class PianificationPhase extends GamePhase {
             valid = false;
             gameController.update();
 
-            do{
-                fromClient = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                if (!fromClient.getMessageType().equals(TypeOfMessage.AssistantCard)){
-                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
-                    playerManager.sendMessage(ErrorMessage);
-                }
-            }while(fromClient.getMessageType()!=TypeOfMessage.AssistantCard);
-            gameMessage =(GameMessage) fromClient;
+            gameMessage = playerManager.readMessage(TypeOfMessage.AssistantCard);
             int played= gameMessage.getValue();
 
 
@@ -132,13 +126,15 @@ public class PianificationPhase extends GamePhase {
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    playerManager.stringMessageToClient("an other player has alrealy played this card in this round, rechoose.");
+                    errorGameMessage = new Message(TypeOfMessage.Error);
+                    playerManager.sendMessage(errorGameMessage);
                     //System.out.println("an other player has alrealy played this card in this round, rechoose.");
                 }
 
             }
             else{
-                playerManager.stringMessageToClient("\"You have already played this card, rechoose.\"");
+                errorGameMessage = new Message(TypeOfMessage.Error);
+                playerManager.sendMessage(errorGameMessage);
                 //System.out.println("You have already played this card, rechoose.");
             }
         }

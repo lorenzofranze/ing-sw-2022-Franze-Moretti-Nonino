@@ -1,20 +1,45 @@
 package it.polimi.ingsw.client;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ClientApp {
 
         public static void main(String[] args) {
             int resultConnection;
             boolean gameOver=false;
-            LineClient lineClient;
 
-            try {
-                lineClient = new LineClient("localhost", 32502);
-            } catch (IOException ex) {
-                System.out.println("impossibile connettersi");
-                return;
+            boolean connected=false;
+            Scanner scanner;
+            LineClient lineClient = null;
+            int port=0;
+            System.out.println("Scegli porta del server (consigliata: 32502)");
+            scanner=new Scanner(System.in);
+
+            while(!connected) {
+                //readInt
+                int val = 0;
+                boolean valid;
+                do {
+                    valid = false;
+                    if (scanner.hasNextInt()) {
+                        port = scanner.nextInt();
+                        valid = true;
+                    } else {
+                        scanner.next();
+                        System.out.println("Input not valid");
+                    }
+                } while (!valid);
+
+                try {
+                    lineClient = new LineClient("localhost", port);
+                    connected = true;
+                } catch (IOException ex) {
+                    System.out.println("impossibile connettersi provare con porta precedente + 1");
+                }
             }
+
+
             do {
                 Login login = new Login(lineClient);
 
@@ -34,6 +59,9 @@ public class ClientApp {
                 else
                     System.out.println("general error: resultConnection = " + resultConnection);
             }while(resultConnection!=1);
+
+            /* client sceglie tra cli e gui */
+            lineClient.chooseCLIorGUI();
 
 
             /* ora tutto nel try per proteggersi dalle disconnessioni

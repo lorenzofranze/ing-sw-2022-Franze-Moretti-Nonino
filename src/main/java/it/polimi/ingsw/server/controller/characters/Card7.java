@@ -9,7 +9,7 @@ import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.PawnsMap;
 
-public class Card7 extends CharacterEffectInitialize{
+public class Card7 extends CharacterEffect{
 
     private final GameController gameController;
     private PawnsMap pawns;
@@ -17,15 +17,12 @@ public class Card7 extends CharacterEffectInitialize{
     public Card7(GameController gameController){
         this.gameController = gameController;
         pawns = new PawnsMap();
-    }
-
-    public void initializeCard() {
         pawns.add(gameController.getGame().getStudentsBag().removeRandomly(6));
     }
 
     public void doEffect(){
 
-        Message receivedMessage;
+        Message errorGameMessage;
         GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PawnsMap pawnsChosen = new PawnsMap();
@@ -33,7 +30,6 @@ public class Card7 extends CharacterEffectInitialize{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         //System.out.println("The students on the card are:\n" + pawns);
-
         //System.out.println("You can choose up to 3 Students from this card and replace them with the same amount of " +
         //        "Students form your entrance ( colour pawn '-1' to end):\n");
         boolean valid;
@@ -43,10 +39,7 @@ public class Card7 extends CharacterEffectInitialize{
         boolean end = false;
         do{
             valid=false;
-            do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-            gameMessage =(GameMessage)receivedMessage;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             chosenPawn= gameMessage.getValue();
             if (chosenPawn == -1){
                 valid=true;
@@ -65,14 +58,10 @@ public class Card7 extends CharacterEffectInitialize{
 
         valid = true;
         while(!valid || count > 0){
-                valid=false;
-                do{
-                    receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
-
-                gameMessage =(GameMessage)receivedMessage;
-
+            valid=false;
+            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
             chosenPawn= gameMessage.getValue();
+
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1 ){
                     count--;
