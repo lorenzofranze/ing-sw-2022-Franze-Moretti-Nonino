@@ -136,7 +136,6 @@ public class GameController implements Runnable  {
     public synchronized void update(){
         UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
 
-        boolean isValid= false;
 
         for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
             playerManager.sendMessage(updateMessage);
@@ -287,6 +286,10 @@ public class GameController implements Runnable  {
 
     public GameState getGameState(){
         GameState gameState = new GameState();
+        gameState.setGamePhase(this.currentPhase);
+        gameState.setGameId(this.getGameID());
+        gameState.setWinner(this.winner.getNickname());
+        gameState.setGameOver(this.gameOver);
 
         String pojoCurrentPlayer = currentPlayer.getNickname();
         gameState.setCurrentPlayer(pojoCurrentPlayer);

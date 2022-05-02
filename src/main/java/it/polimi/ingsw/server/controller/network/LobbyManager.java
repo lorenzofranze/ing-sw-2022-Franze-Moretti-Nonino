@@ -80,7 +80,7 @@ public class LobbyManager implements Runnable {
         ArrayList<String> usedNicknames = new ArrayList<>();
         Message unknown;
         boolean nameOk;
-        System.out.println("Server ready");
+        System.out.println("Server ready on port: "+ this.lobbyPortNumber);
         while (true) {
             try {
                 clientSocket = lobbyServerSocket.accept();

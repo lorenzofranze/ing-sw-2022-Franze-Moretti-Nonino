@@ -26,6 +26,7 @@ public class PianificationPhase extends GamePhase {
 
     public PianificationResult handle(Player firstPlayer){
 
+
         //index of the first player in the list of players contained in game
         int playerIndex = this.gameController.getGame().getPlayers().indexOf(firstPlayer);
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
@@ -69,7 +70,7 @@ public class PianificationPhase extends GamePhase {
         /*at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
         that associates players to their maximum movements.*/
 
-        fillClouds();
+
 
 
 
