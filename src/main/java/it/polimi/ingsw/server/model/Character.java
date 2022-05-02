@@ -42,4 +42,12 @@ public class Character{
     public int hashCode() {
         return Objects.hash(characterId);
     }
+
+    public it.polimi.ingsw.common.gamePojo.Character toPojo(){
+        it.polimi.ingsw.common.gamePojo.Character pojoCharacter = new it.polimi.ingsw.common.gamePojo.Character();
+        pojoCharacter.setCharacterId(this.getCharacterId());
+        pojoCharacter.setActualCost(this.actualCost);
+        pojoCharacter.setIncremented(this.incremented);
+        return pojoCharacter;
+    }
 }

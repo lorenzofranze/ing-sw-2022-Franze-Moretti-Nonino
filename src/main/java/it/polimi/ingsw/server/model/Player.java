@@ -146,4 +146,33 @@ public class Player {
     public int hashCode() {
         return Objects.hash(nickname);
     }
+
+    public it.polimi.ingsw.common.gamePojo.Player toPojo(){
+        it.polimi.ingsw.common.gamePojo.Player pojoPlayer = new it.polimi.ingsw.common.gamePojo.Player();
+        pojoPlayer.setNickname(this.getNickname());
+        pojoPlayer.setCoins(this.getCoins());
+        pojoPlayer.setColourTower(this.getColourTower());
+        pojoPlayer.setWizard(this.getWizard());
+
+        it.polimi.ingsw.common.gamePojo.SchoolBoard pojoSchoolBoard = new it.polimi.ingsw.common.gamePojo.SchoolBoard();
+        it.polimi.ingsw.common.gamePojo.PawnsMap pojoDiningRoom = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.getSchoolBoard().getDiningRoom());
+        pojoSchoolBoard.setDiningRoom(pojoDiningRoom);
+        it.polimi.ingsw.common.gamePojo.PawnsMap pojoEntrance = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.getSchoolBoard().getEntrance());
+        pojoSchoolBoard.setEntrance(pojoEntrance);
+        it.polimi.ingsw.common.gamePojo.PawnsMap pojoProfessors = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.getSchoolBoard().getProfessors());
+        pojoSchoolBoard.setProfessors(pojoProfessors);
+        pojoSchoolBoard.setSpareTowers(this.getSchoolBoard().getSpareTowers());
+        pojoPlayer.setSchoolBoard(pojoSchoolBoard);
+
+        Set<it.polimi.ingsw.common.gamePojo.AssistantCard> deck  = new HashSet<>();
+        for (AssistantCard a : this.getDeck()){
+            it.polimi.ingsw.common.gamePojo.AssistantCard pojoAssistantCard = new it.polimi.ingsw.common.gamePojo.AssistantCard(a);
+            deck.add(pojoAssistantCard);
+        }
+        pojoPlayer.setDeck(deck);
+
+        pojoPlayer.setPlayedAssistantCard(new it.polimi.ingsw.common.gamePojo.AssistantCard(this.getPlayedAssistantCard()));
+
+        return pojoPlayer;
+    }
 }

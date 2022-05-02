@@ -35,4 +35,12 @@ public class PawnsMap {
         }
         return ris;
     }
+
+    public PawnsMap(it.polimi.ingsw.server.model.PawnsMap serverPawnsMap){
+        HashMap<ColourPawn, Integer> map = new HashMap<>();
+        for(ColourPawn c: ColourPawn.values()){
+            map.put(c, serverPawnsMap.get(c));
+        }
+        this.pawns = map;
+    }
 }

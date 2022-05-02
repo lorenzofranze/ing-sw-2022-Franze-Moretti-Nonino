@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.Queue;
 
 public class PlayerManager implements Runnable{
-    private Queue<ClientMessage> messageQueue;
+    private Queue<Message> messageQueue;
     private boolean characterReceived=false;
     private JsonConverter jsonConverter;
     private String playerNickname;
@@ -32,7 +32,7 @@ public class PlayerManager implements Runnable{
      */
     public void run(){
         String receivedString;
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         Message message;
 
         while (true) {
@@ -44,7 +44,7 @@ public class PlayerManager implements Runnable{
                 }
                 else
                 {
-                    receivedMessage = (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
+                    receivedMessage = (Message) jsonConverter.fromJsonToMessage(receivedString);
 
                     if(receivedMessage.getMessageType()==TypeOfMessage.CharacterCard){
                         characterReceived=true;
@@ -71,7 +71,7 @@ public class PlayerManager implements Runnable{
         return characterReceived;
     }
 
-    public ClientMessage getLastMessage() {
+    public Message getLastMessage() {
         return messageQueue.poll();
     }
 
@@ -94,8 +94,8 @@ public class PlayerManager implements Runnable{
         return lastMessage;
     }
 
-    private boolean checkAnswerType(ServerMessage messageToSend, ClientMessage messageRecieved){
-        if (messageToSend.getMessageType().equals(TypeOfMessage.GameState)){
+    private boolean checkAnswerType(Message messageToSend, Message messageRecieved){
+        if (messageToSend.getMessageType().equals(TypeOfMessage.Update)){
             return true;
         }
         return  (messageToSend.getMessageType().equals(messageRecieved.getMessageType()));
@@ -113,7 +113,7 @@ public class PlayerManager implements Runnable{
         }
     }
 
-    public void sendMessage(ServerMessage message){
+    public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
         try {
             bufferedReaderOut.write(stringToSend);

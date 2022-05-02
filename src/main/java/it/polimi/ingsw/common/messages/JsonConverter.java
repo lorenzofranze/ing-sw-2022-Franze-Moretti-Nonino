@@ -30,7 +30,7 @@ public class  JsonConverter {
             GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
             return messageReal;
         }
-        if(message.getMessageType()== TypeOfMessage.GameState){
+        if(message.getMessageType()== TypeOfMessage.Update){
             UpdateMessage messageReal=  gson.fromJson(jsonString, UpdateMessage.class);
             return messageReal;
         }

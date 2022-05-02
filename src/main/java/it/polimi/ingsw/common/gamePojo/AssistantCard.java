@@ -20,4 +20,9 @@ public class AssistantCard {
     public void setMovementsMotherNature(int movementsMotherNature) {
         this.movementsMotherNature = movementsMotherNature;
     }
+
+    public AssistantCard(it.polimi.ingsw.server.model.AssistantCard assistantCard){
+        this.turnOrder = assistantCard.getTurnOrder();
+        this.movementsMotherNature = assistantCard.getMovementsMotherNature();
+    }
 }

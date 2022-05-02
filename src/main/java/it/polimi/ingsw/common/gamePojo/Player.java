@@ -12,13 +12,6 @@ public class Player {
     private ColourWizard wizard;
     private int coins;
 
-    public Player(it.polimi.ingsw.server.model.Player p){
-        this.nickname = p.getNickname();
-        this.coins = p.getCoins();
-        this.colourTower = p.getColourTower();
-
-    }
-
     public String getNickname() {
         return nickname;
     }

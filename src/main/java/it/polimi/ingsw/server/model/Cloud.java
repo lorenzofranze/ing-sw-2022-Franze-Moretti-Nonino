@@ -31,4 +31,11 @@ public class Cloud {
         this.students = new PawnsMap();
         return oldStudents;
     }
+
+    public it.polimi.ingsw.common.gamePojo.Cloud toPojo(){
+        it.polimi.ingsw.common.gamePojo.Cloud pojoCloud = new it.polimi.ingsw.common.gamePojo.Cloud();
+        pojoCloud.setCloudId(this.getCloudId());
+        pojoCloud.setStudents(new it.polimi.ingsw.common.gamePojo.PawnsMap(this.students));
+        return pojoCloud;
+    }
 }

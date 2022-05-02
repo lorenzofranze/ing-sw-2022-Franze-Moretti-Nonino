@@ -4,7 +4,7 @@ import java.util.List;
 
 public class GameState {
 
-    private Player currentPlayer;
+    private String currentPlayer;
     private Character activeEffect;
 
     private int coinSupply;
@@ -16,20 +16,11 @@ public class GameState {
 
     private List<Player> players;
 
-    public GameState(it.polimi.ingsw.server.model.Game game){
-        for(it.polimi.ingsw.server.model.Player p : game.getPlayers()){
-
-        }
-
-
-
-    }
-
-    public Player getCurrentPlayer() {
+    public String getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 

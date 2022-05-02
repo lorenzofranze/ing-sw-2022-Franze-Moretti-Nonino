@@ -109,4 +109,14 @@ public class Island {
         return owner;
     }
 
+    public it.polimi.ingsw.common.gamePojo.Island toPojo(){
+        it.polimi.ingsw.common.gamePojo.Island pojoIsland = new it.polimi.ingsw.common.gamePojo.Island();
+        pojoIsland.setHasMotherNature(this.hasMotherNature);
+        pojoIsland.setStudents(new it.polimi.ingsw.common.gamePojo.PawnsMap(this.students));
+        pojoIsland.setTowerColour(this.towerColour);
+        pojoIsland.setTowerCount(this.towerCount);
+        pojoIsland.setNumNoEntryTile(this.getNumNoEntryTile());
+        return pojoIsland;
+    }
+
 }

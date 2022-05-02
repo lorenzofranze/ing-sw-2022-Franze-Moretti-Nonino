@@ -7,10 +7,8 @@ import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.UpdateMessage;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.Character;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Island;
-import it.polimi.ingsw.server.model.Player;
 
 import java.util.*;
 
@@ -120,12 +118,12 @@ public class GameController implements Runnable  {
 
 
     public synchronized void update(){
-        UpdateMessage gameStateMessage= new UpdateMessage(TypeOfMessage.GameState, this);
+        UpdateMessage updateMessage= new UpdateMessage(TypeOfMessage.Update, this.getGameState());
 
         boolean isValid= false;
 
         for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
-            playerManager.sendMessage(gameStateMessage);
+            playerManager.sendMessage(updateMessage);
         }
 
         return;
@@ -133,8 +131,8 @@ public class GameController implements Runnable  {
 
     public synchronized void updateSinglePlayer(String nickname){
         PlayerManager playerManager= messageHandler.getPlayerManager(nickname);
-        UpdateMessage gameStateMessage= new UpdateMessage(TypeOfMessage.GameState, this);
-        playerManager.sendMessage(gameStateMessage);
+        UpdateMessage updateMessage= new UpdateMessage(TypeOfMessage.Update, this.getGameState());
+        playerManager.sendMessage(updateMessage);
 
         return;
     }
@@ -267,6 +265,54 @@ public class GameController implements Runnable  {
 
     public GamePhase getCurrentPhase() {
         return currentPhase;
+    }
+
+    public GameState getGameState(){
+        GameState gameState = new GameState();
+
+        String pojoCurrentPlayer = currentPlayer.getNickname();
+        gameState.setCurrentPlayer(pojoCurrentPlayer);
+
+        List<it.polimi.ingsw.common.gamePojo.Player> pojoPlayers = new ArrayList<>();
+        for (Player p: this.game.getPlayers()){
+            it.polimi.ingsw.common.gamePojo.Player pojoPlayer = p.toPojo();
+            pojoPlayers.add(pojoPlayer);
+        }
+        gameState.setPlayers(pojoPlayers);
+
+        it.polimi.ingsw.common.gamePojo.PawnsMap pojoProfessorsLeft = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.game.getProfessorsLeft());
+        gameState.setProfessorsLeft(pojoProfessorsLeft);
+
+        it.polimi.ingsw.common.gamePojo.PawnsMap pojoStudentsBag = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.game.getStudentsBag());
+        gameState.setStudentsBag(pojoStudentsBag);
+
+        gameState.setCoinSupply(this.game.getCoinSupply());
+
+        List<it.polimi.ingsw.common.gamePojo.Character> pojoCharacters = new ArrayList<>();
+        for (Character c : this.game.getCharacters()){
+            it.polimi.ingsw.common.gamePojo.Character pojoCharacter = c.toPojo();
+            pojoCharacters.add(pojoCharacter);
+        }
+        gameState.setCharacters(pojoCharacters);
+
+        it.polimi.ingsw.common.gamePojo.Character pojoActiveCharacter = this.game.getActiveEffect().toPojo();
+        gameState.setActiveEffect(pojoActiveCharacter);
+
+        List<it.polimi.ingsw.common.gamePojo.Island> pojoIslands = new ArrayList<>();
+        for(Island i: game.getIslands()){
+            it.polimi.ingsw.common.gamePojo.Island pojoIsland = i.toPojo();
+            pojoIslands.add(pojoIsland);
+        }
+        gameState.setIslands(pojoIslands);
+
+        List<it.polimi.ingsw.common.gamePojo.Cloud> pojoClouds = new ArrayList<>();
+        for(Cloud c: game.getClouds()){
+            it.polimi.ingsw.common.gamePojo.Cloud pojoCloud = c.toPojo();
+            pojoClouds.add(pojoCloud);
+        }
+        gameState.setClouds(pojoClouds);
+
+        return gameState;
     }
 
 }
