@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.GameMessage;
@@ -24,7 +25,7 @@ public class Card7 extends CharacterEffectInitialize{
 
     public void doEffect(){
 
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PawnsMap pawnsChosen = new PawnsMap();

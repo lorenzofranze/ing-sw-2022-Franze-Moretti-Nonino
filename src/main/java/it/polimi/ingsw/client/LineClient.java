@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.ConnectionMessage;
+import it.polimi.ingsw.common.messages.TypeOfMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -96,7 +97,7 @@ public class LineClient {
     }
 
     public int reconnect(String nickname){
-        ConnectionMessage cm = new ConnectionMessage(nickname, null);
+        ConnectionMessage cm = new ConnectionMessage(TypeOfMessage.Connection, nickname, null);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
             this.getOut().write(stringToSend);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.GameMessage;
@@ -24,7 +25,7 @@ public class Card9 extends CharacterEffectInfluence{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         do{
             valid = true;

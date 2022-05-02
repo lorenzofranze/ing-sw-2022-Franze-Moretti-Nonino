@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.characters;
 
+import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.server.controller.logic.ActionPhase;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
@@ -35,7 +36,7 @@ public class Card3 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         do{
             receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();

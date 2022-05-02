@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.controller.logic;
+import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.GameMessage;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
@@ -86,7 +87,7 @@ public class PianificationPhase extends GamePhase {
             Integer> maximumMovements){
 
         AssistantCard cardPlayed = null;
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;

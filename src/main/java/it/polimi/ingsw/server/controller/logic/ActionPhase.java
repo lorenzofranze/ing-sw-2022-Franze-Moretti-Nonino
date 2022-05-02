@@ -188,7 +188,7 @@ public class ActionPhase extends GamePhase {
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         boolean valid=true;
         int indexColour;
         GameMessage gameMessage;
@@ -255,7 +255,7 @@ public class ActionPhase extends GamePhase {
 
     protected Island moveMotherNature(Player currentPlayer){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
@@ -399,7 +399,7 @@ public class ActionPhase extends GamePhase {
     }
 
     protected void chooseCloud(){
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
@@ -450,7 +450,7 @@ public class ActionPhase extends GamePhase {
     /** this method does nothing if game is in simple mode because no player has more than 0 coins
      * otherwise it ask the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
-        ClientMessage receivedMessage;
+        Message receivedMessage;
         GameMessage gameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.common.messages.
+import it.polimi.ingsw.common.messages.Message;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,7 +17,7 @@ public class MessageHandler {
     public int value;
     private int index =0;
     private int[] buffer = {1,2,3}; // inserire valori da provare con getValueTest()
-    private ServerMessage lastMessage;
+    private Message lastMessage;
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
@@ -165,11 +165,11 @@ public class MessageHandler {
 
 
 
-    public void setLastMessage(ServerMessage lastMessage) {
+    public void setLastMessage(Message lastMessage) {
         this.lastMessage = lastMessage;
     }
 
-    public ServerMessage getLastMessage() {
+    public Message getLastMessage() {
         return lastMessage;
     }
 
