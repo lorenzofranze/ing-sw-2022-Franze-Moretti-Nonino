@@ -11,8 +11,8 @@ public class UpdateMessage extends Message {
 
     private GameState gameState;
 
-    public UpdateMessage(TypeOfMessage typeOfMessage, GameState gameState){
-        super(typeOfMessage);
+    public UpdateMessage(GameState gameState){
+        super(TypeOfMessage.Update);
         this.gameState = gameState;
     }
 

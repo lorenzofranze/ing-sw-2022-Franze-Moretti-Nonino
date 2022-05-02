@@ -103,6 +103,7 @@ public class LobbyManager implements Runnable {
 
             BufferedReader in = null;
             BufferedWriter out = null;
+
             try {
                 in = new BufferedReader(
                         new InputStreamReader(clientSocket.getInputStream()));
@@ -201,11 +202,9 @@ public class LobbyManager implements Runnable {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket);
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
 
-
                 // activates player manager for each player
                 for(String playerNickname: waitingLobbies.get(mode).getUsersNicknames()){
                     Socket socket= waitingLobbies.get(mode).getUsersReadyToPlay().get(playerNickname);
-
                 }
                 serverController.start(waitingLobbies.get(mode));
                 System.out.println("creazione Lobby modalità "+mode);

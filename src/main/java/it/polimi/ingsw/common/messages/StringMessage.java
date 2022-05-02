@@ -4,8 +4,8 @@ public class StringMessage extends Message{
 
     private String stringMessage;
 
-    public StringMessage(TypeOfMessage typeOfMessage, String stringToSend) {
-        super(typeOfMessage);
+    public StringMessage(String stringToSend) {
+        super(TypeOfMessage.StringMessage);
         this.setStringMessage(stringToSend);
     }
 

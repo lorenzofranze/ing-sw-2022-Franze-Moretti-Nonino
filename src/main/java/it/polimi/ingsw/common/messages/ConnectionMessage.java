@@ -7,8 +7,8 @@ public class ConnectionMessage extends Message {
     private final String nickname;
     private final GameMode gameMode;
 
-    public ConnectionMessage(TypeOfMessage typeOfMessage, String nickname, GameMode gameMode){
-        super(typeOfMessage);
+    public ConnectionMessage(String nickname, GameMode gameMode){
+        super(TypeOfMessage.Connection);
         this.nickname = nickname;
         this.gameMode=gameMode;
     }

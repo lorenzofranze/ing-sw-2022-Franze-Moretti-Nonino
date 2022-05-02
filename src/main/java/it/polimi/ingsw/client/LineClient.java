@@ -97,7 +97,7 @@ public class LineClient {
     }
 
     public int reconnect(String nickname){
-        ConnectionMessage cm = new ConnectionMessage(TypeOfMessage.Connection, nickname, null);
+        ConnectionMessage cm = new ConnectionMessage(nickname, null);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
             this.getOut().write(stringToSend);

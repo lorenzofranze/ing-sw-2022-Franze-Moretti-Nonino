@@ -87,8 +87,8 @@ public class PianificationPhase extends GamePhase {
             Integer> maximumMovements){
 
         AssistantCard cardPlayed = null;
-        Message receivedMessage;
         GameMessage gameMessage;
+        Message fromClient;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
         boolean valid = false;
@@ -101,9 +101,13 @@ public class PianificationPhase extends GamePhase {
             gameController.update();
 
             do{
-                receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-            }while(receivedMessage.getMessageType()!=TypeOfMessage.AssistantCard);
-            gameMessage =(GameMessage)receivedMessage;
+                fromClient = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                if (!fromClient.getMessageType().equals(TypeOfMessage.AssistantCard)){
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
+                }
+            }while(fromClient.getMessageType()!=TypeOfMessage.AssistantCard);
+            gameMessage =(GameMessage) fromClient;
             int played= gameMessage.getValue();
 
 
@@ -196,7 +200,7 @@ public class PianificationPhase extends GamePhase {
             c.getStudents().add(toAdd);
         }
 
-
+        gameController.update();
 
         return;
     }

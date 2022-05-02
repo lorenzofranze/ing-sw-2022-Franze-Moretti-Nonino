@@ -25,7 +25,7 @@ public class  JsonConverter {
                 message.getMessageType()== TypeOfMessage.CharacterCard ||
                 message.getMessageType()== TypeOfMessage.CloudChoice ||
                 message.getMessageType()== TypeOfMessage.MoveMotherNature ||
-                message.getMessageType()==TypeOfMessage.Where ||
+                message.getMessageType()==TypeOfMessage.StudentPosition ||
                 message.getMessageType()==TypeOfMessage.Number){
             GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
             return messageReal;

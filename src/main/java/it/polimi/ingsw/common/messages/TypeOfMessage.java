@@ -1,10 +1,10 @@
 package it.polimi.ingsw.common.messages;
 
 public enum TypeOfMessage {
-    AssistantCard(1), StudentColour(2), MoveMotherNature(3),
-    CharacterCard(4),CloudChoice(5) , Connection(6),
-    Update(7), IslandChoice(8), Where(9),
-    Number(10), ErrorMessage(11), StringMessage(13);
+
+    Connection(0), AssistantCard(1), StudentColour(2), StudentPosition(3), MoveMotherNature(3),
+    CharacterCard(4),CloudChoice(5), IslandChoice(6), Update(7), EndGame(8), ErrorMessage(9),
+    StringMessage(10), Disconnection(11), Number(12);
 
     private int messageCode;
 

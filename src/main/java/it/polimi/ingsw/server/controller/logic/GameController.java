@@ -93,13 +93,10 @@ public class GameController implements Runnable  {
 
         if (winner != null){
                 messageHandler.stringMessageToAllClients("The winner is " + this.winner.toString());
-
-            //System.out.println("The winner is " + this.winner.toString());
         }
         else{
                 messageHandler.stringMessageToAllClients("There is no winner.");
             }
-            //System.out.println("There is no winner.");
 
 
 
@@ -118,7 +115,7 @@ public class GameController implements Runnable  {
 
 
     public synchronized void update(){
-        UpdateMessage updateMessage= new UpdateMessage(TypeOfMessage.Update, this.getGameState());
+        UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
 
         boolean isValid= false;
 
@@ -131,7 +128,7 @@ public class GameController implements Runnable  {
 
     public synchronized void updateSinglePlayer(String nickname){
         PlayerManager playerManager= messageHandler.getPlayerManager(nickname);
-        UpdateMessage updateMessage= new UpdateMessage(TypeOfMessage.Update, this.getGameState());
+        UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
         playerManager.sendMessage(updateMessage);
 
         return;

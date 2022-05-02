@@ -67,13 +67,6 @@ public class ActionPhase extends GamePhase {
                 moveStudents();
                 gameController.update();
 
-                messageHandler.stringMessageToAllClients( "\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
-                //System.out.println("\n\t\t\t\t\tNEW PROFESSORS DISTRIBUTION");
-                //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
-                //    System.out.print(gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " PROFESSORS: ");
-                //    System.out.print(gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString() + "\n");
-                //}
-
                 askforCharacter();
                 gameController.update();
                 if (checkEnd() == true){return actionResult;}
@@ -206,6 +199,10 @@ public class ActionPhase extends GamePhase {
 
                 do{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                    if (receivedMessage.getMessageType()!=TypeOfMessage.StudentColour){
+                        Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                        playerManager.sendMessage(ErrorMessage);
+                    }
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
                 gameMessage =(GameMessage)receivedMessage;
 
@@ -232,7 +229,11 @@ public class ActionPhase extends GamePhase {
                 if(valid){
                     do{
                         receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
-                    }while(receivedMessage.getMessageType()!=TypeOfMessage.Where);
+                        if (receivedMessage.getMessageType()!=TypeOfMessage.StudentColour) {
+                            Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                            playerManager.sendMessage(ErrorMessage);
+                        }
+                    }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentPosition);
                     gameMessage =(GameMessage)receivedMessage;
                     where = gameMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
@@ -244,6 +245,8 @@ public class ActionPhase extends GamePhase {
                         get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
                     // to user: your school board in that row of your dining room is full
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
                 }
             }while(!valid);
 
@@ -266,8 +269,8 @@ public class ActionPhase extends GamePhase {
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
                 if(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature){
-                    //ErrorMessage;
-                    //playerManager.sendMessage();
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
                 }
             }while(receivedMessage.getMessageType()!=TypeOfMessage.MoveMotherNature);
             gameMessage =(GameMessage)receivedMessage;
@@ -415,8 +418,6 @@ public class ActionPhase extends GamePhase {
 
             playerManager.stringMessageToClient("There is only one Cloud left. You have received students form Cloud number " +
                     gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
-            //System.out.println("There is only one Cloud left. You have received students form Cloud number " +
-            //        gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
 
             return;
         }
@@ -426,16 +427,24 @@ public class ActionPhase extends GamePhase {
             valid = true;
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                if (receivedMessage.getMessageType()!=TypeOfMessage.CloudChoice){
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
+                }
             }while(receivedMessage.getMessageType()!=TypeOfMessage.CloudChoice);
             gameMessage =(GameMessage)receivedMessage;
             indexCloud= gameMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 // to user: index not valid
+                Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                playerManager.sendMessage(ErrorMessage);
                 valid = false;
             }
             if(valid){
                 if(gameController.getGame().getClouds().get(indexCloud).getStudents().isEmpty()){
                     // to user: empty cloud, rechoose
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
                     valid=false;
                 }
             }
@@ -460,6 +469,7 @@ public class ActionPhase extends GamePhase {
         if(playerManager.isCharacterReceived()==false){
             return;
         }
+
         List<Character> usable = new ArrayList<>();
         for(Character character: gameController.getGame().getCharacters()) {
             if (gameController.getCurrentPlayer().getCoins() >= character.getCost() &&
@@ -478,7 +488,12 @@ public class ActionPhase extends GamePhase {
 
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                if (receivedMessage.getMessageType()!=TypeOfMessage.CharacterCard) {
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
+                }
             }while(receivedMessage.getMessageType()!=TypeOfMessage.CharacterCard);
+
             gameMessage =(GameMessage)receivedMessage;
             cardNumber= gameMessage.getValue();
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {

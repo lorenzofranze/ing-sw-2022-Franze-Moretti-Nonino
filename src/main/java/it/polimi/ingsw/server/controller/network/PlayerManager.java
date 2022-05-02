@@ -102,7 +102,7 @@ public class PlayerManager implements Runnable{
     }
 
     public void stringMessageToClient(String stringToSend){
-        StringMessage stringMessage= new StringMessage(TypeOfMessage.StringMessage, stringToSend);
+        StringMessage stringMessage= new StringMessage(stringToSend);
         String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
         messageToSend = messageToSend + "\nEOF\n";
         try {

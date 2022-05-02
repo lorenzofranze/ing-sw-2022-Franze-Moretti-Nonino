@@ -29,6 +29,10 @@ public class Card10 extends CharacterEffect{
             valid=true;
             do{
                 receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                if(receivedMessage.getMessageType()!=TypeOfMessage.Number){
+                    Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                    playerManager.sendMessage(ErrorMessage);
+                }
             }while(receivedMessage.getMessageType()!=TypeOfMessage.Number);
             gameMessage =(GameMessage)receivedMessage;
             num = gameMessage.getValue();
@@ -40,9 +44,12 @@ public class Card10 extends CharacterEffect{
             do{
                 valid = true;
                 // to user: choose one color pawn
-
                 do{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                    if(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour){
+                        Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                        playerManager.sendMessage(ErrorMessage);
+                    }
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
                 gameMessage =(GameMessage)receivedMessage;
                 colourEntrance = gameMessage.getValue();
@@ -73,6 +80,10 @@ public class Card10 extends CharacterEffect{
                 valid=true;
                 do{
                     receivedMessage = messageHandler.getPlayerManager(currPlayer).getLastMessage();
+                    if(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour){
+                        Message ErrorMessage = new Message(TypeOfMessage.ErrorMessage);
+                        playerManager.sendMessage(ErrorMessage);
+                    }
                 }while(receivedMessage.getMessageType()!=TypeOfMessage.StudentColour);
                 gameMessage =(GameMessage)receivedMessage;
                 colourDining= gameMessage.getValue();

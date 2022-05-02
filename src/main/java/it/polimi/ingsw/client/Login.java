@@ -50,7 +50,7 @@ public class Login {
         } while (!valid);
 
 
-        ConnectionMessage cm = new ConnectionMessage(TypeOfMessage.Connection, nickname, GameMode.values()[mod-1]);
+        ConnectionMessage cm = new ConnectionMessage(nickname, GameMode.values()[mod-1]);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
             lineClient.getOut().write(stringToSend);
