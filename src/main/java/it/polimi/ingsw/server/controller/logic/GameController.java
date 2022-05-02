@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.GameState;
+import it.polimi.ingsw.common.gamePojo.Phase;
 import it.polimi.ingsw.server.controller.characters.CharacterEffect;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
@@ -286,10 +287,11 @@ public class GameController implements Runnable  {
 
     public GameState getGameState(){
         GameState gameState = new GameState();
-        gameState.setGamePhase(this.currentPhase);
+        gameState.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
         gameState.setGameId(this.getGameID());
         gameState.setWinner(this.winner.getNickname());
         gameState.setGameOver(this.gameOver);
+        gameState.setExpert(this.expert);
 
         String pojoCurrentPlayer = currentPlayer.getNickname();
         gameState.setCurrentPlayer(pojoCurrentPlayer);

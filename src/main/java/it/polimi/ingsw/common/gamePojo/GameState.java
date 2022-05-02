@@ -19,10 +19,28 @@ public class GameState {
 
     private List<Player> players;
 
-    private GamePhase gamePhase;
+
+
+    private Phase currentPhase;
     private boolean gameOver;
     private String winner;
+    private boolean expert;
 
+    public boolean isExpert() {
+        return expert;
+    }
+
+    public void setExpert(boolean expert) {
+        this.expert = expert;
+    }
+
+    public Phase getCurrentPhase() {
+        return currentPhase;
+    }
+
+    public void setCurrentPhase(Phase currentPhase) {
+        this.currentPhase = currentPhase;
+    }
 
     public Integer getGameId() {
         return gameId;
@@ -30,14 +48,6 @@ public class GameState {
 
     public void setGameId(Integer gameId) {
         this.gameId = gameId;
-    }
-
-    public GamePhase getGamePhase() {
-        return gamePhase;
-    }
-
-    public void setGamePhase(GamePhase gamePhase) {
-        this.gamePhase = gamePhase;
     }
 
     public boolean isGameOver() {
@@ -131,14 +141,6 @@ public class GameState {
     }
 
     public void show(){
-        for(Player player : players)
-            System.out.println(player.getNickname() + " : turno: " + player.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " + player.getPlayedAssistantCard().getMovementsMotherNature());
-        for(Player player : players){
-            System.out.println("\n\t\t\t\t" + player.getNickname() + " SCHOOLBOARD");
-            System.out.println("ENTRANCE:" + player.getSchoolBoard().getEntrance());
-            System.out.println("DINING ROOM:"+ player.getSchoolBoard().getDiningRoom());
-            System.out.println("PROFESSORS:" + player.getSchoolBoard().getProfessors());
-            System.out.println("NUM TOWERS:" + player.getSchoolBoard().getSpareTowers());
-        }
+
     }
 }

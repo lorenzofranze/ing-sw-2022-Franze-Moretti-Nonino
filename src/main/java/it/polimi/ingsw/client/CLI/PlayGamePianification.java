@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class PlayGamePianification {
     private final LineClient lineClient;
-    Scanner scanner = new Scanner(System.in);
+
     public PlayGamePianification(LineClient lineClient){
         this.lineClient = lineClient;
     }

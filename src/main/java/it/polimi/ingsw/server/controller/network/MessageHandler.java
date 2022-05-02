@@ -44,7 +44,8 @@ public class MessageHandler {
                 bufferedReaderOut.put(s, out);
                 playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
                 playerManagerMap.put(s,playerManager);
-                playerManager.run();
+                Thread t = new Thread(playerManager);
+                t.start();
             }
             catch (IOException e) {
                 e.printStackTrace();
