@@ -5,7 +5,7 @@ public class StringMessage extends Message{
     private String stringMessage;
 
     public StringMessage(String stringToSend) {
-        super(TypeOfMessage.StringMessage);
+        super(TypeOfMessage.String);
         this.setStringMessage(stringToSend);
     }
 
