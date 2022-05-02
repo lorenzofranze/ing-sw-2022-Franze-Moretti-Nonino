@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.controller.logic;
+import it.polimi.ingsw.common.messages.GameErrorMessage;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.GameMessage;
@@ -25,6 +26,7 @@ public class PianificationPhase extends GamePhase {
     }
 
     public PianificationResult handle(Player firstPlayer){
+
 
         //index of the first player in the list of players contained in game
         int playerIndex = this.gameController.getGame().getPlayers().indexOf(firstPlayer);
@@ -69,7 +71,7 @@ public class PianificationPhase extends GamePhase {
         /*at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
         that associates players to their maximum movements.*/
 
-        fillClouds();
+
 
 
 
@@ -89,7 +91,7 @@ public class PianificationPhase extends GamePhase {
         AssistantCard cardPlayed = null;
         GameMessage gameMessage;
         Message fromClient;
-        Message errorGameMessage;
+        GameErrorMessage gameErrorMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
         boolean valid = false;
@@ -126,16 +128,14 @@ public class PianificationPhase extends GamePhase {
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    errorGameMessage = new Message(TypeOfMessage.Error);
-                    playerManager.sendMessage(errorGameMessage);
-                    //System.out.println("an other player has alrealy played this card in this round, rechoose.");
+                    gameErrorMessage = new GameErrorMessage (5); // an other player has alrealy played this card in this round
+                    playerManager.sendMessage(gameErrorMessage);
                 }
 
             }
             else{
-                errorGameMessage = new Message(TypeOfMessage.Error);
-                playerManager.sendMessage(errorGameMessage);
-                //System.out.println("You have already played this card, rechoose.");
+                gameErrorMessage = new GameErrorMessage(6); // You have already played this card
+                playerManager.sendMessage(gameErrorMessage);
             }
         }
         while(valid == false || mustChange == true);

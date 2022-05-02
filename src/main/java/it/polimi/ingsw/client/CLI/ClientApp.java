@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.CLI;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -60,40 +60,19 @@ public class ClientApp {
                     System.out.println("general error: resultConnection = " + resultConnection);
             }while(resultConnection!=1);
 
-            /* client sceglie tra cli e gui */
-            lineClient.chooseCLIorGUI();
 
 
-            /* ora tutto nel try per proteggersi dalle disconnessioni
-            * così se riceve un eccezione fa return e termina
-             */
+
             try {
-                PlayGamePianification playGamePianification = new PlayGamePianification(lineClient);
-                playGamePianification.run();
+                ClientGameController clientGameController = new ClientGameController(lineClient);
+                clientGameController.play();
 
-            /* questo copre solo il caso in cui il server si spegne
-            o questo giocatore si disconnette, da fare ancora caso in cui
-            un altro giocatore contro cui sto giocando si disconnette -> pareggio a tutti
-             */
             }catch(IOException so){
                 System.out.println("lost connection with the server");
                 int reconnection = lineClient.reconnect(lineClient.getNickname());
                 if(reconnection==0) return;
             }
 
-            try {
-                PlayGameAction playGameAction = new PlayGameAction(lineClient);
-                playGameAction.run();
-
-            /* questo copre solo il caso in cui il server si spegne
-            o questo giocatore si disconnette, da fare ancora caso in cui
-            un altro giocatore contro cui sto giocando si disconnette -> pareggio a tutti
-             */
-            }catch(IOException so){
-                System.out.println("lost connection with the server");
-                int reconnection = lineClient.reconnect(lineClient.getNickname());
-                if(reconnection==0) return;
-            }
         }
 
 

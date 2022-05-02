@@ -45,16 +45,6 @@ public class ActionPhase extends GamePhase {
                 gameController.setCurrentPlayer(p);
 
 
-                messageHandler.stringMessageToAllClients(p+ " TURN \n");
-                messageHandler.stringMessageToAllClients("\t\t\t\t\t\t\t\t\t\t\t" + gameController.getCurrentPlayer().toString().toUpperCase(Locale.ROOT) + " TURN \n");
-
-
-                //for (int i = 0; i < gameController.getGame().getPlayers().size(); i++){
-                //    System.out.println("\n\t\t\t\t" + gameController.getGame().getPlayers().get(i).toString().toUpperCase(Locale.ROOT) + " SCHOOLBOARD");
-                //    System.out.println("ENTRANCE:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getEntrance().toString());
-                //    System.out.println("DINING ROOM:"+ gameController.getGame().getPlayers().get(i).getSchoolBoard().getDiningRoom().toString());
-                //   System.out.println("PROFESSORS:" + gameController.getGame().getPlayers().get(i).getSchoolBoard().getProfessors().toString());
-                //}
 
                 messageHandler.stringMessageToAllClients("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+ "\nISLANDS:\\n\" + gameController.getGame().islandsToString()");
 
@@ -69,8 +59,6 @@ public class ActionPhase extends GamePhase {
                 if (checkEnd() == true){return actionResult;}
 
                 messageHandler.stringMessageToAllClients("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
-                //System.out.print("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature());
-                //System.out.println(" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
 
                 Island whereMotherNature = moveMotherNature(p);
 
@@ -103,9 +91,6 @@ public class ActionPhase extends GamePhase {
                     if (isEnded) {
                         actionResult.setFinishedTowers(true);
 
-                        messageHandler.stringMessageToAllClients(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
-
-                        //System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
                         return actionResult;
                     }
 

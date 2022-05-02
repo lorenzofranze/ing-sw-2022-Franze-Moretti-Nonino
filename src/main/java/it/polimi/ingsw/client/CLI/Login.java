@@ -1,11 +1,9 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.CLI;
 
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.common.messages.ConnectionMessage;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
 
