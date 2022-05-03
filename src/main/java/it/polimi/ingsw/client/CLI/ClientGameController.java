@@ -9,14 +9,14 @@ import it.polimi.ingsw.server.controller.logic.GameMode;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ClientGameController {
+public class ClientGameController implements Runnable {
     private LineClient lineClient;
 
     public ClientGameController(LineClient lineClient){
         this.lineClient=lineClient;
     }
 
-    public void play() throws IOException {
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         GameState gamestate;
         UpdateMessage updateMessage;
@@ -42,7 +42,7 @@ public class ClientGameController {
                         } catch (IOException e) {
                             System.out.println("impossibile inviare il messaggio: disconnesso");
                             throw e;
-                        }
+                        }//todo posso togliere?
 
                         Message response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
                         if (response.getMessageType() == TypeOfMessage.Error) {

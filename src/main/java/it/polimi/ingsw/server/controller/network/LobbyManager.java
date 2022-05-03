@@ -53,7 +53,7 @@ public class LobbyManager implements Runnable {
         return lobbyManager;
     }
 
-    public void run() {
+    public void getStarted() {
         try {
             this.welcomeNewPlayers();
         } catch (IOException ex) {
@@ -80,10 +80,11 @@ public class LobbyManager implements Runnable {
         ArrayList<String> usedNicknames = new ArrayList<>();
         Message unknown;
         boolean nameOk;
-        System.out.println("Server ready on port: "+ this.lobbyPortNumber);
+        System.out.println("Server ready on port: " + this.lobbyPortNumber);
         while (true) {
             try {
                 clientSocket = lobbyServerSocket.accept();
+                clientSocket.run();
                 clientSocket.setKeepAlive(true);
 
                 /*The value of this socket option is an Integer that is the number of seconds of idle time before
@@ -100,6 +101,9 @@ public class LobbyManager implements Runnable {
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
             }
+        }
+    }
+    public void run(){
 
             BufferedReader in = null;
             BufferedWriter out = null;

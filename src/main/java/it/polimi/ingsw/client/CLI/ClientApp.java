@@ -65,7 +65,7 @@ public class ClientApp {
 
             try {
                 ClientGameController clientGameController = new ClientGameController(lineClient);
-                clientGameController.play();
+                clientGameController.start(); //todo
 
             }catch(IOException so){
                 System.out.println("lost connection with the server");

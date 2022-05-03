@@ -42,8 +42,8 @@ public class ServerController {
     public void play() {
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
-        Thread t1 = new Thread(lobbyManager);
-        t1.start();
+        //Thread t1 = new Thread(lobbyManager); //todo l'ho tolto
+        lobbyManager.getStarted();
     }
 
 
