@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server.controller.logic;
 
-import it.polimi.ingsw.common.gamePojo.GameState;
-import it.polimi.ingsw.common.gamePojo.Phase;
+import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.characters.CharacterEffect;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.UpdateMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.Character;
+import it.polimi.ingsw.server.model.Cloud;
+
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -285,57 +285,57 @@ public class GameController implements Runnable  {
         return currentPhase;
     }
 
-    public GameState getGameState(){
-        GameState gameState = new GameState();
-        gameState.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
-        gameState.setGameId(this.getGameID());
-        gameState.setWinner(this.winner.getNickname());
-        gameState.setGameOver(this.gameOver);
-        gameState.setExpert(this.expert);
+    public GameStatePojo getGameState(){
+        GameStatePojo gameStatePojo = new GameStatePojo();
+        gameStatePojo.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
+        gameStatePojo.setGameId(this.getGameID());
+        gameStatePojo.setWinner(this.winner.getNickname());
+        gameStatePojo.setGameOver(this.gameOver);
+        gameStatePojo.setExpert(this.expert);
 
-        String pojoCurrentPlayer = currentPlayer.getNickname();
-        gameState.setCurrentPlayer(pojoCurrentPlayer);
+        PlayerPojo pojoCurrentPlayerPojo = currentPlayer.toPojo();
+        gameStatePojo.setCurrentPlayer(pojoCurrentPlayerPojo);
 
-        List<it.polimi.ingsw.common.gamePojo.Player> pojoPlayers = new ArrayList<>();
+        List<PlayerPojo> pojoPlayerPojos = new ArrayList<>();
         for (Player p: this.game.getPlayers()){
-            it.polimi.ingsw.common.gamePojo.Player pojoPlayer = p.toPojo();
-            pojoPlayers.add(pojoPlayer);
+            PlayerPojo pojoPlayerPojo = p.toPojo();
+            pojoPlayerPojos.add(pojoPlayerPojo);
         }
-        gameState.setPlayers(pojoPlayers);
+        gameStatePojo.setPlayers(pojoPlayerPojos);
 
-        it.polimi.ingsw.common.gamePojo.PawnsMap pojoProfessorsLeft = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.game.getProfessorsLeft());
-        gameState.setProfessorsLeft(pojoProfessorsLeft);
+        PawnsMapPojo pojoProfessorsLeft = new PawnsMapPojo(this.game.getProfessorsLeft());
+        gameStatePojo.setProfessorsLeft(pojoProfessorsLeft);
 
-        it.polimi.ingsw.common.gamePojo.PawnsMap pojoStudentsBag = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.game.getStudentsBag());
-        gameState.setStudentsBag(pojoStudentsBag);
+        PawnsMapPojo pojoStudentsBag = new PawnsMapPojo(this.game.getStudentsBag());
+        gameStatePojo.setStudentsBag(pojoStudentsBag);
 
-        gameState.setCoinSupply(this.game.getCoinSupply());
+        gameStatePojo.setCoinSupply(this.game.getCoinSupply());
 
-        List<it.polimi.ingsw.common.gamePojo.Character> pojoCharacters = new ArrayList<>();
+        List<CharacterPojo> pojoCharacterPojos = new ArrayList<>();
         for (Character c : this.game.getCharacters()){
-            it.polimi.ingsw.common.gamePojo.Character pojoCharacter = c.toPojo();
-            pojoCharacters.add(pojoCharacter);
+            CharacterPojo pojoCharacterPojo = c.toPojo();
+            pojoCharacterPojos.add(pojoCharacterPojo);
         }
-        gameState.setCharacters(pojoCharacters);
+        gameStatePojo.setCharacters(pojoCharacterPojos);
 
-        it.polimi.ingsw.common.gamePojo.Character pojoActiveCharacter = this.game.getActiveEffect().toPojo();
-        gameState.setActiveEffect(pojoActiveCharacter);
+        CharacterPojo pojoActiveCharacterPojo = this.game.getActiveEffect().toPojo();
+        gameStatePojo.setActiveEffect(pojoActiveCharacterPojo);
 
-        List<it.polimi.ingsw.common.gamePojo.Island> pojoIslands = new ArrayList<>();
+        List<IslandPojo> pojoIslandPojos = new ArrayList<>();
         for(Island i: game.getIslands()){
-            it.polimi.ingsw.common.gamePojo.Island pojoIsland = i.toPojo();
-            pojoIslands.add(pojoIsland);
+            IslandPojo pojoIslandPojo = i.toPojo();
+            pojoIslandPojos.add(pojoIslandPojo);
         }
-        gameState.setIslands(pojoIslands);
+        gameStatePojo.setIslands(pojoIslandPojos);
 
         List<it.polimi.ingsw.common.gamePojo.Cloud> pojoClouds = new ArrayList<>();
         for(Cloud c: game.getClouds()){
             it.polimi.ingsw.common.gamePojo.Cloud pojoCloud = c.toPojo();
             pojoClouds.add(pojoCloud);
         }
-        gameState.setClouds(pojoClouds);
+        gameStatePojo.setClouds(pojoClouds);
 
-        return gameState;
+        return gameStatePojo;
     }
 
 }

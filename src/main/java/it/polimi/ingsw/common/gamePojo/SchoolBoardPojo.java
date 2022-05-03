@@ -1,33 +1,33 @@
 package it.polimi.ingsw.common.gamePojo;
 
-public class SchoolBoard {
+public class SchoolBoardPojo {
 
-    private PawnsMap professors;
-    private PawnsMap diningRoom;
-    private PawnsMap entrance;
+    private PawnsMapPojo professors;
+    private PawnsMapPojo diningRoom;
+    private PawnsMapPojo entrance;
     private int spareTowers;
 
-    public PawnsMap getProfessors() {
+    public PawnsMapPojo getProfessors() {
         return professors;
     }
 
-    public void setProfessors(PawnsMap professors) {
+    public void setProfessors(PawnsMapPojo professors) {
         this.professors = professors;
     }
 
-    public PawnsMap getDiningRoom() {
+    public PawnsMapPojo getDiningRoom() {
         return diningRoom;
     }
 
-    public void setDiningRoom(PawnsMap diningRoom) {
+    public void setDiningRoom(PawnsMapPojo diningRoom) {
         this.diningRoom = diningRoom;
     }
 
-    public PawnsMap getEntrance() {
+    public PawnsMapPojo getEntrance() {
         return entrance;
     }
 
-    public void setEntrance(PawnsMap entrance) {
+    public void setEntrance(PawnsMapPojo entrance) {
         this.entrance = entrance;
     }
 
