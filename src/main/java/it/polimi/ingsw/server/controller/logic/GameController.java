@@ -51,7 +51,7 @@ public class GameController implements Runnable  {
         this.lobby=lobby;
 
         this.messageHandler= new MessageHandler(lobby);
-        this.setTimeout();
+        //this.setTimeout();
     }
 
     public void run(){
@@ -122,17 +122,19 @@ public class GameController implements Runnable  {
     /** stops the game if a player do not answer for more than 3 minutes
      *
      */
-    public void setTimeout(){
+
+    /*public void setTimeout(){
         for(Socket socket: lobby.getUsersReadyToPlay().values()){
             //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
             try {
                 socket.setSoTimeout(180000);
             } catch (SocketException e) {
                 e.printStackTrace();
-                ServerController.getInstance().setToStop(gameID);
+                ServerController.getInstance().closeConnection(currentPlayer.getNickname());
             }
         }
     }
+    */
 
     public synchronized void update(){
         UpdateMessage updateMessage= new UpdateMessage(this.getGameState());

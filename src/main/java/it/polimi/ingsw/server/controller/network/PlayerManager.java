@@ -160,5 +160,9 @@ public class PlayerManager implements Runnable{
 
     public boolean isToStop() {
         return toStop;
+
     }
+
+
+
 }
