@@ -1,6 +1,6 @@
 package it.polimi.ingsw.common.gamePojo;
 
-public class Cloud {
+public class CloudPojo {
 
     private PawnsMapPojo students;
     private int cloudId;

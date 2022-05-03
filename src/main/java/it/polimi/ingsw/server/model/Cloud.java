@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.gamePojo.CloudPojo;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 public class Cloud {
@@ -34,10 +35,10 @@ public class Cloud {
         return oldStudents;
     }
 
-    public it.polimi.ingsw.common.gamePojo.Cloud toPojo(){
-        it.polimi.ingsw.common.gamePojo.Cloud pojoCloud = new it.polimi.ingsw.common.gamePojo.Cloud();
-        pojoCloud.setCloudId(this.getCloudId());
-        pojoCloud.setStudents(new PawnsMapPojo(this.students));
-        return pojoCloud;
+    public CloudPojo toPojo(){
+        CloudPojo pojoCloudPojo = new CloudPojo();
+        pojoCloudPojo.setCloudId(this.getCloudId());
+        pojoCloudPojo.setStudents(new PawnsMapPojo(this.students));
+        return pojoCloudPojo;
     }
 }

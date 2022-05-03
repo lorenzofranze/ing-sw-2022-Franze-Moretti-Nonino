@@ -11,7 +11,7 @@ public class GameStatePojo {
     private int coinSupply;
     private List<IslandPojo> islandPojos;
     private PawnsMapPojo studentsBag;
-    private List<Cloud> clouds;
+    private List<CloudPojo> cloudPojos;
     private PawnsMapPojo professorsLeft;
     private List<CharacterPojo> characterPojos;
 
@@ -106,12 +106,12 @@ public class GameStatePojo {
         this.studentsBag = studentsBag;
     }
 
-    public List<Cloud> getClouds() {
-        return clouds;
+    public List<CloudPojo> getClouds() {
+        return cloudPojos;
     }
 
-    public void setClouds(List<Cloud> clouds) {
-        this.clouds = clouds;
+    public void setClouds(List<CloudPojo> cloudPojos) {
+        this.cloudPojos = cloudPojos;
     }
 
     public PawnsMapPojo getProfessorsLeft() {

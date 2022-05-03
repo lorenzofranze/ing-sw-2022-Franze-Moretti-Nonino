@@ -160,4 +160,8 @@ public class PawnsMap{
         }
         return ris;
     }
+
+    public HashMap<ColourPawn, Integer> getPawns() {
+        return pawns;
+    }
 }

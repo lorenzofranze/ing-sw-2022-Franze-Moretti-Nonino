@@ -328,12 +328,12 @@ public class GameController implements Runnable  {
         }
         gameStatePojo.setIslands(pojoIslandPojos);
 
-        List<it.polimi.ingsw.common.gamePojo.Cloud> pojoClouds = new ArrayList<>();
+        List<CloudPojo> pojoCloudPojos = new ArrayList<>();
         for(Cloud c: game.getClouds()){
-            it.polimi.ingsw.common.gamePojo.Cloud pojoCloud = c.toPojo();
-            pojoClouds.add(pojoCloud);
+            CloudPojo pojoCloudPojo = c.toPojo();
+            pojoCloudPojos.add(pojoCloudPojo);
         }
-        gameStatePojo.setClouds(pojoClouds);
+        gameStatePojo.setClouds(pojoCloudPojos);
 
         return gameStatePojo;
     }

@@ -27,8 +27,8 @@ public class ShowGame {
                 System.out.print(" -- "+ islandPojo.getNumNoEntryTile() + " no entry tile(s)");
             i++;
         }
-        for(Cloud cloud: gameStatePojo.getClouds())
-            System.out.println("cloud "+cloud.getCloudId()+ ": " + cloud.getStudents());
+        for(CloudPojo cloudPojo : gameStatePojo.getClouds())
+            System.out.println("cloud "+ cloudPojo.getCloudId()+ ": " + cloudPojo.getStudents());
         if(gameStatePojo.isExpert()){
             int i=0;
             for(CharacterPojo characterPojo : gameStatePojo.getCharacters())
