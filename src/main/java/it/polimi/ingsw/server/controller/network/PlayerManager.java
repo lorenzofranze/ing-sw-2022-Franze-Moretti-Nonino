@@ -94,6 +94,7 @@ public class PlayerManager implements Runnable{
             }
         } catch(IOException e){
             e.printStackTrace();
+            ServerController.getInstance().closeConnection(playerNickname);
         }
         return lastMessage;
     }
@@ -107,6 +108,7 @@ public class PlayerManager implements Runnable{
             bufferedReaderOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
+            ServerController.getInstance().closeConnection(playerNickname);
         }
     }
 
@@ -117,6 +119,7 @@ public class PlayerManager implements Runnable{
             bufferedReaderOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
+            ServerController.getInstance().closeConnection(playerNickname);
         }
     }
 
