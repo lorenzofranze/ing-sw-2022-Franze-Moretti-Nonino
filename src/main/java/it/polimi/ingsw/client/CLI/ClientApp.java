@@ -61,17 +61,9 @@ public class ClientApp {
             }while(resultConnection!=1);
 
 
-
-
-            try {
-                ClientGameController clientGameController = new ClientGameController(lineClient);
-                clientGameController.start(); //todo
-
-            }catch(IOException so){
-                System.out.println("lost connection with the server");
-                int reconnection = lineClient.reconnect(lineClient.getNickname());
-                if(reconnection==0) return;
-            }
+            ClientGameController clientGameController = new ClientGameController(lineClient);
+            Thread t1= new Thread(clientGameController);
+            t1.start();
 
         }
 

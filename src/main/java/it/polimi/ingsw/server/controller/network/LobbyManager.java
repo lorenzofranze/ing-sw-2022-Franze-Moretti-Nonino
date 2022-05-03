@@ -76,15 +76,15 @@ public class LobbyManager implements Runnable {
      * otherwise no other players can connect and start a new game
      */
     public void welcomeNewPlayers() throws IOException {
-        JsonConverter jsonConverter = new JsonConverter();
-        ArrayList<String> usedNicknames = new ArrayList<>();
         Message unknown;
         boolean nameOk;
         System.out.println("Server ready on port: " + this.lobbyPortNumber);
         while (true) {
             try {
                 clientSocket = lobbyServerSocket.accept();
-                clientSocket.run();
+                LobbyManager lobbyManager=new LobbyManager();
+                Thread t=new Thread(lobbyManager);
+                t.start();
                 clientSocket.setKeepAlive(true);
 
                 /*The value of this socket option is an Integer that is the number of seconds of idle time before
@@ -102,94 +102,111 @@ public class LobbyManager implements Runnable {
                 break; //In case the serverSocket gets closed
             }
         }
+        lobbyServerSocket.close();
     }
+
     public void run(){
+        Message unknown;
+        JsonConverter jsonConverter = new JsonConverter();
+        ArrayList<String> usedNicknames = new ArrayList<>();
+        boolean nameOk;
+        BufferedReader in = null;
+        BufferedWriter out = null;
 
-            BufferedReader in = null;
-            BufferedWriter out = null;
-
+        try {
+            in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
+            out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        nameOk=false;
+        while (!nameOk) {
+            nameOk=true;
+            String words = "";
+            String line = null;
             try {
-                in = new BufferedReader(
-                        new InputStreamReader(clientSocket.getInputStream()));
-                out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            nameOk=false;
-            while (!nameOk) {
-                nameOk=true;
-                String words = "";
-                String line = in.readLine();
+                line = in.readLine();
+
                 while (!line.equals("EOF")) {
                     words = words + line + "\n";
                     line = in.readLine();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                unknown = jsonConverter.fromJsonToMessage(words);
-                System.out.println(unknown);
-                if (unknown.getMessageType() == TypeOfMessage.Connection) {
-                    ConnectionMessage firstMessage = (ConnectionMessage) unknown;
-                    String nickname = firstMessage.getNickname();
-                    ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
+            unknown = jsonConverter.fromJsonToMessage(words);
+            System.out.println(unknown);
+            if (unknown.getMessageType() == TypeOfMessage.Connection) {
+                ConnectionMessage firstMessage = (ConnectionMessage) unknown;
+                String nickname = firstMessage.getNickname();
+                ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
 
-                    /**
-                     * Check of the nickname-univocity
-                     */
-                    //check playing-clients
-                    if (!disconnectedPlayers.contains(nickname)) {
-                        usedNicknames.clear();
-                        for (int i : serverController.getInstance().getCurrentGames().keySet()) {
-                            for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
-                                usedNicknames.add(p.getNickname());
-                            }
+                /**
+                 * Check of the nickname-univocity
+                 */
+                //check playing-clients
+                if (!disconnectedPlayers.contains(nickname)) {
+                    usedNicknames.clear();
+                    for (int i : serverController.getInstance().getCurrentGames().keySet()) {
+                        for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
+                            usedNicknames.add(p.getNickname());
                         }
-                        //check waiting-clients
-                        for (GameMode gameMode : GameMode.values()) {
-                            for (Lobby lobby : waitingLobbies.values()) {
-                                usedNicknames.addAll(lobby.getUsersNicknames());
-                            }
+                    }
+                    //check waiting-clients
+                    for (GameMode gameMode : GameMode.values()) {
+                        for (Lobby lobby : waitingLobbies.values()) {
+                            usedNicknames.addAll(lobby.getUsersNicknames());
                         }
+                    }
 
-                        if (!usedNicknames.contains(nickname)) {
-                            GameMode gameMode = connectionMessage.getGameMode();
-                            System.out.println(nickname + " si è connesso");
-                            addNickname(nickname, gameMode, clientSocket);
-                            // to client: 1 if name is available
+                    if (!usedNicknames.contains(nickname)) {
+                        GameMode gameMode = connectionMessage.getGameMode();
+                        System.out.println(nickname + " si è connesso");
+                        addNickname(nickname, gameMode, clientSocket);
+                        // to client: 1 if name is available
+                        try {
                             out.write(1);
                             out.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                        } else {
-                            // to client: 0 if name isn't available
+                    } else {
+                        // to client: 0 if name isn't available
+                        try {
                             out.write(0);
                             out.flush();
                             nameOk = false;
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
-                    //RESILIENZA ALLE DISCONNESSIONI
-                    /*
-                    else {
+                }
+                //RESILIENZA ALLE DISCONNESSIONI
+                /*
+                else {
 
-                        usedNicknames.remove(nickname);
-                        for (int i : serverController.getInstance().getCurrentGames().keySet()) {
-                            for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
-                                if(p.getNickname()==nickname){
-                                    GameController gameController=serverController.getInstance().getCurrentGames().get(i);
-                                    gameController.update();
-                                }
+                    usedNicknames.remove(nickname);
+                    for (int i : serverController.getInstance().getCurrentGames().keySet()) {
+                        for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
+                            if(p.getNickname()==nickname){
+                                GameController gameController=serverController.getInstance().getCurrentGames().get(i);
+                                gameController.update();
                             }
                         }
-                        //si è riconnesso
-                        //GESTIRE
                     }
-                    */
-
+                    //si è riconnesso
+                    //GESTIRE
                 }
+                */
+
             }
         }
-        //In case the serverSocket gets closed ( the break statement is called )
-
-        lobbyServerSocket.close();
     }
+    //In case the serverSocket gets closed ( the break statement is called )
+
 
     /**
      * it add the nickname to the correct Lobby list and, if the list has gained the right number of players:

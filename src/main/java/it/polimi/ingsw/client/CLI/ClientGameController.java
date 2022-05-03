@@ -16,7 +16,8 @@ public class ClientGameController implements Runnable {
         this.lineClient=lineClient;
     }
 
-    public void run() {
+
+    public void run ()  {
         Scanner scanner = new Scanner(System.in);
         GameState gamestate;
         UpdateMessage updateMessage;
@@ -41,8 +42,9 @@ public class ClientGameController implements Runnable {
                             lineClient.getOut().flush();
                         } catch (IOException e) {
                             System.out.println("impossibile inviare il messaggio: disconnesso");
-                            throw e;
-                        }//todo posso togliere?
+                            lineClient.endClient();
+                            return;
+                        }
 
                         Message response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
                         if (response.getMessageType() == TypeOfMessage.Error) {
