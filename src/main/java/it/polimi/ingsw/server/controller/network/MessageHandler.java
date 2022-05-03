@@ -46,6 +46,10 @@ public class MessageHandler {
                 playerManagerMap.put(s,playerManager);
                 Thread t = new Thread(playerManager);
                 t.start();
+                if(playerManager.isToStop()==true){
+                    t.stop();
+                }
+
             }
             catch (IOException e) {
                 e.printStackTrace();

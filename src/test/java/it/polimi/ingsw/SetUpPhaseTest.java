@@ -108,6 +108,7 @@ public class SetUpPhaseTest {
             assertEquals(8,p.getSchoolBoard().getSpareTowers());
         }
     }
+
     @Test
     public void testFillSchoolBoard3Players(){
         ArrayList<String> players = new ArrayList<>();

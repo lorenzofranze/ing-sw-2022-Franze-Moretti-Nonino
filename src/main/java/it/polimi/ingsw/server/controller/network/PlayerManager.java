@@ -15,7 +15,7 @@ public class PlayerManager implements Runnable{
     private BufferedReader bufferedReaderIn;
     private BufferedWriter bufferedReaderOut;
     private boolean isMyTurn=false;
-
+    private boolean toStop=false;
 
     public PlayerManager(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = playerNickname;
@@ -149,10 +149,16 @@ public class PlayerManager implements Runnable{
                 } catch (IOException e) {
                     e.printStackTrace();
                     ServerController.getInstance().closeConnection(playerNickname);
+                    this.toStop=true;
+                    return null;
                 }
             }
         } while (receivedMessage.getMessageType() != typeOfMessage);
         gameMessage = (GameMessage) receivedMessage;
         return gameMessage;
+    }
+
+    public boolean isToStop() {
+        return toStop;
     }
 }
