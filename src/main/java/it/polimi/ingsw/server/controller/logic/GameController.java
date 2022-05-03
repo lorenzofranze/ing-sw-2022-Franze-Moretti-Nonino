@@ -338,4 +338,7 @@ public class GameController implements Runnable  {
         return gameStatePojo;
     }
 
+    public Lobby getLobby() {
+        return lobby;
+    }
 }

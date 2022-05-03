@@ -145,6 +145,7 @@ public class PlayerManager implements Runnable{
                     bufferedReaderOut.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    ServerController.getInstance().closeConnection(playerNickname);
                 }
             }
         } while (receivedMessage.getMessageType() != typeOfMessage);

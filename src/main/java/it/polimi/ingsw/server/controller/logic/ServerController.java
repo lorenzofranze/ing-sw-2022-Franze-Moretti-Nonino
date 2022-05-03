@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.LobbyManager;
+import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -70,16 +71,26 @@ public class ServerController {
      */
     public void closeConnection(String playerNickname) {
         System.out.println("Connection closed from the one of the players");
+
         //find the lobby that hosts the player who has disconnected from the game
-        // todo
+
+        Lobby lobby=null;
+        for (GameController gameController : this.getInstance().getCurrentGames().values()) {
+            for (Player p : gameController.getGame().getPlayers()) {
+                if(p.getNickname().equals(playerNickname)){
+                    lobby=gameController.getLobby();
+                    ServerController.getInstance().getCurrentGames().remove(gameController);
+                }
+            }
+        }
         try {
             for (Socket socket : lobby.getUsersReadyToPlay().values())
                 socket.close();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-        //stop game
-        //todo
+
+        setToStop(1);
     }
 
 
