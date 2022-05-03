@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.CLI;
 
 
-import it.polimi.ingsw.common.gamePojo.GameState;
+import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.gamePojo.Phase;
 import it.polimi.ingsw.common.messages.*;
-import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -18,7 +17,7 @@ public class ClientGameController {
 
     public void play() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        GameState gamestate;
+        GameStatePojo gamestate;
         UpdateMessage updateMessage;
         int chosen;
         boolean valid;

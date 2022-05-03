@@ -1,23 +1,21 @@
 package it.polimi.ingsw.common.gamePojo;
 
-import it.polimi.ingsw.server.controller.logic.GamePhase;
-
 import java.util.List;
 
-public class GameState {
+public class GameStatePojo {
 
     private Integer gameId;
-    private String currentPlayer;
-    private Character activeEffect;
+    private PlayerPojo currentPlayerPojo;
+    private CharacterPojo activeEffect;
 
     private int coinSupply;
-    private List<Island> islands;
-    private PawnsMap studentsBag;
+    private List<IslandPojo> islandPojos;
+    private PawnsMapPojo studentsBag;
     private List<Cloud> clouds;
-    private PawnsMap professorsLeft;
-    private List<Character> characters;
+    private PawnsMapPojo professorsLeft;
+    private List<CharacterPojo> characterPojos;
 
-    private List<Player> players;
+    private List<PlayerPojo> playerPojos;
 
 
 
@@ -68,19 +66,19 @@ public class GameState {
 
 
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
+    public PlayerPojo getCurrentPlayer() {
+        return currentPlayerPojo;
     }
 
-    public void setCurrentPlayer(String currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public void setCurrentPlayer(PlayerPojo currentPlayerPojo) {
+        this.currentPlayerPojo = currentPlayerPojo;
     }
 
-    public Character getActiveEffect() {
+    public CharacterPojo getActiveEffect() {
         return activeEffect;
     }
 
-    public void setActiveEffect(Character activeEffect) {
+    public void setActiveEffect(CharacterPojo activeEffect) {
         this.activeEffect = activeEffect;
     }
 
@@ -92,19 +90,19 @@ public class GameState {
         this.coinSupply = coinSupply;
     }
 
-    public List<Island> getIslands() {
-        return islands;
+    public List<IslandPojo> getIslands() {
+        return islandPojos;
     }
 
-    public void setIslands(List<Island> islands) {
-        this.islands = islands;
+    public void setIslands(List<IslandPojo> islandPojos) {
+        this.islandPojos = islandPojos;
     }
 
-    public PawnsMap getStudentsBag() {
+    public PawnsMapPojo getStudentsBag() {
         return studentsBag;
     }
 
-    public void setStudentsBag(PawnsMap studentsBag) {
+    public void setStudentsBag(PawnsMapPojo studentsBag) {
         this.studentsBag = studentsBag;
     }
 
@@ -116,28 +114,28 @@ public class GameState {
         this.clouds = clouds;
     }
 
-    public PawnsMap getProfessorsLeft() {
+    public PawnsMapPojo getProfessorsLeft() {
         return professorsLeft;
     }
 
-    public void setProfessorsLeft(PawnsMap professorsLeft) {
+    public void setProfessorsLeft(PawnsMapPojo professorsLeft) {
         this.professorsLeft = professorsLeft;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
+    public List<CharacterPojo> getCharacters() {
+        return characterPojos;
     }
 
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
+    public void setCharacters(List<CharacterPojo> characterPojos) {
+        this.characterPojos = characterPojos;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<PlayerPojo> getPlayers() {
+        return playerPojos;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayers(List<PlayerPojo> playerPojos) {
+        this.playerPojos = playerPojos;
     }
 
     public void show(){

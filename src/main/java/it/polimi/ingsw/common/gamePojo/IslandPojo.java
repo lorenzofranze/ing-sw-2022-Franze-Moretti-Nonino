@@ -1,9 +1,9 @@
 package it.polimi.ingsw.common.gamePojo;
 
-public class Island {
+public class IslandPojo {
 
     private boolean hasMotherNature;
-    private PawnsMap students;
+    private PawnsMapPojo students;
     private ColourTower towerColour;
     private int towerCount;
     private int numNoEntryTile;
@@ -16,11 +16,11 @@ public class Island {
         this.hasMotherNature = hasMotherNature;
     }
 
-    public PawnsMap getStudents() {
+    public PawnsMapPojo getStudents() {
         return students;
     }
 
-    public void setStudents(PawnsMap students) {
+    public void setStudents(PawnsMapPojo students) {
         this.students = students;
     }
 

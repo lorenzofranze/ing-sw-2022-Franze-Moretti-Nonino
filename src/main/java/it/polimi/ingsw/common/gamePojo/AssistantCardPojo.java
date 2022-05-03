@@ -1,6 +1,6 @@
 package it.polimi.ingsw.common.gamePojo;
 
-public class AssistantCard {
+public class AssistantCardPojo {
 
     private int turnOrder;
     private int movementsMotherNature;
@@ -21,7 +21,7 @@ public class AssistantCard {
         this.movementsMotherNature = movementsMotherNature;
     }
 
-    public AssistantCard(it.polimi.ingsw.server.model.AssistantCard assistantCard){
+    public AssistantCardPojo(it.polimi.ingsw.server.model.AssistantCard assistantCard){
         this.turnOrder = assistantCard.getTurnOrder();
         this.movementsMotherNature = assistantCard.getMovementsMotherNature();
     }

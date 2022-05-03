@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.common.gamePojo.ColourTower;
-import it.polimi.ingsw.common.gamePojo.ColourWizard;
+import it.polimi.ingsw.common.gamePojo.*;
 
 import java.util.*;
 
@@ -147,32 +146,32 @@ public class Player {
         return Objects.hash(nickname);
     }
 
-    public it.polimi.ingsw.common.gamePojo.Player toPojo(){
-        it.polimi.ingsw.common.gamePojo.Player pojoPlayer = new it.polimi.ingsw.common.gamePojo.Player();
-        pojoPlayer.setNickname(this.getNickname());
-        pojoPlayer.setCoins(this.getCoins());
-        pojoPlayer.setColourTower(this.getColourTower());
-        pojoPlayer.setWizard(this.getWizard());
+    public PlayerPojo toPojo(){
+        PlayerPojo pojoPlayerPojo = new PlayerPojo();
+        pojoPlayerPojo.setNickname(this.getNickname());
+        pojoPlayerPojo.setCoins(this.getCoins());
+        pojoPlayerPojo.setColourTower(this.getColourTower());
+        pojoPlayerPojo.setWizard(this.getWizard());
 
-        it.polimi.ingsw.common.gamePojo.SchoolBoard pojoSchoolBoard = new it.polimi.ingsw.common.gamePojo.SchoolBoard();
-        it.polimi.ingsw.common.gamePojo.PawnsMap pojoDiningRoom = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.getSchoolBoard().getDiningRoom());
-        pojoSchoolBoard.setDiningRoom(pojoDiningRoom);
-        it.polimi.ingsw.common.gamePojo.PawnsMap pojoEntrance = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.getSchoolBoard().getEntrance());
-        pojoSchoolBoard.setEntrance(pojoEntrance);
-        it.polimi.ingsw.common.gamePojo.PawnsMap pojoProfessors = new it.polimi.ingsw.common.gamePojo.PawnsMap(this.getSchoolBoard().getProfessors());
-        pojoSchoolBoard.setProfessors(pojoProfessors);
-        pojoSchoolBoard.setSpareTowers(this.getSchoolBoard().getSpareTowers());
-        pojoPlayer.setSchoolBoard(pojoSchoolBoard);
+        SchoolBoardPojo pojoSchoolBoardPojo = new SchoolBoardPojo();
+        PawnsMapPojo pojoDiningRoom = new PawnsMapPojo(this.getSchoolBoard().getDiningRoom());
+        pojoSchoolBoardPojo.setDiningRoom(pojoDiningRoom);
+        PawnsMapPojo pojoEntrance = new PawnsMapPojo(this.getSchoolBoard().getEntrance());
+        pojoSchoolBoardPojo.setEntrance(pojoEntrance);
+        PawnsMapPojo pojoProfessors = new PawnsMapPojo(this.getSchoolBoard().getProfessors());
+        pojoSchoolBoardPojo.setProfessors(pojoProfessors);
+        pojoSchoolBoardPojo.setSpareTowers(this.getSchoolBoard().getSpareTowers());
+        pojoPlayerPojo.setSchoolBoard(pojoSchoolBoardPojo);
 
-        Set<it.polimi.ingsw.common.gamePojo.AssistantCard> deck  = new HashSet<>();
+        Set<AssistantCardPojo> deck  = new HashSet<>();
         for (AssistantCard a : this.getDeck()){
-            it.polimi.ingsw.common.gamePojo.AssistantCard pojoAssistantCard = new it.polimi.ingsw.common.gamePojo.AssistantCard(a);
-            deck.add(pojoAssistantCard);
+            AssistantCardPojo pojoAssistantCardPojo = new AssistantCardPojo(a);
+            deck.add(pojoAssistantCardPojo);
         }
-        pojoPlayer.setDeck(deck);
+        pojoPlayerPojo.setDeck(deck);
 
-        pojoPlayer.setPlayedAssistantCard(new it.polimi.ingsw.common.gamePojo.AssistantCard(this.getPlayedAssistantCard()));
+        pojoPlayerPojo.setPlayedAssistantCard(new AssistantCardPojo(this.getPlayedAssistantCard()));
 
-        return pojoPlayer;
+        return pojoPlayerPojo;
     }
 }

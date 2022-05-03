@@ -2,13 +2,13 @@ package it.polimi.ingsw.common.gamePojo;
 
 import java.util.Set;
 
-public class Player {
+public class PlayerPojo {
 
     private String nickname;
-    private SchoolBoard schoolBoard;
+    private SchoolBoardPojo schoolBoardPojo;
     private ColourTower colourTower;
-    private AssistantCard playedAssistantCard;
-    private Set<AssistantCard> deck;
+    private AssistantCardPojo playedAssistantCardPojo;
+    private Set<AssistantCardPojo> deck;
     private ColourWizard wizard;
     private int coins;
 
@@ -20,12 +20,12 @@ public class Player {
         this.nickname = nickname;
     }
 
-    public SchoolBoard getSchoolBoard() {
-        return schoolBoard;
+    public SchoolBoardPojo getSchoolBoard() {
+        return schoolBoardPojo;
     }
 
-    public void setSchoolBoard(SchoolBoard schoolBoard) {
-        this.schoolBoard = schoolBoard;
+    public void setSchoolBoard(SchoolBoardPojo schoolBoardPojo) {
+        this.schoolBoardPojo = schoolBoardPojo;
     }
 
     public ColourTower getColourTower() {
@@ -36,19 +36,19 @@ public class Player {
         this.colourTower = colourTower;
     }
 
-    public AssistantCard getPlayedAssistantCard() {
-        return playedAssistantCard;
+    public AssistantCardPojo getPlayedAssistantCard() {
+        return playedAssistantCardPojo;
     }
 
-    public void setPlayedAssistantCard(AssistantCard playedAssistantCard) {
-        this.playedAssistantCard = playedAssistantCard;
+    public void setPlayedAssistantCard(AssistantCardPojo playedAssistantCardPojo) {
+        this.playedAssistantCardPojo = playedAssistantCardPojo;
     }
 
-    public Set<AssistantCard> getDeck() {
+    public Set<AssistantCardPojo> getDeck() {
         return deck;
     }
 
-    public void setDeck(Set<AssistantCard> deck) {
+    public void setDeck(Set<AssistantCardPojo> deck) {
         this.deck = deck;
     }
 

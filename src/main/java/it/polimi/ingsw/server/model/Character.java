@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.gamePojo.CharacterPojo;
+
 import java.util.Objects;
 
 public class Character{
@@ -43,11 +45,11 @@ public class Character{
         return Objects.hash(characterId);
     }
 
-    public it.polimi.ingsw.common.gamePojo.Character toPojo(){
-        it.polimi.ingsw.common.gamePojo.Character pojoCharacter = new it.polimi.ingsw.common.gamePojo.Character();
-        pojoCharacter.setCharacterId(this.getCharacterId());
-        pojoCharacter.setActualCost(this.actualCost);
-        pojoCharacter.setIncremented(this.incremented);
-        return pojoCharacter;
+    public CharacterPojo toPojo(){
+        CharacterPojo pojoCharacterPojo = new CharacterPojo();
+        pojoCharacterPojo.setCharacterId(this.getCharacterId());
+        pojoCharacterPojo.setActualCost(this.actualCost);
+        pojoCharacterPojo.setIncremented(this.incremented);
+        return pojoCharacterPojo;
     }
 }

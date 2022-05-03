@@ -1,26 +1,21 @@
 package it.polimi.ingsw.common.messages;
 
-import it.polimi.ingsw.common.gamePojo.GameState;
-import it.polimi.ingsw.server.controller.characters.CharacterEffect;
-import it.polimi.ingsw.server.controller.logic.GameController;
-import it.polimi.ingsw.server.model.Character;
-
-import java.util.Map;
+import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 
 public class UpdateMessage extends Message {
 
-    private GameState gameState;
+    private GameStatePojo gameStatePojo;
 
-    public UpdateMessage(GameState gameState){
+    public UpdateMessage(GameStatePojo gameStatePojo){
         super(TypeOfMessage.Update);
-        this.gameState = gameState;
+        this.gameStatePojo = gameStatePojo;
     }
 
-    public GameState getGameState() {
-        return gameState;
+    public GameStatePojo getGameState() {
+        return gameStatePojo;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public void setGameState(GameStatePojo gameStatePojo) {
+        this.gameStatePojo = gameStatePojo;
     }
 }
