@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.controller.logic;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.LobbyManager;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,6 +62,24 @@ public class ServerController {
 
     public Map<Integer, GameController> getCurrentGames() {
         return currentGames;
+    }
+
+    /** closes the sokets of all the players of a game
+     * when a player quit the game with a disconnection message
+     * @param playerNickname
+     */
+    public void closeConnection(String playerNickname) {
+        System.out.println("Connection closed from the one of the players");
+        //find the lobby that hosts the player who has disconnected from the game
+        // todo
+        try {
+            for (Socket socket : lobby.getUsersReadyToPlay().values())
+                socket.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        //stop game
+        //todo
     }
 
 

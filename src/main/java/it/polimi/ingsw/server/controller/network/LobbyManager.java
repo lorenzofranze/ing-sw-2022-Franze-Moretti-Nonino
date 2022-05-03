@@ -119,6 +119,7 @@ public class LobbyManager implements Runnable {
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
         nameOk=false;
         while (!nameOk) {
@@ -134,6 +135,7 @@ public class LobbyManager implements Runnable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             }
 
             unknown = jsonConverter.fromJsonToMessage(words);

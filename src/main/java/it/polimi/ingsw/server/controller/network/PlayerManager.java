@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.*;
+import it.polimi.ingsw.server.controller.logic.ServerController;
 
 import java.io.*;
 import java.util.Queue;
@@ -38,6 +39,7 @@ public class PlayerManager implements Runnable{
         while (true) {
             receivedString = readFromBuffer();
             message = jsonConverter.fromJsonToMessage(receivedString);
+
             if(message.getMessageType()!=TypeOfMessage.Async){
                 if(isMyTurn==false){
                     stringMessageToClient("It is not your turn");
@@ -53,8 +55,10 @@ public class PlayerManager implements Runnable{
                     messageQueue.add(receivedMessage);
                 }
             }
+            //if i have received an async message(a disconnection message)
             else{
                 System.out.println(message.getMessageType().toString());
+                ServerController.getInstance().closeConnection(playerNickname);
             }
         }
     }
