@@ -2,7 +2,7 @@ package it.polimi.ingsw.common.gamePojo;
 
 import java.util.*;
 
-public class PawnsMap {
+public class PawnsMapPojo {
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
@@ -36,7 +36,7 @@ public class PawnsMap {
         return ris;
     }
 
-    public PawnsMap(it.polimi.ingsw.server.model.PawnsMap serverPawnsMap){
+    public PawnsMapPojo(it.polimi.ingsw.server.model.PawnsMap serverPawnsMap){
         HashMap<ColourPawn, Integer> map = new HashMap<>();
         for(ColourPawn c: ColourPawn.values()){
             map.put(c, serverPawnsMap.get(c));

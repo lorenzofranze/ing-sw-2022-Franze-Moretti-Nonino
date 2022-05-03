@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
+import it.polimi.ingsw.common.gamePojo.IslandPojo;
+import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 public class Island {
 
@@ -109,14 +111,14 @@ public class Island {
         return owner;
     }
 
-    public it.polimi.ingsw.common.gamePojo.Island toPojo(){
-        it.polimi.ingsw.common.gamePojo.Island pojoIsland = new it.polimi.ingsw.common.gamePojo.Island();
-        pojoIsland.setHasMotherNature(this.hasMotherNature);
-        pojoIsland.setStudents(new it.polimi.ingsw.common.gamePojo.PawnsMap(this.students));
-        pojoIsland.setTowerColour(this.towerColour);
-        pojoIsland.setTowerCount(this.towerCount);
-        pojoIsland.setNumNoEntryTile(this.getNumNoEntryTile());
-        return pojoIsland;
+    public IslandPojo toPojo(){
+        IslandPojo pojoIslandPojo = new IslandPojo();
+        pojoIslandPojo.setHasMotherNature(this.hasMotherNature);
+        pojoIslandPojo.setStudents(new PawnsMapPojo(this.students));
+        pojoIslandPojo.setTowerColour(this.towerColour);
+        pojoIslandPojo.setTowerCount(this.towerCount);
+        pojoIslandPojo.setNumNoEntryTile(this.getNumNoEntryTile());
+        return pojoIslandPojo;
     }
 
 }

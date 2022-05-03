@@ -2,7 +2,7 @@ package it.polimi.ingsw.common.gamePojo;
 
 import java.util.Objects;
 
-public class Character{
+public class CharacterPojo {
 
     private int characterId;
     private int actualCost;

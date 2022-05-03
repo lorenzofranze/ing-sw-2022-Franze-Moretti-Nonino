@@ -1,15 +1,15 @@
 package it.polimi.ingsw.common.gamePojo;
 
-public class Cloud {
+public class CloudPojo {
 
-    private PawnsMap students;
+    private PawnsMapPojo students;
     private int cloudId;
 
-    public PawnsMap getStudents() {
+    public PawnsMapPojo getStudents() {
         return students;
     }
 
-    public void setStudents(PawnsMap students) {
+    public void setStudents(PawnsMapPojo students) {
         this.students = students;
     }
 

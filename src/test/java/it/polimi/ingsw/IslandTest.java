@@ -43,7 +43,25 @@ class IslandTest {
         assertEquals(6,island.getStudents().get(ColourPawn.Pink));
         assertEquals(0,island.getStudents().get(ColourPawn.Blue));
         assertEquals(0,island.getStudents().get(ColourPawn.Red));
-        assertEquals(0,island.getStudents().get(ColourPawn.Blue));
+        assertEquals(0,island.getStudents().get(ColourPawn.Yellow));
+
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Green, 1);
+        map.add(ColourPawn.Pink, 2);
+        map.add(ColourPawn.Blue, 6);
+        map.add(ColourPawn.Red, 2);
+        map.add(ColourPawn.Yellow, 3);
+        island.addStudents(map);
+
+        assertEquals(4,island.getStudents().get(ColourPawn.Green));
+        assertEquals(8,island.getStudents().get(ColourPawn.Pink));
+        assertEquals(6,island.getStudents().get(ColourPawn.Blue));
+        assertEquals(2,island.getStudents().get(ColourPawn.Red));
+        assertEquals(3,island.getStudents().get(ColourPawn.Yellow));
+
+        island.addStudents(ColourPawn.Blue, 1);
+        assertEquals(7,island.getStudents().get(ColourPawn.Blue));
+
     }
 
     @Test
@@ -74,11 +92,6 @@ class IslandTest {
         game.getPlayers().get(1).getSchoolBoard().getProfessors().add(ColourPawn.Pink);
         game.getPlayers().get(1).getSchoolBoard().getProfessors().add(ColourPawn.Green);
         assertEquals(game.getPlayers().get(1), island.getInfluence(game));
-    }
-
-    @Test
-    public void testGetInfluenceNull(){
-        Island island=new Island();
     }
 
 }
