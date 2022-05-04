@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.gamePojo.AssistantCardPojo;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +24,15 @@ class AssistantCardTest {
         AssistantCard c1 = new AssistantCard(1,3);
         String s = "AssistantCard{turnOrder=1, movementsMotherNature=3}";
         assertEquals(true, c1.toString().equals(s));
+    }
+
+    @Test
+    public void testToPojo() {
+        AssistantCard c1 = new AssistantCard(1,3);
+        AssistantCardPojo pojoCard = c1.toPojo();
+
+        assertEquals(true, c1.getMovementsMotherNature()==pojoCard.getMovementsMotherNature());
+        assertEquals(true, c1.getTurnOrder()==pojoCard.getTurnOrder());
     }
 
 }

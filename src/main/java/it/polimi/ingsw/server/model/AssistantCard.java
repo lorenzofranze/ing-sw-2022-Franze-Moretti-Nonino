@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.gamePojo.AssistantCardPojo;
+
 import java.util.Objects;
 
 public class AssistantCard implements java.io.Serializable{
@@ -42,5 +44,12 @@ public class AssistantCard implements java.io.Serializable{
                 "turnOrder=" + turnOrder +
                 ", movementsMotherNature=" + movementsMotherNature +
                 '}';
+    }
+
+    public it.polimi.ingsw.common.gamePojo.AssistantCardPojo toPojo(){
+        it.polimi.ingsw.common.gamePojo.AssistantCardPojo pojoAssistantCard = new AssistantCardPojo();
+        pojoAssistantCard.setTurnOrder(this.getTurnOrder());
+        pojoAssistantCard.setMovementsMotherNature(this.getMovementsMotherNature());
+        return pojoAssistantCard;
     }
 }

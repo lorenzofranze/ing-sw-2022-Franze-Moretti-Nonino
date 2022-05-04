@@ -165,13 +165,13 @@ public class Player {
 
         Set<AssistantCardPojo> deck  = new HashSet<>();
         for (AssistantCard a : this.getDeck()){
-            AssistantCardPojo pojoAssistantCardPojo = new AssistantCardPojo(a);
+            AssistantCardPojo pojoAssistantCardPojo = a.toPojo();
             deck.add(pojoAssistantCardPojo);
         }
         pojoPlayerPojo.setDeck(deck);
 
-        pojoPlayerPojo.setPlayedAssistantCard(new AssistantCardPojo(this.getPlayedAssistantCard()));
-
+        it.polimi.ingsw.common.gamePojo.AssistantCardPojo pojo = this.getPlayedAssistantCard().toPojo();
+        pojoPlayerPojo.setPlayedAssistantCard(pojo);
         return pojoPlayerPojo;
     }
 
