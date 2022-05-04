@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;

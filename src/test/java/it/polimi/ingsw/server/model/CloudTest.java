@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.model.Cloud;
@@ -60,7 +60,7 @@ class CloudTest {
     @Test
     public void testToPojo(){
         Cloud cloud = new Cloud(3);
-        
+
         for (ColourPawn c : ColourPawn.values()) {
             cloud.getStudents().add(c);
         }
