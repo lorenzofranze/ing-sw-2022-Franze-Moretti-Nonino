@@ -175,55 +175,42 @@ public class ActionPhase extends GamePhase {
         if (gameController.getGame().getPlayers().size() == 3){studentsToMove = 4;}
 
         for(int i=0; i<studentsToMove; i++){
-            // to user: choose your i+1 movement of 3
+
             do{
                 valid = true;
-                // to user: choose one color pawn
-
                 gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
-
                 indexColour= gameMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
-                    // to user: index not valid
-                    playerManager.stringMessageToClient("indexColour not valid.");
-                    //System.out.println("indexColour not valid.");
+                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID);
+                    playerManager.sendMessage(errorGameMessage);
                 }
                 if(valid){
                     if (gameController.getCurrentPlayer().getSchoolBoard()
                             .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                         valid = false;
-                        //to user: change color pawn to move, you don't have that color
-                        errorGameMessage=new Message(TypeOfMessage.Error);
+                        errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1);  // no student
                         playerManager.sendMessage(errorGameMessage);
-                        //System.out.println("You don't have that colour.");
                     }
                 }
-
-                // to user: choose position
-
                 if(valid){
                     gameMessage = playerManager.readMessage(TypeOfMessage.StudentPosition);
                     where = gameMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
-                        //to user: position not valid
-                        errorGameMessage=new Message(TypeOfMessage.Error);
+                        errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID); // island not valid
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
                 if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
-                    // to user: your school board in that row of your dining room is full
-                    Message ErrorMessage = new Message(TypeOfMessage.Error);
-                    playerManager.sendMessage(ErrorMessage);
+                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // out of row -> 10 students
+                    playerManager.sendMessage(errorGameMessage);
                 }
             }while(!valid);
-
-            // to user: ok
             this.moveSingleStudent(ColourPawn.get(indexColour), where );
-
+            gameController.update();
         }
     }
 
@@ -422,10 +409,11 @@ public class ActionPhase extends GamePhase {
      * otherwise it ask the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
         GameMessage gameMessage;
-        Message errorGameMessage;
+        GameErrorMessage errorGameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         int cardNumber;
+        boolean effectActive=false;
         PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
 
         if(playerManager.isCharacterReceived()==false){
@@ -439,6 +427,9 @@ public class ActionPhase extends GamePhase {
                 usable.add(character);
             }
         }
+
+        if(gameController.getGame().getActiveEffect() != null)
+            effectActive = true;
 
         if(!usable.isEmpty()){
             // to user: you can play one of theese cards.. select the number of card you want to
@@ -456,17 +447,22 @@ public class ActionPhase extends GamePhase {
                     if (cr.getCharacterId() == usable.get(cardNumber).getCharacterId()) {
                         cr.use();
                     }
-
+                gameController.update();
                 CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(usable.get(cardNumber));
                 currentCharacterEffect.doEffect();
             }else{
                 //this character card is not valid
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID);
                 playerManager.sendMessage(errorGameMessage);
             }
         }else{
-            errorGameMessage=new Message(TypeOfMessage.Error);
-            playerManager.sendMessage(errorGameMessage);
+            if(effectActive) {
+                errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); // there is an active effect
+                playerManager.sendMessage(errorGameMessage);
+            }else{
+                errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // no enought money
+                playerManager.sendMessage(errorGameMessage);
+            }
         }
         playerManager.setCharacterReceived(false);
 

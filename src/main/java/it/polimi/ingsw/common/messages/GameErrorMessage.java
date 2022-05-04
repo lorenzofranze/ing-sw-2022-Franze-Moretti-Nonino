@@ -1,17 +1,17 @@
 package it.polimi.ingsw.common.messages;
 
 public class GameErrorMessage extends Message{
-    public int getError() {
+    public ErrorStatusCode getError() {
         return error;
     }
 
-    public void setError(int error) {
+    public void setError(ErrorStatusCode error) {
         this.error = error;
     }
 
-    private int error;   // sostituibile con enum. per vari tipi di errore
+    private ErrorStatusCode error;
 
-    public GameErrorMessage(int error) {
+    public GameErrorMessage(ErrorStatusCode error) {
         super(TypeOfMessage.Error);
         this.error=error;
     }
