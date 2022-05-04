@@ -53,7 +53,6 @@ public class SchoolBoard {
      */
     public void removeFromDiningRoom(PawnsMap pawns){this.diningRoom.remove(pawns);}
 
-
     /** swap 2 pawns between diningRoom and entrance, update professors */
     public void swap(ColourPawn wasEntrance, ColourPawn wasDiningRoom, Game game){
         this.entrance.remove(wasEntrance);
@@ -67,7 +66,6 @@ public class SchoolBoard {
     public PawnsMap getEntrance() {return this.entrance;}
     public PawnsMap getProfessors() {return this.professors;}
 
-
     /**returns the number of towers left in the schoolboard**/
     public int getSpareTowers(){
         return this.spareTowers;
@@ -76,8 +74,7 @@ public class SchoolBoard {
     /**1. adds the students in input to dining room
      * 2. moves professors if necessary
      * 3. removes coins from coinSupply in Game if there are enough coins
-     * 4. returns the number of coins to add after the movement
-     **/
+     * 4. returns the number of coins to add after the movement**/
     public int addToDiningRoom(PawnsMap pawns, Game game){
         ColourPawn pawnsList[] = ColourPawn.values();
         int num = 0;
@@ -103,11 +100,11 @@ public class SchoolBoard {
     }
 
 
-    /** receives in input a cloud and inserts all the students in entrance */
+    /** receives in input a cloud and inserts all the students in entrance **/
     public void insertCloud(Cloud cloud){this.entrance.add(cloud.clearCloud());}
 
     /**move students in input to the dining room and remove from
-     * the entrance, return the number of coins to add after the movement */
+     * the entrance, return the number of coins to add after the movement **/
     public int fromEntranceToDiningRoom(PawnsMap toMove, Game game){
         int coinsToAdd=0;
         coinsToAdd = this.addToDiningRoom(toMove, game);
@@ -122,7 +119,8 @@ public class SchoolBoard {
         if(game.getProfessorsLeft().get(colour) == 1){
             game.getProfessorsLeft().remove(colour);
             this.professors.add(colour);
-            return;}
+            return;
+        }
         for(Player p : game.getPlayers()){
             if(! (p.getSchoolBoard() == this)){
                 if(!(p.getSchoolBoard().professors.get(colour)==0) &&  this.diningRoom.get(colour) > p.getSchoolBoard().diningRoom.get(colour)){
