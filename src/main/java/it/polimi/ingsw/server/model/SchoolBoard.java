@@ -60,21 +60,12 @@ public class SchoolBoard {
     public void swap(ColourPawn wasEntrance, ColourPawn wasDiningRoom, Game game){
         this.entrance.remove(wasEntrance);
         this.diningRoom.remove(wasDiningRoom);
-
-        // update professors after the remove
-        for(Player p : game.getPlayers()){
-            if(! (p.getSchoolBoard() == this)){
-                if( this.professors.get(wasDiningRoom)==1 &&  this.diningRoom.get(wasDiningRoom) < p.getSchoolBoard().diningRoom.get(wasDiningRoom)){
-                    this.professors.remove(wasDiningRoom);
-                    p.getSchoolBoard().professors.add(wasDiningRoom);
-                }
-            }
-        }
-
-        this.entrance.add(wasEntrance);
+        this.entrance.add(wasDiningRoom);
         PawnsMap map = new PawnsMap();
         map.add(wasEntrance);
         this.addToDiningRoom(map, game);
+
+        game.reassignProfessors();
     }
 
     public PawnsMap getEntrance() {
@@ -110,7 +101,7 @@ public class SchoolBoard {
             }
         }
 
-        if(coinsToAdd >= game.getCoinSupply()) {
+        if(coinsToAdd <= game.getCoinSupply()) {
             game.removeCoins(coinsToAdd);
             return coinsToAdd;
         }else{
@@ -135,10 +126,10 @@ public class SchoolBoard {
         return coinsToAdd;
     }
 
-    /** verifies and updates all the school board:
+    /** verifies and updates all the SchoolBoards:
      * move the professors from professorLeft map or other player's
      * schoolboard to the school board with more influence*/
-    private void verifyProfessorInfluence(Game game, ColourPawn colour){
+    public void verifyProfessorInfluence(Game game, ColourPawn colour){
         if(game.getProfessorsLeft().get(colour) == 1){
             game.getProfessorsLeft().remove(colour);
             this.professors.add(colour);
@@ -155,5 +146,12 @@ public class SchoolBoard {
         }
     }
 
+    public void setDiningRoom(PawnsMap diningRoom) {
+        this.diningRoom = diningRoom;
+    }
+
+    public void setEntrance(PawnsMap entrance) {
+        this.entrance = entrance;
+    }
 }
 

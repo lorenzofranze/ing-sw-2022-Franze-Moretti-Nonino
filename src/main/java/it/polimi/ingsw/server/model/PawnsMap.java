@@ -164,4 +164,9 @@ public class PawnsMap{
     public HashMap<ColourPawn, Integer> getPawns() {
         return pawns;
     }
+
+    public void setNumberForColour(ColourPawn c, int num){
+        this.getPawns().put(c, num);
+        return;
+    }
 }

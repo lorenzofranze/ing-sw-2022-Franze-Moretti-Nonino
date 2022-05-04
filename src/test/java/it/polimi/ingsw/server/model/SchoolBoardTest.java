@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.model.*;
@@ -31,17 +31,14 @@ class SchoolBoardTest {
     }
 
 
-
-
+    // verify position of professors with 2 players
     @Test
     public void testAddToDiningRoom1(){
-        //questa parte serve per usare metodo con giusta segnatura
         ArrayList<String> l1= new ArrayList<>();
         l1.add("lorenzo");
         l1.add("lara");
         Game g = new Game(l1, 2);
 
-        // test solo dell'inserimento degli studenti (lara)
         SchoolBoard sb = g.getPlayers().get(0).getSchoolBoard();
         assertEquals(true, sb.getDiningRoom().isEmpty());
         PawnsMap map = new PawnsMap();
@@ -53,9 +50,12 @@ class SchoolBoardTest {
         assertEquals(6, sb.addToDiningRoom(map, g));
         map = new PawnsMap();
         map.add(ColourPawn.Pink);
+        g.setCoinSupply(1);
         assertEquals(1, sb.addToDiningRoom(map, g));
+        map = new PawnsMap();
+        map.add(ColourPawn.Pink, 3);
+        assertEquals(0, sb.addToDiningRoom(map, g));
 
-        // test metodo privato verifyProfessorInfluence
 
         assertTrue(g.getProfessorsLeft().isEmpty());
         PawnsMap map1 = new PawnsMap();
@@ -80,7 +80,6 @@ class SchoolBoardTest {
     // verify position of professors with 3 players
     @Test
     public void testAddToDiningRoom2(){
-        //questa parte serve per usare metodo con giusta segnatura
         ArrayList<String> l1= new ArrayList<>();
         l1.add("lorenzo");
         l1.add("lara");
@@ -210,6 +209,76 @@ class SchoolBoardTest {
 
         map.remove(map3);
         assertEquals(true, sb.getEntrance().equals(map));
+    }
+
+    @Test
+    public void testVerifyProfessorInfluence() {
+        ArrayList<String> l1= new ArrayList<>();
+        l1.add("lorenzo");
+        l1.add("lara");
+        Game g = new Game(l1, 2);
+
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 1);
+        map.add(ColourPawn.Blue, 1);
+        map.add(ColourPawn.Green, 1);
+        map.add(ColourPawn.Pink, 1);
+        map.add(ColourPawn.Red, 1);
+
+        g.setProfessorsLeft(map);
+        g.getPlayers().get(0).getSchoolBoard().verifyProfessorInfluence(g, ColourPawn.Yellow);
+        assertEquals(0, g.getProfessorsLeft().get(ColourPawn.Yellow));
+        assertEquals(1, g.getPlayers().get(0).getSchoolBoard().getProfessors().get(ColourPawn.Yellow));
+
+        PawnsMap map1 = new PawnsMap();
+        map1.add(ColourPawn.Yellow, 2);
+        g.getPlayers().get(1).getSchoolBoard().setDiningRoom(map1);
+        g.getPlayers().get(1).getSchoolBoard().verifyProfessorInfluence(g, ColourPawn.Yellow);
+        assertEquals(0, g.getProfessorsLeft().get(ColourPawn.Yellow));
+        assertEquals(0, g.getPlayers().get(0).getSchoolBoard().getProfessors().get(ColourPawn.Yellow));
+        assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getProfessors().get(ColourPawn.Yellow));
 
     }
+
+    @Test
+    public void testSwap() {
+        ArrayList<String> l1= new ArrayList<>();
+        l1.add("lorenzo");
+        l1.add("lara");
+        Game g = new Game(l1, 2);
+
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 1);
+        map.add(ColourPawn.Blue, 1);
+        map.add(ColourPawn.Green, 1);
+        map.add(ColourPawn.Pink, 1);
+        map.add(ColourPawn.Red, 1);
+        g.getPlayers().get(0).getSchoolBoard().setDiningRoom(map);
+        PawnsMap map1 = new PawnsMap();
+        map1.add(ColourPawn.Yellow, 3);
+        map1.add(ColourPawn.Blue, 2);
+        g.getPlayers().get(0).getSchoolBoard().setEntrance(map1);
+
+        PawnsMap map2 = new PawnsMap();
+        map2 = new PawnsMap();
+        map2.add(ColourPawn.Yellow, 1);
+        map2.add(ColourPawn.Blue, 3);
+        map2.add(ColourPawn.Green, 4);
+        map2.add(ColourPawn.Pink, 2);
+        map2.add(ColourPawn.Red, 1);
+        g.getPlayers().get(1).getSchoolBoard().setDiningRoom(map2);
+        PawnsMap map3 = new PawnsMap();
+        map3.add(ColourPawn.Yellow, 1);
+        map3.add(ColourPawn.Blue, 2);
+        g.getPlayers().get(1).getSchoolBoard().setEntrance(map3);
+
+        g.getPlayers().get(1).getSchoolBoard().swap(ColourPawn.Blue, ColourPawn.Pink, g);
+        assertEquals(4, g.getPlayers().get(1).getSchoolBoard().getDiningRoom().get(ColourPawn.Blue));
+        assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getDiningRoom().get(ColourPawn.Pink));
+        assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getEntrance().get(ColourPawn.Blue));
+        assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getEntrance().get(ColourPawn.Pink));
+
+
+    }
+
 }

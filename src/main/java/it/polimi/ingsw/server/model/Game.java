@@ -40,11 +40,10 @@ public class Game {
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
     public Game(List<String> players, Integer gameId){
         ArrayList<ColourTower> colourTowers= new ArrayList<>();
-        //ATTENZIONE
         colourTowers.addAll(Arrays.stream(ColourTower.values()).collect(Collectors.toList()));
         ArrayList<ColourWizard> colourWizards= new ArrayList<>();
-        //ATTENZIONE
         colourWizards.addAll(Arrays.stream(ColourWizard.values()).collect(Collectors.toList()));
+
         this.players=new ArrayList<Player>();
         for( int i=0; i<players.size(); i++){
             Player p= new Player(players.get(i), colourTowers.get(i), colourWizards.get(i));
@@ -228,5 +227,42 @@ public class Game {
         return ris;
     }
 
+    public void setProfessorsLeft(PawnsMap professorsLeft) {
+        this.professorsLeft = professorsLeft;
+    }
+
+    public void setCoinSupply(int coinSupply) {
+        this.coinSupply = coinSupply;
+    }
+
+    /**checks that the players have the correct Professors according to theri dining room. If not,
+     * reassigns the professors correctly*/
+    public void reassignProfessors(){
+
+        for(ColourPawn c : ColourPawn.values()){
+            Player owner = null;
+            int pawnsDining = 0;
+            for(Player p : players){
+                if (pawnsDining < p.getSchoolBoard().getDiningRoom().get(c)){
+                    owner = p;
+                    pawnsDining = p.getSchoolBoard().getDiningRoom().get(c);
+                }
+            }
+
+            if (owner == null){
+                for(Player p : players){
+                    p.getSchoolBoard().getProfessors().setNumberForColour(c, 0);
+                }
+                this.professorsLeft.setNumberForColour(c, 1);
+            }else{
+                owner.getSchoolBoard().getProfessors().setNumberForColour(c, 1);
+                for(Player p : players){
+                    if (!p.equals(owner))
+                    p.getSchoolBoard().getProfessors().setNumberForColour(c, 0);
+                }
+            }
+        }
+
+    }
 
 }
