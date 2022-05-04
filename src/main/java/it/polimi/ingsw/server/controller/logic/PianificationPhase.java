@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.controller.logic;
-import it.polimi.ingsw.common.messages.GameErrorMessage;
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.AssistantCard;
 import it.polimi.ingsw.server.model.Cloud;
@@ -128,13 +125,13 @@ public class PianificationPhase extends GamePhase {
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    gameErrorMessage = new GameErrorMessage (5); // an other player has alrealy played this card in this round
+                    gameErrorMessage = new GameErrorMessage (ErrorStatusCode.RULESVIOLATION_1); // an other player has alrealy played this card in this round
                     playerManager.sendMessage(gameErrorMessage);
                 }
 
             }
             else{
-                gameErrorMessage = new GameErrorMessage(6); // You have already played this card
+                gameErrorMessage = new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // You have already played this card
                 playerManager.sendMessage(gameErrorMessage);
             }
         }
