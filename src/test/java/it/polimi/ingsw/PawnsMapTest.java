@@ -53,6 +53,17 @@ class PawnsMapTest {
         assertEquals(1, map2.get(ColourPawn.Yellow));
         assertEquals(4, map2.get(ColourPawn.Blue));
         assertEquals(3, map2.get(ColourPawn.Pink));
+
+        PawnsMap map3 = new PawnsMap();
+        map3.add(ColourPawn.Yellow, 3);
+        map3.add(ColourPawn.Blue, 6);
+        map3.add(ColourPawn.Green, 3);
+        map3.add(ColourPawn.Pink, 3);
+        map3.add(ColourPawn.Red, 8);
+
+        map3.remove(ColourPawn.Yellow, 2);
+
+        assertEquals(1, map3.get(ColourPawn.Yellow));
     }
 
     @Test
@@ -80,6 +91,18 @@ class PawnsMapTest {
         assertEquals(22, map.pawnsNumber());
         map.add(deleted);
         assertEquals(true, map.equals(copy));
+
+        PawnsMap map3 = new PawnsMap();
+        map3.add(ColourPawn.Yellow, 3);
+        map3.add(ColourPawn.Blue, 6);
+        map3.add(ColourPawn.Green, 3);
+        map3.add(ColourPawn.Pink, 3);
+        map3.add(ColourPawn.Red, 8);
+        int pre = map3.pawnsNumber();
+        PawnsMap map4 = map3.removeRandomly(2);
+
+        assertEquals(true, map4.pawnsNumber()+map3.pawnsNumber()==pre);
+
     }
 
     @Test
@@ -130,7 +153,7 @@ class PawnsMapTest {
     }
 
     @Test
-    public String toString() {
+    public void testToString() {
         PawnsMap map = new PawnsMap();
         map.add(ColourPawn.Yellow, 3);
         map.add(ColourPawn.Blue, 6);
@@ -138,11 +161,24 @@ class PawnsMapTest {
         map.add(ColourPawn.Pink, 3);
         map.add(ColourPawn.Red, 8);
         String prova = map.toString();
-        String[] lines = prova.split("\n");
 
-        assertEquals(5, lines.length);
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_GREEN = "\u001B[32m";
+        String ANSI_YELLOW = "\u001B[33m";
+        String ANSI_BLUE = "\u001B[34m";
+        String ANSI_PINK = "\u001B[35m";
 
-        return prova;
+         String[] ansi_colours = {ANSI_YELLOW, ANSI_BLUE, ANSI_GREEN, ANSI_RED, ANSI_PINK, ANSI_RESET};
+
+        String ris = new String();
+        int i = 0;
+        for (ColourPawn p : ColourPawn.values()) {
+            ris = ris + ("("+ansi_colours[i]+p.toString() + " , " + map.getPawns().get(p) + ansi_colours[5]+") ");
+            i++;
+        }
+
+        assertEquals(true, ris.equals(prova));
     }
 
 
