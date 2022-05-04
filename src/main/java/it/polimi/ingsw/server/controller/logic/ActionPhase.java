@@ -14,7 +14,7 @@ import it.polimi.ingsw.server.model.Character;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//DA TOGLIERE TUTTI GLI STRING MESSAGES TO CLIENT
+
 public class ActionPhase extends GamePhase {
     private final GameController gameController;
 
@@ -38,34 +38,21 @@ public class ActionPhase extends GamePhase {
         boolean isEnded = false;
         actionResult.setFirstPianificationPlayer(turnOrder.get(0));
 
-
         for (Player p : turnOrder) {
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
-
                 gameController.setCurrentPlayer(p);
-
-
-
-                messageHandler.stringMessageToAllClients("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+ "\nISLANDS:\\n\" + gameController.getGame().islandsToString()");
-
                 gameController.update();
+                //move students
+                for(int i=0; i<gameController.getGame().getPlayers().size()+1; i++ ) {
+                    askforCharacter();
+                    if (checkEnd() == true){return actionResult;}
+                    moveStudent();
+                    gameController.update();
+                }
                 askforCharacter();
-                gameController.update();
-                moveStudents();
-                gameController.update();
-
-                askforCharacter();
-                gameController.update();
                 if (checkEnd() == true){return actionResult;}
-
-                messageHandler.stringMessageToAllClients("\nMOTHERNATURE: Island number " + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
-
+                //move mother nature
                 Island whereMotherNature = moveMotherNature(p);
-
-                messageHandler.stringMessageToAllClients("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature() + gameController.getGame().findMotherNature()+" (maximumMovements for mothernature: " + maximumMovements.get(gameController.getCurrentPlayer()) + ")\n");
-
-                //System.out.println("\nMOTHERNATURE: moved to Island number " + gameController.getGame().findMotherNature());
-
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
                 if(whereMotherNature.getNumNoEntryTile()>0){
                     whereMotherNature.setNumNoEntryTile(whereMotherNature.getNumNoEntryTile()-1);
@@ -77,60 +64,39 @@ public class ActionPhase extends GamePhase {
 
                 gameController.update();
 
-                if (moreInfluentPlayer == null){
-                    messageHandler.stringMessageToAllClients("MOREINFLUENTPLAYER: none");
-                    //System.out.println("MOREINFLUENTPLAYER: none");
-                } else {
-                    messageHandler.stringMessageToAllClients("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
-                    //System.out.println("MOREINFLUENTPLAYER: "+ moreInfluentPlayer.toString());
-                }
-
                 if (moreInfluentPlayer != null){
                     isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
-                    gameController.update();
                     if (isEnded) {
                         actionResult.setFinishedTowers(true);
 
                         return actionResult;
                     }
-
                     boolean union = verifyUnion();
-
-                    gameController.update();
-
                     int numIslands= this.gameController.getGame().getIslands().size();
-
                     if(numIslands<4){
                         actionResult.setThreeOrLessIslands(true);
-                        messageHandler.stringMessageToAllClients("There are 3 or less islands");
-
                         return actionResult;
                     }
-
                 }
+                gameController.update();
             }
 
-            askforCharacter();
-            gameController.update();
             if (checkEnd() == true){return actionResult;}
 
+            askforCharacter();
 
+            if (checkEnd() == true){return actionResult;}
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
 
-            //if (!isLastRoundFinishedStudentsBag) {
-            //    System.out.println("\nCLOUDS:\n" + gameController.getGame().cloudsToString());
-            //    chooseCloud();
-            //}
+            if (!isLastRoundFinishedStudentsBag) {
+                chooseCloud();
+                gameController.update();
+            }
 
-            gameController.update();
-
-            askforCharacter();
-            gameController.update();
             if (checkEnd() == true){return actionResult;}
 
         }
-
         /*reset characterEffects activated*/
         gameController.getGame().setActiveEffect(null);
 
@@ -159,7 +125,7 @@ public class ActionPhase extends GamePhase {
     }
 
 
-    protected void moveStudents(){
+    protected void moveStudent(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
@@ -178,11 +144,11 @@ public class ActionPhase extends GamePhase {
 
             do{
                 valid = true;
-                gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
-                indexColour= gameMessage.getValue();
+                gameMessage = playerManager.readMessage(TypeOfMessage.StudentMovement);
+                indexColour= ((GameMessageDouble)gameMessage).getValueDouble()[0];
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
-                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID);
+                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // index colour invalid
                     playerManager.sendMessage(errorGameMessage);
                 }
                 if(valid){
@@ -194,11 +160,10 @@ public class ActionPhase extends GamePhase {
                     }
                 }
                 if(valid){
-                    gameMessage = playerManager.readMessage(TypeOfMessage.StudentPosition);
-                    where = gameMessage.getValue();
+                    where = ((GameMessageDouble)gameMessage).getValueDouble()[1];
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
-                        errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID); // island not valid
+                        errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_2); // destination not valid
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
@@ -210,7 +175,6 @@ public class ActionPhase extends GamePhase {
                 }
             }while(!valid);
             this.moveSingleStudent(ColourPawn.get(indexColour), where );
-            gameController.update();
         }
     }
 
@@ -228,7 +192,7 @@ public class ActionPhase extends GamePhase {
             gameMessage = playerManager.readMessage(TypeOfMessage.MoveMotherNature);
             played = gameMessage.getValue();
             if (played < 1 || played > maximumMovements.get(currentPlayer)){
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); // steps not valid
                 playerManager.sendMessage(errorGameMessage);
             }
         }
@@ -365,40 +329,25 @@ public class ActionPhase extends GamePhase {
         String currPlayer=gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager = messageHandler.getPlayerManager(currPlayer);
         int indexCloud;
-        // if there is only one cloud left, it goes directly in player's schoolBoard
-        List<Cloud> cloudNotEmpty;
-        cloudNotEmpty = (gameController.getGame().getClouds()).stream()
-                .filter(x -> ! x.getStudents().isEmpty()).collect(Collectors.toList());
-        if(  cloudNotEmpty.size() == 1 ){
-            gameController.getCurrentPlayer().getSchoolBoard().insertCloud(cloudNotEmpty.get(0));
 
-            playerManager.stringMessageToClient("There is only one Cloud left. You have received students form Cloud number " +
-                    gameController.getGame().getClouds().indexOf(cloudNotEmpty.get(0)));
-
-            return;
-        }
-        // to user: choose one cloud
-        // print possibile cloud with values
         do{
             valid = true;
             gameMessage = playerManager.readMessage(TypeOfMessage.CloudChoice);
             indexCloud= gameMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
-                // to user: index not valid
-                errorGameMessage=new Message(TypeOfMessage.Error);
+
+                errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); //index not valid
                 playerManager.sendMessage(errorGameMessage);
                 valid = false;
             }
             if(valid){
                 if(gameController.getGame().getClouds().get(indexCloud).getStudents().isEmpty()){
-                    // to user: empty cloud, rechoose
-                    errorGameMessage=new Message(TypeOfMessage.Error);
+                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); //empty cloud, rechoose
                     playerManager.sendMessage(errorGameMessage);
                     valid=false;
                 }
             }
         }while(!valid);
-        // to user: ok
 
         gameController.getCurrentPlayer().getSchoolBoard().insertCloud(gameController.getGame().getClouds().get(indexCloud));
     }
@@ -450,14 +399,15 @@ public class ActionPhase extends GamePhase {
                 gameController.update();
                 CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(usable.get(cardNumber));
                 currentCharacterEffect.doEffect();
+                // aggiungere eventuali update in base alle carte personaggio
             }else{
                 //this character card is not valid
-                errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID);
+                errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1);
                 playerManager.sendMessage(errorGameMessage);
             }
         }else{
             if(effectActive) {
-                errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); // there is an active effect
+                errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); // there is an effect activated
                 playerManager.sendMessage(errorGameMessage);
             }else{
                 errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // no enought money

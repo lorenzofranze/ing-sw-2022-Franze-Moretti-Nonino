@@ -131,7 +131,7 @@ public class PianificationPhase extends GamePhase {
 
             }
             else{
-                gameErrorMessage = new GameErrorMessage(ErrorStatusCode.INDEXINVALID); // You have already played this card
+                gameErrorMessage = new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // You have already played this card
                 playerManager.sendMessage(gameErrorMessage);
             }
         }
