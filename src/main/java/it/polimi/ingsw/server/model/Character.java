@@ -52,4 +52,8 @@ public class Character{
         pojoCharacterPojo.setIncremented(this.incremented);
         return pojoCharacterPojo;
     }
+
+    public boolean isIncremented() {
+        return incremented;
+    }
 }
