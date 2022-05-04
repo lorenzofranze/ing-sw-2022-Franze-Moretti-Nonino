@@ -13,6 +13,7 @@ public class ClientApp {
             Scanner scanner;
             LineClient lineClient = null;
             int port=0;
+
             System.out.println("Scegli porta del server (consigliata: 32502)");
             scanner=new Scanner(System.in);
 
