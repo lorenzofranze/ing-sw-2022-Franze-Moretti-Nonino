@@ -21,6 +21,10 @@ class SchoolBoardTest {
         SchoolBoard sb = new SchoolBoard();
         sb.addTower();
         assertEquals(9, sb.getSpareTowers());
+        sb.removeTower(3);
+        assertEquals(6, sb.getSpareTowers());
+        sb.addTower(2);
+        assertEquals(8, sb.getSpareTowers());
     }
 
     @Test
@@ -28,6 +32,8 @@ class SchoolBoardTest {
         SchoolBoard sb = new SchoolBoard();
         sb.removeTower();
         assertEquals(7, sb.getSpareTowers());
+        sb.removeTower(2);
+        assertEquals(5, sb.getSpareTowers());
     }
 
 
@@ -48,6 +54,7 @@ class SchoolBoardTest {
         map.add(ColourPawn.Pink, 2);
         map.add(ColourPawn.Red, 8);
         assertEquals(6, sb.addToDiningRoom(map, g));
+
         map = new PawnsMap();
         map.add(ColourPawn.Pink);
         g.setCoinSupply(1);
@@ -73,7 +80,11 @@ class SchoolBoardTest {
                 sb1.getProfessors().get(ColourPawn.Green)==1 && sb.getProfessors().pawnsNumber()==3 &&
                 sb1.getProfessors().pawnsNumber() == 2);
 
-
+        PawnsMap map2 = new PawnsMap();
+        map2.add(ColourPawn.Yellow, 1);
+        int pre = sb.getDiningRoom().get(ColourPawn.Yellow);
+        sb.removeFromDiningRoom(map2);
+        assertEquals(true, sb.getDiningRoom().get(ColourPawn.Yellow)==pre-1);
 
     }
 
@@ -277,8 +288,5 @@ class SchoolBoardTest {
         assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getDiningRoom().get(ColourPawn.Pink));
         assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getEntrance().get(ColourPawn.Blue));
         assertEquals(1, g.getPlayers().get(1).getSchoolBoard().getEntrance().get(ColourPawn.Pink));
-
-
     }
-
 }

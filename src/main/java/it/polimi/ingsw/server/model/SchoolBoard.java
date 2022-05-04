@@ -49,12 +49,10 @@ public class SchoolBoard {
 
     /** this method will be used for witch character card
      * don't calls verify professors because isn't necessary
-     * @param pawns
+     * param: PawnsMap
      */
-    public void removeFromDiningRoom(PawnsMap pawns){
-        this.diningRoom.remove(pawns);
+    public void removeFromDiningRoom(PawnsMap pawns){this.diningRoom.remove(pawns);}
 
-    }
 
     /** swap 2 pawns between diningRoom and entrance, update professors */
     public void swap(ColourPawn wasEntrance, ColourPawn wasDiningRoom, Game game){
@@ -64,43 +62,36 @@ public class SchoolBoard {
         PawnsMap map = new PawnsMap();
         map.add(wasEntrance);
         this.addToDiningRoom(map, game);
+        game.reassignProfessors();}
 
-        game.reassignProfessors();
-    }
+    public PawnsMap getEntrance() {return this.entrance;}
+    public PawnsMap getProfessors() {return this.professors;}
 
-    public PawnsMap getEntrance() {
-        return this.entrance;
-    }
 
-    public PawnsMap getProfessors() {
-        return this.professors;
-    }
-
-    /**@Return the number of towers left in the schoolboard*/
+    /**returns the number of towers left in the schoolboard**/
     public int getSpareTowers(){
         return this.spareTowers;
     }
 
-    /** adds the students in input to dining room,
-     *  move professors if necessary,
-     *  remove coins from coinSupply in Game if there are enough coins
-     * @return the number of coins to add after the movement*/
+    /**1. adds the students in input to dining room
+     * 2. moves professors if necessary
+     * 3. removes coins from coinSupply in Game if there are enough coins
+     * 4. returns the number of coins to add after the movement
+     **/
     public int addToDiningRoom(PawnsMap pawns, Game game){
         ColourPawn pawnsList[] = ColourPawn.values();
-        int num;
+        int num = 0;
         int coinsToAdd=0;
         for(ColourPawn colour : pawnsList){
             num = pawns.get(colour);
             if(num>0){
                 for(int i=0; i<num; i++) {
                     this.diningRoom.add(colour);
-                    if (this.diningRoom.get(colour) % 3 == 0)
-                        coinsToAdd ++;
+                    if (this.diningRoom.get(colour) % 3 == 0) coinsToAdd ++;
                 }
                 this.verifyProfessorInfluence(game, colour);
             }
         }
-
         if(coinsToAdd <= game.getCoinSupply()) {
             game.removeCoins(coinsToAdd);
             return coinsToAdd;
@@ -113,11 +104,9 @@ public class SchoolBoard {
 
 
     /** receives in input a cloud and inserts all the students in entrance */
-    public void insertCloud(Cloud cloud){
-        this.entrance.add(cloud.clearCloud());
-    }
+    public void insertCloud(Cloud cloud){this.entrance.add(cloud.clearCloud());}
 
-    /** move students in input to the dining room and remove from
+    /**move students in input to the dining room and remove from
      * the entrance, return the number of coins to add after the movement */
     public int fromEntranceToDiningRoom(PawnsMap toMove, Game game){
         int coinsToAdd=0;
@@ -133,25 +122,17 @@ public class SchoolBoard {
         if(game.getProfessorsLeft().get(colour) == 1){
             game.getProfessorsLeft().remove(colour);
             this.professors.add(colour);
-            return;
-        }
-
+            return;}
         for(Player p : game.getPlayers()){
             if(! (p.getSchoolBoard() == this)){
                 if(!(p.getSchoolBoard().professors.get(colour)==0) &&  this.diningRoom.get(colour) > p.getSchoolBoard().diningRoom.get(colour)){
                     this.professors.add(colour);
-                    p.getSchoolBoard().professors.remove(colour);
-                }
+                    p.getSchoolBoard().professors.remove(colour);}
             }
         }
     }
 
-    public void setDiningRoom(PawnsMap diningRoom) {
-        this.diningRoom = diningRoom;
-    }
-
-    public void setEntrance(PawnsMap entrance) {
-        this.entrance = entrance;
-    }
+    public void setDiningRoom(PawnsMap diningRoom) {this.diningRoom = diningRoom;}
+    public void setEntrance(PawnsMap entrance) {this.entrance = entrance;}
 }
 
