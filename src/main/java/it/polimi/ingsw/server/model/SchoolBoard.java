@@ -44,7 +44,7 @@ public class SchoolBoard {
     }
 
     public PawnsMap getDiningRoom() {
-        return this.diningRoom.clone();
+        return this.diningRoom;
     }
 
     /** this method will be used for witch character card

@@ -132,14 +132,7 @@ public class Game {
         this.gameId = gameId;
     }
 
-    //public void addStudents(PawnsMap toAdd){studentsBag.add(toAdd);}
-
-    //public void removeStudents(PawnsMap toAdd){studentsBag.remove(toAdd);}
-
-    //public PawnsMap removeStudentsRandomly(int num){return studentsBag.removeRandomly(num);}
-
     //EXPERT GAME METHODS
-
     public void addCoins(int num){
         this.coinSupply = this.coinSupply + num;
     }
@@ -148,31 +141,20 @@ public class Game {
         this.coinSupply = this.coinSupply - num;
     }
 
-    /**returns the set of all the possible characters*/
-    public List<Character> getCharacters() {
-        return characters;
-    }
+    /**returns the set of all the possible characters**/
+    public List<Character> getCharacters() {return characters;}
 
-    public Character getActiveEffect() {
-        return activeEffect;
-    }
+    public Character getActiveEffect() {return activeEffect;}
 
-    public void setActiveEffect(Character activeEffect) {
-        this.activeEffect = activeEffect;
-    }
+    public void setActiveEffect(Character activeEffect) {this.activeEffect = activeEffect;}
 
+    public List<Island> getIslands() {return islands;}
 
-    public List<Island> getIslands() {
-        return islands;
-    }
+    public int getCoinSupply(){return coinSupply;}
 
-    public int getCoinSupply(){
-        return coinSupply;
-    }
+    public PawnsMap getProfessorsLeft(){return professorsLeft;}
 
-    public PawnsMap getProfessorsLeft(){
-        return professorsLeft;
-    }
+    public void setProfessorsLeft(PawnsMap professorsLeft) {this.professorsLeft = professorsLeft;}
 
     public String islandsToString(){
         String islandString = "";
@@ -190,8 +172,7 @@ public class Game {
         return islandString;
     }
 
-
-    /**returns the index of the island where MotherNature is placed (-1 MotherNature not found)*/
+    /**returns the index of the island where MotherNature is placed (-1 MotherNature not found)**/
     public int findMotherNature(){
         int j = 0;
         int foundAt = -1;
@@ -208,12 +189,8 @@ public class Game {
         String cloudsString = "";
         int j = 0;
         for (Cloud c : clouds){
-            if (!c.getStudents().isEmpty()) {
-                cloudsString = cloudsString + "Cloud number " + j + " - " + c.getStudents().toString() + "\n";
-            }
-            else{
-                cloudsString = cloudsString + "Cloud number " + j + " - empty\n";
-            }
+            if (!c.getStudents().isEmpty()) {cloudsString = cloudsString + "Cloud number " + j + " - " + c.getStudents().toString() + "\n";}
+            else{ cloudsString = cloudsString + "Cloud number " + j + " - empty\n";}
             j++;
         }
         return cloudsString;
@@ -222,23 +199,15 @@ public class Game {
     public Island getIslandOfIndex(int i){
         Island ris;
         if (i >= islands.size() || i < 0) return null;
-
         ris = islands.get(i);
         return ris;
     }
 
-    public void setProfessorsLeft(PawnsMap professorsLeft) {
-        this.professorsLeft = professorsLeft;
-    }
+    public void setCoinSupply(int coinSupply) {this.coinSupply = coinSupply;}
 
-    public void setCoinSupply(int coinSupply) {
-        this.coinSupply = coinSupply;
-    }
-
-    /**checks that the players have the correct Professors according to theri dining room. If not,
-     * reassigns the professors correctly*/
+    /**checks that the players have the correct Professors according to their dining room. If not,
+     * reassigns the professors correctly**/
     public void reassignProfessors(){
-
         for(ColourPawn c : ColourPawn.values()){
             Player owner = null;
             int pawnsDining = 0;
@@ -260,9 +229,9 @@ public class Game {
                     if (!p.equals(owner))
                     p.getSchoolBoard().getProfessors().setNumberForColour(c, 0);
                 }
+                this.professorsLeft.setNumberForColour(c, 0);
             }
         }
-
     }
 
 }

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Card6Test {
 
-    public void card6Test(){
+    /*public void card6Test(){
         Lobby lobby = new Lobby(GameMode.Complex_2);
         Socket socketVale = new Socket();
         Socket socketLara = new Socket();
@@ -27,6 +27,6 @@ class Card6Test {
         island.addStudents();
 
 
-    }
+    }*/
 
 }
