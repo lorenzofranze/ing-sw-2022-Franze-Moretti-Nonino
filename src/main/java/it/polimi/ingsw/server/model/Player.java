@@ -105,6 +105,9 @@ public class Player {
         this.playedAssistantCard = null;
     }
 
+    public void setPlayedAssistantCard(AssistantCard playedAssistantCard) {
+        this.playedAssistantCard = playedAssistantCard;
+    }
 
     //COMPLEX GAME METHODS
 
@@ -169,9 +172,11 @@ public class Player {
             deck.add(pojoAssistantCardPojo);
         }
         pojoPlayerPojo.setDeck(deck);
+        if (this.getPlayedAssistantCard() != null){
+            it.polimi.ingsw.common.gamePojo.AssistantCardPojo pojo = this.getPlayedAssistantCard().toPojo();
+            pojoPlayerPojo.setPlayedAssistantCard(pojo);
+        }
 
-        it.polimi.ingsw.common.gamePojo.AssistantCardPojo pojo = this.getPlayedAssistantCard().toPojo();
-        pojoPlayerPojo.setPlayedAssistantCard(pojo);
         return pojoPlayerPojo;
     }
 

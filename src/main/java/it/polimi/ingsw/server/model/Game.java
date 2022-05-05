@@ -50,7 +50,6 @@ public class Game {
             this.players.add(p);
         }
 
-
         this.clouds=new ArrayList<Cloud>(players.size());
         for(Integer i=0; i<players.size(); i++){
             this.clouds.add(new Cloud(i));
@@ -70,7 +69,6 @@ public class Game {
         for (ColourPawn currColor: ColourPawn.values()){
             this.professorsLeft.add(currColor);
         }
-
 
             List<Character>temp = new ArrayList<Character>(12);
 
@@ -233,5 +231,4 @@ public class Game {
             }
         }
     }
-
 }

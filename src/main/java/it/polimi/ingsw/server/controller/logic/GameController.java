@@ -291,12 +291,16 @@ public class GameController implements Runnable  {
         GameStatePojo gameStatePojo = new GameStatePojo();
         gameStatePojo.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
         gameStatePojo.setGameId(this.getGameID());
-        gameStatePojo.setWinner(this.winner.getNickname());
+        if (this.winner != null){
+            gameStatePojo.setWinner(this.winner.getNickname());
+        }
         gameStatePojo.setGameOver(this.gameOver);
         gameStatePojo.setExpert(this.expert);
 
-        PlayerPojo pojoCurrentPlayerPojo = currentPlayer.toPojo();
-        gameStatePojo.setCurrentPlayer(pojoCurrentPlayerPojo);
+        if (this.currentPlayer != null){
+            PlayerPojo pojoCurrentPlayerPojo = currentPlayer.toPojo();
+            gameStatePojo.setCurrentPlayer(pojoCurrentPlayerPojo);
+        }
 
         List<PlayerPojo> pojoPlayerPojos = new ArrayList<>();
         for (Player p: this.game.getPlayers()){
@@ -320,8 +324,10 @@ public class GameController implements Runnable  {
         }
         gameStatePojo.setCharacters(pojoCharacterPojos);
 
-        CharacterPojo pojoActiveCharacterPojo = this.game.getActiveEffect().toPojo();
-        gameStatePojo.setActiveEffect(pojoActiveCharacterPojo);
+        if (this.game.getActiveEffect() != null){
+            CharacterPojo pojoActiveCharacterPojo = this.game.getActiveEffect().toPojo();
+            gameStatePojo.setActiveEffect(pojoActiveCharacterPojo);
+        }
 
         List<IslandPojo> pojoIslandPojos = new ArrayList<>();
         for(Island i: game.getIslands()){

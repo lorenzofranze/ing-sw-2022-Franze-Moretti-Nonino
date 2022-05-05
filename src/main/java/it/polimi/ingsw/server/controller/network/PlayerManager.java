@@ -21,7 +21,12 @@ public class PlayerManager implements Runnable{
         this.playerNickname = playerNickname;
         this.bufferedReaderIn=bufferedReaderIn;
         this.bufferedReaderOut=bufferedReaderOut;
+        this.jsonConverter= new JsonConverter();
+    }
 
+    /**constructor used in tests**/
+    public PlayerManager(String playerNickname){
+        this.playerNickname = playerNickname;
         this.jsonConverter= new JsonConverter();
     }
 
@@ -114,6 +119,10 @@ public class PlayerManager implements Runnable{
 
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
+
+        //null only in tests
+        if (bufferedReaderOut == null){return;}
+
         try {
             bufferedReaderOut.write(stringToSend);
             bufferedReaderOut.flush();
@@ -160,9 +169,13 @@ public class PlayerManager implements Runnable{
 
     public boolean isToStop() {
         return toStop;
-
     }
 
+    public Queue<Message> getMessageQueue() {
+        return messageQueue;
+    }
 
-
+    public void setMessageQueue(Queue<Message> messageQueue) {
+        this.messageQueue = messageQueue;
+    }
 }

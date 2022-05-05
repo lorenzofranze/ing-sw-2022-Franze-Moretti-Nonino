@@ -37,6 +37,7 @@ public class MessageHandler {
         for(String s: lobby.getUsersReadyToPlay().keySet()){
             PlayerManager playerManager;
             Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
+            if (clientSocket==null) return;
             try{
                 BufferedReader in= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 bufferedReaderIn.put(s, in);
@@ -222,5 +223,9 @@ public class MessageHandler {
             }
             else playerManager.setMyTurn(false);
         }
+    }
+
+    public void setPlayerManagerMap(Map<String, PlayerManager> playerManagerMap) {
+        this.playerManagerMap = playerManagerMap;
     }
 }
