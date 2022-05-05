@@ -15,7 +15,6 @@ public class  JsonConverter {
     public static Message fromJsonToMessage(String jsonString){
         Message message = gson.fromJson(jsonString, Message.class);
 
-
         if(message.getMessageType()== TypeOfMessage.StudentColour||
                 message.getMessageType()== TypeOfMessage.IslandChoice ||
                 message.getMessageType()== TypeOfMessage.AssistantCard ||
@@ -32,6 +31,10 @@ public class  JsonConverter {
             return messageReal;
         }
 
+        if(message.getMessageType()== TypeOfMessage.Connection){
+            ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
+            return messageReal;
+        }
         return message;
     }
 
