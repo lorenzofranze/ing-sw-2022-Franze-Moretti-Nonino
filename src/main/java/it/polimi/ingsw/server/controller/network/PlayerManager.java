@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.controller.logic.ServerController;
 
 import java.io.*;
 import java.util.Queue;
+import java.util.concurrent.Future;
 
 public class PlayerManager implements Runnable{
     private Queue<Message> messageQueue;
@@ -135,11 +136,12 @@ public class PlayerManager implements Runnable{
      * @return
      */
     public GameMessage readMessage(TypeOfMessage typeOfMessage) {
-        Message receivedMessage;
+        Future<Message> future;
         GameMessage gameMessage;
 
         do {
             receivedMessage = getLastMessage();
+            setTimeout();
             if(receivedMessage.getMessageType()!=typeOfMessage){
                 Message errorGameMessage=new Message(TypeOfMessage.Error);
                 String stringToSend = jsonConverter.fromMessageToJson(errorGameMessage);
@@ -160,9 +162,21 @@ public class PlayerManager implements Runnable{
 
     public boolean isToStop() {
         return toStop;
-
     }
 
 
+    /** stops the game if a player do not answer for more than 3 minutes
+     * it is called in the readMessage method (in playerManager)
+     * so it is called every thime the gameController asks to read the last message of the queue
+     */
+    public void setTimeout(){
+        //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
+        try {
+            sets
+        } catch (SocketException e) {
+            e.printStackTrace();
+            ServerController.getInstance().closeConnection(playerNickname);
+        }
+    }
 
 }

@@ -119,23 +119,6 @@ public class GameController implements Runnable  {
     }
 
 
-    /** stops the game if a player do not answer for more than 3 minutes
-     *
-     */
-
-    /*public void setTimeout(){
-        for(Socket socket: lobby.getUsersReadyToPlay().values()){
-            //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
-            try {
-                socket.setSoTimeout(180000);
-            } catch (SocketException e) {
-                e.printStackTrace();
-                ServerController.getInstance().closeConnection(currentPlayer.getNickname());
-            }
-        }
-    }
-    */
-
     public synchronized void update(){
         UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
 
