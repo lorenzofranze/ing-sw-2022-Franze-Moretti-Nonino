@@ -138,8 +138,9 @@ public class LobbyManager implements Runnable {
                 return;
             }
 
-            unknown = jsonConverter.fromJsonToMessage(words);
-            System.out.println(unknown);
+            System.out.println(words);
+            unknown = jsonConverter.;
+
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
                 ConnectionMessage firstMessage = (ConnectionMessage) unknown;
                 String nickname = firstMessage.getNickname();
