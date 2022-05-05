@@ -47,7 +47,7 @@ public class MessageHandler {
                 Thread t = new Thread(playerManager);
                 t.start();
                 if(playerManager.isToStop()==true){
-                    t.stop();
+                    t.interrupt();
                 }
 
             }
