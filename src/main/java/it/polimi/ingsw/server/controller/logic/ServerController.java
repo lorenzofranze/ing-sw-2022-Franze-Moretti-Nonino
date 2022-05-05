@@ -45,8 +45,11 @@ public class ServerController {
     public void play() {
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
-        Thread t1 = new Thread(lobbyManager);
-        t1.start();
+        try {
+            lobbyManager.welcomeNewPlayers();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

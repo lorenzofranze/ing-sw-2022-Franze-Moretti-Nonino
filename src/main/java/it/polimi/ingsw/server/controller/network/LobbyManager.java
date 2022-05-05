@@ -19,7 +19,7 @@ public class LobbyManager implements Runnable {
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
     private Socket clientSocket;
-    private int lobbyPortNumber = 32502;
+    private int lobbyPortNumber = 32501;
     private List<String> disconnectedPlayers;
     private static LobbyManager lobbyManager = null;
 
@@ -81,11 +81,11 @@ public class LobbyManager implements Runnable {
         System.out.println("Server ready on port: " + this.lobbyPortNumber);
         while (true) {
             try {
-                clientSocket = lobbyServerSocket.accept();
-                LobbyManager lobbyManager=new LobbyManager();
-                Thread t=new Thread(lobbyManager);
+                //LobbyManager lobbyManager=new LobbyManager();
+                this.clientSocket = lobbyServerSocket.accept();
+                Thread t=new Thread(this);
                 t.start();
-                clientSocket.setKeepAlive(true);
+                //this.clientSocket.setKeepAlive(true);
 
                 /*The value of this socket option is an Integer that is the number of seconds of idle time before
                 keep-alive initiates a probe.*/

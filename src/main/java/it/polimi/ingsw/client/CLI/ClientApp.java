@@ -14,7 +14,7 @@ public class ClientApp {
             LineClient lineClient = null;
             int port=0;
 
-            System.out.println("Scegli porta del server (consigliata: 32502)");
+            System.out.println("Scegli porta del server (consigliata: 32501)");
             scanner=new Scanner(System.in);
 
             while(!connected) {
