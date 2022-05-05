@@ -31,7 +31,7 @@ public class LobbyManager implements Runnable {
      */
 
     private LobbyManager() {
-
+        System.out.println("porta server 32501");
         this.waitingLobbies = new HashMap<>();
         this.serverController = ServerController.getInstance();
         this.disconnectedPlayers = new ArrayList<>();
@@ -40,7 +40,9 @@ public class LobbyManager implements Runnable {
         try {
             lobbyServerSocket = new ServerSocket(lobbyPortNumber);
         } catch (IOException e) {
-            System.err.println(e.getMessage()); //port not available
+            System.err.println("port not available" + e.getMessage()); //port not available
+            System.out.println("porta cambiata in quella successiva");
+            lobbyPortNumber++;
             return;
         }
 

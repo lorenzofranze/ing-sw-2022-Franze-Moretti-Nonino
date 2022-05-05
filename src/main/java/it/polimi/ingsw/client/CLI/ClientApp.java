@@ -36,7 +36,7 @@ public class ClientApp {
                     lineClient = new LineClient("localhost", port);
                     connected = true;
                 } catch (IOException ex) {
-                    System.out.println("impossibile connettersi provare con porta precedente + 1");
+                    System.out.println("impossibile connettersi: provare con la porta successiva");
                 }
             }
 
