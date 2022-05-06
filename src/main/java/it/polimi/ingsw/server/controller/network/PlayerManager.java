@@ -30,6 +30,11 @@ public class PlayerManager implements Runnable{
         this.jsonConverter= new JsonConverter();
     }
 
+    public PlayerManager(String playerNickname){
+        this.playerNickname = playerNickname;
+        this.jsonConverter= new JsonConverter();
+    }
+
     //called in messageHandler
 
     /** this function receives the messages from the client:
@@ -179,10 +184,17 @@ public class PlayerManager implements Runnable{
      * so it is called every thime the gameController asks to read the last message of the queue
      */
     public void setTimeout() {
+        //nei test questo metodo non fa nulla
+        if (ServerController.getInstance().getCurrentGames().isEmpty()){
+            return;
+        }
+
+
         //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
 
-        //cerco la lobby corrispondente a questa partita nel server controller: lo faccio perchè mi servono lo soket
+        //cerco la lobby corrispondente a questa partita nel server controller: lo faccio perchè mi servono lo socket
         //dei giocatori
+
         Lobby lobby = null;
         MessageHandler messageHandler=null;
         for (GameController gameController : ServerController.getInstance().getCurrentGames().values()) {
@@ -194,7 +206,7 @@ public class PlayerManager implements Runnable{
             }
         }
 
-        //mette il timeout alla soket del giocatore corrente si 2 minuti,
+        //mette il timeout alla socket del giocatore corrente si 2 minuti,
         //se non riceve nulla dal client in questo tempo si alza una timeout exception e
         //si avvisano gli altri giocatori che la partita si è conclusa
         Socket clientSocket;

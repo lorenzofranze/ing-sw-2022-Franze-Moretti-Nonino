@@ -109,7 +109,7 @@ public class ActionPhase extends GamePhase {
      * @param colour
      * @param where
      */
-    protected void moveSingleStudent(ColourPawn colour, Integer where){
+    public void moveSingleStudent(ColourPawn colour, Integer where){
         int coinsToAdd;
         PawnsMap student= new PawnsMap();
         student.add(colour);
@@ -121,7 +121,6 @@ public class ActionPhase extends GamePhase {
             gameController.getCurrentPlayer().getSchoolBoard().getEntrance().remove(colour);
             gameController.getGame().getIslands().get(where).addStudents(student);
         }
-
     }
 
 
@@ -144,8 +143,8 @@ public class ActionPhase extends GamePhase {
 
             do{
                 valid = true;
-                gameMessage = playerManager.readMessage(TypeOfMessage.StudentMovement);
-                indexColour= ((GameMessageDouble)gameMessage).getValueDouble()[0];
+                gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+                indexColour = gameMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // index colour invalid
@@ -160,14 +159,15 @@ public class ActionPhase extends GamePhase {
                     }
                 }
                 if(valid){
-                    where = ((GameMessageDouble)gameMessage).getValueDouble()[1];
+                    gameMessage = playerManager.readMessage(TypeOfMessage.StudentMovement);
+                    where = gameMessage.getValue();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_2); // destination not valid
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
-                if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
+                if(valid && where==-1 && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
                     errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // out of row -> 10 students
@@ -197,7 +197,6 @@ public class ActionPhase extends GamePhase {
             }
         }
         while(played < 1 || played > maximumMovements.get(currentPlayer));
-
 
         List<Island> islandList = this.gameController.getGame().getIslands();
 
@@ -435,7 +434,7 @@ public class ActionPhase extends GamePhase {
     }
 
     /**returns true if a player has finished his towers / there are less than 4 islands*/
-    private boolean checkEnd(){
+    public boolean checkEnd(){
         if (actionResult.isFinishedTowers() == true) return true;
         if (actionResult.isThreeOrLessIslands() == true) return true;
         return false;
@@ -445,4 +444,6 @@ public class ActionPhase extends GamePhase {
     public String toString(){
         return "ActionPhase";
     }
+
+    
 }
