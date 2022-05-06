@@ -19,7 +19,7 @@ public class MessageHandler {
     public int value;
     private int index =0;
     private int[] buffer = {1,2,3}; // inserire valori da provare con getValueTest()
-    private Message lastMessage;
+
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
@@ -169,15 +169,6 @@ public class MessageHandler {
     }
     */
 
-
-
-    public void setLastMessage(Message lastMessage) {
-        this.lastMessage = lastMessage;
-    }
-
-    public Message getLastMessage() {
-        return lastMessage;
-    }
 
     public Map<String, BufferedReader> getBufferedReaderIn() {
         return bufferedReaderIn;
