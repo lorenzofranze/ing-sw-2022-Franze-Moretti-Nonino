@@ -240,8 +240,13 @@ public class LobbyManager implements Runnable {
         }
     }
 
+    //RESILIENZA ALLE DISCONNESSIONI
+                /*
     public void addDisconnectedPlayers(String disconnectedPlayer) {
         this.disconnectedPlayers.add(disconnectedPlayer);
-    }
+        }
+
+                 */
+
 }
 

@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Queue;
 import java.util.concurrent.Future;
+import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
 public class PlayerManager implements Runnable{
     private Queue<Message> messageQueue;
@@ -19,6 +20,7 @@ public class PlayerManager implements Runnable{
     private String playerNickname;
     private BufferedReader bufferedReaderIn;
     private BufferedWriter bufferedReaderOut;
+    private PingSender pingSender;
     private boolean isMyTurn=false;
     private boolean toStop=false;
 
@@ -26,7 +28,10 @@ public class PlayerManager implements Runnable{
         this.playerNickname = playerNickname;
         this.bufferedReaderIn=bufferedReaderIn;
         this.bufferedReaderOut=bufferedReaderOut;
-
+        this.pingSender=new PingSender(playerNickname);
+        Thread pingThread= new Thread(pingSender);
+        pingThread.start();
+        /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
     }
 
@@ -41,6 +46,7 @@ public class PlayerManager implements Runnable{
      * if it is not the client turn, it sends to the client an error message and do not save the message,
      * if it is the client turn, the message is put in the FIFO Queue
      */
+    @Override
     public void run(){
         String receivedString;
         Message receivedMessage;
@@ -50,7 +56,7 @@ public class PlayerManager implements Runnable{
             receivedString = readFromBuffer();
             message = jsonConverter.fromJsonToMessage(receivedString);
 
-            if(message.getMessageType()!=TypeOfMessage.Async){
+            if(message.getMessageType()!=TypeOfMessage.Async && message.getMessageType()!=TypeOfMessage.Ping){
                 if(isMyTurn==false){
                     stringMessageToClient("It is not your turn");
                 }
@@ -66,9 +72,13 @@ public class PlayerManager implements Runnable{
                 }
             }
             //if i have received an async message(a disconnection message)
-            else{
+            else if(message.getMessageType()==TypeOfMessage.Async){
                 System.out.println(message.getMessageType().toString());
                 ServerController.getInstance().closeConnection(playerNickname);
+            }
+            //if i have received a ping message
+            else{
+                pingSender.setConnected(true);
             }
         }
     }
