@@ -1,14 +1,10 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
-import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.common.messages.Message;
-import it.polimi.ingsw.server.controller.logic.ServerController;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -70,49 +66,6 @@ public class MessageHandler {
         return value;
     }
 
-
-
-    /** chiede valore in generale a quel message handler,
-     non sappiamo ancora se 1 per ogni player o cosa....
-    legge valore da std input, non funziona con i test
-     */
-    public int getValueCLI(String type, Player player){
-
-        //randomState = 0 -> chiede input da tastiera
-        //randomState = 1 -> genera input casuali
-        int randomState = 0;
-        int a=0;
-        boolean valid;
-
-        if (randomState == 1){
-            System.out.print(player.getNickname() + " - " + type);
-            Random rand = new Random();
-            a = rand.nextInt(12)-1;
-        }else{
-            if (randomState == 0){
-                do {
-                    System.out.print(player.getNickname() + " - " + type);
-                    valid=false;
-                    if(scanner.hasNextInt()) {
-                        a = scanner.nextInt();
-                        valid = true;
-                    }else{
-                        scanner.next();
-                        System.out.println("Input not valid");
-                    }
-                }while(!valid);
-            }
-        }
-
-        return a;
-    }
-
-    /* buffer di valori memorizzati, utile per test
-    * ogni volta che leggi un valore passa a quello successivo */
-    public int getValueTest(){
-        index++;
-        return buffer[index-1];
-    }
 
     public void setWinner(Player winner){
         System.out.println(winner);

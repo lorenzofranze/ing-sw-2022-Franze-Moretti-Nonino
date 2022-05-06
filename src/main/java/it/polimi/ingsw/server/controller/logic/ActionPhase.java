@@ -143,7 +143,7 @@ public class ActionPhase extends GamePhase {
 
             do{
                 valid = true;
-                gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+                gameMessage = playerManager.readMessage(TypeOfMessage.StudentMovement);
                 indexColour = gameMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
@@ -159,15 +159,14 @@ public class ActionPhase extends GamePhase {
                     }
                 }
                 if(valid){
-                    gameMessage = playerManager.readMessage(TypeOfMessage.StudentMovement);
-                    where = gameMessage.getValue();
+                    where = ((GameMessageDouble)gameMessage).getValueDouble();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_2); // destination not valid
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
-                if(valid && where==-1 && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
+                if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
                     errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // out of row -> 10 students

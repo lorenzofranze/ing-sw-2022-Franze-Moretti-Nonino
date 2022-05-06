@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.controller.logic.ServerController;
+import it.polimi.ingsw.server.controller.network.ServerController;
 
 public class StartServer {
     public static void main(String Args[]){

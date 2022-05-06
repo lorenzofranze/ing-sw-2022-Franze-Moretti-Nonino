@@ -30,7 +30,8 @@ public class ClientApp {
             System.out.println("disconnection before starting game");
             return;
         }
-        if(response.getMessageType()!= TypeOfMessage.startGame)
+
+        if(response.getMessageType()!= TypeOfMessage.ACK)
             return;
 
         ClientGameController clientGameController = new ClientGameController(lineClient);

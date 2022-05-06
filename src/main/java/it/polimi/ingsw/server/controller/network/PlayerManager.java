@@ -3,14 +3,13 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
-import it.polimi.ingsw.server.controller.logic.ServerController;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Queue;
-import java.util.concurrent.Future;
+
 import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
 public class PlayerManager implements Runnable{

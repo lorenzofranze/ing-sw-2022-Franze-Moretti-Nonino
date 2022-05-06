@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.ConnectionMessage;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
+import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.*;
 import java.net.Socket;
@@ -80,8 +81,8 @@ public class LineClient {
     }
 
 
-    public int reconnect(String nickname){
-        ConnectionMessage cm = new ConnectionMessage( null);
+    public int reconnect(String nickname, GameMode gameMode){
+        ConnectionMessage cm = new ConnectionMessage( nickname, gameMode);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
             this.getOut().write(stringToSend);

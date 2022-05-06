@@ -45,6 +45,9 @@ public class PianificationPhase extends GamePhase {
             currentPlayer.resetAssistantCard();
         }
 
+        this.fillClouds();
+        gameController.update();
+
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);
@@ -179,7 +182,6 @@ public class PianificationPhase extends GamePhase {
             c.getStudents().add(toAdd);
         }
 
-        gameController.update();
 
         return;
     }

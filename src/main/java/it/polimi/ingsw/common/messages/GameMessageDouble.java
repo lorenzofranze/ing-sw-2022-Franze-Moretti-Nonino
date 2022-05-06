@@ -1,15 +1,15 @@
 package it.polimi.ingsw.common.messages;
 
 public class GameMessageDouble extends GameMessage{
-    int[] value;
+    private int valueDouble;
 
 
     public GameMessageDouble(int a, int b){
-        super(TypeOfMessage.StudentMovement, -1);
-        value[0]=a;   value[1]=b;
+        super(TypeOfMessage.StudentMovement, a);
+        this.valueDouble=b;
     }
 
-    public int[] getValueDouble(){
-        return value;
+    public int getValueDouble(){
+        return valueDouble;
     }
 }

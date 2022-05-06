@@ -1,12 +1,7 @@
-package it.polimi.ingsw.server.controller.logic;
+package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.common.messages.DisconnectionMessage;
-import it.polimi.ingsw.common.messages.Message;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
-import it.polimi.ingsw.server.controller.network.Lobby;
-import it.polimi.ingsw.server.controller.network.LobbyManager;
-import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;

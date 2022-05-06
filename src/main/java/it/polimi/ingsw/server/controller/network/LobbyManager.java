@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.common.messages.*;
-import it.polimi.ingsw.server.controller.logic.ServerController;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.*;
@@ -100,6 +99,8 @@ public class LobbyManager implements Runnable {
         JsonConverter jsonConverter = new JsonConverter();
         ArrayList<String> usedNicknames = new ArrayList<>();
         boolean nameOk;
+        Message message;
+        String stringMessage;
         BufferedReader in = null;
         BufferedWriter out = null;
 
@@ -159,23 +160,16 @@ public class LobbyManager implements Runnable {
                         GameMode gameMode = connectionMessage.getGameMode();
                         System.out.println(nickname + " si è connesso");
                         addNickname(nickname, gameMode, clientSocket);
-                        // to client: 1 if name is available
-                        try {
-                            out.write(1);
-                            out.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+                        message = new Message(TypeOfMessage.ACK);
                     } else {
-                        // to client: 0 if name isn't available
-                        try {
-                            out.write(0);
-                            out.flush();
-                            nameOk = false;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        message = new Message(TypeOfMessage.Error);
+                        nameOk=false;
+                    }
+                    try {
+                        stringMessage = JsonConverter.fromMessageToJson(message);
+                        out.write(stringMessage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 //RESILIENZA ALLE DISCONNESSIONI

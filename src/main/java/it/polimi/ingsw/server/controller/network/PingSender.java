@@ -6,10 +6,7 @@ package it.polimi.ingsw.Server.Controller.Network;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.PingMessage;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
-import it.polimi.ingsw.server.controller.logic.ServerController;
-import it.polimi.ingsw.server.controller.network.MessageHandler;
-
-import java.io.IOException;
+import it.polimi.ingsw.server.controller.network.ServerController;
 
 public class PingSender implements Runnable{
     private boolean isConnected;
