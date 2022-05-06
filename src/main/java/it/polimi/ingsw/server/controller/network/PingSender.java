@@ -1,27 +1,31 @@
-/*
+
 package it.polimi.ingsw.Server.Controller.Network;
 
 
-import it.polimi.ingsw.Server.Controller.Network.JsonConverter;
-import it.polimi.ingsw.Server.Controller.Network.LobbyManager;
-import it.polimi.ingsw.Server.Controller.Network.MessageHandler;
-import it.polimi.ingsw.Server.Controller.Network.Messages.PingMessage;
-import it.polimi.ingsw.Server.Controller.Network.Messages.TypeOfMessage;
+
+import it.polimi.ingsw.common.messages.JsonConverter;
+import it.polimi.ingsw.common.messages.PingMessage;
+import it.polimi.ingsw.common.messages.TypeOfMessage;
+import it.polimi.ingsw.server.controller.logic.ServerController;
+import it.polimi.ingsw.server.controller.network.MessageHandler;
 
 import java.io.IOException;
 
 public class PingSender implements Runnable{
     private boolean isConnected;
-    private final static int PING_TIMEOUT= 125000;
-    private String nickname;
-    private MessageHandler messageHandler;
+    //1 minute ping timeout
+    private final static int PING_TIMEOUT= 60000;
+    private String playerNickname;
 
-    public PingSender(String nickname, MessageHandler messageHandler){
-        this.nickname=nickname;
+    public PingSender(String playerNickname){
+        this.playerNickname=playerNickname;
         isConnected=true;
     }
 
-    //CHI USA QUESTA FUNZIONE??
+    public boolean isConnected() {
+        return isConnected;
+    }
+
     public void setConnected(boolean connected) {
         isConnected = connected;
     }
@@ -35,28 +39,32 @@ public class PingSender implements Runnable{
             String messageString= jsonConverter.fromMessageToJson(message);
 
             this.isConnected=false;
-            try {
-                messageHandler.getBufferedReaderOut().get(nickname).write(messageString);
-                messageHandler.getBufferedReaderOut().get(nickname).flush();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+                //invio il ping
+                /**todo**/
+
+
 
             try {
-                Thread.sleep(1000*20);
+                Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            // se arriva il pong, player manager setta isconnected a true e continua il while
         }
 
+        //RESILIENZA ALLE DISCONNESSIONI
+        /*
         LobbyManager lobbyManager=LobbyManager.getInstance();
         lobbyManager.addDisconnectedPlayers(nickname);
+        */
 
-        //SE ARRIVO QUI è DISCONNESSO!?!?!?!
+
+        //SE ARRIVO QUI è DISCONNESSO
+        ServerController.getInstance().closeConnection(playerNickname);
 
     }
 }
 
 
- */

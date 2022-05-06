@@ -35,6 +35,10 @@ public class  JsonConverter {
             ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
             return messageReal;
         }
+        if(message.getMessageType()== TypeOfMessage.Ping){
+            PingMessage messageReal=  gson.fromJson(jsonString, PingMessage.class);
+            return messageReal;
+        }
         return message;
     }
 
