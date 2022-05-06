@@ -87,18 +87,6 @@ public class LobbyManager implements Runnable {
                 this.clientSocket = lobbyServerSocket.accept();
                 Thread t=new Thread(this);
                 t.start();
-                //this.clientSocket.setKeepAlive(true);
-
-                /*The value of this socket option is an Integer that is the number of seconds of idle time before
-                keep-alive initiates a probe.*/
-                //clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPIDLE, 60000);  //60000 milliseconds = 1 minute
-
-                /*The value of this socket option is an Integer that is the number of seconds to wait before
-                retransmitting a keep-alive probe.*/
-                //clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPINTERVAL, 3000); //30 seconds
-
-                /*The value of this socket option is an Integer that is the maximum number of keep-alive probes to be sent.*/
-                //clientSocket.setOption(ExtendedSocketOptions.TCP_KEEPCOUNT, 3);
 
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed

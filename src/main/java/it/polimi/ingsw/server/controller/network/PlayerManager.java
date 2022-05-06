@@ -54,6 +54,7 @@ public class PlayerManager implements Runnable{
 
         while (true) {
             receivedString = readFromBuffer();
+            notifyAll();
             message = jsonConverter.fromJsonToMessage(receivedString);
 
             if(message.getMessageType()!=TypeOfMessage.Async && message.getMessageType()!=TypeOfMessage.Ping){
@@ -163,8 +164,17 @@ public class PlayerManager implements Runnable{
         GameMessage gameMessage;
 
         do {
+            if(messageQueue.isEmpty()){
+                setTimeout();
+
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             receivedMessage = getLastMessage();
-            setTimeout();
+
             if (receivedMessage.getMessageType() != typeOfMessage) {
                 Message errorGameMessage = new Message(TypeOfMessage.Error);
                 String stringToSend = jsonConverter.fromMessageToJson(errorGameMessage);
