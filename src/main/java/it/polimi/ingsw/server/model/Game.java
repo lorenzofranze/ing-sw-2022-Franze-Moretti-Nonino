@@ -231,4 +231,8 @@ public class Game {
             }
         }
     }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
+    }
 }

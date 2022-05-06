@@ -1,11 +1,12 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.CharacterPojo;
+import it.polimi.ingsw.server.controller.characters.*;
+import it.polimi.ingsw.server.controller.logic.GameController;
 
 import java.util.Objects;
 
 public class Character{
-
 
     private int characterId;
     private int actualCost;

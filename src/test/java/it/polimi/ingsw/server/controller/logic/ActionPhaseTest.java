@@ -4,9 +4,13 @@ import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.messages.GameMessage;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
+import it.polimi.ingsw.server.controller.characters.Card2;
+import it.polimi.ingsw.server.controller.characters.CharacterEffect;
+import it.polimi.ingsw.server.controller.characters.CharacterEffectInfluence;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.AssistantCard;
+import it.polimi.ingsw.server.model.Character;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.PawnsMap;
 import it.polimi.ingsw.server.model.Player;
@@ -347,5 +351,65 @@ class ActionPhaseTest {
         assertEquals("ActionPhase", s);
     }
 
+    @Test
+    public void testCalculateInfluence() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket());
+        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("franzo", new Socket());
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+        List<Character> gameCharacters= new ArrayList<>();
+        Character c2 = new Character(2, 2);
+        Character c1 = new Character(1, 1);
+        Character c3 = new Character(3, 3);
+        gameCharacters.add(c1);
+        gameCharacters.add(c2);
+        gameCharacters.add(c3);
+        g.setCharacters(gameCharacters);
+        SetUpPhase s = new SetUpPhase(gameController);
+        s.initializeCharactersEffects();
+        ActionPhase a = new ActionPhase(gameController);
 
+        g.getIslands().get(3).setNumNoEntryTile(2);
+        Player influent = a.calcultateInfluence(g.getIslands().get(3));
+        assertEquals(null, influent);
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        a.setCurrPlayer(p1);
+
+        p1.getSchoolBoard().getProfessors().add(ColourPawn.Blue);
+        p1.getSchoolBoard().getProfessors().add(ColourPawn.Yellow);
+        p2.getSchoolBoard().getProfessors().add(ColourPawn.Pink);
+
+        g.getProfessorsLeft().remove(ColourPawn.Blue);
+        g.getProfessorsLeft().remove(ColourPawn.Yellow);
+        g.getProfessorsLeft().remove(ColourPawn.Pink);
+
+        g.getIslands().get(2).setNumNoEntryTile(0);
+        g.getIslands().get(2).getStudents().add(ColourPawn.Pink, 4);
+        g.getIslands().get(2).getStudents().add(ColourPawn.Blue, 2);
+        g.getIslands().get(2).getStudents().add(ColourPawn.Yellow, 5);
+
+        influent = a.calcultateInfluence(g.getIslands().get(2));
+        assertEquals(p1, influent);
+
+        g.getIslands().get(2).setNumNoEntryTile(0);
+        g.getIslands().get(2).getStudents().add(ColourPawn.Pink, 7);
+        g.getIslands().get(2).getStudents().add(ColourPawn.Blue, 2);
+        g.getIslands().get(2).getStudents().add(ColourPawn.Yellow, 5);
+
+        Card2 effect = (Card2) gameController.getCharacterEffects().get(c2);
+        effect.doEffect();
+
+        a.setCurrPlayer(p2);
+        g.setActiveEffect(c2);
+
+        influent = a.calcultateInfluence(g.getIslands().get(2));
+        assertEquals(p2, influent);
+    }
 }

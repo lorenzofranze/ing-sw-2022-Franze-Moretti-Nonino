@@ -111,7 +111,7 @@ public class SetUpPhase extends GamePhase {
         return ris;
     }
 
-    private void initializeCharactersEffects() {
+    public void initializeCharactersEffects() {
         for (Character cr : gameController.getGame().getCharacters()) {
             if (cr.getCharacterId() == 1) {gameController.getCharacterEffects().put(cr, new Card1(gameController));}
             if (cr.getCharacterId() == 2) {gameController.getCharacterEffects().put(cr, new Card2(gameController));}
