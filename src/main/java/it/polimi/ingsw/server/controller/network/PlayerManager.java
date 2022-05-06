@@ -225,6 +225,15 @@ public class PlayerManager implements Runnable{
                     ServerController.getInstance().closeConnection(playerNickname);
                     return;
                 }
+
+                //alla fine del timeout, tolgo il timeout. Il prossimo si riattiverà quando questa funzione
+                //verrà chiamata nuovamente: cioè quando il gameController cercherà di leggere un messaggio dalla
+                //coda di questo player manager
+                try {
+                    clientSocket.setSoTimeout(0);
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
