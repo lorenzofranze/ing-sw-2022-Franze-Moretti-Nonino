@@ -62,7 +62,7 @@ public class LineClient {
 
         try{
             String line = in.readLine();
-            while (!line.equals("EOF")){
+            while (!("EOF").equals(line)){
                 lastMessage = lastMessage + line + "\n";
                 line = in.readLine();
             }

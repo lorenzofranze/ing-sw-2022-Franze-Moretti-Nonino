@@ -7,7 +7,14 @@ import it.polimi.ingsw.common.gamePojo.*;
 public class ShowGame {
     public static void show(GameStatePojo gameStatePojo){
         for(PlayerPojo playerPojo : gameStatePojo.getPlayers())
-            System.out.println(playerPojo.getNickname() + " : turno: " + playerPojo.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " + playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
+            if(playerPojo.getPlayedAssistantCard()!=null) {
+                System.out.println(playerPojo.getNickname() + " : turno: " +
+                        playerPojo.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " +
+                        playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
+            }
+        else{
+                System.out.println(playerPojo.getNickname() + ": no assistant card played yet");
+            }
         for(PlayerPojo playerPojo : gameStatePojo.getPlayers()){
             System.out.println("\n\t\t\t\t" + playerPojo.getNickname() + " SCHOOLBOARD");
             System.out.println("ENTRANCE:" + playerPojo.getSchoolBoard().getEntrance());
