@@ -113,43 +113,18 @@ public class SetUpPhase extends GamePhase {
 
     private void initializeCharactersEffects() {
         for (Character cr : gameController.getGame().getCharacters()) {
-
-            if (cr.getCharacterId() == 1) {
-                gameController.getCharacterEffects().put(cr, new Card1(gameController));
-            }
-            if (cr.getCharacterId() == 2) {
-                gameController.getCharacterEffects().put(cr, new Card2(gameController));
-            }
-            if (cr.getCharacterId() == 3) {
-                gameController.getCharacterEffects().put(cr, new Card3(gameController));
-            }
-            if (cr.getCharacterId() == 4) {
-                gameController.getCharacterEffects().put(cr, new Card4(gameController));
-            }
-            if (cr.getCharacterId() == 5) {
-                gameController.getCharacterEffects().put(cr, new Card5(gameController));
-            }
-            if (cr.getCharacterId() == 6) {
-                gameController.getCharacterEffects().put(cr, new Card6(gameController));
-            }
-            if (cr.getCharacterId() == 7) {
-                gameController.getCharacterEffects().put(cr, new Card7(gameController));
-            }
-            if (cr.getCharacterId() == 8) {
-                gameController.getCharacterEffects().put(cr, new Card8(gameController));
-            }
-            if (cr.getCharacterId() == 9) {
-                gameController.getCharacterEffects().put(cr, new Card9(gameController));
-            }
-            if (cr.getCharacterId() == 10) {
-                gameController.getCharacterEffects().put(cr, new Card10(gameController));
-            }
-            if (cr.getCharacterId() == 11) {
-                gameController.getCharacterEffects().put(cr, new Card11(gameController));
-            }
-            if (cr.getCharacterId() == 12) {
-                gameController.getCharacterEffects().put(cr, new Card12(gameController));
-            }
+            if (cr.getCharacterId() == 1) {gameController.getCharacterEffects().put(cr, new Card1(gameController));}
+            if (cr.getCharacterId() == 2) {gameController.getCharacterEffects().put(cr, new Card2(gameController));}
+            if (cr.getCharacterId() == 3) {gameController.getCharacterEffects().put(cr, new Card3(gameController));}
+            if (cr.getCharacterId() == 4) {gameController.getCharacterEffects().put(cr, new Card4(gameController));}
+            if (cr.getCharacterId() == 5) {gameController.getCharacterEffects().put(cr, new Card5(gameController));}
+            if (cr.getCharacterId() == 6) {gameController.getCharacterEffects().put(cr, new Card6(gameController));}
+            if (cr.getCharacterId() == 7) {gameController.getCharacterEffects().put(cr, new Card7(gameController));}
+            if (cr.getCharacterId() == 8) {gameController.getCharacterEffects().put(cr, new Card8(gameController));}
+            if (cr.getCharacterId() == 9) {gameController.getCharacterEffects().put(cr, new Card9(gameController));}
+            if (cr.getCharacterId() == 10) {gameController.getCharacterEffects().put(cr, new Card10(gameController));}
+            if (cr.getCharacterId() == 11) {gameController.getCharacterEffects().put(cr, new Card11(gameController));}
+            if (cr.getCharacterId() == 12) {gameController.getCharacterEffects().put(cr, new Card12(gameController));}
         }
     }
 

@@ -24,7 +24,6 @@ public class PianificationPhase extends GamePhase {
 
     public PianificationResult handle(Player firstPlayer){
 
-
         //index of the first player in the list of players contained in game
         int playerIndex = this.gameController.getGame().getPlayers().indexOf(firstPlayer);
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
@@ -59,18 +58,12 @@ public class PianificationPhase extends GamePhase {
         l'ha giocata prima. */
         for(int i = 1; i < 11; i++){
             for(Player p : playedOrder){
-                if (i == (int) turnOrderMap.get(p)) {
-                    turnOrder.add(p);
-                }
+                if (i == (int) turnOrderMap.get(p)) {turnOrder.add(p);}
             }
         }
 
         /*at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
         that associates players to their maximum movements.*/
-
-
-
-
 
         PianificationResult pianificationResult = new PianificationResult();
         pianificationResult.setMaximumMovements(maximumMovements);
@@ -79,10 +72,9 @@ public class PianificationPhase extends GamePhase {
         pianificationResult.setFinishedStudentBag(finishedStudentBag);
 
         return pianificationResult;
-
     }
 
-    private void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrderMap, HashMap<Player,
+    public void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrderMap, HashMap<Player,
             Integer> maximumMovements){
 
         AssistantCard cardPlayed = null;
@@ -99,10 +91,8 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             valid = false;
             gameController.update();
-
             gameMessage = playerManager.readMessage(TypeOfMessage.AssistantCard);
             int played= gameMessage.getValue();
-
 
             for (AssistantCard c : currentPlayer.getDeck()) {
                 if (c.getTurnOrder() == played) {
@@ -128,7 +118,6 @@ public class PianificationPhase extends GamePhase {
                     gameErrorMessage = new GameErrorMessage (ErrorStatusCode.RULESVIOLATION_1); // an other player has alrealy played this card in this round
                     playerManager.sendMessage(gameErrorMessage);
                 }
-
             }
             else{
                 gameErrorMessage = new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // You have already played this card
@@ -136,15 +125,12 @@ public class PianificationPhase extends GamePhase {
             }
         }
         while(valid == false || mustChange == true);
-            /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
-            * if mustChange == true, the player played a card that has already been played by other players.*/
+        /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
+         * if mustChange == true, the player played a card that has already been played by other players.*/
 
         gameController.update();
 
-        if (currentPlayer.getDeck().size() == 0){
-            finishedAssistantCard = true;
-        }
-
+        if (currentPlayer.getDeck().size() == 0){finishedAssistantCard = true;}
     }
 
 
@@ -170,7 +156,7 @@ public class PianificationPhase extends GamePhase {
         return temp;
     }
 
-    private void fillClouds(){
+    public void fillClouds(){
 
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
         PawnsMap toAdd;
@@ -203,4 +189,7 @@ public class PianificationPhase extends GamePhase {
         return "PianificationPhase";
     }
 
+    public boolean isFinishedStudentBag() {
+        return finishedStudentBag;
+    }
 }

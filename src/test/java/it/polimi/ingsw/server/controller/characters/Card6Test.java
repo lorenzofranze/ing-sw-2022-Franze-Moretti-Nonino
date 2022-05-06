@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.server.controller.characters.Card1;
 import it.polimi.ingsw.server.controller.characters.Card6;

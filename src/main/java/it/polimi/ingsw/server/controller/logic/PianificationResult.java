@@ -18,7 +18,6 @@ public class PianificationResult extends PhaseResult{
         turnOrder = new ArrayList<Player>();
     }
 
-
     public HashMap<Player, Integer> getMaximumMovements() {
         return maximumMovements;
     }
@@ -50,7 +49,4 @@ public class PianificationResult extends PhaseResult{
     public void setFinishedStudentBag(boolean finishedStudentBag) {
         this.finishedStudentBag = finishedStudentBag;
     }
-
-
-    
 }

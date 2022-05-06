@@ -88,6 +88,10 @@ class PlayerTest {
 
         p1.resetAssistantCard();
         assertTrue(p1.getPlayedAssistantCard() == null);
+
+        p1.setPlayedAssistantCard(card2);
+        p1.resetAssistantCard();
+        assertTrue(p1.getPlayedAssistantCard() == null);
     }
 
     @Test
@@ -155,5 +159,15 @@ class PlayerTest {
         Player p1 = new Player("pippo", ColourTower.Black, ColourWizard.Green);
         int h = p1.hashCode();
         assertEquals(h, Objects.hash(p1.getNickname()));
+    }
+
+    @Test
+    public void testEquals(){
+        Player p1 = new Player("Lara", ColourTower.Black, ColourWizard.Violet);
+        Player p2 = new Player("Vale", ColourTower.Grey, ColourWizard.Green);
+        Player p3 = new Player("Lara", ColourTower.Black, ColourWizard.Violet);
+        assertEquals(false, p1.equals(p2));
+        assertEquals(true, p1.equals(p3));
+
     }
 }
