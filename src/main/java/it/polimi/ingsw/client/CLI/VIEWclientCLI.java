@@ -1,20 +1,41 @@
 package it.polimi.ingsw.client.CLI;
 
-import it.polimi.ingsw.common.gamePojo.CharacterPojo;
-import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.gamePojo.*;
 
-public class ShowGame {
+import java.util.Scanner;
+
+public class VIEWclientCLI {
+    private static Scanner scanner;
+
+    static{ VIEWclientCLI.scanner = new Scanner(System.in);}
+
+    //ATTENZIONE: ANCORA DA AGGIUNGERE QUI TUTTI I SYSTEM.OUT IN GIRO NELLE ALTRE CLASSI
+
+    /** read int from System.in, continues to ask as long as the user doesn't write a number */
+    public static int readInt(){
+        int val=0;
+        boolean valid;
+        do {
+            valid=false;
+            if(scanner.hasNextInt()) {
+                val = scanner.nextInt();
+                valid = true;
+            }else{
+                scanner.next();
+                System.out.println("Input not valid");
+            }
+        }while(!valid);
+        return val;
+    }
+
+    public static String readString(){
+        return scanner.nextLine();
+    }
+
+
     public static void show(GameStatePojo gameStatePojo){
         for(PlayerPojo playerPojo : gameStatePojo.getPlayers())
-            if(playerPojo.getPlayedAssistantCard()!=null) {
-                System.out.println(playerPojo.getNickname() + " : turno: " +
-                        playerPojo.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " +
-                        playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
-            }
-        else{
-                System.out.println(playerPojo.getNickname() + ": no assistant card played yet");
-            }
+            System.out.println(playerPojo.getNickname() + " : turno: " + playerPojo.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " + playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
         for(PlayerPojo playerPojo : gameStatePojo.getPlayers()){
             System.out.println("\n\t\t\t\t" + playerPojo.getNickname() + " SCHOOLBOARD");
             System.out.println("ENTRANCE:" + playerPojo.getSchoolBoard().getEntrance());
@@ -26,7 +47,7 @@ public class ShowGame {
         for(IslandPojo islandPojo : gameStatePojo.getIslands()){
             int i=0;
             System.out.println("ISLAND"+i+": "+ "towers: "+ islandPojo.getTowerCount()+" " + islandPojo.getTowerColour().toString()
-            + " -- students: " + islandPojo.getStudents());
+                    + " -- students: " + islandPojo.getStudents());
             if(islandPojo.isHasMotherNature()){
                 System.out.print(" -- MOTHER NATURE ON");
             }
@@ -39,9 +60,8 @@ public class ShowGame {
         if(gameStatePojo.isExpert()){
             int i=0;
             for(CharacterPojo characterPojo : gameStatePojo.getCharacters())
-            System.out.println("character card "+i+": cost: "+ characterPojo.getActualCost());
+                System.out.println("character card "+i+": cost: "+ characterPojo.getActualCost());
             //System.out.println() ogg. sulla carta
         }
     }
-
 }

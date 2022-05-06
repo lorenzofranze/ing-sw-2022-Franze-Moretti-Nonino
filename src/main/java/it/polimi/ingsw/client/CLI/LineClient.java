@@ -15,23 +15,19 @@ public class LineClient {
 
     private BufferedReader in;
     private BufferedWriter out;
-    private Scanner scanner;
-    private boolean GUImode;
+
 
     public LineClient(String ip, int port) throws IOException {
         this.ip = ip;
         this.port = port;
 
-        this.scanner = new Scanner(System.in);
         Socket socket = null;
-
         socket = new Socket("localhost", port);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         System.out.println("connesso al server");
 
     }
-
 
     public void endClient(){
         try {
@@ -57,7 +53,8 @@ public class LineClient {
         this.out = out;
     }
 
-    public String readFromBuffer(){
+    /** read from network buffer */
+    public String readFromBuffer() throws IOException{
         String lastMessage = "";
 
         try{
@@ -67,29 +64,12 @@ public class LineClient {
                 line = in.readLine();
             }
         } catch(IOException e){
-            e.printStackTrace();
+            System.out.println("error in LineClient readFromBuffer");
+            throw new IOException();
         }
 
         return lastMessage;
     }
-
-    public int readInt(Scanner scanner){
-        int val=0;
-        boolean valid;
-        do {
-            valid=false;
-            if(scanner.hasNextInt()) {
-                val = scanner.nextInt();
-                valid = true;
-            }else{
-                scanner.next();
-                System.out.println("Input not valid");
-            }
-        }while(!valid);
-        return val;
-    }
-
-
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
@@ -99,8 +79,9 @@ public class LineClient {
         return nickname;
     }
 
+
     public int reconnect(String nickname){
-        ConnectionMessage cm = new ConnectionMessage(nickname, null);
+        ConnectionMessage cm = new ConnectionMessage( null);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
             this.getOut().write(stringToSend);
@@ -112,7 +93,5 @@ public class LineClient {
         return 1;
     }
 
-    public Scanner getScanner() {
-        return scanner;
-    }
+
 }

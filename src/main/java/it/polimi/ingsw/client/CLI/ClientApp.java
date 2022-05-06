@@ -1,72 +1,47 @@
 package it.polimi.ingsw.client.CLI;
 
+import it.polimi.ingsw.common.messages.JsonConverter;
+import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.TypeOfMessage;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 public class ClientApp {
 
-        public static void main(String[] args) {
-            int resultConnection;
-            boolean gameOver=false;
+    public static void main(String[] Args) {
+        //posso specificare con Args[0] ip e Args[1] porta per ora hardcodati
 
-            boolean connected=false;
-            Scanner scanner;
-            LineClient lineClient = null;
-            int port=0;
+        LineClient lineClient = null;
+        boolean resultConnection;
+        Message response;
 
-            System.out.println("Scegli porta del server (consigliata: 32501)");
-            scanner=new Scanner(System.in);
+        do {
+            resultConnection=false;
+            Login login = new Login();
+            lineClient = login.connect("localhost", 32501);
+            resultConnection = (lineClient!=null) ? true : false;
+        }while(resultConnection==false);
 
-            while(!connected) {
-                //readInt
-                int val = 0;
-                boolean valid;
-                do {
-                    valid = false;
-                    if (scanner.hasNextInt()) {
-                        port = scanner.nextInt();
-                        valid = true;
-                    } else {
-                        scanner.next();
-                        System.out.println("Input not valid");
-                    }
-                } while (!valid);
-
-                try {
-                    lineClient = new LineClient("localhost", port);
-                    connected = true;
-                } catch (IOException ex) {
-                    System.out.println("impossibile connettersi: provare con la porta successiva");
-                }
-            }
-
-
-            do {
-                Login login = new Login(lineClient);
-
-                try {
-                    resultConnection = login.start();
-                } catch (IOException ex) {
-                    return;
-                }
-
-                if(resultConnection==0)
-                    System.out.println("nickname already in use");
-                else if(resultConnection==1){
-                    System.out.println("WELCOME IN ERIANTYS! The game will start soon");
-                }
-
-
-                else
-                    System.out.println("general error: resultConnection = " + resultConnection);
-            }while(resultConnection!=1);
-
-
-            ClientGameController clientGameController = new ClientGameController(lineClient);
-            Thread t1= new Thread(clientGameController);
-            t1.start();
-
+        System.out.println("BENVENUTO IN ERIANTYS la partita inizierà a breve");
+        try {
+            response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
+        }catch(IOException ex){
+            System.out.println("disconnection before starting game");
+            return;
         }
+        if(response.getMessageType()!= TypeOfMessage.startGame)
+            return;
+
+        ClientGameController clientGameController = new ClientGameController(lineClient);
+        Thread match= new Thread(clientGameController);
+        match.start();
+
+
+
+        // qui faccio partire altri thread che verificano lo stato del gioco mentre match va avnti il player gioca
+
+    }
 
 
 }
