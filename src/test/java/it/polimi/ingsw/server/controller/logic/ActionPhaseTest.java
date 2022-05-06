@@ -493,7 +493,67 @@ class ActionPhaseTest {
         g.getIslands().get(6).addTower(1);
         g.getIslands().get(6).setTowerColor(ColourTower.Grey);
         assertEquals(false, a.verifyUnion());
+    }
 
+    @Test
+    public void testChooseCloud() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket());
+        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("franzo", new Socket());
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+        List<Character> gameCharacters = new ArrayList<>();
+        ActionPhase a = new ActionPhase(gameController);
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        a.setCurrPlayer(p1);
+
+        Map<String, PlayerManager> playerManagerMap = new HashMap<>();
+
+        PlayerManager pm1 = new PlayerManager(p1.getNickname());
+        PlayerManager pm2 = new PlayerManager(p2.getNickname());
+        PlayerManager pm3 = new PlayerManager(p3.getNickname());
+        Queue<Message> q1 = new ArrayDeque<>();
+        Queue<Message> q2 = new ArrayDeque<>();
+        Queue<Message> q3 = new ArrayDeque<>();
+
+        g.getClouds().get(0).clearCloud();
+        assertEquals(0, g.getClouds().get(0).getStudents().pawnsNumber());
+
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Pink, 2);
+        map.add(ColourPawn.Yellow, 2);
+        g.getClouds().get(1).getStudents().add(map);
+
+        //incorrect move
+        Message m1 = new GameMessage(TypeOfMessage.CloudChoice, -1);
+        q1.add(m1);
+
+        //empty cloud
+        m1 = new GameMessage(TypeOfMessage.CloudChoice, 0);
+        q1.add(m1);
+
+        //valid choice
+        m1 = new GameMessage(TypeOfMessage.CloudChoice, 1);
+        q1.add(m1);
+
+        pm1.setMessageQueue(q1);
+        pm2.setMessageQueue(q2);
+        pm3.setMessageQueue(q3);
+        playerManagerMap.put(p1.getNickname(), pm1);
+        playerManagerMap.put(p2.getNickname(), pm2);
+        playerManagerMap.put(p3.getNickname(), pm3);
+
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+
+        a.chooseCloud();
+        assertEquals(map, p1.getSchoolBoard().getEntrance());
+        assertEquals(true, g.getClouds().get(1).getStudents().isEmpty());
     }
 
 
