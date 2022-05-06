@@ -253,7 +253,7 @@ public class ActionPhase extends GamePhase {
 
                 /*adding the towers on the schoolboard of the player who has lost the island control*/
                 Player oldOwner = null;
-                for (Player player : turnOrder) {
+                for (Player player : gameController.getGame().getPlayers()) {
                     if (player.getColourTower() == island.getTowerColour()) {
                         oldOwner = player;
                     }

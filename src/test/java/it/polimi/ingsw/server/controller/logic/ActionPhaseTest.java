@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.common.messages.GameMessage;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
@@ -9,11 +10,8 @@ import it.polimi.ingsw.server.controller.characters.CharacterEffect;
 import it.polimi.ingsw.server.controller.characters.CharacterEffectInfluence;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
-import it.polimi.ingsw.server.model.AssistantCard;
+import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.Character;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.PawnsMap;
-import it.polimi.ingsw.server.model.Player;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
@@ -361,6 +359,7 @@ class ActionPhaseTest {
         GameController gameController = new GameController(lobby, false);
         Game g = gameController.getGame();
         List<Character> gameCharacters= new ArrayList<>();
+
         Character c2 = new Character(2, 2);
         Character c1 = new Character(1, 1);
         Character c3 = new Character(3, 3);
@@ -398,6 +397,9 @@ class ActionPhaseTest {
         influent = a.calcultateInfluence(g.getIslands().get(2));
         assertEquals(p1, influent);
 
+        a.setCurrPlayer(p2);
+        g.setActiveEffect(c2);
+
         g.getIslands().get(2).setNumNoEntryTile(0);
         g.getIslands().get(2).getStudents().add(ColourPawn.Pink, 7);
         g.getIslands().get(2).getStudents().add(ColourPawn.Blue, 2);
@@ -406,10 +408,93 @@ class ActionPhaseTest {
         Card2 effect = (Card2) gameController.getCharacterEffects().get(c2);
         effect.doEffect();
 
-        a.setCurrPlayer(p2);
-        g.setActiveEffect(c2);
-
         influent = a.calcultateInfluence(g.getIslands().get(2));
         assertEquals(p2, influent);
     }
+
+    @Test
+    public void testPlaceTowerOfPlayer() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket());
+        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("franzo", new Socket());
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+        List<Character> gameCharacters = new ArrayList<>();
+        ActionPhase a = new ActionPhase(gameController);
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        a.setCurrPlayer(p1);
+        Island i = g.getIslands().get(3);
+        int preTowers = p1.getSchoolBoard().getSpareTowers();
+        boolean finishedTowers = a.placeTowerOfPlayer(p1, i);
+        int postTowers = p1.getSchoolBoard().getSpareTowers();
+        assertEquals(false, finishedTowers);
+        assertEquals(p1.getColourTower(), i.getTowerColour());
+        assertEquals(1, preTowers-postTowers);
+        assertEquals(1, i.getTowerCount());
+
+        i = g.getIslands().get(4);
+        i.setTowerColor(p2.getColourTower());
+        i.addTower(2);
+        preTowers = p1.getSchoolBoard().getSpareTowers();
+        finishedTowers = a.placeTowerOfPlayer(p1, i);
+        postTowers = p1.getSchoolBoard().getSpareTowers();
+        assertEquals(false, finishedTowers);
+        assertEquals(p1.getColourTower(), i.getTowerColour());
+        assertEquals(2, preTowers-postTowers);
+        assertEquals(2, i.getTowerCount());
+    }
+
+    @Test
+    public void testVerifyUnion() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket());
+        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("franzo", new Socket());
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+        List<Character> gameCharacters = new ArrayList<>();
+        ActionPhase a = new ActionPhase(gameController);
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        g.getIslands().get(0).addTower(1);
+        g.getIslands().get(0).setTowerColor(ColourTower.Grey);
+        g.getIslands().get(1).addTower(1);
+        g.getIslands().get(1).setTowerColor(ColourTower.Grey);
+        g.getIslands().get(2).addTower(1);
+        g.getIslands().get(2).setTowerColor(ColourTower.Grey);
+        assertEquals(true, a.verifyUnion());
+
+        for(Island i: g.getIslands()){
+            i.setTowerCount(0);
+        }
+        g.getIslands().get(0).addTower(1);
+        g.getIslands().get(0).setTowerColor(ColourTower.Grey);
+        g.getIslands().get(6).addTower(1);
+        g.getIslands().get(6).setTowerColor(ColourTower.Grey);
+        g.getIslands().get(9).addTower(1);
+        g.getIslands().get(9).setTowerColor(ColourTower.Grey);
+        assertEquals(true, a.verifyUnion());
+
+        for(Island i: g.getIslands()){
+            i.setTowerCount(0);
+        }
+        g.getIslands().get(0).addTower(1);
+        g.getIslands().get(0).setTowerColor(ColourTower.Grey);
+        g.getIslands().get(6).addTower(1);
+        g.getIslands().get(6).setTowerColor(ColourTower.Grey);
+        assertEquals(false, a.verifyUnion());
+
+    }
+
+
 }

@@ -121,4 +121,7 @@ public class Island {
         return pojoIslandPojo;
     }
 
+    public void setTowerCount(int towerCount) {
+        this.towerCount = towerCount;
+    }
 }
