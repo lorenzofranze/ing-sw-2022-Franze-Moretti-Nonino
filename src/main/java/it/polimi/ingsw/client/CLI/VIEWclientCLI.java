@@ -11,7 +11,7 @@ public class VIEWclientCLI {
 
     //ATTENZIONE: ANCORA DA AGGIUNGERE QUI TUTTI I SYSTEM.OUT IN GIRO NELLE ALTRE CLASSI
 
-    /** read int from System.in, continues to ask as long as the user doesn't write a number */
+    /** read int from System.in, continues to ask untill the user doesn't write a number */
     public static int readInt(){
         int val=0;
         boolean valid;
@@ -34,8 +34,12 @@ public class VIEWclientCLI {
 
 
     public static void show(GameStatePojo gameStatePojo){
-        for(PlayerPojo playerPojo : gameStatePojo.getPlayers())
-            System.out.println(playerPojo.getNickname() + " : turno: " + playerPojo.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " + playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
+        for(PlayerPojo playerPojo : gameStatePojo.getPlayers()) {
+            if(playerPojo.getPlayedAssistantCard()!=null)
+                System.out.println(playerPojo.getNickname() + " : turno: " + playerPojo.getPlayedAssistantCard().getTurnOrder() + " - madre natura: " + playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
+            else
+                System.out.println(playerPojo.getNickname() +": no assistant card");
+        }
         for(PlayerPojo playerPojo : gameStatePojo.getPlayers()){
             System.out.println("\n\t\t\t\t" + playerPojo.getNickname() + " SCHOOLBOARD");
             System.out.println("ENTRANCE:" + playerPojo.getSchoolBoard().getEntrance());
@@ -46,7 +50,8 @@ public class VIEWclientCLI {
 
         for(IslandPojo islandPojo : gameStatePojo.getIslands()){
             int i=0;
-            System.out.println("ISLAND"+i+": "+ "towers: "+ islandPojo.getTowerCount()+" " + islandPojo.getTowerColour().toString()
+            System.out.println("ISLAND"+i+": "+ "towers: "+ islandPojo.getTowerCount()+" " +
+                    (islandPojo.getTowerColour()!=null ? islandPojo.getTowerColour().toString() : "no tower")
                     + " -- students: " + islandPojo.getStudents());
             if(islandPojo.isHasMotherNature()){
                 System.out.print(" -- MOTHER NATURE ON");

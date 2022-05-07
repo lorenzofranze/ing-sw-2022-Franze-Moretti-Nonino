@@ -32,15 +32,6 @@ public class ServerController {
         return instance;
     }
 
-
-
-    /* ATTENZIONE:
-    *  executorService non va bene perchè qualunque cosa facciamo per cancellare un gameController ad esempio
-    * aggiorniamo un attributo o altro essendo 2 thread separati è possibile che ancora il metodo di gameController
-    * sia in esecuzione -> problema di concorrenza, serve qualche altra collezione di Thread che permette di fare
-    *  join() per aspettare la terminazione e poi cancellare
-     */
-
     public void play() {
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
