@@ -30,7 +30,7 @@ public class ClientGameController implements Runnable {
                 gamestate = receiveUpdate();
 
                 //è il mio turno di pianificazione
-                if (gamestate.getCurrentPhase() == Phase.PIANIFICATION && gamestate.getCurrentPlayer().equals(lineClient.getNickname())) {
+                if (gamestate.getCurrentPhase() == Phase.PIANIFICATION && gamestate.getCurrentPlayer().getNickname().equals(lineClient.getNickname())) {
                     //TODO: timer per notificare che ci sta mettendo troppo;
                     //Thread timer = new Thread();
                     //timer.start();
@@ -72,7 +72,7 @@ public class ClientGameController implements Runnable {
             do {
                 gamestate = receiveUpdate();
                 // è il mio turno di action
-                if (gamestate.getCurrentPhase() == Phase.ACTION && gamestate.getCurrentPlayer().equals(lineClient.getNickname())) {
+                if (gamestate.getCurrentPhase() == Phase.ACTION && gamestate.getCurrentPlayer().getNickname().equals(lineClient.getNickname())) {
                     System.out.println("MY TURN");
                     // MOVE students
                     for (int i = 0; i < gamestate.getPlayers().size() + 1; i++) {
