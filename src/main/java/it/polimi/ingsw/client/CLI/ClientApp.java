@@ -24,6 +24,7 @@ public class ClientApp {
         }while(resultConnection==false);
 
         System.out.println("BENVENUTO IN ERIANTYS la partita inizierà a breve");
+
         try {
             response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
         }catch(IOException ex){
@@ -31,8 +32,10 @@ public class ClientApp {
             return;
         }
 
-        if(response.getMessageType()!= TypeOfMessage.ACK)
+        if(response.getMessageType()!= TypeOfMessage.ACK) {
+            System.out.println("match closed");
             return;
+        }
 
         ClientGameController clientGameController = new ClientGameController(lineClient);
         Thread match= new Thread(clientGameController);
@@ -40,7 +43,7 @@ public class ClientApp {
 
 
 
-        // qui faccio partire altri thread che verificano lo stato del gioco mentre match va avnti il player gioca
+        // qui faccio partire altri thread che verificano lo stato del gioco mentre match va avanti il player gioca
 
     }
 

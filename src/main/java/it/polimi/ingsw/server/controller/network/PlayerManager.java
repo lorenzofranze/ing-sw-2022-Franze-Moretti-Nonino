@@ -132,6 +132,18 @@ public class PlayerManager implements Runnable{
         }
     }
 
+    public void ACKmessage(){
+        Message message = new Message(TypeOfMessage.ACK);
+        String stringMesaage = JsonConverter.fromMessageToJson(message);
+        try{
+            bufferedReaderOut.write(stringMesaage);
+            bufferedReaderOut.flush();
+        }catch(IOException e){
+            e.printStackTrace();
+            ServerController.getInstance().closeConnection(playerNickname);
+        }
+    }
+
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
 

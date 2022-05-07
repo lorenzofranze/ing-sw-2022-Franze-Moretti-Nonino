@@ -64,7 +64,7 @@ public class GameController implements Runnable  {
 
         currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
 
-
+        messageHandler.notifyAllClientsACK();
         do{
             currentPhase = pianificationPhase;
             if (actionResult!=null) {
@@ -95,19 +95,6 @@ public class GameController implements Runnable  {
 
         calculateWinner(); //se winner è null, allora la partita è finita in pareggio
 
-        if (winner != null){
-                messageHandler.stringMessageToAllClients("The winner is " + this.winner.toString());
-        }
-        else{
-                messageHandler.stringMessageToAllClients("There is no winner.");
-            }
-
-
-
-        messageHandler.stringMessageToAllClients( "Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
-        for (Player player : this.game.getPlayers()){
-            messageHandler.stringMessageToAllClients(player.getNickname()+": " + player.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
-        }
 
         //System.out.println("Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
         //for(Player p : this.game.getPlayers())

@@ -29,7 +29,7 @@ public class VIEWclientCLI {
     }
 
     public static String readString(){
-        return scanner.nextLine();
+        return scanner.next();
     }
 
 

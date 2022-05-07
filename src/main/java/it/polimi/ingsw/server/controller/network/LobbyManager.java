@@ -110,6 +110,7 @@ public class LobbyManager implements Runnable {
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("erorr in client IO");
             return;
         }
         nameOk=false;
@@ -126,6 +127,7 @@ public class LobbyManager implements Runnable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("client has disconnected");
                 return;
             }
 

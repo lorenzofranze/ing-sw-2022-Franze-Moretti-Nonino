@@ -154,6 +154,12 @@ public class MessageHandler {
         }
     }
 
+    public void notifyAllClientsACK(){
+        for(PlayerManager playerManager:this.getPlayerManagerMap().values()){
+            playerManager.ACKmessage();
+        }
+    }
+
     /**
      * for all the player managers:
      * it sets isMyTurn=false for all players exept the current player
