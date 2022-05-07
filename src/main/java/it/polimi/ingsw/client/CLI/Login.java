@@ -58,6 +58,7 @@ public class Login {
                     response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
                 }catch(IOException ex){
                     System.out.println("disconnection while choosing nickname");
+                    return null;
                 }
 
                 if (response.getMessageType() == TypeOfMessage.Error) {
@@ -68,6 +69,7 @@ public class Login {
             }
         }while (!valid);
 
+        lineClient.setNickname(nickname);
         return lineClient;
     }
 
