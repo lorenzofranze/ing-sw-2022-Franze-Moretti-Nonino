@@ -16,6 +16,7 @@ public class ClientGameController implements Runnable {
     }
 
 
+    @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
         GameStatePojo gamestate;
@@ -254,8 +255,11 @@ public class ClientGameController implements Runnable {
     private GameStatePojo receiveUpdate() {
         Message updateMessage;
         GameStatePojo gamestate;
+
         try {
-            updateMessage = (UpdateMessage) JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
+            updateMessage = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
+            // debug
+            System.out.println(updateMessage.getMessageType().toString());
         } catch (IOException ex) {
             System.out.println("impossibile to read the message: disconnected");
             return null;

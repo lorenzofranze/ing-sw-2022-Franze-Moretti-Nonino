@@ -49,7 +49,6 @@ public class VIEWclientCLI {
         }
         int i=0;
         for(IslandPojo islandPojo : gameStatePojo.getIslands()){
-             i=0;
             System.out.println("ISLAND "+i+": "+ "towers: "+ islandPojo.getTowerCount()+" " +
                 (islandPojo.getTowerColour()!=null ? islandPojo.getTowerColour().toString() : " ")
                 + " -- students: " + islandPojo.getStudents() +
