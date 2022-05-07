@@ -41,6 +41,7 @@ public class Login {
         do {
             valid = true;
             System.out.println("inserire nickname(almeno 4 caratteri):");
+            VIEWclientCLI.readString();
             nickname = VIEWclientCLI.readString();
             if (nickname == null || nickname.length() < 4)
                 valid = false;

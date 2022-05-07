@@ -168,6 +168,7 @@ public class LobbyManager implements Runnable {
                     try {
                         stringMessage = JsonConverter.fromMessageToJson(message);
                         out.write(stringMessage);
+                        out.flush();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
