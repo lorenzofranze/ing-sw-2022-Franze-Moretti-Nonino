@@ -273,6 +273,10 @@ public class ClientGameController implements Runnable {
             VIEWclientCLI.show(gamestate);
             return gamestate;
         }
+        else if (updateMessage.getMessageType() == TypeOfMessage.Async){
+            System.out.println("DisconnectionMessage !");
+            return null;
+        }
         return null;
     }
 
