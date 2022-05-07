@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
@@ -26,6 +27,7 @@ public class PlayerManager implements Runnable{
     public PlayerManager(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = playerNickname;
         this.bufferedReaderIn=bufferedReaderIn;
+        this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
         this.pingSender=new PingSender(playerNickname);
         Thread pingThread= new Thread(pingSender);
@@ -53,7 +55,8 @@ public class PlayerManager implements Runnable{
 
         while (true) {
             receivedString = readFromBuffer();
-            notifyAll();
+            /*todo*/
+            // notifyAll();
             message = jsonConverter.fromJsonToMessage(receivedString);
 
             if(message.getMessageType()!=TypeOfMessage.Async && message.getMessageType()!=TypeOfMessage.Ping){
