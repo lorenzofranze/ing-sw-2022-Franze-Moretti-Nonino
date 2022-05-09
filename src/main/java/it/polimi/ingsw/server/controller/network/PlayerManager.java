@@ -303,6 +303,10 @@ public class PlayerManager implements Runnable{
         return messageQueue;
     }
 
+    public BufferedWriter getBufferedReaderOut() {
+        return bufferedReaderOut;
+    }
+
     public void setMessageQueue(Queue<Message> messageQueue) {
         this.messageQueue = messageQueue;
     }

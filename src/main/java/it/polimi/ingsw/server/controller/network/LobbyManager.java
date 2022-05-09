@@ -105,6 +105,7 @@ public class LobbyManager implements Runnable {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            System.out.println(out);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("error in client IO");
@@ -157,7 +158,7 @@ public class LobbyManager implements Runnable {
                     if (!usedNicknames.contains(nickname)) {
                         GameMode gameMode = connectionMessage.getGameMode();
                         System.out.println(nickname + " si è connesso");
-                        addNickname(nickname, gameMode, clientSocket);
+                        addNickname(nickname, gameMode, clientSocket, in, out);
                         AckMessage messageAck = new AckMessage(TypeOfAck.CorrectConnection);
                         validName = true;
                         try {
@@ -215,16 +216,16 @@ public class LobbyManager implements Runnable {
      * @param mode
      * @param clientSocket
      */
-    public void addNickname(String nickname, GameMode mode, Socket clientSocket) {
+    public void addNickname(String nickname, GameMode mode, Socket clientSocket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
         if (waitingLobbies.containsKey(mode)) {
-            waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket);
+            waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket, bufferedReader, bufferedWriter);
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
                 serverController.startGame(waitingLobbies.get(mode));
                 waitingLobbies.remove(mode);
             }
         } else {
             Lobby newLobby = new Lobby(mode);
-            newLobby.addUsersReadyToPlay(nickname, clientSocket);
+            newLobby.addUsersReadyToPlay(nickname, clientSocket, bufferedReader, bufferedWriter);
             waitingLobbies.put(mode, newLobby);
         }
     }

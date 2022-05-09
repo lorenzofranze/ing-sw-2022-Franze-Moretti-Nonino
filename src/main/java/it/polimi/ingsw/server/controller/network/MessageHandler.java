@@ -16,7 +16,6 @@ public class MessageHandler {
     Scanner scanner = new Scanner(System.in);
     public int value;
     private int index =0;
-    private int[] buffer = {1,2,3}; // inserire valori da provare con getValueTest()
 
     private int portNumber;
     private Map<String,BufferedReader> bufferedReaderIn;
@@ -36,22 +35,16 @@ public class MessageHandler {
             PlayerManager playerManager;
             Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
             if (clientSocket==null) return;
-            try{
-                BufferedReader in= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                bufferedReaderIn.put(s, in);
-                BufferedWriter out= new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                bufferedReaderOut.put(s, out);
-                playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
-                playerManagerMap.put(s,playerManager);
-                Thread t = new Thread(playerManager);
-                t.start();
-                if(playerManager.isToStop()==true){
-                    t.interrupt();
-                }
-
-            }
-            catch (IOException e) {
-                e.printStackTrace();
+            BufferedReader in= lobby.getUsersReadyToPlayBufferedReader().get(s);
+            bufferedReaderIn.put(s, in);
+            BufferedWriter out= lobby.getUsersReadyToPlayBufferedWriter().get(s);
+            bufferedReaderOut.put(s, out);
+            playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
+            playerManagerMap.put(s,playerManager);
+            Thread t = new Thread(playerManager);
+            t.start();
+            if(playerManager.isToStop()==true){
+                t.interrupt();
             }
         }
         jsonConverter = new JsonConverter();

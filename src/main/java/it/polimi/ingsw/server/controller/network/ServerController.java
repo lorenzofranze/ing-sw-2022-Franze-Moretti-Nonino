@@ -18,7 +18,7 @@ public class ServerController {
     private ExecutorService executorService;
 
     private Map<Integer, GameController> currentGames;
-    private Lobby toStart;
+    private Lobby lobbyToStart;
 
     private ServerController(){
         this.instance=null;
@@ -44,9 +44,9 @@ public class ServerController {
     }
 
 
-    public void startGame(Lobby toStart){
-        this.toStart = toStart;
-        GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
+    public void startGame(Lobby lobbyToStart){
+        this.lobbyToStart = lobbyToStart;
+        GameController gameController = new GameController(lobbyToStart, lobbyToStart.getGameMode().isExpert());
         currentGames.put(gameController.getGameID(), gameController);
         executorService.submit(gameController);
     }

@@ -69,6 +69,7 @@ public class GameController implements Runnable  {
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
         messageHandler.sendBroadcast(message);
         System.out.println("FINE NOTIFY");
+
         if (true){return;}
 
         do{
