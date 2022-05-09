@@ -35,7 +35,7 @@ public class  JsonConverter {
             return messageReal;
         }
 
-        if(message.getMessageType() == TypeOfMessage.Game){
+        if(message.getMessageType() == TypeOfMessage.Error){
             ErrorMessage messageReal=  gson.fromJson(jsonString, ErrorMessage.class);
             return messageReal;
         }
