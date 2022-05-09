@@ -3,11 +3,13 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Connection;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -61,13 +63,16 @@ public class PlayerManager implements Runnable{
 
             if(message.getMessageType()!=TypeOfMessage.Async && message.getMessageType()!=TypeOfMessage.Ping){
                 if(isMyTurn==false){
-                    stringMessageToClient("It is not your turn");
+                    ErrorMessage errorMessage = new ErrorMessage(TypeOfError.TurnError);
+                    sendMessage(errorMessage);
                 }
                 else
                 {
                     receivedMessage = (Message) jsonConverter.fromJsonToMessage(receivedString);
 
-                    if(receivedMessage.getMessageType()==TypeOfMessage.CharacterCard){
+                    if(receivedMessage.getMessageType()==TypeOfMessage.Game){
+                        GameMessage receivedGame = (GameMessage) receivedMessage;
+                        if(receivedGame.getTypeOfMove().equals(TypeOfMove.AssistantCard))
                         characterReceived=true;
                     }
 
@@ -89,19 +94,15 @@ public class PlayerManager implements Runnable{
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
-
     public void setCharacterReceived(boolean characterReceived) {
         this.characterReceived = characterReceived;
     }
-
     public boolean isCharacterReceived() {
         return characterReceived;
     }
-
     public Message getLastMessage() {
         return messageQueue.poll();
     }
-
     public boolean isMyTurn() {
         return isMyTurn;
     }
@@ -111,7 +112,7 @@ public class PlayerManager implements Runnable{
 
         try{
             String line = bufferedReaderIn.readLine();
-            while (!line.equals("EOF")){
+            while (!"EOF".equals(line)){
                 lastMessage = lastMessage + line + "\n";
                 line = bufferedReaderIn.readLine();
             }
@@ -120,31 +121,6 @@ public class PlayerManager implements Runnable{
             ServerController.getInstance().closeConnection(playerNickname);
         }
         return lastMessage;
-    }
-
-    public void stringMessageToClient(String stringToSend){
-        StringMessage stringMessage= new StringMessage(stringToSend);
-        String messageToSend = jsonConverter.fromMessageToJson(stringMessage);
-        messageToSend = messageToSend + "\nEOF\n";
-        try {
-            bufferedReaderOut.write(messageToSend);
-            bufferedReaderOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            ServerController.getInstance().closeConnection(playerNickname);
-        }
-    }
-
-    public void ACKmessage(){
-        Message message = new Message(TypeOfMessage.ACK);
-        String stringMesaage = JsonConverter.fromMessageToJson(message);
-        try{
-            bufferedReaderOut.write(stringMesaage);
-            bufferedReaderOut.flush();
-        }catch(IOException e){
-            e.printStackTrace();
-            ServerController.getInstance().closeConnection(playerNickname);
-        }
     }
 
     public void sendMessage(Message message){
@@ -159,6 +135,7 @@ public class PlayerManager implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
             ServerController.getInstance().closeConnection(playerNickname);
+            this.toStop=true;
         }
     }
 
@@ -173,11 +150,12 @@ public class PlayerManager implements Runnable{
      * @param typeOfMessage
      * @return
      */
-    public GameMessage readMessage(TypeOfMessage typeOfMessage) {
+    public Message readMessage(TypeOfMessage typeOfMessage, Object specificTypeOfMessage) {
         Message receivedMessage;
-        GameMessage gameMessage;
+        Boolean correctMatch;
 
         do {
+            correctMatch = true;
             if(messageQueue.isEmpty()){
                 setTimeout();
 
@@ -187,24 +165,74 @@ public class PlayerManager implements Runnable{
                     e.printStackTrace();
                 }
             }
+
             receivedMessage = getLastMessage();
 
-            if (receivedMessage.getMessageType() != typeOfMessage) {
-                Message errorGameMessage = new Message(TypeOfMessage.Error);
-                String stringToSend = jsonConverter.fromMessageToJson(errorGameMessage);
-                try {
-                    bufferedReaderOut.write(stringToSend);
-                    bufferedReaderOut.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    ServerController.getInstance().closeConnection(playerNickname);
-                    this.toStop=true;
-                    return null;
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Connection)){
+                    ConnectionMessage receivedMessageConnection = (ConnectionMessage) receivedMessage;
+                    return receivedMessageConnection;
                 }
             }
-        } while (receivedMessage.getMessageType() != typeOfMessage);
-        gameMessage = (GameMessage) receivedMessage;
-        return gameMessage;
+
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Ack)){
+                    AckMessage receivedMessageAck = (AckMessage) receivedMessage;
+                    if(specificTypeOfMessage.equals(receivedMessageAck.getTypeOfAck())){
+                        return receivedMessageAck;
+                    }
+                }
+            }
+
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Update)){
+                    UpdateMessage receivedMessageUpdate = (UpdateMessage) receivedMessage;
+                    return receivedMessageUpdate;
+                }
+            }
+
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Game)){
+                    GameMessage receivedMessageGame = (GameMessage) receivedMessage;
+                    if(specificTypeOfMessage.equals(receivedMessageGame.getTypeOfMove())){
+                        return receivedMessageGame;
+                    }
+                }
+            }
+
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Error)){
+                    ErrorMessage receivedMessageError = (ErrorMessage) receivedMessage;
+                    if(specificTypeOfMessage.equals(receivedMessageError.getTypeOfError())){
+                        return receivedMessageError;
+                    }
+                }
+            }
+
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Ping)){
+                    PingMessage receivedMessagePing = (PingMessage) receivedMessage;
+                    return receivedMessagePing;
+                }
+            }
+
+            if(receivedMessage.getMessageType().equals(typeOfMessage)){
+                if(typeOfMessage.equals(TypeOfMessage.Async)){
+                    AsyncMessage receivedMessageAsync = (AsyncMessage) receivedMessage;
+                    if(specificTypeOfMessage.equals(receivedMessageAsync.getTypeOfAsync())){
+                        return receivedMessageAsync;
+                    }
+                }
+            }
+
+            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+            sendMessage(errorMessage);
+            correctMatch = false;
+
+        } while (correctMatch==false);
+
+        //questa riga di codice non dovrebbe mai essere eseguita, si dovrebbe sempre rientrare in uno dei casi precedenti
+        return null;
     }
 
     public boolean isToStop() {
@@ -251,7 +279,7 @@ public class PlayerManager implements Runnable{
                     clientSocket.setSoTimeout(120000);
                 } catch (SocketException ex) {
                     ex.printStackTrace();
-                    DisconnectionMessage disconnectionMessage=new DisconnectionMessage("the player"+playerNickname+
+                    ErrorMessage disconnectionMessage=new ErrorMessage(TypeOfError.Disconnection, "the player"+playerNickname+
                             "is too slow! His round has exceeded 2 minutes!");
                     for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
                         playerManager.sendMessage(disconnectionMessage);

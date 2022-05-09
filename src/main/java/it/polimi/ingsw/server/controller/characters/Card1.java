@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.PawnsMap;
 
@@ -25,13 +23,19 @@ public class Card1 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        Message errorGameMessage;
+        ErrorMessage errorGameMessage;
         GameMessage gameMessage;
+        Message receivedMessage;
         int chosenPawn; // index of ColourPawn enumeration
         int chosenIsland; // index island
         do{
             valid=false;
-            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+            if(receivedMessage == null){
+                System.out.println("ERROR-card1-1");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){
@@ -44,12 +48,17 @@ public class Card1 extends CharacterEffect{
 
         do {
             valid = true;
-            gameMessage = playerManager.readMessage(TypeOfMessage.IslandChoice);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.IslandChoice);
+            if(receivedMessage == null){
+                System.out.println("ERROR-card1-2");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenIsland= gameMessage.getValue();
             if(chosenIsland<0 || chosenIsland>gameController.getGame().getIslands().size()-1){
                 valid=false;
                 //not valid card, rechoose
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
         }while(!valid);

@@ -48,6 +48,8 @@ public class PianificationPhase extends GamePhase {
         this.fillClouds();
         gameController.update();
 
+        System.out.println("UPDATE INVIATI");
+
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);
@@ -83,29 +85,36 @@ public class PianificationPhase extends GamePhase {
         AssistantCard cardPlayed = null;
         GameMessage gameMessage;
         Message fromClient;
-        GameErrorMessage gameErrorMessage;
+        ErrorMessage gameErrorMessage;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         boolean mustChange = false;
-        boolean valid = false;
+        boolean isInDeck = false;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
 
         do {
             mustChange = false;
-            valid = false;
-            gameController.update();
-            gameMessage = playerManager.readMessage(TypeOfMessage.AssistantCard);
-            int played= gameMessage.getValue();
+            isInDeck = false;
+
+            Message message = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.AssistantCard);
+            Integer played = null;
+
+            if (message != null){
+                gameMessage = (GameMessage) message;
+                played= gameMessage.getValue();
+            }else{
+                System.out.println("ERROR");
+                return;
+            }
 
             for (AssistantCard c : currentPlayer.getDeck()) {
                 if (c.getTurnOrder() == played) {
                     cardPlayed = c;
-                    valid = true;
+                    isInDeck = true;
                 }
             }
 
-            if (valid){
-
+            if (isInDeck){
                 for(Player p: this.gameController.getGame().getPlayers()){
                     if (!p.equals(currentPlayer) && p.getPlayedAssistantCard() != null &&
                             p.getPlayedAssistantCard().equals(cardPlayed)){
@@ -113,26 +122,25 @@ public class PianificationPhase extends GamePhase {
                     }
                 }
 
-                if (mustChange == false) {
+                if (!mustChange) {
                     turnOrderMap.put(currentPlayer, played);
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    gameErrorMessage = new GameErrorMessage (ErrorStatusCode.RULESVIOLATION_1); // an other player has alrealy played this card in this round
+                    gameErrorMessage = new ErrorMessage(TypeOfError.InvalidChoice); // an other player has alrealy played this card in this round
                     playerManager.sendMessage(gameErrorMessage);
                 }
             }
             else{
-                gameErrorMessage = new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // You have already played this card
+                gameErrorMessage = new ErrorMessage(TypeOfError.InvalidChoice); // You have already played this card
                 playerManager.sendMessage(gameErrorMessage);
             }
         }
-        while(valid == false || mustChange == true);
+        while(isInDeck == false || mustChange == true);
         /*if valid == false, the player doensn't have that card in his deck / the card doesn't exist.
          * if mustChange == true, the player played a card that has already been played by other players.*/
 
         gameController.update();
-
         if (currentPlayer.getDeck().size() == 0){finishedAssistantCard = true;}
     }
 

@@ -31,10 +31,8 @@ public class PingSender implements Runnable{
     public void run() {
         while(isConnected){
             PingMessage message= new PingMessage();
-            message.setMessageType(TypeOfMessage.Ping);
             JsonConverter jsonConverter=new JsonConverter();
             String messageString= jsonConverter.fromMessageToJson(message);
-
             this.isConnected=false;
 
 

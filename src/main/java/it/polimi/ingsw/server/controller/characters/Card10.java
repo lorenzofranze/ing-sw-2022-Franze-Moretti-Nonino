@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 
 public class Card10 extends CharacterEffect{
@@ -24,14 +22,20 @@ public class Card10 extends CharacterEffect{
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         Message errorGameMessage;
         GameMessage gameMessage;
+        Message receivedMessage;
 
         do{
             valid=true;
-            gameMessage = playerManager.readMessage(TypeOfMessage.Number);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentNumber);
+            if(receivedMessage == null){
+                System.out.println("ERROR-Card10-1");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             num = gameMessage.getValue();
             if(num<0 || num >2){
                 valid = false;
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
         }while(!valid);
@@ -40,12 +44,17 @@ public class Card10 extends CharacterEffect{
             do{
                 valid = true;
                 // to user: choose one color pawn
-                gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+                if(receivedMessage == null){
+                    System.out.println("ERROR-Card10-2");
+                    return;
+                }
+                gameMessage = (GameMessage) receivedMessage;
                 colourEntrance = gameMessage.getValue();
                 if(colourEntrance<=-1 || colourEntrance >=5){
                     valid=false;
                     // to user: index not valid
-                    errorGameMessage=new Message(TypeOfMessage.Error);
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
                 }
                 if(valid){
@@ -53,7 +62,7 @@ public class Card10 extends CharacterEffect{
                             .getEntrance().get(ColourPawn.get(colourEntrance)) <= 0){
                         valid = false;
                         //to user: change color pawn to move, you don't have that color
-                        errorGameMessage=new Message(TypeOfMessage.Error);
+                        errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
@@ -67,11 +76,16 @@ public class Card10 extends CharacterEffect{
 
             do{
                 valid=true;
-                gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+                if(receivedMessage == null){
+                    System.out.println("ERROR-Card10-3");
+                    return;
+                }
+                gameMessage = (GameMessage) receivedMessage;
                 colourDining= gameMessage.getValue();
                 if(gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0){
                     valid = false;
-                    errorGameMessage=new Message(TypeOfMessage.Error);
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
                 }
             }while(!valid);

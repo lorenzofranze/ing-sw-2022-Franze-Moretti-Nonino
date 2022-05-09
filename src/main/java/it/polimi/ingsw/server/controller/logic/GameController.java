@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.*;
+import it.polimi.ingsw.common.messages.AckMessage;
+import it.polimi.ingsw.common.messages.TypeOfAck;
+import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.characters.CharacterEffect;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
@@ -61,10 +64,13 @@ public class GameController implements Runnable  {
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
 
-
         currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
 
-        messageHandler.notifyAllClientsACK();
+        AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
+        messageHandler.sendBroadcast(message);
+        System.out.println("FINE NOTIFY");
+        if (true){return;}
+
         do{
             currentPhase = pianificationPhase;
             if (actionResult!=null) {
@@ -74,6 +80,9 @@ public class GameController implements Runnable  {
             //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
 
             pianificationResult = this.pianificationPhase.handle(currentPlayer);
+
+            System.out.println("FINE PIANIFICATION");
+            if (true){return;}
 
             isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
             isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
@@ -105,11 +114,11 @@ public class GameController implements Runnable  {
 
 
     public synchronized void update(){
-        UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
 
-
-        for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
+        UpdateMessage updateMessage = new UpdateMessage(this.getGameState());
+        for(PlayerManager playerManager : messageHandler.getPlayerManagerMap().values()){
             playerManager.sendMessage(updateMessage);
+            System.out.println("UPDATE SENT TO: " + playerManager.getPlayerNickname());
         }
 
         return;

@@ -1,10 +1,13 @@
 package it.polimi.ingsw.common.messages;
 
 public class GameMessage extends Message{
+
+    private TypeOfMove typeOfMove;
     private int value;
 
-    public GameMessage(TypeOfMessage typeOfMessage, int value){
-        super(typeOfMessage);
+    public GameMessage(TypeOfMove typeOfMove, int value){
+        super(TypeOfMessage.Game);
+        this.typeOfMove = typeOfMove;
         this.value = value;
     }
 
@@ -12,7 +15,7 @@ public class GameMessage extends Message{
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public TypeOfMove getTypeOfMove() {
+        return typeOfMove;
     }
 }

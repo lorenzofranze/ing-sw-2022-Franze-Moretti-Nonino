@@ -28,6 +28,10 @@ public class ClientGameController implements Runnable {
         do {
             do {
                 gamestate = receiveUpdate();
+                if (gamestate== null) {
+                    System.out.println("gamestate = null");
+                    return;
+                }
 
                 //è il mio turno di pianificazione
                 if (gamestate.getCurrentPhase() == Phase.PIANIFICATION && gamestate.getCurrentPlayer().getNickname().equals(lineClient.getNickname())) {
@@ -38,7 +42,7 @@ public class ClientGameController implements Runnable {
                         System.out.println("choose assistant card:");
                         valid = true;
                         chosen = VIEWclientCLI.readInt();
-                        GameMessage gm = new GameMessage(TypeOfMessage.AssistantCard, chosen);
+                        GameMessage gm = new GameMessage(TypeOfMove.AssistantCard, chosen);
                         String stringToSend = JsonConverter.fromMessageToJson(gm);
                         try {
                             lineClient.getOut().write(stringToSend);
@@ -56,12 +60,12 @@ public class ClientGameController implements Runnable {
                         }
                         if (response.getMessageType() == TypeOfMessage.Error) {
                             valid = false;
-                            if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_1) {
-                                System.out.println("an other player has alrealy played this card in this round, rechoose");
-                            } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.INDEXINVALID_1) {
-                                System.out.println("You have already played this card or invalid chooise");
-                            } else
-                                System.out.println("wrong action");
+                            ErrorMessage responseError = (ErrorMessage) response;
+                            if (responseError.getTypeOfError().equals(TypeOfError.InvalidChoice)) {
+                                System.out.println("InvalidChoice");
+                            } else {
+                                System.out.println("ERROR - typeOfError received: " + responseError.getTypeOfError());
+                            }
                         } else {
                             gamestate = receiveUpdate();
                         }
@@ -116,16 +120,13 @@ public class ClientGameController implements Runnable {
                                 }
                                 if (response.getMessageType() == TypeOfMessage.Error) {
                                     valid = false;
-                                    if (((GameErrorMessage) response).getError() == ErrorStatusCode.INDEXINVALID_1) {
-                                        System.out.println("colour invalid");
-                                    } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_1) {
-                                        System.out.println("you don't have that colour");
-                                    } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_2) {
+                                    ErrorMessage responseError = (ErrorMessage) response;
+                                    if (responseError.getTypeOfError().equals(TypeOfError.InvalidChoice)) {
+                                        System.out.println("invalid choice");
+                                    } else if (responseError.getTypeOfError().equals(TypeOfError.FullDiningRoom)) {
                                         System.out.println("out of row on school board: more than 10 students");
-                                    } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.INDEXINVALID_2) {
-                                        System.out.println("destination not valid");
                                     } else
-                                        System.out.println("wrong action");
+                                        System.out.println("ERROR - typeOfError received: "+responseError.getTypeOfError());
                                 } else {
                                     gamestate = receiveUpdate();
                                     moveMade = true;
@@ -152,8 +153,7 @@ public class ClientGameController implements Runnable {
                                 return;
                             }
                         } else {
-
-                            GameMessage gm = new GameMessage(TypeOfMessage.MoveMotherNature, chosen);
+                            GameMessage gm = new GameMessage(TypeOfMove.MoveMotherNature, chosen);
                             String stringToSend = JsonConverter.fromMessageToJson(gm);
 
                             try {
@@ -162,19 +162,22 @@ public class ClientGameController implements Runnable {
                                 System.out.println("impossibile to read the message: disconnected");
                                 return;
                             }
+
                             if (response.getMessageType() == TypeOfMessage.Error) {
                                 valid = false;
-                                if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_1) {
+                                ErrorMessage responseError = (ErrorMessage) response;
+                                if (responseError.getTypeOfError().equals(TypeOfError.InvalidChoice))
+                                {
                                     System.out.println("steps not valid");
-                                } else
+                                } else {
                                     System.out.println("wrong action");
+                                }
                             } else {
                                 gamestate = receiveUpdate();
                                 gamestate = receiveUpdate();
                                 moveMade = true;
                             }
                         }
-
                     } while (!valid || !moveMade);
 
                     // if() verificare che non sia finito il gioco
@@ -198,7 +201,7 @@ public class ClientGameController implements Runnable {
                             }
                         } else {
 
-                            GameMessage gm = new GameMessage(TypeOfMessage.IslandChoice, chosen);
+                            GameMessage gm = new GameMessage(TypeOfMove.IslandChoice, chosen);
                             String stringToSend = JsonConverter.fromMessageToJson(gm);
                             try {
                                 response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
@@ -208,12 +211,9 @@ public class ClientGameController implements Runnable {
                             }
                             if (response.getMessageType() == TypeOfMessage.Error) {
                                 valid = false;
-                                if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_1) {
+                                ErrorMessage responseError = (ErrorMessage) response;
+                                if (responseError.getTypeOfError().equals(TypeOfError.InvalidChoice))
                                     System.out.println("empty cloud");
-                                } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.INDEXINVALID_1) {
-                                    System.out.println("cloud invalid");
-                                } else
-                                    System.out.println("wrong action");
                             } else {
                                 gamestate = receiveUpdate();
                                 moveMade = true;
@@ -258,15 +258,18 @@ public class ClientGameController implements Runnable {
 
         try {
             updateMessage = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
+            //if (updateMessage.getMessageType().equals(TypeOfMessage.ACK)){System.out.println("E'arrivato un ack"); return null;}
             // debug
             System.out.println(updateMessage.getMessageType().toString());
         } catch (IOException ex) {
             System.out.println("impossibile to read the message: disconnected");
             return null;
         }
-        if (updateMessage.getMessageType() == TypeOfMessage.Error &&
-                ((GameErrorMessage) updateMessage).getError() == ErrorStatusCode.TURN_ERROR) {
-            System.out.println("not your turn !");
+        if (updateMessage.getMessageType() == TypeOfMessage.Error){
+            ErrorMessage errorMessage = (ErrorMessage) updateMessage;
+            if (errorMessage.getTypeOfError().equals(TypeOfError.TurnError)){
+                System.out.println("not your turn !");
+            }
             return this.receiveUpdate();
         } else if (updateMessage.getMessageType() == TypeOfMessage.Update) {
             gamestate = ((UpdateMessage) updateMessage).getGameState();
@@ -284,7 +287,7 @@ public class ClientGameController implements Runnable {
         boolean valid = true;
         GameStatePojo gamestate;
         UpdateMessage updateMessage;
-        GameMessage gm = new GameMessage(TypeOfMessage.CharacterCard, chosen - 10);
+        GameMessage gm = new GameMessage(TypeOfMove.CharacterCard, chosen - 10);
         String stringToSend = JsonConverter.fromMessageToJson(gm);
         try {
             lineClient.getOut().write(stringToSend);
@@ -296,12 +299,13 @@ public class ClientGameController implements Runnable {
         }
         Message response = JsonConverter.fromJsonToMessage(lineClient.readFromBuffer());
         if (response.getMessageType() == TypeOfMessage.Error) {
+            ErrorMessage errorMessage = (ErrorMessage) response;
             valid = false;
-            if (((GameErrorMessage) response).getError() == ErrorStatusCode.INDEXINVALID_1) {
+            if (errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)) {
                 System.out.println("index invalid");
-            } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_1) {
+            } else if (errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)) {
                 System.out.println("there is an other effect activated");
-            } else if (((GameErrorMessage) response).getError() == ErrorStatusCode.RULESVIOLATION_2) {
+            } else if (errorMessage.getTypeOfError().equals(TypeOfError.NoMoney)) {
                 System.out.println("you don't have enought money");
             } else
                 System.out.println("wrong action");

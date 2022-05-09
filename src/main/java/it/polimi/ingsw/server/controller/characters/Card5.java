@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server.controller.characters;
 
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.Island;
 
@@ -42,17 +40,23 @@ public class Card5 extends CharacterEffect{
         boolean valid = true;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        Message errorGameMessage;
+        ErrorMessage errorGameMessage;
         GameMessage gameMessage;
+        Message receivedMessage;
 
         do{
             valid = true;
-            gameMessage = playerManager.readMessage(TypeOfMessage.IslandChoice);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.IslandChoice);
+            if(receivedMessage == null){
+                System.out.println("ERROR-Card5-1");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenIslandIndex = gameMessage.getValue();
             Island chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);
             if(chosenIsland == null){
                 //System.out.println("The island chosen doesn't exist");
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
                 valid = false;
             }

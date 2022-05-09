@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.logic;
+/*package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
@@ -6,8 +6,6 @@ import it.polimi.ingsw.common.messages.GameMessage;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.characters.Card2;
-import it.polimi.ingsw.server.controller.characters.CharacterEffect;
-import it.polimi.ingsw.server.controller.characters.CharacterEffectInfluence;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.*;
@@ -556,5 +554,12 @@ class ActionPhaseTest {
         assertEquals(true, g.getClouds().get(1).getStudents().isEmpty());
     }
 
+    @Test
+    public void testAskForCharacter() {
+
+    }
 
 }
+
+
+ */

@@ -15,35 +15,41 @@ public class  JsonConverter {
     public static Message fromJsonToMessage(String jsonString){
         Message message = gson.fromJson(jsonString, Message.class);
 
-        if(message.getMessageType()== TypeOfMessage.StudentColour||
-                message.getMessageType()== TypeOfMessage.IslandChoice ||
-                message.getMessageType()== TypeOfMessage.AssistantCard ||
-                message.getMessageType()== TypeOfMessage.CharacterCard ||
-                message.getMessageType()== TypeOfMessage.CloudChoice ||
-                message.getMessageType()== TypeOfMessage.MoveMotherNature ||
-                message.getMessageType()==TypeOfMessage.StudentMovement ||
-                message.getMessageType()==TypeOfMessage.Number){
-            GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
+        if(message.getMessageType() == TypeOfMessage.Connection){
+            ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
             return messageReal;
         }
-        if(message.getMessageType()== TypeOfMessage.Update){
+
+        if(message.getMessageType() == TypeOfMessage.Ack){
+            AckMessage messageReal=  gson.fromJson(jsonString, AckMessage.class);
+            return messageReal;
+        }
+
+        if(message.getMessageType() == TypeOfMessage.Update){
             UpdateMessage messageReal=  gson.fromJson(jsonString, UpdateMessage.class);
             return messageReal;
         }
 
-        if(message.getMessageType()== TypeOfMessage.Connection){
-            ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
+        if(message.getMessageType() == TypeOfMessage.Game){
+            GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
             return messageReal;
         }
-        if(message.getMessageType()== TypeOfMessage.Ping){
+
+        if(message.getMessageType() == TypeOfMessage.Game){
+            ErrorMessage messageReal=  gson.fromJson(jsonString, ErrorMessage.class);
+            return messageReal;
+        }
+
+        if(message.getMessageType() == TypeOfMessage.Ping){
             PingMessage messageReal=  gson.fromJson(jsonString, PingMessage.class);
             return messageReal;
         }
 
-        if(message.getMessageType()== TypeOfMessage.Error){
-            GameErrorMessage messageReal=  gson.fromJson(jsonString, GameErrorMessage.class);
+        if(message.getMessageType() == TypeOfMessage.Async){
+            AsyncMessage messageReal=  gson.fromJson(jsonString, AsyncMessage.class);
             return messageReal;
         }
+
         return message;
     }
 

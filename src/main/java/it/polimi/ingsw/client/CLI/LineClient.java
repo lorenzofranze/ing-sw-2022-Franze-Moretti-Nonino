@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.ConnectionMessage;
+import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
@@ -16,6 +17,7 @@ public class LineClient {
 
     private BufferedReader in;
     private BufferedWriter out;
+    private static int contatore = 0;
 
 
     public LineClient(String ip, int port) throws IOException {
@@ -68,6 +70,9 @@ public class LineClient {
             System.out.println("error in LineClient readFromBuffer");
             throw new IOException();
         }
+        contatore++;
+        System.out.println(("Messaggio letto numero: ") + contatore);
+        System.out.println(lastMessage);
 
         return lastMessage;
     }
@@ -92,6 +97,12 @@ public class LineClient {
             return 0;
         }
         return 1;
+    }
+
+    public void sendToServer(Message message) throws IOException{
+        String stringMessage = JsonConverter.fromMessageToJson(message);
+        this.getOut().write(stringMessage);
+        this.getOut().flush();
     }
 
 

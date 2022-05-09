@@ -10,8 +10,4 @@ public class Message {
     public TypeOfMessage getMessageType() {
         return typeOfMessage;
     }
-
-    public void setMessageType(TypeOfMessage messageType) {
-        this.typeOfMessage = messageType;
-    }
 }

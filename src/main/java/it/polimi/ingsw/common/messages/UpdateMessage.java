@@ -14,8 +14,4 @@ public class UpdateMessage extends Message {
     public GameStatePojo getGameState() {
         return gameStatePojo;
     }
-
-    public void setGameState(GameStatePojo gameStatePojo) {
-        this.gameStatePojo = gameStatePojo;
-    }
 }

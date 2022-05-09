@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.PawnsMap;
 
@@ -22,8 +20,10 @@ public class Card7 extends CharacterEffect{
 
     public void doEffect(){
 
-        Message errorGameMessage;
+        ErrorMessage errorGameMessage;
         GameMessage gameMessage;
+        Message receivedMessage;
+
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PawnsMap pawnsChosen = new PawnsMap();
         PawnsMap pawnsToRemove = new PawnsMap();
@@ -39,7 +39,12 @@ public class Card7 extends CharacterEffect{
         boolean end = false;
         do{
             valid=false;
-            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+            if(receivedMessage == null){
+                System.out.println("ERROR-Card7-1");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenPawn= gameMessage.getValue();
             if (chosenPawn == -1){
                 valid=true;
@@ -59,7 +64,12 @@ public class Card7 extends CharacterEffect{
         valid = true;
         while(!valid || count > 0){
             valid=false;
-            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+            if(receivedMessage == null){
+                System.out.println("ERROR-Card7-2");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenPawn= gameMessage.getValue();
 
             for(ColourPawn p : ColourPawn.values()){

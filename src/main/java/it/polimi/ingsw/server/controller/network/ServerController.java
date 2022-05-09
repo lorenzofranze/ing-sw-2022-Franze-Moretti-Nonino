@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.network;
 
-import it.polimi.ingsw.common.messages.DisconnectionMessage;
+import it.polimi.ingsw.common.messages.ErrorMessage;
+import it.polimi.ingsw.common.messages.TypeOfError;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.Player;
 
@@ -32,7 +33,7 @@ public class ServerController {
         return instance;
     }
 
-    public void play() {
+    public void turnOn() {
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
         try {
@@ -43,7 +44,7 @@ public class ServerController {
     }
 
 
-    public void start(Lobby toStart){
+    public void startGame(Lobby toStart){
         this.toStart = toStart;
         GameController gameController = new GameController(toStart, toStart.getGameMode().isExpert());
         currentGames.put(gameController.getGameID(), gameController);
@@ -81,7 +82,7 @@ public class ServerController {
         try {
             //avvisa gli utenti che il gioco è finito per colpa di una disconnessione
             for (PlayerManager playerManager: messageHandler.getPlayerManagerMap().values()){
-                DisconnectionMessage disconnectionMessage=new DisconnectionMessage();
+                ErrorMessage disconnectionMessage=new ErrorMessage(TypeOfError.Disconnection);
                 playerManager.sendMessage(disconnectionMessage);
             }
             for (Socket socket : lobby.getUsersReadyToPlay().values()){

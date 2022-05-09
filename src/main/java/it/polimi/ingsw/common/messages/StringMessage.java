@@ -1,4 +1,4 @@
-package it.polimi.ingsw.common.messages;
+/*package it.polimi.ingsw.common.messages;
 
 public class StringMessage extends Message{
 
@@ -16,4 +16,4 @@ public class StringMessage extends Message{
     public void setStringMessage(String stringMessage) {
         this.stringMessage = stringMessage;
     }
-}
+}*/

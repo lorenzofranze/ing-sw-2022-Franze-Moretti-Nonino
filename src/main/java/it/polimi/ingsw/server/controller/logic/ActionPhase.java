@@ -12,7 +12,6 @@ import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.Character;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class ActionPhase extends GamePhase {
@@ -39,11 +38,15 @@ public class ActionPhase extends GamePhase {
         actionResult.setFirstPianificationPlayer(turnOrder.get(0));
 
         for (Player p : turnOrder) {
+
+            gameController.setCurrentPlayer(p);
+            gameController.update();
+
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
-                gameController.setCurrentPlayer(p);
-                gameController.update();
-                //move students
-                for(int i=0; i<gameController.getGame().getPlayers().size()+1; i++ ) {
+
+                //move students (while moving the students, the player can decide to play a characterCard)
+                int studentsToMove = gameController.getGame().getPlayers().size()+1;
+                for(int i=0; i<studentsToMove; i++ ) {
                     askforCharacter();
                     if (checkEnd() == true){return actionResult;}
                     moveStudent();
@@ -143,18 +146,23 @@ public class ActionPhase extends GamePhase {
 
             do{
                 valid = true;
-                gameMessage = playerManager.readMessage(TypeOfMessage.StudentMovement);
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+                if (receivedMessage == null){
+                    System.out.println("ERROR-moveStudent");
+                    return;
+                }
+                gameMessage = (GameMessage) receivedMessage;
                 indexColour = gameMessage.getValue();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
-                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); // index colour invalid
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
                     playerManager.sendMessage(errorGameMessage);
                 }
                 if(valid){
                     if (gameController.getCurrentPlayer().getSchoolBoard()
                             .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                         valid = false;
-                        errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1);  // no student
+                        errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);  // no student
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
@@ -162,14 +170,14 @@ public class ActionPhase extends GamePhase {
                     where = ((GameMessageDouble)gameMessage).getValueDouble();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
-                        errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_2); // destination not valid
+                        errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // destination not valid
                         playerManager.sendMessage(errorGameMessage);
                     }
                 }
                 if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(indexColour))>=10) {
                     valid = false;
-                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // out of row -> 10 students
+                    errorGameMessage=new ErrorMessage(TypeOfError.FullDiningRoom); // out of row -> 10 students
                     playerManager.sendMessage(errorGameMessage);
                 }
             }while(!valid);
@@ -188,10 +196,15 @@ public class ActionPhase extends GamePhase {
         int played;
 
         do {
-            gameMessage = playerManager.readMessage(TypeOfMessage.MoveMotherNature);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.MoveMotherNature);
+            if (receivedMessage == null){
+                System.out.println("ERROR-moveStudent");
+                return null;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             played = gameMessage.getValue();
             if (played < 1 || played > maximumMovements.get(currentPlayer)){
-                errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); // steps not valid
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // steps not valid
                 playerManager.sendMessage(errorGameMessage);
             }
         }
@@ -320,6 +333,7 @@ public class ActionPhase extends GamePhase {
     }
 
     protected void chooseCloud(){
+        Message receivedMessage;
         GameMessage gameMessage;
         Message errorGameMessage;
         boolean valid;
@@ -330,17 +344,21 @@ public class ActionPhase extends GamePhase {
 
         do{
             valid = true;
-            gameMessage = playerManager.readMessage(TypeOfMessage.CloudChoice);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CloudChoice);
+            if (receivedMessage == null){
+                System.out.println("ERROR-chooseCloud");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             indexCloud= gameMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
-
-                errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1); //index not valid
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); //index not valid
                 playerManager.sendMessage(errorGameMessage);
                 valid = false;
             }
             if(valid){
                 if(gameController.getGame().getClouds().get(indexCloud).getStudents().isEmpty()){
-                    errorGameMessage=new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); //empty cloud, rechoose
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); //empty cloud, rechoose
                     playerManager.sendMessage(errorGameMessage);
                     valid=false;
                 }
@@ -356,14 +374,16 @@ public class ActionPhase extends GamePhase {
      * otherwise it ask the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
         GameMessage gameMessage;
-        GameErrorMessage errorGameMessage;
+        ErrorMessage errorGameMessage;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
+
         int cardNumber;
         boolean effectActive=false;
         PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
 
         if(playerManager.isCharacterReceived()==false){
+            //il giocatore non ha giocato una carta personaggio
             return;
         }
 
@@ -375,16 +395,23 @@ public class ActionPhase extends GamePhase {
             }
         }
 
-        if(gameController.getGame().getActiveEffect() != null)
+        if(gameController.getGame().getActiveEffect() != null) {
             effectActive = true;
+        }
 
         if(!usable.isEmpty()){
             // to user: you can play one of theese cards.. select the number of card you want to
             // use to play the card now, any other key to skip
 
-            gameMessage = playerManager.readMessage(TypeOfMessage.CharacterCard);
+            Message message = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CharacterCard);
+            if (message == null){
+                System.out.println("ERROR-AskForCharacter");
+                return;
+            }
 
-            cardNumber= gameMessage.getValue();
+            GameMessage characterCardMessage = (GameMessage) message;
+            cardNumber= characterCardMessage.getValue();
+
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
                 gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
@@ -400,15 +427,15 @@ public class ActionPhase extends GamePhase {
                 // aggiungere eventuali update in base alle carte personaggio
             }else{
                 //this character card is not valid
-                errorGameMessage=new GameErrorMessage(ErrorStatusCode.INDEXINVALID_1);
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
         }else{
             if(effectActive) {
-                errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_1); // there is an effect activated
+                errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // there is an effect activated
                 playerManager.sendMessage(errorGameMessage);
             }else{
-                errorGameMessage = new GameErrorMessage(ErrorStatusCode.RULESVIOLATION_2); // no enought money
+                errorGameMessage = new ErrorMessage(TypeOfError.NoMoney);
                 playerManager.sendMessage(errorGameMessage);
             }
         }

@@ -16,16 +16,7 @@ public class ConnectionMessage extends Message {
     public GameMode getGameMode() {
         return gameMode;
     }
-
     public String getNickname() {
         return this.nickname;
-    }
-
-    @Override
-    public String toString() {
-        return "ConnectionMessage{" +
-                "nickname='" + nickname + '\'' +
-                ", gameMode=" + gameMode +
-                '}';
     }
 }

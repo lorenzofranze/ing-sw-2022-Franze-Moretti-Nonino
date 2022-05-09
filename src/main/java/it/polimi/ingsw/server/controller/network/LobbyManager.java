@@ -82,11 +82,9 @@ public class LobbyManager implements Runnable {
         System.out.println("Server ready on port: " + this.lobbyPortNumber);
         while (true) {
             try {
-                //LobbyManager lobbyManager=new LobbyManager();
                 this.clientSocket = lobbyServerSocket.accept();
-                Thread t=new Thread(this);
+                Thread t = new Thread(this);
                 t.start();
-
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
             }
@@ -98,30 +96,28 @@ public class LobbyManager implements Runnable {
         Message unknown;
         JsonConverter jsonConverter = new JsonConverter();
         ArrayList<String> usedNicknames = new ArrayList<>();
-        boolean nameOk;
+        boolean validName;
         Message message;
         String stringMessage;
         BufferedReader in = null;
         BufferedWriter out = null;
 
         try {
-            in = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("erorr in client IO");
+            System.out.println("error in client IO");
             return;
         }
-        nameOk=false;
-        while (!nameOk) {
-            nameOk=true;
+
+        validName = false;
+        while (!validName) {
             String words = "";
             String line = null;
             try {
                 line = in.readLine();
-
-                while (!line.equals("EOF")) {
+                while (!("EOF").equals(line)) {
                     words = words + line + "\n";
                     line = in.readLine();
                 }
@@ -133,7 +129,7 @@ public class LobbyManager implements Runnable {
 
             System.out.println(words);
             jsonConverter = new JsonConverter();
-            unknown=jsonConverter.fromJsonToMessage(words);
+            unknown = jsonConverter.fromJsonToMessage(words);
 
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
                 ConnectionMessage firstMessage = (ConnectionMessage) unknown;
@@ -162,17 +158,25 @@ public class LobbyManager implements Runnable {
                         GameMode gameMode = connectionMessage.getGameMode();
                         System.out.println(nickname + " si è connesso");
                         addNickname(nickname, gameMode, clientSocket);
-                        message = new Message(TypeOfMessage.ACK);
+                        AckMessage messageAck = new AckMessage(TypeOfAck.CorrectConnection);
+                        validName = true;
+                        try {
+                            stringMessage = JsonConverter.fromMessageToJson(messageAck);
+                            out.write(stringMessage);
+                            out.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } else {
-                        message = new Message(TypeOfMessage.Error);
-                        nameOk=false;
-                    }
-                    try {
-                        stringMessage = JsonConverter.fromMessageToJson(message);
-                        out.write(stringMessage);
-                        out.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UsedName);
+                        validName = false;
+                        try {
+                            stringMessage = JsonConverter.fromMessageToJson(errorMessage);
+                            out.write(stringMessage);
+                            out.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 //RESILIENZA ALLE DISCONNESSIONI
@@ -193,6 +197,8 @@ public class LobbyManager implements Runnable {
                 }
                 */
 
+            }else{
+                System.out.println("ERROR-LobbyManager-1");
             }
         }
     }
@@ -213,9 +219,7 @@ public class LobbyManager implements Runnable {
         if (waitingLobbies.containsKey(mode)) {
             waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket);
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
-
-                serverController.start(waitingLobbies.get(mode));
-                System.out.println("creazione Lobby modalità "+mode);
+                serverController.startGame(waitingLobbies.get(mode));
                 waitingLobbies.remove(mode);
             }
         } else {

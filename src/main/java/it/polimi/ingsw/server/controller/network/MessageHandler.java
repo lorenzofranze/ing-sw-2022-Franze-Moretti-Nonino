@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
+import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.*;
@@ -76,7 +78,6 @@ public class MessageHandler {
     }
 
     /*
-
     /** parses from message-type to json string, then sends to the player the message, reads the answer from the player,
      * parses from json string to message-type
      * @param gameController
@@ -127,7 +128,6 @@ public class MessageHandler {
     public Map<String, BufferedReader> getBufferedReaderIn() {
         return bufferedReaderIn;
     }
-
     public Map<String, BufferedWriter> getBufferedReaderOut() {
         return bufferedReaderOut;
     }
@@ -148,15 +148,10 @@ public class MessageHandler {
         return lastMessage;
     }
 
-    public void stringMessageToAllClients(String stringToSend){
-        for(PlayerManager playerManager:this.getPlayerManagerMap().values()){
-            playerManager.stringMessageToClient(stringToSend);
-        }
-    }
-
-    public void notifyAllClientsACK(){
-        for(PlayerManager playerManager:this.getPlayerManagerMap().values()){
-            playerManager.ACKmessage();
+    public void sendBroadcast(Message message){
+        for(PlayerManager playerManager : this.getPlayerManagerMap().values()){
+            playerManager.sendMessage(message);
+            System.out.println("ACK FULL LOBBY SENT TO: " + playerManager.getPlayerNickname());
         }
     }
 

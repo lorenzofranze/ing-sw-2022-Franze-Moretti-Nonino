@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.Player;
 
@@ -19,8 +17,9 @@ public class Card12 extends CharacterEffect{
 
     public void doEffect(){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
-        Message errorGameMessage;
+        ErrorMessage errorGameMessage;
         GameMessage gameMessage;
+        Message receivedMessage;
         boolean valid;
         ColourPawn colourPawn;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
@@ -28,19 +27,23 @@ public class Card12 extends CharacterEffect{
         int chosenPawn; // index of ColourPawn enumeration
         do{
             valid=false;
-            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+            if(receivedMessage == null){
+                System.out.println("ERROR-card1-1");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
-            //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
+
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn){
                     valid=true;
-
                 }
             }
 
             if(!valid){
                 //the island doesn't exist
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
 

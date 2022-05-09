@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
-import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.PawnsMap;
 
@@ -24,14 +22,20 @@ public class Card11 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        Message errorGameMessage;
+        ErrorMessage errorGameMessage;
         GameMessage gameMessage;
+        Message receivedMessage;
         int chosenPawn; // index of ColourPawn enumeration
 
         do{
             valid=false;
             //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
-            gameMessage = playerManager.readMessage(TypeOfMessage.StudentColour);
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+            if(receivedMessage==null){
+                System.out.println("ERROR-Card11-1");
+                return;
+            }
+            gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
 
             for(ColourPawn p : ColourPawn.values()){
@@ -41,7 +45,7 @@ public class Card11 extends CharacterEffect{
             }
             if(!valid){
                 //the island doesn't exists
-                errorGameMessage=new Message(TypeOfMessage.Error);
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
 
