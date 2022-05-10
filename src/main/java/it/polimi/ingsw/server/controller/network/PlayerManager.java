@@ -142,8 +142,11 @@ public class PlayerManager implements Runnable{
 
         //da cancellare fino a (fine cancella*)
         if (!message.getMessageType().equals(TypeOfMessage.Update)) {
-            System.out.println("Messagte sent to: " + this.getPlayerNickname());
+            System.out.println("Message sent to: " + this.getPlayerNickname());
             System.out.println(stringToSend);
+        }else{
+            System.out.println("Message sent to: " + this.getPlayerNickname());
+            System.out.println("update");
         }
         //(fine cancella *)
     }
@@ -167,7 +170,7 @@ public class PlayerManager implements Runnable{
             correctMatch = true;
             receivedMessage = getLastMessage();
 
-            System.out.println(jsonConverter.fromMessageToJson(receivedMessage));
+            System.out.println("Message received:\n"+jsonConverter.fromMessageToJson(receivedMessage));
 
             if(receivedMessage.getMessageType().equals(expectedTypeOfMessage)){
                 switch (receivedMessage.getMessageType()){

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.Controller;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import it.polimi.ingsw.server.controller.logic.GamePhase;
 
 import java.io.IOException;
 
@@ -14,7 +15,7 @@ public class Console {
 
     private enum ActionBookMark{}
 
-    Phase currentPhase;
+    Phase currentPhase = null;
     ActionBookMark currActionBookMark;
 
     private int assistantCardPlayed = 0;
@@ -63,6 +64,21 @@ public class Console {
 
         }
 
+    }
+
+    /**this method shows if the player has already played the turn indicated in gameStatePojo
+     * (and so the message is just an update) or if the player has to acutally make a move; returns true if he has to
+     * make a move; returns false if it's just an update**/
+    public boolean updateOrPlay(UpdateMessage updateMessage){
+        Phase receivedPhase = updateMessage.getGameState().getCurrentPhase();
+        ActionBookMark actionBookMark;
+
+        if (!clientController.getGameStatePojo().getCurrentPhase().equals(receivedPhase)){
+            return true;
+        }else{
+            //fai il check su Action
+            return false;
+        }
     }
 
     public void setAssistantCardPlayed(int assistantCardPlayed) {

@@ -280,13 +280,14 @@ public class CLIViewBegin implements ViewBegin {
             }
         }
 
-        System.out.println("-----------------------------------------------------------------------------------------------------------\n");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
 
         endView.endShowGameState(gameStatePojo);
     }
 
 
-    public void play(){
-
+    @Override
+    public void showMoveMaker(PlayerPojo moveMaker) {
+        System.out.println("\033[01m" + moveMaker.getNickname() + " made a move!"+ "\033[0m");
     }
 }

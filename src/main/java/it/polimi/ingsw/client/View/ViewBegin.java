@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.View;
 
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
+import it.polimi.ingsw.common.gamePojo.PlayerPojo;
 import it.polimi.ingsw.common.messages.*;
 
 public interface ViewBegin {
@@ -21,4 +22,6 @@ public interface ViewBegin {
     void showMove(GameMessage gameMessage);
 
     void showGameState(GameStatePojo gameStatePojo);
+
+    void showMoveMaker(PlayerPojo moveMaker);
 }

@@ -49,8 +49,6 @@ public class ClientController implements Runnable {
         waitForOtherPlayers();
         waitForFirstGameState();
 
-        System.out.println("FLAG -CLIENT CONTROLLER");
-
         while (gameStatePojo.isGameOver() == false) {
 
             receivedMessage = networkHandler.getReceivedMessage();
@@ -60,9 +58,22 @@ public class ClientController implements Runnable {
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Update:
-                    this.gameStatePojo = ((UpdateMessage) receivedMessage).getGameState();
+                    UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
+                    this.gameStatePojo = updateMessage.getGameState();
+
+                    /*nel caso l'update venga fatto nul turno di qualcun'altro, mi compare la scritta che quel giocatore
+                    ha fatto una mossa e poi mostro l'update*/
+                    if (!gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
+                        viewBegin.showMoveMaker(updateMessage.getGameState().getCurrentPlayer());
+                    }
+                    viewBegin.showMessage(receivedMessage);
+
+                    /*nel caso sia il mio turno e non sia un semplice aggiornamento, ma devo giocare,
+                    chiamo console.play()*/
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
-                        console.play();
+                        if(console.updateOrPlay((UpdateMessage) receivedMessage)){
+                            console.play();
+                        }
                     }
                     break;
                 case Ack:
