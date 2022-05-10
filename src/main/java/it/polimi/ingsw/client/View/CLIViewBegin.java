@@ -24,7 +24,8 @@ public class CLIViewBegin implements ViewBegin {
     public void chooseGameMode() {
 
         System.out.println("\n\n");
-        System.out.println("\033[01m" + "-----------------------------ERYANTIS LOGIN-----------------------------" + "\033[0m");
+        System.out.println("\033[01m" + "-------------------------------------------------ERYANTIS LOGIN-------------------------------------------------" + "\033[0m");
+
 
         System.out.println("\nTHESE ARE THE POSSIBLE GAME MODES:");
         System.out.println("1. 2 players simple\n" + "2. 3 players simple\n" + "3. 2 players complex\n" + "4. 3 players complex");
@@ -285,11 +286,5 @@ public class CLIViewBegin implements ViewBegin {
         System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
 
         endView.endShowGameState(gameStatePojo);
-    }
-
-
-    @Override
-    public void showMoveMaker(PlayerPojo moveMaker) {
-        System.out.println("\033[01m" + moveMaker.getNickname() + " made a move!"+ "\033[0m");
     }
 }

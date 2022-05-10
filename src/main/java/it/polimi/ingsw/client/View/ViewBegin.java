@@ -22,6 +22,4 @@ public interface ViewBegin {
     void showMove(GameMessage gameMessage);
 
     void showGameState(GameStatePojo gameStatePojo);
-
-    void showMoveMaker(PlayerPojo moveMaker);
 }

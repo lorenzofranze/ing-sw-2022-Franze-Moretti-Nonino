@@ -52,7 +52,6 @@ public class PianificationPhase extends GamePhase {
             this.gameController.setCurrentPlayer(currentPlayer);
             gameController.update();
             playAssistantCard(currentPlayer, turnOrderMap, maximumMovements);
-            gameController.update();
             playedOrder.add(currentPlayer);
         }
 

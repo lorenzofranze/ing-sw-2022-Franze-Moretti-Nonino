@@ -60,12 +60,6 @@ public class ClientController implements Runnable {
                 case Update:
                     UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                     this.gameStatePojo = updateMessage.getGameState();
-
-                    /*nel caso l'update venga fatto nul turno di qualcun'altro, mi compare la scritta che quel giocatore
-                    ha fatto una mossa e poi mostro l'update*/
-                    if (!gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
-                        viewBegin.showMoveMaker(updateMessage.getGameState().getCurrentPlayer());
-                    }
                     viewBegin.showMessage(receivedMessage);
 
                     /*nel caso sia il mio turno e non sia un semplice aggiornamento, ma devo giocare,
