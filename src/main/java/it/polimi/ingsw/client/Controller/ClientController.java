@@ -16,14 +16,13 @@ import static it.polimi.ingsw.common.messages.TypeOfMessage.*;
 public class ClientController implements Runnable {
 
     private String nickname;
+    private GameMode gameMode;
     private static ClientController instance;
     private NetworkHandler networkHandler;
+    private Console console;
 
     ViewBegin viewBegin;
     ViewEnd viewEnd;
-
-    private int intRead;
-    private String stringRead;
 
     private GameStatePojo gameStatePojo;
     Message receivedMessage;
@@ -45,6 +44,7 @@ public class ClientController implements Runnable {
     public void run() {
 
         connect();
+        console = new Console();
 
         waitForOtherPlayers();
 
@@ -60,7 +60,7 @@ public class ClientController implements Runnable {
                 case Update:
                     this.gameStatePojo = ((UpdateMessage) receivedMessage).getGameState();
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
-                        //play();
+                        console.play();
                     }
                     break;
                 case Ack:
@@ -78,13 +78,14 @@ public class ClientController implements Runnable {
     }
 
     public void connect(){
+
         viewBegin.chooseGameMode();
 
         boolean valid = true;
         do {
             valid = true;
             viewBegin.beginReadUsername();
-            ConnectionMessage cm = new ConnectionMessage(nickname, GameMode.values()[intRead - 1]);
+            ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
 
             try {
                 networkHandler.sendToServer(cm);
@@ -149,22 +150,16 @@ public class ClientController implements Runnable {
         }
     }
 
-    public String getStringRead() {
-        return stringRead;
-    }
-    public void setStringRead(String stringRead) {
-        this.stringRead = stringRead;
-    }
-
-    public int getIntRead() {
-        return intRead;
-    }
-    public void setIntRead(int intRead) {
-        this.intRead = intRead;
-    }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    public GameMode getGameMode() {
+        return gameMode;
     }
 
     public void setNetworkHandler(NetworkHandler networkHandler) {
@@ -179,5 +174,7 @@ public class ClientController implements Runnable {
         this.viewBegin.setViewEnd(viewEnd);
     }
 
-
+    public GameStatePojo getGameStatePojo() {
+        return gameStatePojo;
+    }
 }

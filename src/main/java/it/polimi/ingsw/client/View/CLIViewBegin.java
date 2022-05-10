@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
+import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.util.Scanner;
 
@@ -44,7 +45,7 @@ public class CLIViewBegin implements ViewBegin {
                 }
             }
         } while (!valid);
-        clientController.setIntRead(result);
+        clientController.setGameMode(GameMode.values()[result-1]);
         endView.endChooseGameMode(result);
     }
 
@@ -62,7 +63,6 @@ public class CLIViewBegin implements ViewBegin {
                 valid = false;
             }
         } while (!valid);
-        clientController.setStringRead(result);
         clientController.setNickname(result);
         endView.endReadUsername(result);
     }
