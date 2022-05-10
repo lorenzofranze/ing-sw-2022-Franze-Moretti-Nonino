@@ -53,40 +53,36 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         Message receivedMessage;
-        Message message;
 
         while (true) {
             receivedString = readFromBuffer();
+            receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
             /*todo*/
             // notifyAll();
-            message = jsonConverter.fromJsonToMessage(receivedString);
 
-            if(message.getMessageType()!=TypeOfMessage.Async && message.getMessageType()!=TypeOfMessage.Ping){
-                if(isMyTurn==false){
-                    ErrorMessage errorMessage = new ErrorMessage(TypeOfError.TurnError);
-                    sendMessage(errorMessage);
-                }
-                else
-                {
-                    receivedMessage = (Message) jsonConverter.fromJsonToMessage(receivedString);
-
-                    if(receivedMessage.getMessageType()==TypeOfMessage.Game){
-                        GameMessage receivedGame = (GameMessage) receivedMessage;
-                        if(receivedGame.getTypeOfMove().equals(TypeOfMove.AssistantCard))
-                        characterReceived=true;
+            switch(receivedMessage.getMessageType()){
+                case Async: //if i have received an async message(a disconnection message)
+                    System.out.println(receivedString);
+                    ServerController.getInstance().closeConnection(playerNickname);
+                    break;
+                case Ping:
+                    pingSender.setConnected(true);
+                    break;
+                case Game:
+                    GameMessage gameMessage = (GameMessage) receivedMessage;
+                    if (isMyTurn==false){
+                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.TurnError);
+                        sendMessage(errorMessage);
+                    }else{
+                        if (gameMessage.getTypeOfMove().equals(TypeOfMove.CharacterCard)){
+                            characterReceived=true;
+                        }
+                        messageQueue.add(receivedMessage);
                     }
-
-                    messageQueue.add(receivedMessage);
-                }
-            }
-            //if i have received an async message(a disconnection message)
-            else if(message.getMessageType()==TypeOfMessage.Async){
-                System.out.println(message.getMessageType().toString());
-                ServerController.getInstance().closeConnection(playerNickname);
-            }
-            //if i have received a ping message
-            else{
-                pingSender.setConnected(true);
+                    break;
+                default:
+                    System.out.println(receivedString);
+                    break;
             }
         }
     }
@@ -112,7 +108,7 @@ public class PlayerManager implements Runnable{
 
         try{
             String line = bufferedReaderIn.readLine();
-            while (!"EOF".equals(line)){
+            while (!("EOF").equals(line)){
                 lastMessage = lastMessage + line + "\n";
                 line = bufferedReaderIn.readLine();
             }
@@ -157,16 +153,17 @@ public class PlayerManager implements Runnable{
      * @param typeOfMessage
      * @return
      */
-    public Message readMessage(TypeOfMessage typeOfMessage, Object specificTypeOfMessage) {
+    public Message readMessage(TypeOfMessage expectedTypeOfMessage, Object specificTypeOfMessage) {
         Message receivedMessage;
         Boolean correctMatch;
 
         do {
             correctMatch = true;
-            if(messageQueue.isEmpty()){
-                setTimeout();
+
+            while(messageQueue.isEmpty()){
+                //setTimeout();
                 try {
-                    wait();
+                    wait(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -174,67 +171,59 @@ public class PlayerManager implements Runnable{
 
             receivedMessage = getLastMessage();
 
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Connection)){
-                    ConnectionMessage receivedMessageConnection = (ConnectionMessage) receivedMessage;
-                    return receivedMessageConnection;
+            System.out.println("FLAG PLAYER MANAGER - READ MESSAGE 1");
+            System.out.println(jsonConverter.fromMessageToJson(receivedMessage));
+
+            if(receivedMessage.getMessageType().equals(expectedTypeOfMessage)){
+                switch (receivedMessage.getMessageType()){
+                    case Connection:
+                        ConnectionMessage receivedMessageConnection = (ConnectionMessage) receivedMessage;
+                        return receivedMessageConnection;
+                    case Ack:
+                        AckMessage receivedMessageAck = (AckMessage) receivedMessage;
+                        if(specificTypeOfMessage.equals(receivedMessageAck.getTypeOfAck())){
+                            return receivedMessageAck;
+                        }else{
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                            sendMessage(errorMessage);
+                            correctMatch = false;
+                        }
+                    case Update:
+                        UpdateMessage receivedMessageUpdate = (UpdateMessage) receivedMessage;
+                        return receivedMessageUpdate;
+                    case Game:
+                        GameMessage receivedMessageGame = (GameMessage) receivedMessage;
+                        if(specificTypeOfMessage.equals(receivedMessageGame.getTypeOfMove())){
+                            return receivedMessageGame;
+                        }else{
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                            sendMessage(errorMessage);
+                            correctMatch = false;
+                        }
+                    case Error:
+                        ErrorMessage receivedMessageError = (ErrorMessage) receivedMessage;
+                        if(specificTypeOfMessage.equals(receivedMessageError.getTypeOfError())){
+                            return receivedMessageError;
+                        }else{
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                            sendMessage(errorMessage);
+                            correctMatch = false;
+                        }
+                    case Ping:
+                        PingMessage receivedMessagePing = (PingMessage) receivedMessage;
+                        return receivedMessagePing;
+                    case Async:
+                        AsyncMessage receivedMessageAsync = (AsyncMessage) receivedMessage;
+                        if(specificTypeOfMessage.equals(receivedMessageAsync.getTypeOfAsync())){
+                            return receivedMessageAsync;
+                        }
                 }
+
+            }else{
+                ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                sendMessage(errorMessage);
+                correctMatch = false;
             }
-
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Ack)){
-                    AckMessage receivedMessageAck = (AckMessage) receivedMessage;
-                    if(specificTypeOfMessage.equals(receivedMessageAck.getTypeOfAck())){
-                        return receivedMessageAck;
-                    }
-                }
-            }
-
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Update)){
-                    UpdateMessage receivedMessageUpdate = (UpdateMessage) receivedMessage;
-                    return receivedMessageUpdate;
-                }
-            }
-
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Game)){
-                    GameMessage receivedMessageGame = (GameMessage) receivedMessage;
-                    if(specificTypeOfMessage.equals(receivedMessageGame.getTypeOfMove())){
-                        return receivedMessageGame;
-                    }
-                }
-            }
-
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Error)){
-                    ErrorMessage receivedMessageError = (ErrorMessage) receivedMessage;
-                    if(specificTypeOfMessage.equals(receivedMessageError.getTypeOfError())){
-                        return receivedMessageError;
-                    }
-                }
-            }
-
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Ping)){
-                    PingMessage receivedMessagePing = (PingMessage) receivedMessage;
-                    return receivedMessagePing;
-                }
-            }
-
-            if(receivedMessage.getMessageType().equals(typeOfMessage)){
-                if(typeOfMessage.equals(TypeOfMessage.Async)){
-                    AsyncMessage receivedMessageAsync = (AsyncMessage) receivedMessage;
-                    if(specificTypeOfMessage.equals(receivedMessageAsync.getTypeOfAsync())){
-                        return receivedMessageAsync;
-                    }
-                }
-            }
-
-            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
-            sendMessage(errorMessage);
-            correctMatch = false;
-
         } while (correctMatch==false);
 
         //questa riga di codice non dovrebbe mai essere eseguita, si dovrebbe sempre rientrare in uno dei casi precedenti
