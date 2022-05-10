@@ -48,8 +48,6 @@ public class PianificationPhase extends GamePhase {
         this.fillClouds();
         gameController.update();
 
-        System.out.println("UPDATE INVIATI");
-
         for(int i = 0; i < numberOfPlayers; i++){
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);

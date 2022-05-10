@@ -144,7 +144,6 @@ public class MessageHandler {
     public void sendBroadcast(Message message){
         for(PlayerManager playerManager : this.getPlayerManagerMap().values()){
             playerManager.sendMessage(message);
-            System.out.println("ACK FULL LOBBY SENT TO: " + playerManager.getPlayerNickname());
         }
     }
 

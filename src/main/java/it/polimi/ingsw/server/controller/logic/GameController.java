@@ -68,9 +68,6 @@ public class GameController implements Runnable  {
 
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
         messageHandler.sendBroadcast(message);
-        System.out.println("FINE NOTIFY");
-
-        if (true){return;}
 
         do{
             currentPhase = pianificationPhase;
@@ -119,7 +116,6 @@ public class GameController implements Runnable  {
         UpdateMessage updateMessage = new UpdateMessage(this.getGameState());
         for(PlayerManager playerManager : messageHandler.getPlayerManagerMap().values()){
             playerManager.sendMessage(updateMessage);
-            System.out.println("UPDATE SENT TO: " + playerManager.getPlayerNickname());
         }
 
         return;

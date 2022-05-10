@@ -105,7 +105,6 @@ public class LobbyManager implements Runnable {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            System.out.println(out);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("error in client IO");
