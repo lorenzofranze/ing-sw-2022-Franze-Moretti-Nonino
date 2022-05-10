@@ -165,19 +165,8 @@ public class PlayerManager implements Runnable{
 
         do {
             correctMatch = true;
-
-            /*while(messageQueue.isEmpty()){
-                //setTimeout();
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }*/
-
             receivedMessage = getLastMessage();
 
-            System.out.println("FLAG PLAYER MANAGER - READ MESSAGE 1");
             System.out.println(jsonConverter.fromMessageToJson(receivedMessage));
 
             if(receivedMessage.getMessageType().equals(expectedTypeOfMessage)){

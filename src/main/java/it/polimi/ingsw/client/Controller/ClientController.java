@@ -49,6 +49,8 @@ public class ClientController implements Runnable {
         waitForOtherPlayers();
         waitForFirstGameState();
 
+        System.out.println("FLAG -CLIENT CONTROLLER");
+
         while (gameStatePojo.isGameOver() == false) {
 
             receivedMessage = networkHandler.getReceivedMessage();
@@ -150,7 +152,6 @@ public class ClientController implements Runnable {
                 gameStateReceived = true;
                 if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
                     console.play();
-                    System.out.println("FLAG");  //DA CANCELLARE
                 }
             } else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE

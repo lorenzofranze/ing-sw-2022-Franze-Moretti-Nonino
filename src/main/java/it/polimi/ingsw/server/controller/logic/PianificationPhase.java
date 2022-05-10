@@ -94,11 +94,8 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             isInDeck = false;
 
-            System.out.println("FLAG -PIANIFICATION PRE READ");
-
             Message message = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.AssistantCard);
             Integer played = null;
-            System.out.println("FLAG -PIANIFICATION POST READ");
 
             if (message != null){
                 gameMessage = (GameMessage) message;
@@ -124,6 +121,8 @@ public class PianificationPhase extends GamePhase {
                 }
 
                 if (!mustChange) {
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
                     turnOrderMap.put(currentPlayer, played);
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);

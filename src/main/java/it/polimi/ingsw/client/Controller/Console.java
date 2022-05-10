@@ -44,20 +44,18 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("FLAG CONSOLE");
 
-        receivedMessage = networkHandler.getReceivedMessage();
-        if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
-            AckMessage ackMessage = (AckMessage) receivedMessage;
-            if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
-                moveAccepted = true;
-                System.out.println("FLAG CONSOLE 2");
+        do{
+            receivedMessage = networkHandler.getReceivedMessage();
+            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                AckMessage ackMessage = (AckMessage) receivedMessage;
+                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
+                    moveAccepted = true;
+                }
+            }else{
+                clientController.viewBegin.showMessage(receivedMessage);
             }
-        }
-
-        if (moveAccepted == false){
-            clientController.viewBegin.showMessage(receivedMessage);
-        }
+        }while(moveAccepted==false);
     }
 
     private void playAction(){
