@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.logic;
+/*package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
@@ -557,4 +557,6 @@ class ActionPhaseTest {
     }
 
 
-}
+
+
+}*/

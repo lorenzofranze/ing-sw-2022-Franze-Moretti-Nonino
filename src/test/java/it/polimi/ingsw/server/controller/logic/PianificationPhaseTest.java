@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.messages.GameMessage;
@@ -296,3 +297,4 @@ class PianificationPhaseTest {
 
     }
 }
+*/

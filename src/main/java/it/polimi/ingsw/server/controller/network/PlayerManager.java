@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
 public class PlayerManager implements Runnable{
-    private Queue<Message> messageQueue;
+    private LinkedBlockingQueue<Message> messageQueue;
     private boolean characterReceived=false;
     private JsonConverter jsonConverter;
     private String playerNickname;
@@ -99,7 +99,13 @@ public class PlayerManager implements Runnable{
     }
 
     public Message getLastMessage() {
-        return messageQueue.poll();
+        Message message = null;
+        try {
+            message =  messageQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return message;
     }
 
     public boolean isMyTurn() {
@@ -275,7 +281,7 @@ public class PlayerManager implements Runnable{
         return messageQueue;
     }
 
-    public void setMessageQueue(Queue<Message> messageQueue) {
+    public void setMessageQueue(LinkedBlockingQueue<Message> messageQueue) {
         this.messageQueue = messageQueue;
     }
 }
