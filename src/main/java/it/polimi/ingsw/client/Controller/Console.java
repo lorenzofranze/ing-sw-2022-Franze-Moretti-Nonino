@@ -13,12 +13,13 @@ public class Console {
     GameMode gameMode = clientController.getGameMode();
     NetworkHandler networkHandler = clientController.getNetworkHandler();
 
-    private enum ActionBookMark{}
+    private enum ActionBookMark{none, moveStudents, placeMotherNature}
 
     Phase currentPhase = null;
-    ActionBookMark currActionBookMark;
+    ActionBookMark currActionBookMark = ActionBookMark.none;
 
     private int assistantCardPlayed = 0;
+    private int studentMoved = 0;
 
 
     public void play(){
@@ -61,6 +62,8 @@ public class Console {
 
     private void playAction(){
         switch (currActionBookMark){
+            case none:
+
 
         }
 

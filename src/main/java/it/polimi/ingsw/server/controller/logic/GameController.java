@@ -79,9 +79,6 @@ public class GameController implements Runnable  {
 
             pianificationResult = this.pianificationPhase.handle(currentPlayer);
 
-            System.out.println("FINE PIANIFICATION");
-            if (true){return;}
-
             isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
             isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
 
@@ -91,9 +88,13 @@ public class GameController implements Runnable  {
 
             //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
 
+            System.out.println("GAME CONTROLLER - INIZIO ACTION PHASE");
+
             actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
             isFinishedTowers = actionResult.isFinishedTowers();
             isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
+
+            System.out.println("GAME CONTROLLER - FINE ACTION PHASE");
 
         }
         while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards));
