@@ -58,16 +58,11 @@ public class ClientController implements Runnable {
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Update:
+                    viewBegin.showMessage(receivedMessage);
                     UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                     this.gameStatePojo = updateMessage.getGameState();
-                    viewBegin.showMessage(receivedMessage);
-
-                    /*nel caso sia il mio turno e non sia un semplice aggiornamento, ma devo giocare,
-                    chiamo console.play()*/
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
-                        if(console.updateOrPlay((UpdateMessage) receivedMessage)){
-                            console.play();
-                        }
+                        console.play();
                     }
                     break;
                 case Ack:

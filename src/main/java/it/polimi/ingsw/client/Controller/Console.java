@@ -66,21 +66,6 @@ public class Console {
 
     }
 
-    /**this method shows if the player has already played the turn indicated in gameStatePojo
-     * (and so the message is just an update) or if the player has to acutally make a move; returns true if he has to
-     * make a move; returns false if it's just an update**/
-    public boolean updateOrPlay(UpdateMessage updateMessage){
-        Phase receivedPhase = updateMessage.getGameState().getCurrentPhase();
-        ActionBookMark actionBookMark;
-
-        if (!clientController.getGameStatePojo().getCurrentPhase().equals(receivedPhase)){
-            return true;
-        }else{
-            //fai il check su Action
-            return false;
-        }
-    }
-
     public void setAssistantCardPlayed(int assistantCardPlayed) {
         this.assistantCardPlayed = assistantCardPlayed;
     }
