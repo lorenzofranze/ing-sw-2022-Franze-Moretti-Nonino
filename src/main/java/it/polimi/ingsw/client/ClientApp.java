@@ -26,12 +26,19 @@ public class ClientApp implements Runnable{
 
     public static void main(String[] args) {
 
-        String typeOfView = args[0];
-        serverIp = args[1];
-        serverPort = Integer.parseInt(args[2]);
-
+        String typeOfView;
         ViewBegin viewBegin;
         ViewEnd viewEnd;
+
+        if (args.length == 0){
+            serverIp = "localhost";
+            serverPort = 32501;
+            typeOfView = "cli";
+        }else{
+            typeOfView = args[0];
+            serverIp = args[1];
+            serverPort = Integer.parseInt(args[2]);
+        }
 
         if(typeOfView.equals("cli")){
             viewBegin = new CLIViewBegin();

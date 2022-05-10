@@ -19,17 +19,29 @@ public class CLIViewBegin implements ViewBegin {
 
     @Override
     public void chooseGameMode() {
-        System.out.println("CHOOSE BETWEEN THE FOLLOWING GAME MODES:");
-        System.out.println("1. 2 players simple\n" + "2. 3 players simple\n" + "3. 2 players complex\n" + "4. 3 players complex\n");
+
+        System.out.println("\n\n");
+        System.out.println("\033[01m" + "-----------------------------ERYANTIS LOGIN-----------------------------" + "\033[0m");
+
+        System.out.println("\nTHESE ARE THE POSSIBLE GAME MODES:");
+        System.out.println("1. 2 players simple\n" + "2. 3 players simple\n" + "3. 2 players complex\n" + "4. 3 players complex");
+        System.out.print("\nCHOOSE THE GAME MODE: ");
         boolean valid;
-        int result;
+        int result = 0;
         do {
             valid = true;
-            result = scanner.nextInt();
-            if (result <= 0 || result >= 5) {
-                System.out.println("Invalid game mode: you must insert a number between 1 and 4.");
-                System.out.print("Insert game mode: ");
+            String resultString = scanner.nextLine();
+            if (!(resultString.equals("1") || resultString.equals("2") || resultString.equals("3") || resultString.equals("4"))){
+                System.out.println("--Invalid game mode: you must insert a number between 1 and 4.");
+                System.out.print("CHOOSE THE GAME MODE: ");
                 valid = false;
+            }else{
+                result = Integer.parseInt(resultString);
+                if (result <= 0 || result >= 5) {
+                    System.out.println("--Invalid game mode: you must insert a number between 1 and 4.");
+                    System.out.print("CHOOSE THE GAME MODE: ");
+                    valid = false;
+                }
             }
         } while (!valid);
         clientController.setIntRead(result);
@@ -38,15 +50,15 @@ public class CLIViewBegin implements ViewBegin {
 
     @Override
     public void beginReadUsername() {
-        System.out.print("INSERT NICKNAME (at least 4 characters):");
+        System.out.print("INSERT NICKNAME (at least 4 characters): ");
         boolean valid;
         String result;
         do {
             valid = true;
             result = scanner.nextLine();
             if (result.length() < 4 ) {
-                System.out.println("Invalid nickname: you must insert a nickname of at least 4 characters.");
-                System.out.print("Insert nickname: ");
+                System.out.println("--Invalid nickname: you must insert a nickname of at least 4 characters.");
+                System.out.print("INSERT NICKNAME (at least 4 characters): ");
                 valid = false;
             }
         } while (!valid);
@@ -130,15 +142,17 @@ public class CLIViewBegin implements ViewBegin {
 
     @Override
     public void showAck(AckMessage ackMessage) {
-        if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectConnection)){
-            System.out.print("Successful connection.");
-        }
-        if (ackMessage.getTypeOfAck().equals(TypeOfAck.CompleteLobby)){
-            System.out.print("All players have joined the lobby. The game can start.");
-            System.out.print("\n############################     WELCOME IN ERIANTIS!     ############################\n");
-        }
-        else{
-            System.out.print("Unknown ack message");
+
+        switch(ackMessage.getTypeOfAck()) {
+            case CorrectConnection:
+                System.out.println("Successful connection.");
+                break;
+            case CompleteLobby:
+                System.out.println("All players have joined the lobby. The game can start.");
+                System.out.print("\n\n\n#####################################################     WELCOME IN ERIANTIS!     #####################################################\n");
+                break;
+            default:
+                System.out.print("Unknown ack message");
         }
         endView.endShowAck(ackMessage);
     }

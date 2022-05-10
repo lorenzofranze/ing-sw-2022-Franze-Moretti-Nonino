@@ -16,8 +16,6 @@ public class NetworkHandler {
     private BufferedReader in;
     private BufferedWriter out;
 
-    private static int contatore = 0; //DA CANCELLARE
-
     private JsonConverter jsonConverter = new JsonConverter();
 
     public NetworkHandler(String serverIp, int serverPort) {
@@ -45,9 +43,6 @@ public class NetworkHandler {
         } catch(IOException e){
             System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
         }
-        contatore++; //DA CANCELLARE
-        System.out.println(("Messaggio letto numero: ") + contatore); //DA CANCELLARE
-        System.out.println(lastMessage); //DA CANCELLARE
         return lastMessage;
     }
 

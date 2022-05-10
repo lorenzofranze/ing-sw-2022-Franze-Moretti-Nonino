@@ -145,7 +145,6 @@ public class ClientController implements Runnable {
             } else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
-                viewBegin.showMessage(receivedMessage); //DA CANCELLARE
             }
         }
     }
