@@ -137,6 +137,13 @@ public class PlayerManager implements Runnable{
             ServerController.getInstance().closeConnection(playerNickname);
             this.toStop=true;
         }
+
+        //da cancellare fino a (fine cancella*)
+        if (!message.getMessageType().equals(TypeOfMessage.Update)) {
+            System.out.println("Messagte sent to: " + this.getPlayerNickname());
+            System.out.println(stringToSend);
+        }
+        //(fine cancella *)
     }
 
     public String getPlayerNickname() {
@@ -158,7 +165,6 @@ public class PlayerManager implements Runnable{
             correctMatch = true;
             if(messageQueue.isEmpty()){
                 setTimeout();
-
                 try {
                     wait();
                 } catch (InterruptedException e) {

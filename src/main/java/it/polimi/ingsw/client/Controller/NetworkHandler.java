@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.Controller;
 import it.polimi.ingsw.common.messages.ConnectionMessage;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
+import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.*;
@@ -77,6 +78,10 @@ public class NetworkHandler {
     public Message getReceivedMessage() {
         String stringMessage = this.readFromBuffer();
         Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
+
+        if (!receivedMessage.getMessageType().equals(TypeOfMessage.Update)){  // DA CANCELLARE
+            System.out.println(stringMessage);                                // DA CANCELLARE
+        }
         return receivedMessage;
     }
 

@@ -44,12 +44,14 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("FLAG CONSOLE");
 
         receivedMessage = networkHandler.getReceivedMessage();
         if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
             AckMessage ackMessage = (AckMessage) receivedMessage;
             if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                 moveAccepted = true;
+                System.out.println("FLAG CONSOLE 2");
             }
         }
 

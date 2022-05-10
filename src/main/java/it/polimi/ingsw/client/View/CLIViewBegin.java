@@ -5,6 +5,8 @@ import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class CLIViewBegin implements ViewBegin {
@@ -72,7 +74,7 @@ public class CLIViewBegin implements ViewBegin {
         String resultString;
         int result = 0;
         boolean valid = true;
-        System.out.println("YOUR DECK: ");
+        System.out.println("\033[01m"+"YOUR DECK"+"\033[0m");
 
         PlayerPojo me = null;
         for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()){
@@ -184,7 +186,7 @@ public class CLIViewBegin implements ViewBegin {
                 break;
             case CompleteLobby:
                 System.out.println("All players have joined the lobby. The game can start.");
-                System.out.print("\n\n\n#####################################################     WELCOME IN ERIANTIS!     #####################################################\n");
+                System.out.print("\n\n\n#####################################################     WELCOME IN ERYANTIS!     #####################################################\n");
                 break;
             default:
                 System.out.print("Unknown ack message");
@@ -278,7 +280,7 @@ public class CLIViewBegin implements ViewBegin {
             }
         }
 
-        System.out.println("\n-----------------------------------------------------------------------------------------------------------\n");
+        System.out.println("-----------------------------------------------------------------------------------------------------------\n");
 
         endView.endShowGameState(gameStatePojo);
     }

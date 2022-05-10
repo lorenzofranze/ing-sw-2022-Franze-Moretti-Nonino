@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class AssistantCardPojo {
 
     private int turnOrder;
@@ -24,7 +27,7 @@ public class AssistantCardPojo {
     @Override
     public String toString(){
         String ris = "turnOrder: " + turnOrder;
-        ris = ris + "\tmovementsMotherNature: " + movementsMotherNature;
+        ris = ris + "\t\tmovementsMotherNature: " + movementsMotherNature;
         return ris;
     }
 }

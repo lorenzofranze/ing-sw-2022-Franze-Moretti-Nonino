@@ -47,7 +47,6 @@ public class ClientController implements Runnable {
         console = new Console();
 
         waitForOtherPlayers();
-
         waitForFirstGameState();
 
         while (gameStatePojo.isGameOver() == false) {
@@ -135,16 +134,21 @@ public class ClientController implements Runnable {
 
     public void waitForFirstGameState(){
         receivedMessage = networkHandler.getReceivedMessage();
-        viewBegin.showMessage(receivedMessage); //DA CANCELLARE
         boolean gameStateReceived = false;
 
         while(gameStateReceived == false){
             if (receivedMessage.getMessageType().equals(Update)){
+                viewBegin.showMessage(receivedMessage);
                 UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                 this.gameStatePojo = updateMessage.getGameState();
                 gameStateReceived = true;
+                if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
+                    console.play();
+                    System.out.println("FLAG");  //DA CANCELLARE
+                }
             } else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
+                viewBegin.showMessage(receivedMessage);     //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
             }
         }
