@@ -94,8 +94,11 @@ public class PianificationPhase extends GamePhase {
             mustChange = false;
             isInDeck = false;
 
+            System.out.println("FLAG -PIANIFICATION PRE READ");
+
             Message message = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.AssistantCard);
             Integer played = null;
+            System.out.println("FLAG -PIANIFICATION POST READ");
 
             if (message != null){
                 gameMessage = (GameMessage) message;

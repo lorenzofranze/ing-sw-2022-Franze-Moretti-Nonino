@@ -16,7 +16,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
 public class PlayerManager implements Runnable{
-    private Queue<Message> messageQueue;
+    private LinkedBlockingQueue<Message> messageQueue;
     private boolean characterReceived=false;
     private JsonConverter jsonConverter;
     private String playerNickname;
@@ -57,8 +57,6 @@ public class PlayerManager implements Runnable{
         while (true) {
             receivedString = readFromBuffer();
             receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
-            /*todo*/
-            // notifyAll();
 
             switch(receivedMessage.getMessageType()){
                 case Async: //if i have received an async message(a disconnection message)
@@ -78,6 +76,7 @@ public class PlayerManager implements Runnable{
                             characterReceived=true;
                         }
                         messageQueue.add(receivedMessage);
+                        //notifyAll();
                     }
                     break;
                 default:
@@ -97,8 +96,15 @@ public class PlayerManager implements Runnable{
         return characterReceived;
     }
     public Message getLastMessage() {
-        return messageQueue.poll();
+        Message message = null;
+        try {
+            message =  messageQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return message;
     }
+
     public boolean isMyTurn() {
         return isMyTurn;
     }
@@ -160,14 +166,14 @@ public class PlayerManager implements Runnable{
         do {
             correctMatch = true;
 
-            while(messageQueue.isEmpty()){
+            /*while(messageQueue.isEmpty()){
                 //setTimeout();
                 try {
-                    wait(500);
+                    wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             receivedMessage = getLastMessage();
 
@@ -302,7 +308,5 @@ public class PlayerManager implements Runnable{
         return bufferedReaderOut;
     }
 
-    public void setMessageQueue(Queue<Message> messageQueue) {
-        this.messageQueue = messageQueue;
-    }
+
 }

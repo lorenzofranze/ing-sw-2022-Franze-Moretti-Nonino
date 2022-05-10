@@ -56,6 +56,7 @@ public class ClientController implements Runnable {
             switch (receivedMessage.getMessageType()) {
                 case Connection:
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    break;
                 case Update:
                     this.gameStatePojo = ((UpdateMessage) receivedMessage).getGameState();
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
@@ -64,14 +65,19 @@ public class ClientController implements Runnable {
                     break;
                 case Ack:
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    break;
                 case Game:
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    break;
                 case Error:
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    break;
                 case Ping:
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    break;
                 case Async:
                     viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    break;
             }
         }
     }
