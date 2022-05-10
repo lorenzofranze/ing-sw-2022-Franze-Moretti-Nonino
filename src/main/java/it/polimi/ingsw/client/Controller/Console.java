@@ -63,6 +63,13 @@ public class Console {
     private void playAction(){
         switch (currActionBookMark){
             case none:
+                int studentsToMove = 0;
+                if (clientController.getGameStatePojo().getPlayers().size() == 2){
+                    studentsToMove = 3;
+                }else {studentsToMove = 4;}
+                for(int i = 0; i < studentsToMove; i++){
+                    moveStudent();
+                }
 
 
         }
@@ -71,5 +78,9 @@ public class Console {
 
     public void setAssistantCardPlayed(int assistantCardPlayed) {
         this.assistantCardPlayed = assistantCardPlayed;
+    }
+
+    public void moveStudent(){
+
     }
 }
