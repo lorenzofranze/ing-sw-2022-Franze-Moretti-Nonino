@@ -10,6 +10,9 @@ public class CLIViewEnd implements ViewEnd{
     public void endChooseGameMode(int gameMode){};
 
     @Override
+    public void endChooseAssistantCard() {}
+
+    @Override
     public void endShowMessage(Message message) {}
     @Override
     public void endShowConnection(ConnectionMessage connectionMessage) {}

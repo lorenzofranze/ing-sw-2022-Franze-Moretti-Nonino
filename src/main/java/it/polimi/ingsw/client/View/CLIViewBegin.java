@@ -68,6 +68,41 @@ public class CLIViewBegin implements ViewBegin {
     }
 
     @Override
+    public void chooseAssistantCard() {
+        String resultString;
+        int result = 0;
+        boolean valid = true;
+        System.out.println("YOUR DECK: ");
+
+        PlayerPojo me = null;
+        for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()){
+            if (p.getNickname().equals(ClientController.getInstance().getNickname())){
+                me = p;
+            }
+        }
+
+        for(AssistantCardPojo a : me.getDeck()){
+            System.out.println("AssistantCard: " + a.toString());
+        }
+
+        do{
+            valid = true;
+            System.out.print("Insert the turnOrder value of the card you want to play: ");
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+            } catch(NumberFormatException e){
+                System.out.print("Insert the turnOrder value of the card you want to play: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+
+        clientController.getConsole().setAssistantCardPlayed(result);
+        endView.endChooseAssistantCard();
+    }
+
+    @Override
     public void showMessage(Message message) {
         if(message.getMessageType().equals(TypeOfMessage.Connection)){
             ConnectionMessage connectionMessage = (ConnectionMessage) message;
@@ -229,8 +264,20 @@ public class CLIViewBegin implements ViewBegin {
             for(CharacterPojo characterPojo : gameStatePojo.getCharacters())
                 System.out.println("character card "+i+": cost: "+ characterPojo.getActualCost());
             //System.out.println() ogg. sulla carta
-
         }
+
+        System.out.print("\n\033[01m" + "TURN: " + "\033[0m");
+        PlayerPojo current = gameStatePojo.getCurrentPlayer();
+        if (current == null){
+            System.out.println("no one");
+        }else{
+            if (current.getNickname().equals(clientController.getNickname())){
+                System.out.println("yours");
+            }else{
+                System.out.println(current.getNickname());
+            }
+        }
+
         System.out.println("\n-----------------------------------------------------------------------------------------------------------\n");
 
         endView.endShowGameState(gameStatePojo);

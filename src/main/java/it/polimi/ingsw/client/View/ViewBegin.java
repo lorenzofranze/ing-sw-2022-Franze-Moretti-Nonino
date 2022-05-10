@@ -9,6 +9,8 @@ public interface ViewBegin {
     void beginReadUsername();
     void chooseGameMode();
 
+    void chooseAssistantCard();
+
     void showMessage(Message message);
     void showConnection(ConnectionMessage connectionMessage);
     void showError(ErrorMessage errorMessage);

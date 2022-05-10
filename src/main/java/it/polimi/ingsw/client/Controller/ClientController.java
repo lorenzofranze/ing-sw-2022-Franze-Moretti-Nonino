@@ -177,4 +177,16 @@ public class ClientController implements Runnable {
     public GameStatePojo getGameStatePojo() {
         return gameStatePojo;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public Console getConsole() {
+        return console;
+    }
+
+    public NetworkHandler getNetworkHandler() {
+        return networkHandler;
+    }
 }

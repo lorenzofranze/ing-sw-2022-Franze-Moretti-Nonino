@@ -20,4 +20,11 @@ public class AssistantCardPojo {
     public void setMovementsMotherNature(int movementsMotherNature) {
         this.movementsMotherNature = movementsMotherNature;
     }
+
+    @Override
+    public String toString(){
+        String ris = "turnOrder: " + turnOrder;
+        ris = ris + "\tmovementsMotherNature: " + movementsMotherNature;
+        return ris;
+    }
 }

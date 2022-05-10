@@ -7,6 +7,8 @@ public interface ViewEnd {
     void endReadUsername(String username);
     void endChooseGameMode(int gameMode);
 
+    void endChooseAssistantCard();
+
     void endShowMessage(Message message);
     void endShowConnection(ConnectionMessage connectionMessage);
     void endShowError(ErrorMessage errorMessage);
