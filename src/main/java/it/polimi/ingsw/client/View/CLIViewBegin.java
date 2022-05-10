@@ -35,13 +35,13 @@ public class CLIViewBegin implements ViewBegin {
             valid = true;
             String resultString = scanner.nextLine();
             if (!(resultString.equals("1") || resultString.equals("2") || resultString.equals("3") || resultString.equals("4"))){
-                System.out.println("--Invalid game mode: you must insert a number between 1 and 4.");
+                System.out.println("You must insert a number between 1 and 4.");
                 System.out.print("CHOOSE THE GAME MODE: ");
                 valid = false;
             }else{
                 result = Integer.parseInt(resultString);
                 if (result <= 0 || result >= 5) {
-                    System.out.println("--Invalid game mode: you must insert a number between 1 and 4.");
+                    System.out.println("You must insert a number between 1 and 4.");
                     System.out.print("CHOOSE THE GAME MODE: ");
                     valid = false;
                 }
@@ -60,7 +60,7 @@ public class CLIViewBegin implements ViewBegin {
             valid = true;
             result = scanner.nextLine();
             if (result.length() < 4 ) {
-                System.out.println("--Invalid nickname: you must insert a nickname of at least 4 characters.");
+                System.out.println("You must insert a nickname of at least 4 characters.");
                 System.out.print("INSERT NICKNAME (at least 4 characters): ");
                 valid = false;
             }
@@ -74,7 +74,7 @@ public class CLIViewBegin implements ViewBegin {
         String resultString;
         int result = 0;
         boolean valid = true;
-        System.out.println("\033[01m"+"YOUR DECK"+"\033[0m");
+        System.out.println("\033[01m"+"PIANIFICATION PHASE"+"\033[0m" + "\nYou need to choose your Assistant Card. Here is your deck.\n");
 
         PlayerPojo me = null;
         for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()){
@@ -87,6 +87,7 @@ public class CLIViewBegin implements ViewBegin {
             System.out.println("AssistantCard: " + a.toString());
         }
 
+        System.out.print("\n");
         do{
             valid = true;
             System.out.print("Insert the turnOrder value of the card you want to play: ");
@@ -140,32 +141,33 @@ public class CLIViewBegin implements ViewBegin {
 
     @Override
     public void showError(ErrorMessage errorMessage) {
-        if (errorMessage.getTypeOfError().equals(TypeOfError.UsedName)){
-            System.out.print("Nickname already in use by other players.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.Disconnection)){
-            System.out.print("Disconnection error.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.UnmatchedMessages)){
-            System.out.print("Unexpected message received from server.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.FullDiningRoom)){
-            System.out.print("The diningroom is full. Place the student in another place.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)){
-            System.out.print("The choice you made is invalid.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.TurnError)){
-            System.out.print("You cannot play. Wait for your turn.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.NoMoney)){
-            System.out.print("You don't have enough money.");
-        }
-        if (errorMessage.getTypeOfError().equals(TypeOfError.FailedConnection)){
-            System.out.print("Failed connection to the server.");
-        }
-        else{
-            System.out.print("Unknown error message");
+        switch(errorMessage.getTypeOfError()) {
+            case UsedName:
+                System.out.println("Nickname already in use by other players.");
+                break;
+            case Disconnection:
+                System.out.println("Disconnection error.");
+                break;
+            case UnmatchedMessages:
+                System.out.println("Unexpected message received from server.");
+                break;
+            case FullDiningRoom:
+                System.out.println("The diningroom is full. Place the student in another place.");
+                break;
+            case InvalidChoice:
+                System.out.println("The choice you made is invalid.");
+                break;
+            case TurnError:
+                System.out.println("You cannot play. Wait for your turn.");
+                break;
+            case NoMoney:
+                System.out.println("You don't have enough money.");
+                break;
+            case FailedConnection:
+                System.out.println("Failed connection to the server.");
+                break;
+            default:
+                System.out.println("Unknown error message");
         }
         endView.endShowError(errorMessage);
     }
@@ -186,10 +188,10 @@ public class CLIViewBegin implements ViewBegin {
                 break;
             case CompleteLobby:
                 System.out.println("All players have joined the lobby. The game can start.");
-                System.out.print("\n\n\n#####################################################     WELCOME IN ERYANTIS!     #####################################################\n");
+                System.out.println("\n\n\n##########################################     WELCOME IN ERYANTIS!     ##########################################");
                 break;
             default:
-                System.out.print("Unknown ack message");
+                System.out.println("Unknown ack message");
         }
         endView.endShowAck(ackMessage);
     }

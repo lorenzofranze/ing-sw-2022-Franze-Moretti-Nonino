@@ -26,8 +26,8 @@ public class AssistantCardPojo {
 
     @Override
     public String toString(){
-        String ris = "turnOrder: " + turnOrder;
-        ris = ris + "\t\tmovementsMotherNature: " + movementsMotherNature;
+        String ris = "\t\tmovementsMotherNature: " + movementsMotherNature;
+        ris = ris + "\t\tturnOrder: " + turnOrder;
         return ris;
     }
 }

@@ -48,15 +48,13 @@ public class PianificationPhase extends GamePhase {
         this.fillClouds();
 
         for(int i = 0; i < numberOfPlayers; i++){
-            gameController.update();
             currentPlayer = this.gameController.getGame().getPlayers().get((playerIndex + i) % numberOfPlayers);
             this.gameController.setCurrentPlayer(currentPlayer);
+            gameController.update();
             playAssistantCard(currentPlayer, turnOrderMap, maximumMovements);
             gameController.update();
             playedOrder.add(currentPlayer);
         }
-
-        gameController.update();
 
         /*turnOrder sarà la lista dei giocatori ordinata come giocheranno la ActionPhase. Se due giocatori hanno
         lo stesso turnOrder, allora il giocatore che ha gocato dopo la carta verrà posto dopo il giocatore che
