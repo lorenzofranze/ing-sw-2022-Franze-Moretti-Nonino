@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.controller.logic.GameMode;
 import java.util.Scanner;
 
 public class CLIView implements View {
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     @Override
     public void chooseGameMode() {

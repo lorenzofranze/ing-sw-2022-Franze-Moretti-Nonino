@@ -10,9 +10,6 @@ import java.io.IOException;
 
 public class ClientApp implements Runnable{
 
-    public NetworkHandler networkHandler;
-    public ClientController clientController;
-
     private static View view;
 
     private static String serverIp;
@@ -57,7 +54,7 @@ public class ClientApp implements Runnable{
     @Override
     public void run() {
 
-        networkHandler = new NetworkHandler(serverIp, serverPort);
+        NetworkHandler networkHandler = new NetworkHandler(serverIp, serverPort);
 
         try {
             networkHandler.connectToServer();
@@ -69,7 +66,7 @@ public class ClientApp implements Runnable{
 
         System.out.println("connesso al server"); //DA CANCELLARE
 
-        clientController = ClientController.getInstance();
+        ClientController clientController = ClientController.getInstance();
         clientController.setNetworkHandler(networkHandler);
         clientController.setView(view);
 
