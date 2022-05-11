@@ -76,7 +76,6 @@ public class ServerController {
                 if(p.getNickname().equals(playerNickname)){
                     lobby=gameController.getLobby();
                     messageHandler=gameController.getMessageHandler();
-                    ServerController.getInstance().getCurrentGames().remove(gameController);
                     gameControllerToStop=gameController;
                 }
             }
@@ -89,6 +88,7 @@ public class ServerController {
                     playerManager.sendMessage(disconnectionMessage);
                 }
             }
+
             for (Socket socket : lobby.getUsersReadyToPlay().values()){
                 socket.close();
             }
@@ -98,9 +98,7 @@ public class ServerController {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-
-
     }
-
-
 }
+
+

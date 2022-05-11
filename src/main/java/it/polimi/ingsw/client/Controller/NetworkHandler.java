@@ -82,6 +82,9 @@ public class NetworkHandler {
         if (!receivedMessage.getMessageType().equals(TypeOfMessage.Update)){  // DA CANCELLARE
             System.out.println(stringMessage);                                // DA CANCELLARE
         }
+        if(receivedMessage.getMessageType().equals(TypeOfMessage.Async)){
+            ClientController.getInstance().setDisconnected();
+        }
         return receivedMessage;
     }
 

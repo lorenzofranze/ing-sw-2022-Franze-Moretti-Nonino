@@ -18,6 +18,7 @@ public class ClientController implements Runnable {
     private NetworkHandler networkHandler;
     private Console console;
     private GameStatePojo gameStatePojo;
+    private boolean disconnected=false;
 
     public View view;
 
@@ -36,14 +37,19 @@ public class ClientController implements Runnable {
     public void run() {
 
         connect();
+        if(disconnected==true){
+            return;
+        }
         console = new Console();
 
         waitForOtherPlayers();
         waitForFirstGameState();
 
+
         while (gameStatePojo.isGameOver() == false) {
 
             Message receivedMessage = networkHandler.getReceivedMessage();
+            if(disconnected) return;
 
             switch (receivedMessage.getMessageType()) {
                 case Connection:
@@ -71,7 +77,7 @@ public class ClientController implements Runnable {
                     break;
                 case Async:
                     view.showMessage(receivedMessage); //DA CANCELLARE
-                    break;
+                    return;
             }
         }
     }
@@ -94,6 +100,7 @@ public class ClientController implements Runnable {
             }
 
             Message receivedMessage = networkHandler.getReceivedMessage();
+            if(disconnected) return;
             view.showMessage(receivedMessage);
 
             if (receivedMessage.getMessageType().equals(Ack)) {
@@ -106,6 +113,7 @@ public class ClientController implements Runnable {
                 }
             }
 
+
             if (receivedMessage.getMessageType().equals(Error)) {
                 ErrorMessage errorMessage = (ErrorMessage) receivedMessage;
                 valid = false;
@@ -113,8 +121,10 @@ public class ClientController implements Runnable {
         }while (!valid);
     }
 
+
     private void waitForOtherPlayers(){
         Message receivedMessage = networkHandler.getReceivedMessage();
+        if(disconnected) return;
         view.showMessage(receivedMessage); //DA CANCELLARE
         boolean allJoined = false;
 
@@ -127,6 +137,7 @@ public class ClientController implements Runnable {
             } else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
+                if(disconnected) return;
                 view.showMessage(receivedMessage); //DA CANCELLARE
             }
         }
@@ -134,6 +145,7 @@ public class ClientController implements Runnable {
 
     private void waitForFirstGameState(){
         Message receivedMessage = networkHandler.getReceivedMessage();
+        if(disconnected) return;
         boolean gameStateReceived = false;
 
         while(gameStateReceived == false){
@@ -145,10 +157,12 @@ public class ClientController implements Runnable {
                 if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
                     console.play();
                 }
-            } else {
+            }
+            else{
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 view.showMessage(receivedMessage);     //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
+                if(disconnected) return;
             }
         }
     }
@@ -187,5 +201,13 @@ public class ClientController implements Runnable {
 
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
+    }
+
+    public void setDisconnected(){
+        disconnected=true;
+    }
+
+    public boolean isDisconnected() {
+        return disconnected;
     }
 }
