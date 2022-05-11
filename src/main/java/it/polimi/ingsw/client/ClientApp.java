@@ -70,7 +70,12 @@ public class ClientApp implements Runnable{
         clientController.setNetworkHandler(networkHandler);
         clientController.setView(view);
 
-        clientController.run();
+        Thread threadClientController= new Thread(clientController);
+        threadClientController.start();
 
+        if(ClientController.getInstance().isDisconnected()==true){
+            threadClientController.interrupt();
+            networkHandler.endClient();
+        }
     }
 }
