@@ -35,6 +35,7 @@ public class PlayerManager implements Runnable{
         this.pingSender=new PingSender(playerNickname);
         pingThread= new Thread(pingSender);
         pingThread.start();
+
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
     }
@@ -90,6 +91,9 @@ public class PlayerManager implements Runnable{
                     System.out.println(receivedString);
                     break;
             }
+        }
+        if(pingThread.isInterrupted()==false){
+            pingThread.interrupt();
         }
     }
 
@@ -247,6 +251,7 @@ public class PlayerManager implements Runnable{
     }
 
     public boolean isToStop() {
+
         return toStop;
 
     }

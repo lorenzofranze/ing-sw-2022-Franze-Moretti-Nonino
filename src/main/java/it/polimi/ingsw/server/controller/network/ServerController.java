@@ -53,7 +53,8 @@ public class ServerController {
     }
 
     public synchronized void setToStop(Integer toStop){
-            this.currentGames.remove(toStop);
+        this.currentGames.get(toStop).setGameOver(true);
+        this.currentGames.remove(toStop);
     }
 
     public Map<Integer, GameController> getCurrentGames() {
