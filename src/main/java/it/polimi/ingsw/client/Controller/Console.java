@@ -9,21 +9,17 @@ import java.io.IOException;
 
 public class Console {
 
-    ClientController clientController = ClientController.getInstance();
-    GameMode gameMode = clientController.getGameMode();
-    NetworkHandler networkHandler = clientController.getNetworkHandler();
-
     private enum ActionBookMark{none, moveStudents, placeMotherNature}
 
-    Phase currentPhase = null;
-    ActionBookMark currActionBookMark = ActionBookMark.none;
+    private Phase currentPhase = null;
+    private ActionBookMark currActionBookMark = ActionBookMark.none;
 
     private int assistantCardPlayed = 0;
     private int studentMoved = 0;
 
 
     public void play(){
-        currentPhase = clientController.getGameStatePojo().getCurrentPhase();
+        currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
 
         switch (currentPhase){
             case PIANIFICATION:
@@ -36,7 +32,9 @@ public class Console {
     }
 
     private void playPianification(){
+        ClientController clientController = ClientController.getInstance();
         clientController.view.chooseAssistantCard();
+        NetworkHandler networkHandler = clientController.getNetworkHandler();
         GameMessage gameMessage = new GameMessage(TypeOfMove.AssistantCard, assistantCardPlayed);
         Message receivedMessage;
         boolean moveAccepted = false;
@@ -55,7 +53,7 @@ public class Console {
                     moveAccepted = true;
                 }
             }else{
-                clientController.view.showMessage(receivedMessage);
+                ClientController.getInstance().view.showMessage(receivedMessage);
             }
         }while(moveAccepted==false);
     }
@@ -64,14 +62,12 @@ public class Console {
         switch (currActionBookMark){
             case none:
                 int studentsToMove = 0;
-                if (clientController.getGameStatePojo().getPlayers().size() == 2){
+                if (ClientController.getInstance().getGameStatePojo().getPlayers().size() == 2){
                     studentsToMove = 3;
                 }else {studentsToMove = 4;}
                 for(int i = 0; i < studentsToMove; i++){
                     moveStudent();
                 }
-
-
         }
 
     }

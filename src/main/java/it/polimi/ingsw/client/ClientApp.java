@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class ClientApp implements Runnable{
 
-    NetworkHandler networkHandler;
-    ClientController clientController;
+    public NetworkHandler networkHandler;
+    public ClientController clientController;
 
     private static View view;
 

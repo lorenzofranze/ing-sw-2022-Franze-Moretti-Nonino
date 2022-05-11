@@ -17,11 +17,9 @@ public class ClientController implements Runnable {
     private GameMode gameMode;
     private NetworkHandler networkHandler;
     private Console console;
-
-    public View view;
-
     private GameStatePojo gameStatePojo;
 
+    public View view;
 
     private ClientController(){
         this.instance=null;
@@ -78,7 +76,7 @@ public class ClientController implements Runnable {
         }
     }
 
-    public void connect(){
+    private void connect(){
 
         view.chooseGameMode();
 
@@ -115,7 +113,7 @@ public class ClientController implements Runnable {
         }while (!valid);
     }
 
-    public void waitForOtherPlayers(){
+    private void waitForOtherPlayers(){
         Message receivedMessage = networkHandler.getReceivedMessage();
         view.showMessage(receivedMessage); //DA CANCELLARE
         boolean allJoined = false;
@@ -134,7 +132,7 @@ public class ClientController implements Runnable {
         }
     }
 
-    public void waitForFirstGameState(){
+    private void waitForFirstGameState(){
         Message receivedMessage = networkHandler.getReceivedMessage();
         boolean gameStateReceived = false;
 

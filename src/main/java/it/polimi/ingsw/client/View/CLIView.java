@@ -9,11 +9,10 @@ import java.util.Scanner;
 
 public class CLIView implements View {
     Scanner scanner = new Scanner(System.in);
-    ClientController clientController = ClientController.getInstance();
-    JsonConverter jsonConverter = new JsonConverter();
 
     @Override
     public void chooseGameMode() {
+        ClientController clientController = ClientController.getInstance();
 
         System.out.println("\n\n");
         System.out.println("\033[01m" + "-------------------------------------------------ERYANTIS LOGIN-------------------------------------------------" + "\033[0m");
@@ -45,6 +44,7 @@ public class CLIView implements View {
 
     @Override
     public void beginReadUsername() {
+        ClientController clientController = ClientController.getInstance();
         System.out.print("INSERT NICKNAME (at least 4 characters): ");
         boolean valid;
         String result;
@@ -62,6 +62,7 @@ public class CLIView implements View {
 
     @Override
     public void chooseAssistantCard() {
+        ClientController clientController = ClientController.getInstance();
         String resultString;
         int result = 0;
         boolean valid = true;
@@ -162,6 +163,7 @@ public class CLIView implements View {
 
     @Override
     public void showConnection(ConnectionMessage connectionMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
         String stringConnection = jsonConverter.fromMessageToJson(connectionMessage);
         System.out.println(connectionMessage);
     }
@@ -190,24 +192,28 @@ public class CLIView implements View {
 
     @Override
     public void showAsync(AsyncMessage asyncMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
         String stringAsync = jsonConverter.fromMessageToJson(asyncMessage);
         System.out.println(stringAsync);
     }
 
     @Override
     public void showMove(GameMessage gameMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
         String stringMove = jsonConverter.fromMessageToJson(gameMessage);
         System.out.println(stringMove);
     }
 
     @Override
     public void showPing(PingMessage pingMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
         String stringPing = jsonConverter.fromMessageToJson(pingMessage);
         System.out.println(stringPing);
     }
 
     @Override
     public void showGameState(GameStatePojo gameStatePojo) {
+        ClientController clientController = ClientController.getInstance();
 
         System.out.println("\n----------------------------------------------------GAME STATE----------------------------------------------------\n");
 
