@@ -90,6 +90,8 @@ public class ServerController {
                 }
             }
 
+
+
             for (Socket socket : lobby.getUsersReadyToPlay().values()){
                 socket.close();
             }
