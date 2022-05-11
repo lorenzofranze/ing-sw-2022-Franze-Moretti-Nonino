@@ -70,24 +70,30 @@ public class ServerController {
 
         Lobby lobby=null;
         MessageHandler messageHandler=null;
+        GameController gameControllerToStop=null;
         for (GameController gameController : this.getInstance().getCurrentGames().values()) {
             for (Player p : gameController.getGame().getPlayers()) {
                 if(p.getNickname().equals(playerNickname)){
                     lobby=gameController.getLobby();
                     messageHandler=gameController.getMessageHandler();
                     ServerController.getInstance().getCurrentGames().remove(gameController);
+                    gameControllerToStop=gameController;
                 }
             }
         }
         try {
             //avvisa gli utenti che il gioco è finito per colpa di una disconnessione
+            ErrorMessage disconnectionMessage=new ErrorMessage(TypeOfError.Disconnection);
             for (PlayerManager playerManager: messageHandler.getPlayerManagerMap().values()){
-                ErrorMessage disconnectionMessage=new ErrorMessage(TypeOfError.Disconnection);
-                playerManager.sendMessage(disconnectionMessage);
+                if(!playerManager.getPlayerNickname().equals(playerNickname)) {
+                    playerManager.sendMessage(disconnectionMessage);
+                }
             }
             for (Socket socket : lobby.getUsersReadyToPlay().values()){
                 socket.close();
             }
+
+            ServerController.getInstance().getCurrentGames().remove(gameControllerToStop);
 
         } catch (IOException e) {
             System.err.println(e.getMessage());

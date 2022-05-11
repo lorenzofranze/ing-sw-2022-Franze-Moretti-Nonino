@@ -23,6 +23,7 @@ public class PlayerManager implements Runnable{
     private BufferedReader bufferedReaderIn;
     private BufferedWriter bufferedReaderOut;
     private PingSender pingSender;
+    private Thread pingThread;
     private boolean isMyTurn=false;
     private boolean toStop=false;
 
@@ -32,7 +33,7 @@ public class PlayerManager implements Runnable{
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
         this.pingSender=new PingSender(playerNickname);
-        Thread pingThread= new Thread(pingSender);
+        pingThread= new Thread(pingSender);
         pingThread.start();
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
@@ -61,6 +62,7 @@ public class PlayerManager implements Runnable{
             switch(receivedMessage.getMessageType()){
                 case Async: //if i have received an async message(a disconnection message)
                     System.out.println(receivedString);
+                    pingThread.interrupt();
                     ServerController.getInstance().closeConnection(playerNickname);
                     break;
                 case Ping:
@@ -121,6 +123,7 @@ public class PlayerManager implements Runnable{
         } catch(IOException e){
             e.printStackTrace();
             ServerController.getInstance().closeConnection(playerNickname);
+            return null;
         }
         return lastMessage;
     }
@@ -138,6 +141,7 @@ public class PlayerManager implements Runnable{
             e.printStackTrace();
             ServerController.getInstance().closeConnection(playerNickname);
             this.toStop=true;
+            return;
         }
 
         //da cancellare fino a (fine cancella*)
