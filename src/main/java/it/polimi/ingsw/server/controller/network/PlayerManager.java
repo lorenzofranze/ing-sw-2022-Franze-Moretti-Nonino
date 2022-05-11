@@ -216,9 +216,6 @@ public class PlayerManager implements Runnable{
                         return receivedMessagePing;
                     case Async:
                         AsyncMessage receivedMessageAsync = (AsyncMessage) receivedMessage;
-                        if(specificTypeOfMessage.equals(receivedMessageAsync.getTypeOfAsync())){
-                            return receivedMessageAsync;
-                        }
                 }
 
             }else{
@@ -276,10 +273,10 @@ public class PlayerManager implements Runnable{
                     clientSocket.setSoTimeout(120000);
                 } catch (SocketException ex) {
                     ex.printStackTrace();
-                    ErrorMessage disconnectionMessage=new ErrorMessage(TypeOfError.Disconnection, "the player"+playerNickname+
+                    AsyncMessage asyncMessage=new AsyncMessage("the player"+playerNickname+
                             "is too slow! His round has exceeded 2 minutes!");
                     for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
-                        playerManager.sendMessage(disconnectionMessage);
+                        playerManager.sendMessage(asyncMessage);
                     }
                     ServerController.getInstance().closeConnection(playerNickname);
                     return;
