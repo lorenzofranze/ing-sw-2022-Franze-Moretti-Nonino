@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client.View;
 
 import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CLIView implements View {
@@ -97,6 +99,51 @@ public class CLIView implements View {
     }
 
     @Override
+    public void askForCharacter() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        Console console = clientController.getConsole();
+        List<CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
+        String resultString;
+        int result = -1;
+        System.out.println("\033[01m"+"CHARACTER MENU"+"\033[0m");
+        for (CharacterPojo c : characterPojoList){
+            System.out.println(c.toString());
+        }
+        boolean valid = false;
+        do {
+            System.out.print("\nDo you want to play a Character Card (y/n)? ");
+            resultString = scanner.nextLine();
+            if (resultString.equals("y") || resultString.equals("n")){
+                valid = true;
+            }else{
+                System.out.println("Invalid choice.");
+            }
+        }while(valid == false);
+
+        if (resultString.equals("n")){
+            return;
+        }
+
+        valid = false;
+        System.out.print("Insert the Character Card you want to play: ");
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.print("Invalid choice.");
+                System.out.println("Insert the number of the Character Card you want to play: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+
+        console.setCharacterPlayed(result);
+    }
+
+    @Override
     public void showMessage(Message message) {
         if(message.getMessageType().equals(TypeOfMessage.Connection)){
             ConnectionMessage connectionMessage = (ConnectionMessage) message;
@@ -126,7 +173,6 @@ public class CLIView implements View {
             AsyncMessage asyncMessage = (AsyncMessage) message;
             showAsync(asyncMessage);
         }
-
     }
 
     @Override
@@ -249,9 +295,10 @@ public class CLIView implements View {
 
 
         if(gameStatePojo.isExpert()){
-            i=0;
-            for(CharacterPojo characterPojo : gameStatePojo.getCharacters())
-                System.out.println("character card "+i+": cost: "+ characterPojo.getActualCost());
+            System.out.println("\n\033[01m"+"CHARACTER MENU"+"\033[0m");
+            for (CharacterPojo c : gameStatePojo.getCharacters()){
+                System.out.println(c.toString());
+            }
             //System.out.println() ogg. sulla carta
         }
 

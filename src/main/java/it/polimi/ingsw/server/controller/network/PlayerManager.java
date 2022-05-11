@@ -80,6 +80,7 @@ public class PlayerManager implements Runnable{
                         sendMessage(errorMessage);
                     }else{
                         if (gameMessage.getTypeOfMove().equals(TypeOfMove.CharacterCard)){
+                            System.out.println("FLAG - PLAYER MANAGER - SETTO CHARACTERRECEIVED = TRUE");
                             characterReceived=true;
                         }
                         messageQueue.add(receivedMessage);
@@ -107,11 +108,15 @@ public class PlayerManager implements Runnable{
     }
     public Message getLastMessage() {
         Message message = null;
-        try {
-            message =  messageQueue.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        boolean received = false;
+        do{
+            try {
+                message =  messageQueue.take();
+                received = true;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }while(received == false);
         return message;
     }
 

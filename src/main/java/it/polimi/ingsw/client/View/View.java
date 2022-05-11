@@ -10,6 +10,7 @@ public interface View {
     void chooseGameMode();
 
     void chooseAssistantCard();
+    void askForCharacter();
 
     void showMessage(Message message);
     void showConnection(ConnectionMessage connectionMessage);

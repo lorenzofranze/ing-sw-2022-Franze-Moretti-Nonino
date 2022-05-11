@@ -31,4 +31,17 @@ public class CharacterPojo {
     public void setIncremented(boolean incremented) {
         this.incremented = incremented;
     }
+
+    public int getTotalCost(){
+        if (incremented){
+            return actualCost + 1;
+        }
+        return actualCost;
+    }
+
+    @Override
+    public String toString(){
+        String ris = "Character " + characterId + " price: " + this.getTotalCost();
+        return  ris;
+    }
 }

@@ -42,6 +42,8 @@ public class ActionPhase extends GamePhase {
             gameController.setCurrentPlayer(p);
             gameController.update();
 
+            System.out.println("FLAG 1 - ACTIONPHASE - HANDLE");
+
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
 
                 //move students (while moving the students, the player can decide to play a characterCard)
@@ -375,18 +377,40 @@ public class ActionPhase extends GamePhase {
     protected void askforCharacter(){
         GameMessage gameMessage;
         ErrorMessage errorGameMessage;
+        Message receivedMessage;
+        Integer cardPlayed = null;
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
 
+        System.out.println("FLAG 0 - ACTIONPHASE - CardNumber: ");
+
         int cardNumber;
         boolean effectActive=false;
-        PlayerManager playerManager=messageHandler.getPlayerManagerMap().get(currPlayer);
+        PlayerManager playerManager = messageHandler.getPlayerManagerMap().get(currPlayer);
+
+        System.out.println("FLAG 1 - ACTIONPHASE - CardNumber: ");
 
         if(playerManager.isCharacterReceived()==false){
+            System.out.println("FLAG 0 - ACTIONPHASE - CardNumber: ");
             //il giocatore non ha giocato una carta personaggio
             return;
         }
 
+        System.out.println("FLAG 2 - ACTIONPHASE - CardNumber: ");
+        /*
+        receivedMessage = playerManager.getLastMessage();
+        switch (receivedMessage.getMessageType()){
+            case Game:
+                gameMessage = (GameMessage) receivedMessage;
+                if (gameMessage.getTypeOfMove() == TypeOfMove.CharacterCard){
+                    cardPlayed = gameMessage.getValue();
+                }else{
+                    System.out.println("ERROR-askForCharacter");
+                    return;
+                }
+        }
+
+        */
         List<Character> usable = new ArrayList<>();
         for(Character character: gameController.getGame().getCharacters()) {
             if (gameController.getCurrentPlayer().getCoins() >= character.getCost() &&
@@ -404,6 +428,8 @@ public class ActionPhase extends GamePhase {
             // use to play the card now, any other key to skip
 
             Message message = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CharacterCard);
+
+            System.out.println("FLAG 3 - ACTIONPHASE - CardNumber: ");
             if (message == null){
                 System.out.println("ERROR-AskForCharacter");
                 return;
@@ -412,15 +438,20 @@ public class ActionPhase extends GamePhase {
             GameMessage characterCardMessage = (GameMessage) message;
             cardNumber= characterCardMessage.getValue();
 
+            System.out.println("FLAG 4 - ACTIONPHASE - CardNumber: " + cardNumber);
+
             if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
                 gameController.getGame().setActiveEffect(usable.get(cardNumber));
                 gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
                 gameController.getGame().addCoins(usable.get(cardNumber).getCost());
 
-                for (Character cr : gameController.getGame().getCharacters())
+                for (Character cr : gameController.getGame().getCharacters()){
                     if (cr.getCharacterId() == usable.get(cardNumber).getCharacterId()) {
                         cr.use();
+                        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                        playerManager.sendMessage(ackMessage);
                     }
+                }
                 gameController.update();
                 CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(usable.get(cardNumber));
                 currentCharacterEffect.doEffect();
