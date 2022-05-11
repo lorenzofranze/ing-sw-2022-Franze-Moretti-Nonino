@@ -1,32 +1,26 @@
 package it.polimi.ingsw.client.Controller;
 
 
-import it.polimi.ingsw.client.View.ViewBegin;
-import it.polimi.ingsw.client.View.ViewEnd;
+import it.polimi.ingsw.client.View.*;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
-import it.polimi.ingsw.common.gamePojo.Phase;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.common.messages.TypeOfMessage.*;
 
 public class ClientController implements Runnable {
 
+    private static ClientController instance;
     private String nickname;
     private GameMode gameMode;
-    private static ClientController instance;
     private NetworkHandler networkHandler;
     private Console console;
 
-    ViewBegin viewBegin;
-    ViewEnd viewEnd;
+    public View view;
 
     private GameStatePojo gameStatePojo;
-    Message receivedMessage;
-
 
 
     private ClientController(){
@@ -51,14 +45,14 @@ public class ClientController implements Runnable {
 
         while (gameStatePojo.isGameOver() == false) {
 
-            receivedMessage = networkHandler.getReceivedMessage();
+            Message receivedMessage = networkHandler.getReceivedMessage();
 
             switch (receivedMessage.getMessageType()) {
                 case Connection:
-                    viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Update:
-                    viewBegin.showMessage(receivedMessage);
+                    view.showMessage(receivedMessage);
                     UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                     this.gameStatePojo = updateMessage.getGameState();
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
@@ -66,19 +60,19 @@ public class ClientController implements Runnable {
                     }
                     break;
                 case Ack:
-                    viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Game:
-                    viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Error:
-                    viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Ping:
-                    viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Async:
-                    viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                    view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
             }
         }
@@ -86,12 +80,12 @@ public class ClientController implements Runnable {
 
     public void connect(){
 
-        viewBegin.chooseGameMode();
+        view.chooseGameMode();
 
         boolean valid = true;
         do {
             valid = true;
-            viewBegin.beginReadUsername();
+            view.beginReadUsername();
             ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
 
             try {
@@ -101,8 +95,8 @@ public class ClientController implements Runnable {
                 return;
             }
 
-            receivedMessage = networkHandler.getReceivedMessage();
-            viewBegin.showMessage(receivedMessage);
+            Message receivedMessage = networkHandler.getReceivedMessage();
+            view.showMessage(receivedMessage);
 
             if (receivedMessage.getMessageType().equals(Ack)) {
                 AckMessage responseAck = (AckMessage) receivedMessage;
@@ -122,8 +116,8 @@ public class ClientController implements Runnable {
     }
 
     public void waitForOtherPlayers(){
-        receivedMessage = networkHandler.getReceivedMessage();
-        viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+        Message receivedMessage = networkHandler.getReceivedMessage();
+        view.showMessage(receivedMessage); //DA CANCELLARE
         boolean allJoined = false;
 
         while(allJoined == false){
@@ -135,18 +129,18 @@ public class ClientController implements Runnable {
             } else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
-                viewBegin.showMessage(receivedMessage); //DA CANCELLARE
+                view.showMessage(receivedMessage); //DA CANCELLARE
             }
         }
     }
 
     public void waitForFirstGameState(){
-        receivedMessage = networkHandler.getReceivedMessage();
+        Message receivedMessage = networkHandler.getReceivedMessage();
         boolean gameStateReceived = false;
 
         while(gameStateReceived == false){
             if (receivedMessage.getMessageType().equals(Update)){
-                viewBegin.showMessage(receivedMessage);
+                view.showMessage(receivedMessage);
                 UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                 this.gameStatePojo = updateMessage.getGameState();
                 gameStateReceived = true;
@@ -155,7 +149,7 @@ public class ClientController implements Runnable {
                 }
             } else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
-                viewBegin.showMessage(receivedMessage);     //DA CANCELLARE
+                view.showMessage(receivedMessage);     //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
             }
         }
@@ -177,12 +171,8 @@ public class ClientController implements Runnable {
         this.networkHandler = networkHandler;
     }
 
-    public void setViewBegin(ViewBegin viewBegin) {
-        this.viewBegin = viewBegin;
-    }
-    public void setViewEnd(ViewEnd viewEnd) {
-        this.viewEnd = viewEnd;
-        this.viewBegin.setViewEnd(viewEnd);
+    public void setView(View view) {
+        this.view = view;
     }
 
     public GameStatePojo getGameStatePojo() {

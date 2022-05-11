@@ -5,20 +5,12 @@ import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
-public class CLIViewBegin implements ViewBegin {
-    ViewEnd endView = null;
+public class CLIView implements View {
     Scanner scanner = new Scanner(System.in);
     ClientController clientController = ClientController.getInstance();
     JsonConverter jsonConverter = new JsonConverter();
-
-    @Override
-    public void setViewEnd(ViewEnd endView) {
-        this.endView = endView;
-    }
 
     @Override
     public void chooseGameMode() {
@@ -49,7 +41,6 @@ public class CLIViewBegin implements ViewBegin {
             }
         } while (!valid);
         clientController.setGameMode(GameMode.values()[result-1]);
-        endView.endChooseGameMode(result);
     }
 
     @Override
@@ -67,7 +58,6 @@ public class CLIViewBegin implements ViewBegin {
             }
         } while (!valid);
         clientController.setNickname(result);
-        endView.endReadUsername(result);
     }
 
     @Override
@@ -103,7 +93,6 @@ public class CLIViewBegin implements ViewBegin {
         }while(valid == false);
 
         clientController.getConsole().setAssistantCardPlayed(result);
-        endView.endChooseAssistantCard();
     }
 
     @Override
@@ -136,7 +125,6 @@ public class CLIViewBegin implements ViewBegin {
             AsyncMessage asyncMessage = (AsyncMessage) message;
             showAsync(asyncMessage);
         }
-        endView.endShowMessage(message);
 
     }
 
@@ -170,14 +158,12 @@ public class CLIViewBegin implements ViewBegin {
             default:
                 System.out.println("Unknown error message");
         }
-        endView.endShowError(errorMessage);
     }
 
     @Override
     public void showConnection(ConnectionMessage connectionMessage) {
         String stringConnection = jsonConverter.fromMessageToJson(connectionMessage);
         System.out.println(connectionMessage);
-        endView.endShowConnection(connectionMessage);
     }
 
     @Override
@@ -194,35 +180,30 @@ public class CLIViewBegin implements ViewBegin {
             default:
                 System.out.println("Unknown ack message");
         }
-        endView.endShowAck(ackMessage);
     }
 
     @Override
     public void showUpdate(UpdateMessage updateMessage) {
         GameStatePojo gameStatePojo = updateMessage.getGameState();
         showGameState(gameStatePojo);
-        endView.endShowUpdate(updateMessage);
     }
 
     @Override
     public void showAsync(AsyncMessage asyncMessage) {
         String stringAsync = jsonConverter.fromMessageToJson(asyncMessage);
         System.out.println(stringAsync);
-        endView.endShowAsync(asyncMessage);
     }
 
     @Override
     public void showMove(GameMessage gameMessage) {
         String stringMove = jsonConverter.fromMessageToJson(gameMessage);
         System.out.println(stringMove);
-        endView.endShowMove(gameMessage);
     }
 
     @Override
     public void showPing(PingMessage pingMessage) {
         String stringPing = jsonConverter.fromMessageToJson(pingMessage);
         System.out.println(stringPing);
-        endView.endShowPing(pingMessage);
     }
 
     @Override
@@ -284,7 +265,5 @@ public class CLIViewBegin implements ViewBegin {
         }
 
         System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
-
-        endView.endShowGameState(gameStatePojo);
     }
 }

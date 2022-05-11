@@ -13,22 +13,19 @@ public class ClientApp implements Runnable{
     NetworkHandler networkHandler;
     ClientController clientController;
 
-    private static ViewBegin viewBegin;
-    private static ViewEnd viewEnd;
+    private static View view;
 
     private static String serverIp;
     private static int serverPort;
 
-    public ClientApp(ViewBegin viewBegin, ViewEnd viewEnd) {
-        ClientApp.viewBegin = viewBegin;
-        ClientApp.viewEnd = viewEnd;
+    public ClientApp(View view) {
+        ClientApp.view = view;
     }
 
     public static void main(String[] args) {
 
         String typeOfView;
-        ViewBegin viewBegin;
-        ViewEnd viewEnd;
+        View view;
 
         if (args.length == 0){
             serverIp = "localhost";
@@ -41,9 +38,8 @@ public class ClientApp implements Runnable{
         }
 
         if(typeOfView.equals("cli")){
-            viewBegin = new CLIViewBegin();
-            viewEnd = new CLIViewEnd();
-            ClientApp clientApp = new ClientApp(viewBegin, viewEnd);
+            view = new CLIView();
+            ClientApp clientApp = new ClientApp(view);
             clientApp.run();
         }
         else if(typeOfView.equals("gui")){
@@ -68,15 +64,14 @@ public class ClientApp implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
             ErrorMessage errorMessage = new ErrorMessage(TypeOfError.FailedConnection);
-            viewBegin.showMessage(errorMessage);
+            view.showMessage(errorMessage);
         }
 
         System.out.println("connesso al server"); //DA CANCELLARE
 
         clientController = ClientController.getInstance();
         clientController.setNetworkHandler(networkHandler);
-        clientController.setViewBegin(viewBegin);
-        clientController.setViewEnd(viewEnd);
+        clientController.setView(view);
 
         clientController.run();
 

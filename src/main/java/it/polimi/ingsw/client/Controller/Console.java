@@ -36,7 +36,7 @@ public class Console {
     }
 
     private void playPianification(){
-        clientController.viewBegin.chooseAssistantCard();
+        clientController.view.chooseAssistantCard();
         GameMessage gameMessage = new GameMessage(TypeOfMove.AssistantCard, assistantCardPlayed);
         Message receivedMessage;
         boolean moveAccepted = false;
@@ -55,7 +55,7 @@ public class Console {
                     moveAccepted = true;
                 }
             }else{
-                clientController.viewBegin.showMessage(receivedMessage);
+                clientController.view.showMessage(receivedMessage);
             }
         }while(moveAccepted==false);
     }

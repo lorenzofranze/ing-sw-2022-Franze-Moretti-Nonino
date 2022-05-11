@@ -4,9 +4,8 @@ import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.gamePojo.PlayerPojo;
 import it.polimi.ingsw.common.messages.*;
 
-public interface ViewBegin {
+public interface View {
 
-    void setViewEnd(ViewEnd viewEnd);
     void beginReadUsername();
     void chooseGameMode();
 
