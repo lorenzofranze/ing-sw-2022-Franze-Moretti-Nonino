@@ -54,6 +54,7 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         Message receivedMessage;
+        Message message;
 
         while (true) {
             receivedString = readFromBuffer();
@@ -91,12 +92,15 @@ public class PlayerManager implements Runnable{
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
+
     public void setCharacterReceived(boolean characterReceived) {
         this.characterReceived = characterReceived;
     }
+
     public boolean isCharacterReceived() {
         return characterReceived;
     }
+
     public Message getLastMessage() {
         Message message = null;
         try {
@@ -299,6 +303,9 @@ public class PlayerManager implements Runnable{
 
     public BufferedWriter getBufferedReaderOut() {
         return bufferedReaderOut;
+    }
+    public void setMessageQueue(LinkedBlockingQueue<Message> messageQueue) {
+        this.messageQueue = messageQueue;
     }
 
 
