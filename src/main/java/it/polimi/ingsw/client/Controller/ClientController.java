@@ -67,6 +67,12 @@ public class ClientController implements Runnable {
                     view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Ping:
+                    PingMessage pingMessage = new PingMessage();
+                    try {
+                        networkHandler.sendToServer(pingMessage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Async:
