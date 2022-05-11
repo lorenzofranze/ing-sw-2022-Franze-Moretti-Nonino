@@ -4,6 +4,7 @@ import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.common.messages.AsyncMessage;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -82,10 +83,10 @@ public class ServerController {
         }
         try {
             //avvisa gli utenti che il gioco è finito per colpa di una disconnessione
-            ErrorMessage disconnectionMessage=new ErrorMessage(TypeOfError.Disconnection);
+            AsyncMessage asyncMessage = new AsyncMessage();
             for (PlayerManager playerManager: messageHandler.getPlayerManagerMap().values()){
                 if(!playerManager.getPlayerNickname().equals(playerNickname)) {
-                    playerManager.sendMessage(disconnectionMessage);
+                    playerManager.sendMessage(asyncMessage);
                 }
             }
 

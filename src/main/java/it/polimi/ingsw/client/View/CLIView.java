@@ -135,9 +135,6 @@ public class CLIView implements View {
             case UsedName:
                 System.out.println("Nickname already in use by other players.");
                 break;
-            case Disconnection:
-                System.out.println("Disconnection error.");
-                break;
             case UnmatchedMessages:
                 System.out.println("Unexpected message received from server.");
                 break;
