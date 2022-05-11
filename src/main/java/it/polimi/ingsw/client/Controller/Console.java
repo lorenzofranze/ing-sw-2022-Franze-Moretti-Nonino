@@ -33,27 +33,35 @@ public class Console {
 
     private void playPianification(){
         ClientController clientController = ClientController.getInstance();
-        clientController.view.chooseAssistantCard();
         NetworkHandler networkHandler = clientController.getNetworkHandler();
-        GameMessage gameMessage = new GameMessage(TypeOfMove.AssistantCard, assistantCardPlayed);
+
         Message receivedMessage;
+        GameMessage gameMessage;
         boolean moveAccepted = false;
 
-        try {
-            networkHandler.sendToServer(gameMessage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         do{
+            clientController.view.chooseAssistantCard();
+            gameMessage = new GameMessage(TypeOfMove.AssistantCard, assistantCardPlayed);
+
+            try {
+                networkHandler.sendToServer(gameMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             receivedMessage = networkHandler.getReceivedMessage();
+
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     moveAccepted = true;
                 }
-            }else{
-                ClientController.getInstance().view.showMessage(receivedMessage);
+            }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
+                    clientController.view.showMessage(receivedMessage);
+                    ErrorMessage errorMessage=(ErrorMessage)receivedMessage;
+                    if(!errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)){
+                            break;
+                    }
             }
         }while(moveAccepted==false);
     }
