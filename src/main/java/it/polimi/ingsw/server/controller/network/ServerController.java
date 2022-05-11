@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.common.messages.AsyncMessage;
 import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
 import it.polimi.ingsw.server.controller.logic.GameController;
@@ -53,7 +54,8 @@ public class ServerController {
     }
 
     public synchronized void setToStop(Integer toStop){
-            this.currentGames.remove(toStop);
+        this.currentGames.get(toStop).setGameOver(true);
+        this.currentGames.remove(toStop);
     }
 
     public Map<Integer, GameController> getCurrentGames() {
@@ -83,12 +85,14 @@ public class ServerController {
         }
         try {
             //avvisa gli utenti che il gioco è finito per colpa di una disconnessione
-            AsyncMessage asyncMessage = new AsyncMessage();
+            AsyncMessage asyncMessage=new AsyncMessage();
             for (PlayerManager playerManager: messageHandler.getPlayerManagerMap().values()){
                 if(!playerManager.getPlayerNickname().equals(playerNickname)) {
                     playerManager.sendMessage(asyncMessage);
                 }
             }
+
+
 
             for (Socket socket : lobby.getUsersReadyToPlay().values()){
                 socket.close();

@@ -54,9 +54,8 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         Message receivedMessage;
-        Message message;
 
-        while (true) {
+        while (toStop!=true) {
             receivedString = readFromBuffer();
             receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
 
@@ -64,8 +63,13 @@ public class PlayerManager implements Runnable{
                 case Async: //if i have received an async message(a disconnection message)
                     System.out.println(receivedString);
                     pingThread.interrupt();
-                    ServerController.getInstance().closeConnection(playerNickname);
-                    break;
+                    if(toStop==false)
+                    {
+                        toStop=true;
+                        ServerController.getInstance().closeConnection(playerNickname);
+                    }
+                    return;
+                    //nota : ho tolto break
                 case Ping:
                     pingSender.setConnected(true);
                     break;
@@ -87,20 +91,20 @@ public class PlayerManager implements Runnable{
                     break;
             }
         }
+        if(pingThread.isInterrupted()==false){
+            pingThread.interrupt();
+        }
     }
 
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
-
     public void setCharacterReceived(boolean characterReceived) {
         this.characterReceived = characterReceived;
     }
-
     public boolean isCharacterReceived() {
         return characterReceived;
     }
-
     public Message getLastMessage() {
         Message message = null;
         try {
@@ -126,7 +130,16 @@ public class PlayerManager implements Runnable{
             }
         } catch(IOException e){
             e.printStackTrace();
-            ServerController.getInstance().closeConnection(playerNickname);
+            if(toStop==false)
+            {
+                toStop=true;
+                pingThread.interrupt();
+                if(toStop==false) {
+                    toStop = true;
+                    pingThread.interrupt();
+                    ServerController.getInstance().closeConnection(playerNickname);
+                }
+            }
             return null;
         }
         return lastMessage;
@@ -143,8 +156,11 @@ public class PlayerManager implements Runnable{
             bufferedReaderOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            ServerController.getInstance().closeConnection(playerNickname);
-            this.toStop=true;
+            if(toStop==false) {
+                toStop = true;
+                pingThread.interrupt();
+                ServerController.getInstance().closeConnection(playerNickname);
+            }
             return;
         }
 
@@ -220,6 +236,7 @@ public class PlayerManager implements Runnable{
                         return receivedMessagePing;
                     case Async:
                         AsyncMessage receivedMessageAsync = (AsyncMessage) receivedMessage;
+                        return receivedMessageAsync;
                 }
 
             }else{
@@ -282,7 +299,12 @@ public class PlayerManager implements Runnable{
                     for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
                         playerManager.sendMessage(asyncMessage);
                     }
-                    ServerController.getInstance().closeConnection(playerNickname);
+
+                    if(toStop==false) {
+                        toStop = true;
+                        pingThread.interrupt();
+                        ServerController.getInstance().closeConnection(playerNickname);
+                    }
                     return;
                 }
 

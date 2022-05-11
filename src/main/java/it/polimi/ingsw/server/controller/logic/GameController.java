@@ -97,7 +97,7 @@ public class GameController implements Runnable  {
             System.out.println("GAME CONTROLLER - FINE ACTION PHASE");
 
         }
-        while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards));
+        while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards || gameOver));
 
         //System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
 
