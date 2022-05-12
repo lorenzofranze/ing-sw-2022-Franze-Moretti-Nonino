@@ -13,7 +13,7 @@ import java.sql.Connection;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-//import it.polimi.ingsw.Server.Controller.Network.PingSender;
+import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
 public class PlayerManager implements Runnable{
     private LinkedBlockingQueue<Message> messageQueue;
@@ -22,8 +22,8 @@ public class PlayerManager implements Runnable{
     private String playerNickname;
     private BufferedReader bufferedReaderIn;
     private BufferedWriter bufferedReaderOut;
-    //private PingSender pingSender;
-    //private Thread pingThread;
+    private PingSender pingSender;
+    private Thread pingThread;
     private boolean isMyTurn=false;
     private boolean toStop=false;
 
@@ -32,9 +32,9 @@ public class PlayerManager implements Runnable{
         this.bufferedReaderIn=bufferedReaderIn;
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
-        //this.pingSender=new PingSender(playerNickname);
-        //pingThread= new Thread(pingSender);
-        //pingThread.start();
+        this.pingSender=new PingSender(playerNickname, bufferedReaderIn, bufferedReaderOut);
+        pingThread= new Thread(pingSender);
+        pingThread.start();
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
     }
@@ -62,7 +62,7 @@ public class PlayerManager implements Runnable{
             switch(receivedMessage.getMessageType()){
                 case Async: //if i have received an async message(a disconnection message)
                     System.out.println(receivedString);
-                    //pingThread.interrupt();
+                    pingThread.interrupt();
                     if(toStop==false)
                     {
                         toStop=true;
@@ -71,7 +71,7 @@ public class PlayerManager implements Runnable{
                     return;
                     //nota : ho tolto break
                 case Ping:
-                    //pingSender.setConnected(true);
+                    pingSender.setConnected(true);
                     break;
                 case Game:
                     GameMessage gameMessage = (GameMessage) receivedMessage;
@@ -92,11 +92,10 @@ public class PlayerManager implements Runnable{
                     break;
             }
         }
-        /*if(pingThread.isInterrupted()==false){
+        if(pingThread.isInterrupted()==false){
             pingThread.interrupt();
         }
 
-         */
     }
 
     public void setMyTurn(boolean myTurn) {
@@ -140,10 +139,14 @@ public class PlayerManager implements Runnable{
             if(toStop==false)
             {
                 toStop=true;
-                //pingThread.interrupt();
+                if(pingThread.isInterrupted()==false){
+                    pingThread.interrupt();
+                }
                 if(toStop==false) {
                     toStop = true;
-                    //pingThread.interrupt();
+                    if(pingThread.isInterrupted()==false){
+                        pingThread.interrupt();
+                    }
                     ServerController.getInstance().closeConnection(playerNickname);
                 }
             }
@@ -165,7 +168,9 @@ public class PlayerManager implements Runnable{
             e.printStackTrace();
             if(toStop==false) {
                 toStop = true;
-                //pingThread.interrupt();
+                if(pingThread.isInterrupted()==false){
+                    pingThread.interrupt();
+                }
                 ServerController.getInstance().closeConnection(playerNickname);
             }
             return;
@@ -199,6 +204,7 @@ public class PlayerManager implements Runnable{
 
         do {
             correctMatch = true;
+            this.setTimeout();
             receivedMessage = getLastMessage();
 
             System.out.println("Message received:\n"+jsonConverter.fromMessageToJson(receivedMessage));
@@ -309,7 +315,10 @@ public class PlayerManager implements Runnable{
 
                     if(toStop==false) {
                         toStop = true;
-                        //pingThread.interrupt();
+                        if(pingThread.isInterrupted()==false){
+                            pingThread.interrupt();
+                        }
+
                         ServerController.getInstance().closeConnection(playerNickname);
                     }
                     return;
@@ -326,6 +335,12 @@ public class PlayerManager implements Runnable{
             }
         }
     }
+
+    public Thread getPingThread() {
+        return pingThread;
+    }
+
+
     public Queue<Message> getMessageQueue() {
         return messageQueue;
     }

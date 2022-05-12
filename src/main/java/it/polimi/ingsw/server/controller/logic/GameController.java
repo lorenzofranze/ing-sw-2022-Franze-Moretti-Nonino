@@ -52,7 +52,7 @@ public class GameController implements Runnable  {
         this.lobby=lobby;
 
         this.messageHandler= new MessageHandler(lobby);
-        //this.setTimeout();
+
     }
 
     public void run(){

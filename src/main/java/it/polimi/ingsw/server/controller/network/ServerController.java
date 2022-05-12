@@ -89,6 +89,9 @@ public class ServerController {
             for (PlayerManager playerManager: messageHandler.getPlayerManagerMap().values()){
                 if(!playerManager.getPlayerNickname().equals(playerNickname)) {
                     playerManager.sendMessage(asyncMessage);
+                    if(playerManager.getPingThread().isInterrupted()==false){
+                        playerManager.getPingThread().interrupt();
+                    }
                 }
             }
 

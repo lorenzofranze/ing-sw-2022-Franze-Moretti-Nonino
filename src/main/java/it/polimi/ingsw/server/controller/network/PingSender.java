@@ -1,20 +1,27 @@
-/*
+
 package it.polimi.ingsw.Server.Controller.Network;
 
 
 
 import it.polimi.ingsw.common.messages.JsonConverter;
+import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.PingMessage;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.network.ServerController;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class PingSender implements Runnable{
     private boolean isConnected;
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 60000;
+    private BufferedReader bufferedReader;
+    private BufferedWriter bufferedWriterOut;
     private String playerNickname;
 
-    public PingSender(String playerNickname){
+    public PingSender(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut){
         this.playerNickname=playerNickname;
         isConnected=true;
     }
@@ -35,17 +42,17 @@ public class PingSender implements Runnable{
             String messageString= jsonConverter.fromMessageToJson(message);
             this.isConnected=false;
 
-
-                //invio il ping
-                /**todo**/
-
-/*
-
             try {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
+            //invio il ping
+            sendPingMessage();
+
+
             // se arriva il pong, player manager setta isconnected a true e continua il while
         }
 
@@ -55,13 +62,24 @@ public class PingSender implements Runnable{
         lobbyManager.addDisconnectedPlayers(nickname);
         */
 
-                    /*
 
         //SE ARRIVO QUI è DISCONNESSO
         ServerController.getInstance().closeConnection(playerNickname);
 
     }
-}
 
-*/
+    public void sendPingMessage(){
+
+        JsonConverter jsonConverter= new JsonConverter();
+        String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
+
+        try {
+            bufferedWriterOut.write(stringToSend);
+            bufferedWriterOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
 
