@@ -145,6 +145,59 @@ public class CLIView implements View {
     }
 
     @Override
+    public void moveStudent() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        Console console = clientController.getConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+        System.out.print("MOVE A STUDENT FROM YOUR ENTRANCE\n");
+        System.out.println("These are the colours you can choose from");
+        for (ColourPawn c : ColourPawn.values()){
+            System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
+        }
+        System.out.print("Choose a colour (insert the numerical index): ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice.");
+                System.out.print("Choose a colour (insert the numerical index): ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+
+        console.setPawnColour(result);
+
+        System.out.println("You can place the student on an island or on your DiningRoom.");
+        System.out.println("- Insert the island index if you want to place it on an island");
+        System.out.println("- Insert '-1' if you want to place it in your DiningRoom");
+        System.out.print("Insert your choice: ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice.");
+                System.out.print("Insert your choice (numerical index): ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+
+        console.setPawnWhere(result);
+    }
+
+    @Override
     public void showMessage(Message message) {
         if(message.getMessageType().equals(TypeOfMessage.Connection)){
             ConnectionMessage connectionMessage = (ConnectionMessage) message;
@@ -284,6 +337,9 @@ public class CLIView implements View {
             System.out.println("DINING ROOM: "+ playerPojo.getSchoolBoard().getDiningRoom());
             System.out.println("PROFESSORS: " + playerPojo.getSchoolBoard().getProfessors());
             System.out.println("TOWERS OWNED: " + playerPojo.getSchoolBoard().getSpareTowers());
+            if (gameStatePojo.isExpert()){
+                System.out.println("MONEY: " + playerPojo.getCoins());
+            }
         }
 
         System.out.println("\n\033[01m" + "ASSISTANT CARD PLAYED" + "\033[0m");

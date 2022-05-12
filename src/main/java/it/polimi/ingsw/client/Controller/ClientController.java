@@ -216,4 +216,8 @@ public class ClientController implements Runnable {
     public boolean isDisconnected() {
         return disconnected;
     }
+
+    public void setGameStatePojo(GameStatePojo gameStatePojo) {
+        this.gameStatePojo = gameStatePojo;
+    }
 }

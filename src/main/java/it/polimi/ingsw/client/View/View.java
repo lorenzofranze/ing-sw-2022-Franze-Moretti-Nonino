@@ -11,6 +11,7 @@ public interface View {
 
     void chooseAssistantCard();
     void askForCharacter();
+    void moveStudent();
 
     void showMessage(Message message);
     void showConnection(ConnectionMessage connectionMessage);

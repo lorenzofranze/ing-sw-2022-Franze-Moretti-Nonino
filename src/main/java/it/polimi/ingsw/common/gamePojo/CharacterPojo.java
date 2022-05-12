@@ -32,16 +32,9 @@ public class CharacterPojo {
         this.incremented = incremented;
     }
 
-    public int getTotalCost(){
-        if (incremented){
-            return actualCost + 1;
-        }
-        return actualCost;
-    }
-
     @Override
     public String toString(){
-        String ris = "Character " + characterId + " price: " + this.getTotalCost();
+        String ris = "Character " + characterId + " price: " + this.getActualCost();
         return  ris;
     }
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.logic;
 
-import it.polimi.ingsw.common.gamePojo.CharacterPojo;
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.server.controller.characters.Card5;
@@ -138,7 +137,7 @@ public class ActionPhase extends GamePhase {
         Message errorGameMessage;
         boolean valid=true;
         int indexColour;
-        GameMessage gameMessage;
+        PawnMovementMessage gameMessage;
         int where = 0;   // -1 refer for diningRoom, index of island for island
 
         int studentsToMove = 0;
@@ -149,13 +148,13 @@ public class ActionPhase extends GamePhase {
 
             do{
                 valid = true;
-                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.PawnMovement);
                 if (receivedMessage == null){
                     System.out.println("ERROR-moveStudent");
                     return;
                 }
-                gameMessage = (GameMessage) receivedMessage;
-                indexColour = gameMessage.getValue();
+                gameMessage = (PawnMovementMessage) receivedMessage;
+                indexColour = gameMessage.getColour();
                 if(indexColour<=-1 || indexColour>=5){
                     valid=false;
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
@@ -170,7 +169,7 @@ public class ActionPhase extends GamePhase {
                     }
                 }
                 if(valid){
-                    where = ((GameMessageDouble)gameMessage).getValueDouble();
+                    where = gameMessage.getWhere();
                     if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
                         valid = false;
                         errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // destination not valid
@@ -184,8 +183,13 @@ public class ActionPhase extends GamePhase {
                     playerManager.sendMessage(errorGameMessage);
                 }
             }while(!valid);
-            this.moveSingleStudent(ColourPawn.get(indexColour), where );
+            AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
+            this.moveSingleStudent(ColourPawn.get(indexColour), where);
+
+            gameController.update();
         }
+
     }
 
     protected Island moveMotherNature(Player currentPlayer){
@@ -441,7 +445,7 @@ public class ActionPhase extends GamePhase {
 
                 CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(characterPlayed);
                 System.out.println("FLAG 10 - ACTIONPHASE - EFFECT TO DO");
-                currentCharacterEffect.doEffect();
+                //currentCharacterEffect.doEffect();     //DA GESTIRE POI
                 System.out.println("FLAG 10 - ACTIONPHASE - EFFECT DONE");
                 // aggiungere eventuali update in base alle carte personaggio
             }
