@@ -17,7 +17,7 @@ import it.polimi.ingsw.Server.Controller.Network.PingSender;
 
 public class PlayerManager implements Runnable{
     private LinkedBlockingQueue<Message> messageQueue;
-    private boolean characterReceived=false;
+    //private boolean characterReceived=false;
     private JsonConverter jsonConverter;
     private String playerNickname;
     private BufferedReader bufferedReaderIn;
@@ -57,6 +57,7 @@ public class PlayerManager implements Runnable{
 
         while (toStop!=true) {
             receivedString = readFromBuffer();
+            System.out.println("\n\nArrivata sul buffer:\n" + receivedString + "\n\n"); //DA CANCELLARE
             receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
 
             switch(receivedMessage.getMessageType()){
@@ -79,10 +80,10 @@ public class PlayerManager implements Runnable{
                         ErrorMessage errorMessage = new ErrorMessage(TypeOfError.TurnError);
                         sendMessage(errorMessage);
                     }else{
-                        if (gameMessage.getTypeOfMove().equals(TypeOfMove.CharacterCard)){
+                        /*if (gameMessage.getTypeOfMove().equals(TypeOfMove.CharacterCard)){
                             System.out.println("FLAG - PLAYER MANAGER - SETTO CHARACTERRECEIVED = TRUE");
                             characterReceived=true;
-                        }
+                        }*/
                         messageQueue.add(receivedMessage);
                         //notifyAll();
                     }
@@ -100,12 +101,12 @@ public class PlayerManager implements Runnable{
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
-    public void setCharacterReceived(boolean characterReceived) {
+    /*public void setCharacterReceived(boolean characterReceived) {
         this.characterReceived = characterReceived;
     }
     public boolean isCharacterReceived() {
         return characterReceived;
-    }
+    }*/
     public Message getLastMessage() {
         Message message = null;
         boolean received = false;

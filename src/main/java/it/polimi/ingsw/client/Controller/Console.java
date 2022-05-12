@@ -96,7 +96,7 @@ public class Console {
         this.assistantCardPlayed = assistantCardPlayed;
     }
 
-    public void setCharacterPlayed(int characterPlayed) {
+    public void setCharacterPlayed(Integer characterPlayed) {
         this.characterPlayed = characterPlayed;
     }
 
@@ -113,30 +113,25 @@ public class Console {
         boolean valid = false;
         do{
             view.askForCharacter();
-            if (null == characterPlayed){
-                valid = true;
-            }else{
-                GameMessage gameMessage = new GameMessage(TypeOfMove.CharacterCard, characterPlayed);
+            GameMessage gameMessage = new GameMessage(TypeOfMove.CharacterCard, characterPlayed);
 
-                try {
-                    networkHandler.sendToServer(gameMessage);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                networkHandler.sendToServer(gameMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            receivedMessage = networkHandler.getReceivedMessage();
+            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                AckMessage ackMessage = (AckMessage) receivedMessage;
+                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
+                    valid = true;
                 }
-
-                receivedMessage = networkHandler.getReceivedMessage();
-
-                if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
-                    AckMessage ackMessage = (AckMessage) receivedMessage;
-                    if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
-                        valid = true;
-                    }
-                }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
-                    view.showMessage(receivedMessage);
-                    ErrorMessage errorMessage=(ErrorMessage)receivedMessage;
-                    if(!errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)){
-                        break;
-                    }
+            }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
+                view.showMessage(receivedMessage);
+                ErrorMessage errorMessage=(ErrorMessage)receivedMessage;
+                if(!errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)){
+                    break;
                 }
             }
         }while(valid == false);

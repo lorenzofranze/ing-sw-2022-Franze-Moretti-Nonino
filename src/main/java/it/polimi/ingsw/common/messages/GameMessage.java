@@ -3,15 +3,15 @@ package it.polimi.ingsw.common.messages;
 public class GameMessage extends Message{
 
     private TypeOfMove typeOfMove;
-    private int value;
+    private Integer value;
 
-    public GameMessage(TypeOfMove typeOfMove, int value){
+    public GameMessage(TypeOfMove typeOfMove, Integer value){
         super(TypeOfMessage.Game);
         this.typeOfMove = typeOfMove;
         this.value = value;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 

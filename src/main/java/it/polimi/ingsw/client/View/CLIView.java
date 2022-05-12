@@ -105,7 +105,7 @@ public class CLIView implements View {
         Console console = clientController.getConsole();
         List<CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
         String resultString;
-        int result = -1;
+        Integer result = null;
         System.out.println("\033[01m"+"CHARACTER MENU"+"\033[0m");
         for (CharacterPojo c : characterPojoList){
             System.out.println(c.toString());
@@ -122,6 +122,7 @@ public class CLIView implements View {
         }while(valid == false);
 
         if (resultString.equals("n")){
+            console.setCharacterPlayed(null);
             return;
         }
 

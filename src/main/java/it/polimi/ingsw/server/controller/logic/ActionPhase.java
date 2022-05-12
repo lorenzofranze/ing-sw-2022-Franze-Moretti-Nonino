@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.logic;
 
+import it.polimi.ingsw.common.gamePojo.CharacterPojo;
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.server.controller.characters.Card5;
@@ -382,96 +383,73 @@ public class ActionPhase extends GamePhase {
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         MessageHandler messageHandler = this.gameController.getMessageHandler();
 
-        System.out.println("FLAG 0 - ACTIONPHASE - CardNumber: ");
+        System.out.println("FLAG 0 - ACTIONPHASE");
 
         int cardNumber;
         boolean effectActive=false;
         PlayerManager playerManager = messageHandler.getPlayerManagerMap().get(currPlayer);
 
-        System.out.println("FLAG 1 - ACTIONPHASE - CardNumber: ");
+        receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CharacterCard);
+        gameMessage = (GameMessage) receivedMessage;
+        System.out.println("FLAG 1 - ACTIONPHASE");
 
-        if(playerManager.isCharacterReceived()==false){
-            System.out.println("FLAG 0 - ACTIONPHASE - CardNumber: ");
-            //il giocatore non ha giocato una carta personaggio
+        if (gameMessage.getValue() == null){
+            //il giocatore NON ha voluto giocare una carta personaggio
+            System.out.println("FLAG 2A - ACTIONPHASE");
+            AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
             return;
         }
 
-        System.out.println("FLAG 2 - ACTIONPHASE - CardNumber: ");
-        /*
-        receivedMessage = playerManager.getLastMessage();
-        switch (receivedMessage.getMessageType()){
-            case Game:
-                gameMessage = (GameMessage) receivedMessage;
-                if (gameMessage.getTypeOfMove() == TypeOfMove.CharacterCard){
-                    cardPlayed = gameMessage.getValue();
-                }else{
-                    System.out.println("ERROR-askForCharacter");
-                    return;
-                }
-        }
+        System.out.println("FLAG 2B - ACTIONPHASE");
 
-        */
-        List<Character> usable = new ArrayList<>();
+        Integer playedCard = gameMessage.getValue();
+        System.out.println("FLAG 3 - ACTIONPHASE - value: " + playedCard);
+        Character characterPlayed = null;
+        boolean cardExists = false;
         for(Character character: gameController.getGame().getCharacters()) {
-            if (gameController.getCurrentPlayer().getCoins() >= character.getCost() &&
-                    gameController.getGame().getActiveEffect() == null) {
-                usable.add(character);
+            if (character.getCharacterId() == playedCard) {
+                characterPlayed = character;
+                cardExists = true;
             }
         }
 
-        if(gameController.getGame().getActiveEffect() != null) {
-            effectActive = true;
-        }
+        System.out.println("FLAG 4 - ACTIONPHASE");
 
-        if(!usable.isEmpty()){
-            // to user: you can play one of theese cards.. select the number of card you want to
-            // use to play the card now, any other key to skip
+        if (cardExists){
+            System.out.println("FLAG 5A - ACTIONPHASE - EXISTS");
+            if (gameController.getCurrentPlayer().getCoins() < characterPlayed.getCost()) {
+                System.out.println("FLAG 6 - ACTIONPHASE - NO MONEY");
+                ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
+                playerManager.sendMessage(errorMessage);
+            } else {
+                System.out.println("FLAG 7 - ACTIONPHASE - USE START");
+                gameController.getGame().setActiveEffect(characterPlayed);
+                gameController.getCurrentPlayer().removeCoins(characterPlayed.getCost());
+                gameController.getGame().addCoins(characterPlayed.getCost());
 
-            Message message = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CharacterCard);
+                characterPlayed.use(); //incremento il costo se è da incrementare
 
-            System.out.println("FLAG 3 - ACTIONPHASE - CardNumber: ");
-            if (message == null){
-                System.out.println("ERROR-AskForCharacter");
-                return;
-            }
+                AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                playerManager.sendMessage(ackMessage);
 
-            GameMessage characterCardMessage = (GameMessage) message;
-            cardNumber= characterCardMessage.getValue();
+                System.out.println("FLAG 8 - ACTIONPHASE - USE - ACK SENT");
 
-            System.out.println("FLAG 4 - ACTIONPHASE - CardNumber: " + cardNumber);
-
-            if(cardNumber >= 0 && cardNumber<=usable.size()-1) {
-                gameController.getGame().setActiveEffect(usable.get(cardNumber));
-                gameController.getCurrentPlayer().removeCoins(usable.get(cardNumber).getCost());
-                gameController.getGame().addCoins(usable.get(cardNumber).getCost());
-
-                for (Character cr : gameController.getGame().getCharacters()){
-                    if (cr.getCharacterId() == usable.get(cardNumber).getCharacterId()) {
-                        cr.use();
-                        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                        playerManager.sendMessage(ackMessage);
-                    }
-                }
                 gameController.update();
-                CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(usable.get(cardNumber));
+
+                System.out.println("FLAG 9 - ACTIONPHASE - UPDATE");
+
+                CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(characterPlayed);
+                System.out.println("FLAG 10 - ACTIONPHASE - EFFECT TO DO");
                 currentCharacterEffect.doEffect();
+                System.out.println("FLAG 10 - ACTIONPHASE - EFFECT DONE");
                 // aggiungere eventuali update in base alle carte personaggio
-            }else{
-                //this character card is not valid
-                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
-                playerManager.sendMessage(errorGameMessage);
             }
         }else{
-            if(effectActive) {
-                errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // there is an effect activated
-                playerManager.sendMessage(errorGameMessage);
-            }else{
-                errorGameMessage = new ErrorMessage(TypeOfError.NoMoney);
-                playerManager.sendMessage(errorGameMessage);
-            }
+            System.out.println("FLAG 5B - ACTIONPHASE - NON EXISTS");
+            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
+            playerManager.sendMessage(errorMessage);
         }
-        playerManager.setCharacterReceived(false);
-
     }
 
     public void setCurrPlayer(Player currPlayer) {
