@@ -31,8 +31,12 @@ public class  JsonConverter {
         }
 
         if(message.getMessageType() == TypeOfMessage.Game){
-            GameMessage messageReal=  gson.fromJson(jsonString, GameMessage.class);
-            return messageReal;
+            GameMessage messageReal1=  gson.fromJson(jsonString, GameMessage.class);
+            if (messageReal1.getTypeOfMove() == TypeOfMove.PawnMovement){
+                PawnMovementMessage messageReal2 = gson.fromJson(jsonString, PawnMovementMessage.class);
+                return messageReal2;
+            }
+            return messageReal1;
         }
 
         if(message.getMessageType() == TypeOfMessage.Error){
