@@ -91,6 +91,11 @@ public class NetworkHandler {
         return receivedMessage;
     }
 
+    public BufferedReader getIn() {
+        return in;
+    }
 
-
+    public BufferedWriter getOut() {
+        return out;
+    }
 }

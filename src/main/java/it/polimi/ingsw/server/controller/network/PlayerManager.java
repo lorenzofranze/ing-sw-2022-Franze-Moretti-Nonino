@@ -32,7 +32,7 @@ public class PlayerManager implements Runnable{
         this.bufferedReaderIn=bufferedReaderIn;
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
-        this.pingSender=new PingSender(playerNickname, bufferedReaderIn, bufferedReaderOut);
+        this.pingSender=new PingSender(playerNickname, bufferedReaderOut);
         pingThread= new Thread(pingSender);
         pingThread.start();
         /**todo: stop the thread**/
@@ -214,6 +214,7 @@ public class PlayerManager implements Runnable{
                     case Connection:
                         ConnectionMessage receivedMessageConnection = (ConnectionMessage) receivedMessage;
                         return receivedMessageConnection;
+
                     case Ack:
                         AckMessage receivedMessageAck = (AckMessage) receivedMessage;
                         if(specificTypeOfMessage.equals(receivedMessageAck.getTypeOfAck())){
@@ -223,6 +224,7 @@ public class PlayerManager implements Runnable{
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
+                        break;
                     case Update:
                         UpdateMessage receivedMessageUpdate = (UpdateMessage) receivedMessage;
                         return receivedMessageUpdate;
@@ -235,6 +237,7 @@ public class PlayerManager implements Runnable{
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
+                        break;
                     case Error:
                         ErrorMessage receivedMessageError = (ErrorMessage) receivedMessage;
                         if(specificTypeOfMessage.equals(receivedMessageError.getTypeOfError())){
@@ -244,6 +247,7 @@ public class PlayerManager implements Runnable{
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
+                        break;
                     case Ping:
                         PingMessage receivedMessagePing = (PingMessage) receivedMessage;
                         return receivedMessagePing;

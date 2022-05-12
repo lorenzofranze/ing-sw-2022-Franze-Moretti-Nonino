@@ -17,12 +17,14 @@ public class PingSender implements Runnable{
     private boolean isConnected;
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 60000;
-    private BufferedReader bufferedReader;
+
     private BufferedWriter bufferedWriterOut;
     private String playerNickname;
 
-    public PingSender(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut){
+    public PingSender(String playerNickname, BufferedWriter bufferedReaderOut){
         this.playerNickname=playerNickname;
+        this.bufferedWriterOut=bufferedReaderOut;
+
         isConnected=true;
     }
 
