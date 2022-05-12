@@ -42,20 +42,19 @@ public class ActionPhase extends GamePhase {
             gameController.setCurrentPlayer(p);
             gameController.update();
 
-            System.out.println("FLAG 1 - ACTIONPHASE - HANDLE");
-
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
 
                 //move students (while moving the students, the player can decide to play a characterCard)
                 int studentsToMove = gameController.getGame().getPlayers().size()+1;
-                for(int i=0; i<studentsToMove; i++ ) {
-                    askforCharacter();
-                    if (checkEnd() == true){return actionResult;}
-                    moveStudents();
-                    gameController.update();
-                }
+
                 askforCharacter();
                 if (checkEnd() == true){return actionResult;}
+
+                moveStudents();
+                gameController.update();
+
+                if (checkEnd() == true){return actionResult;}
+
                 //move mother nature
                 Island whereMotherNature = moveMotherNature(p);
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
@@ -73,7 +72,6 @@ public class ActionPhase extends GamePhase {
                     isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
                     if (isEnded) {
                         actionResult.setFinishedTowers(true);
-
                         return actionResult;
                     }
                     boolean union = verifyUnion();
@@ -83,7 +81,12 @@ public class ActionPhase extends GamePhase {
                         return actionResult;
                     }
                 }
-                gameController.update();
+
+                /*gameController.update();
+
+                System.out.println("\nACTION PHASE - HANDLE - FLAG 1\n");
+                if (true ) return null;
+                gameController.update();*/
             }
 
             if (checkEnd() == true){return actionResult;}
@@ -94,10 +97,16 @@ public class ActionPhase extends GamePhase {
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
 
+            gameController.update();
+
             if (!isLastRoundFinishedStudentsBag) {
+                System.out.println("\nACTION PHASE - HANDLE - FLAG 1\n");
                 chooseCloud();
+                System.out.println("\nACTION PHASE - HANDLE - FLAG 2\n");
                 gameController.update();
+                System.out.println("\nACTION PHASE - HANDLE - FLAG 3\n");
             }
+            System.out.println("\nACTION PHASE - HANDLE - FLAG 4\n");
 
             if (checkEnd() == true){return actionResult;}
 
@@ -202,6 +211,7 @@ public class ActionPhase extends GamePhase {
         Island ris = null;
         int played;
 
+        boolean valid = false;
         do {
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.MoveMotherNature);
             if (receivedMessage == null){
@@ -213,9 +223,13 @@ public class ActionPhase extends GamePhase {
             if (played < 1 || played > maximumMovements.get(currentPlayer)){
                 errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // steps not valid
                 playerManager.sendMessage(errorGameMessage);
+            }else{
+                valid = true;
             }
-        }
-        while(played < 1 || played > maximumMovements.get(currentPlayer));
+        } while(valid == false);
+
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
 
         List<Island> islandList = this.gameController.getGame().getIslands();
 
@@ -343,14 +357,13 @@ public class ActionPhase extends GamePhase {
         Message receivedMessage;
         GameMessage gameMessage;
         Message errorGameMessage;
-        boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer=gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager = messageHandler.getPlayerManager(currPlayer);
         int indexCloud;
 
+        boolean valid = false;
         do{
-            valid = true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CloudChoice);
             if (receivedMessage == null){
                 System.out.println("ERROR-chooseCloud");
@@ -361,13 +374,15 @@ public class ActionPhase extends GamePhase {
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
                 errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); //index not valid
                 playerManager.sendMessage(errorGameMessage);
-                valid = false;
-            }
-            if(valid){
+            }else{
                 if(gameController.getGame().getClouds().get(indexCloud).getStudents().isEmpty()){
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); //empty cloud, rechoose
                     playerManager.sendMessage(errorGameMessage);
                     valid=false;
+                }else{
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
+                    valid = true;
                 }
             }
         }while(!valid);

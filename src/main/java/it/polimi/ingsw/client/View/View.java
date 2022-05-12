@@ -12,6 +12,8 @@ public interface View {
     void chooseAssistantCard();
     void askForCharacter();
     void moveStudent();
+    void placeMotherNature();
+    void chooseCloud();
 
     void showMessage(Message message);
     void showConnection(ConnectionMessage connectionMessage);

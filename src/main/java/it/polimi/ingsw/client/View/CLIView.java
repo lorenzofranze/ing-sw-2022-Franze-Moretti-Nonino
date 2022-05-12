@@ -152,6 +152,7 @@ public class CLIView implements View {
         String resultString;
         Integer result = null;
         boolean valid;
+
         System.out.println("\n"+"\033[01m"+"MOVE A STUDENT FROM YOUR ENTRANCE\n"+"\033[0m");
         System.out.println("These are the colours you can choose from");
         for (ColourPawn c : ColourPawn.values()){
@@ -195,6 +196,64 @@ public class CLIView implements View {
         }while(valid == false);
 
         console.setPawnWhere(result);
+    }
+
+    @Override
+    public void placeMotherNature() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        Console console = clientController.getConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        int i = gameStatePojo.getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature();
+        System.out.println("\n"+"\033[01m"+"MOVE MOTHERNATURE: watch out! Your steps are limited to " + i + ".\n"+"\033[0m");
+        System.out.print("Insert the number of steps you want to make: ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert the number of steps you want to make: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+
+        console.setStepsMotherNature(result);
+    }
+
+    @Override
+    public void chooseCloud() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        Console console = clientController.getConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        System.out.println("\n"+"\033[01m"+"CHOOSE YOUR CLOUD"+"\033[0m");
+        System.out.print("Insert cloud index: ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert cloud index: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+        console.setCloudChosen(result);
     }
 
     @Override
@@ -317,9 +376,9 @@ public class CLIView implements View {
         System.out.println("\033[01m" + "ISLANDS" + "\033[0m");
         int i=0;
         for(IslandPojo islandPojo : gameStatePojo.getIslands()){
-            System.out.println("ISLAND "+i+":"+ "\ttowers: "+ islandPojo.getTowerCount()+" " +
-                    (islandPojo.getTowerColour()!=null ? islandPojo.getTowerColour().toString() : " ")
-                    + "\tstudents: " + islandPojo.getStudents() +
+            System.out.println("ISLAND "+i+":"
+                    + "\tstudents: " + islandPojo.getStudents() + "\ttowers: "+ islandPojo.getTowerCount()+" - " +
+                    (islandPojo.getTowerColour()!=null ? islandPojo.getTowerColour().toString() : " ") +
                     (islandPojo.getNumNoEntryTile()>0 ? "\tno entry tile(s):" + islandPojo.getNumNoEntryTile() : "")+
                     (islandPojo.isHasMotherNature() ? "\tMotherNature" : ""));
             i++;

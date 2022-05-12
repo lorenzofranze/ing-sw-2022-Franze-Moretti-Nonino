@@ -11,16 +11,18 @@ import java.io.IOException;
 
 public class Console {
 
-    private enum ActionBookMark{moveStudents, placeMotherNature}
+    private enum ActionBookMark{moveStudents, placeMotherNature, chooseCloud}
 
     private Phase currentPhase = null;
     private ActionBookMark currActionBookMark = ActionBookMark.moveStudents;
 
     private int assistantCardPlayed = -1;
     private Integer characterPlayed = null;
-    private int studentToMove = -1;
+    private Integer studentToMove = null;
     private Integer pawnColour = null;
     private Integer pawnWhere = null;
+    private Integer stepsMotherNature = null;
+    private Integer cloudChosen = null;
 
 
     public void play(){
@@ -92,9 +94,18 @@ public class Console {
                     studentToMove--;
                     moveStudent();
                 }
+                askForCharacter();
                 break;
             case placeMotherNature:
-                System.out.println("\n\nPLACE MOTHER NATURE\n\n");
+                placeMotherNature();
+                askForCharacter();
+                currActionBookMark = ActionBookMark.chooseCloud;
+                break;
+            case chooseCloud:
+                System.out.println("FLAG CHOOSECLOUD - CONSOLE");
+                chooseCloud();
+                currActionBookMark = ActionBookMark.moveStudents;
+                break;
         }
 
     }
@@ -124,16 +135,13 @@ public class Console {
                 e.printStackTrace();
             }
 
-
             receivedMessage = networkHandler.getReceivedMessage();
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
-                    //mi arriva anche un update. Se è l'ultimo update, non lo devo gestire qui perchè cambia fase dell'action
                     if (studentToMove == 0){
                         currActionBookMark = ActionBookMark.placeMotherNature;
-                        return;
                     }
                     receivedMessage = networkHandler.getReceivedMessage();
                     if (receivedMessage.getMessageType() == TypeOfMessage.Update){
@@ -206,11 +214,114 @@ public class Console {
         }while(valid == false);
     }
 
+    public void placeMotherNature(){
+        View view = ClientController.getInstance().view;
+        NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
+        Message receivedMessage;
+
+        boolean valid = false;
+        do{
+            view.placeMotherNature();
+            GameMessage gameMessage = new GameMessage(TypeOfMove.MoveMotherNature, stepsMotherNature);
+
+            try {
+                networkHandler.sendToServer(gameMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            receivedMessage = networkHandler.getReceivedMessage();
+
+            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                AckMessage ackMessage = (AckMessage) receivedMessage;
+                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
+                    valid = true;
+                }else{
+                    //messaggio imprevisto
+                    view.showMessage(receivedMessage);
+                }
+            }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
+                view.showMessage(receivedMessage);
+                ErrorMessage errorMessage = (ErrorMessage)receivedMessage;
+                if(!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice))) {
+                    break;
+                }
+            }
+            stepsMotherNature = null;
+        }while(valid == false);
+
+        receivedMessage = networkHandler.getReceivedMessage();
+        if (receivedMessage.getMessageType() == TypeOfMessage.Update){
+            UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
+            ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+            view.showMessage(receivedMessage);
+        }else{
+            //messaggio imprevisto
+            view.showMessage(receivedMessage);
+        }
+    }
+
+    public void chooseCloud(){
+        View view = ClientController.getInstance().view;
+        NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
+        Message receivedMessage;
+
+        boolean valid = false;
+        do{
+            view.chooseCloud();
+            GameMessage gameMessage = new GameMessage(TypeOfMove.CloudChoice, cloudChosen);
+
+            try {
+                networkHandler.sendToServer(gameMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            receivedMessage = networkHandler.getReceivedMessage();
+
+            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                AckMessage ackMessage = (AckMessage) receivedMessage;
+                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
+                    valid = true;
+                }else{
+                    //messaggio imprevisto
+                    view.showMessage(receivedMessage);
+                }
+            }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
+                view.showMessage(receivedMessage);
+                ErrorMessage errorMessage = (ErrorMessage)receivedMessage;
+                if(!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice))) {
+                    break;
+                }
+            }
+            cloudChosen = null;
+        }while(valid == false);
+
+
+        receivedMessage = networkHandler.getReceivedMessage();
+        if (receivedMessage.getMessageType() == TypeOfMessage.Update){
+            UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
+            ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+            view.showMessage(receivedMessage);
+        }else{
+            //messaggio imprevisto
+            view.showMessage(receivedMessage);
+        }
+    }
+
     public void setPawnColour(Integer pawnColour) {
         this.pawnColour = pawnColour;
     }
 
     public void setPawnWhere(Integer pawnWhere) {
         this.pawnWhere = pawnWhere;
+    }
+
+    public void setStepsMotherNature(Integer stepsMotherNature) {
+        this.stepsMotherNature = stepsMotherNature;
+    }
+
+    public void setCloudChosen(Integer cloudChosen) {
+        this.cloudChosen = cloudChosen;
     }
 }
