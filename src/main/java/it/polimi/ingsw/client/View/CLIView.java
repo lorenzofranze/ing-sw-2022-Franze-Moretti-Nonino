@@ -106,7 +106,7 @@ public class CLIView implements View {
         List<CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
         String resultString;
         Integer result = null;
-        System.out.println("\033[01m"+"CHARACTER MENU"+"\033[0m");
+        System.out.println("\n"+"\033[01m"+"CHARACTER MENU"+"\033[0m");
         for (CharacterPojo c : characterPojoList){
             System.out.println(c.toString());
         }
@@ -152,12 +152,12 @@ public class CLIView implements View {
         String resultString;
         Integer result = null;
         boolean valid;
-        System.out.print("MOVE A STUDENT FROM YOUR ENTRANCE\n");
+        System.out.println("\n"+"\033[01m"+"MOVE A STUDENT FROM YOUR ENTRANCE\n"+"\033[0m");
         System.out.println("These are the colours you can choose from");
         for (ColourPawn c : ColourPawn.values()){
             System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
         }
-        System.out.print("Choose a colour (insert the numerical index): ");
+        System.out.print("\nChoose a colour (insert the numerical index): ");
 
         valid = false;
         do {
@@ -167,7 +167,7 @@ public class CLIView implements View {
                 valid = true;
             } catch(NumberFormatException e){
                 System.out.println("Invalid choice.");
-                System.out.print("Choose a colour (insert the numerical index): ");
+                System.out.print("\nChoose a colour (insert the numerical index): ");
                 valid = false;
                 resultString = scanner.nextLine();
             }
@@ -175,10 +175,10 @@ public class CLIView implements View {
 
         console.setPawnColour(result);
 
-        System.out.println("You can place the student on an island or on your DiningRoom.");
-        System.out.println("- Insert the island index if you want to place it on an island");
-        System.out.println("- Insert '-1' if you want to place it in your DiningRoom");
-        System.out.print("Insert your choice: ");
+        System.out.println("\nYou can place the student on an island or on your DiningRoom.");
+        System.out.println("\t- Insert the island index if you want to place it on an island");
+        System.out.println("\t- Insert '-1' if you want to place it in your DiningRoom");
+        System.out.print("\nInsert your choice: ");
 
         valid = false;
         do {
@@ -188,7 +188,7 @@ public class CLIView implements View {
                 valid = true;
             } catch(NumberFormatException e){
                 System.out.println("Invalid choice.");
-                System.out.print("Insert your choice (numerical index): ");
+                System.out.print("\nInsert your choice (numerical index): ");
                 valid = false;
                 resultString = scanner.nextLine();
             }
@@ -326,7 +326,7 @@ public class CLIView implements View {
         }
 
 
-        System.out.println("\n\033[01m" + "CLOUDS" + "\033[0m");
+        System.out.println("\n"+"\033[01m" + "CLOUDS" + "\033[0m");
         for(CloudPojo cloudPojo : gameStatePojo.getClouds())
             System.out.println("cloud "+ cloudPojo.getCloudId()+ ": " + cloudPojo.getStudents());
 
@@ -342,7 +342,7 @@ public class CLIView implements View {
             }
         }
 
-        System.out.println("\n\033[01m" + "ASSISTANT CARD PLAYED" + "\033[0m");
+        System.out.println("\n"+"\033[01m" + "ASSISTANT CARD PLAYED" + "\033[0m");
         for(PlayerPojo playerPojo : gameStatePojo.getPlayers()) {
             if(playerPojo.getPlayedAssistantCard()!=null)
                 System.out.println(playerPojo.getNickname() + ": TurnOrder -> " + playerPojo.getPlayedAssistantCard().getTurnOrder() + " \t MovementsMotherNature -> " + playerPojo.getPlayedAssistantCard().getMovementsMotherNature());
@@ -352,14 +352,14 @@ public class CLIView implements View {
 
 
         if(gameStatePojo.isExpert()){
-            System.out.println("\n\033[01m"+"CHARACTER MENU"+"\033[0m");
+            System.out.println("\n"+"\033[01m"+"CHARACTER MENU"+"\033[0m");
             for (CharacterPojo c : gameStatePojo.getCharacters()){
                 System.out.println(c.toString());
             }
             //System.out.println() ogg. sulla carta
         }
 
-        System.out.print("\n\033[01m" + "TURN: " + "\033[0m");
+        System.out.print("\n"+"\033[01m" + "TURN: " + "\033[0m");
         PlayerPojo current = gameStatePojo.getCurrentPlayer();
         if (current == null){
             System.out.println("no one");

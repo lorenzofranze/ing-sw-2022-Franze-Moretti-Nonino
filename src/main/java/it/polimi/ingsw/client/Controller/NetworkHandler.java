@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.Controller;
 
-import it.polimi.ingsw.common.messages.ConnectionMessage;
-import it.polimi.ingsw.common.messages.JsonConverter;
-import it.polimi.ingsw.common.messages.Message;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.*;
@@ -48,7 +45,13 @@ public class NetworkHandler {
     }
 
     public void sendToServer(Message message) throws IOException{
-        String stringMessage = JsonConverter.fromMessageToJson(message);
+        Message messageToSend = message;
+        if (message.getMessageType() == TypeOfMessage.Async){
+            AsyncMessage asyncMessage = (AsyncMessage) message;
+            asyncMessage.setDescription("disconnection message sent from " + ClientController.getInstance().getNickname());
+            messageToSend = asyncMessage;
+        }
+        String stringMessage = JsonConverter.fromMessageToJson(messageToSend);
         out.write(stringMessage);
         out.flush();
     }

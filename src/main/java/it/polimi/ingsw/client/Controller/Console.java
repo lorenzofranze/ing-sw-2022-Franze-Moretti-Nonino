@@ -89,11 +89,11 @@ public class Console {
                         askForCharacter();
                     }
                     moveStudent();
-                    System.out.println("\n\n\nFINE SPOSTA STUDENTE\n\n\n");
                 }
                 currActionBookMark = ActionBookMark.placeMotherNature;
                 break;
             case placeMotherNature:
+                System.out.println("\n\nPLACE MOTHER NATURE\n\n");
         }
 
     }
@@ -193,7 +193,7 @@ public class Console {
             }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
                 view.showMessage(receivedMessage);
                 ErrorMessage errorMessage = (ErrorMessage)receivedMessage;
-                if(!errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)){
+                if(!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice) || (errorMessage.getTypeOfError().equals(TypeOfError.NoMoney)))){
                     break;
                 }
             }

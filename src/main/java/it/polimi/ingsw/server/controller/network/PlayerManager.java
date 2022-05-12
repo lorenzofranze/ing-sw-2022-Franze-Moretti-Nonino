@@ -57,7 +57,6 @@ public class PlayerManager implements Runnable{
 
         while (toStop!=true) {
             receivedString = readFromBuffer();
-            System.out.println("\n\nArrivata sul buffer:\n" + receivedString + "\n\n"); //DA CANCELLARE
             receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
 
             switch(receivedMessage.getMessageType()){
@@ -212,7 +211,7 @@ public class PlayerManager implements Runnable{
                         if(specificTypeOfMessage.equals(receivedMessageAck.getTypeOfAck())){
                             return receivedMessageAck;
                         }else{
-                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages, "both Ack, different types" );
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
@@ -224,7 +223,7 @@ public class PlayerManager implements Runnable{
                         if(specificTypeOfMessage.equals(receivedMessageGame.getTypeOfMove())){
                             return receivedMessageGame;
                         }else{
-                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages, "both Game, different types");
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
@@ -233,7 +232,7 @@ public class PlayerManager implements Runnable{
                         if(specificTypeOfMessage.equals(receivedMessageError.getTypeOfError())){
                             return receivedMessageError;
                         }else{
-                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages, "both Error, different types");
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
@@ -246,7 +245,7 @@ public class PlayerManager implements Runnable{
                 }
 
             }else{
-                ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages);
+                ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages, "expected: " + expectedTypeOfMessage.toString() + "\t received " + receivedMessage.getMessageType().toString());
                 sendMessage(errorMessage);
                 correctMatch = false;
             }
@@ -335,6 +334,4 @@ public class PlayerManager implements Runnable{
     public void setMessageQueue(LinkedBlockingQueue<Message> messageQueue) {
         this.messageQueue = messageQueue;
     }
-
-
 }
