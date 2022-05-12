@@ -18,7 +18,7 @@ public class Console {
 
     private int assistantCardPlayed = -1;
     private Integer characterPlayed = null;
-    private int studentMoved = -1;
+    private int studentToMove = -1;
     private Integer pawnColour = null;
     private Integer pawnWhere = null;
 
@@ -75,22 +75,23 @@ public class Console {
         View view = ClientController.getInstance().view;
         GameStatePojo gameStatePojo = ClientController.getInstance().getGameStatePojo();
 
-        int studentsToMove;
+        int studentsToMoveTotal;
         if (gameStatePojo.getPlayers().size() == 2){
-            studentsToMove = 3;
+            studentsToMoveTotal = 3;
         }else{
-            studentsToMove = 4;
+            studentsToMoveTotal = 4;
         }
 
         switch (currActionBookMark){
             case moveStudents:
-                for(int i = 0; i < studentsToMove; i++){
+                studentToMove = studentsToMoveTotal;
+                for(int i = 0; i < studentsToMoveTotal; i++){
                     if (gameStatePojo.isExpert()) {
                         askForCharacter();
                     }
+                    studentToMove--;
                     moveStudent();
                 }
-                currActionBookMark = ActionBookMark.placeMotherNature;
                 break;
             case placeMotherNature:
                 System.out.println("\n\nPLACE MOTHER NATURE\n\n");
@@ -129,7 +130,11 @@ public class Console {
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
-                    //mi arriva anche un update. Qui lo gestisco
+                    //mi arriva anche un update. Se è l'ultimo update, non lo devo gestire qui perchè cambia fase dell'action
+                    if (studentToMove == 0){
+                        currActionBookMark = ActionBookMark.placeMotherNature;
+                        return;
+                    }
                     receivedMessage = networkHandler.getReceivedMessage();
                     if (receivedMessage.getMessageType() == TypeOfMessage.Update){
                         UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
