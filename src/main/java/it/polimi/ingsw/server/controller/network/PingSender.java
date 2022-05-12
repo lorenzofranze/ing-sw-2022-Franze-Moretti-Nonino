@@ -1,4 +1,4 @@
-
+/*
 package it.polimi.ingsw.Server.Controller.Network;
 
 
@@ -39,7 +39,7 @@ public class PingSender implements Runnable{
                 //invio il ping
                 /**todo**/
 
-
+/*
 
             try {
                 Thread.sleep(PING_TIMEOUT);
@@ -55,6 +55,7 @@ public class PingSender implements Runnable{
         lobbyManager.addDisconnectedPlayers(nickname);
         */
 
+                    /*
 
         //SE ARRIVO QUI è DISCONNESSO
         ServerController.getInstance().closeConnection(playerNickname);
@@ -62,4 +63,5 @@ public class PingSender implements Runnable{
     }
 }
 
+*/
 
