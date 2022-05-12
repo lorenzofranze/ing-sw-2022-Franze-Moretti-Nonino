@@ -136,6 +136,7 @@ public class ClientController implements Runnable {
                 };
                 Thread pongThread=new Thread(pongRunnable);
                 pongThread.start();
+                //pongThread.interrupt();
             }
 
 

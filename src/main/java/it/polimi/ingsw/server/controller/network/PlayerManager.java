@@ -32,9 +32,7 @@ public class PlayerManager implements Runnable{
         this.bufferedReaderIn=bufferedReaderIn;
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
-        this.pingSender=new PingSender(playerNickname, bufferedReaderOut);
-        pingThread= new Thread(pingSender);
-        pingThread.start();
+
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
     }
@@ -54,6 +52,9 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         Message receivedMessage;
+        this.pingSender=new PingSender(playerNickname, bufferedReaderOut);
+        pingThread= new Thread(pingSender);
+        pingThread.start();
 
         while (toStop!=true) {
             receivedString = readFromBuffer();
@@ -247,7 +248,6 @@ public class PlayerManager implements Runnable{
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }
-                        break;
                     case Ping:
                         PingMessage receivedMessagePing = (PingMessage) receivedMessage;
                         return receivedMessagePing;

@@ -44,15 +44,15 @@ public class PingSender implements Runnable{
             String messageString= jsonConverter.fromMessageToJson(message);
             this.isConnected=false;
 
+
+            //invio il ping
+            sendPingMessage();
+
             try {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
-            //invio il ping
-            sendPingMessage();
 
 
             // se arriva il pong, player manager setta isconnected a true e continua il while
