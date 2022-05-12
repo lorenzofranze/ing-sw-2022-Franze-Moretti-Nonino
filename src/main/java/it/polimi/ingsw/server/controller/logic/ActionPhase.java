@@ -51,7 +51,7 @@ public class ActionPhase extends GamePhase {
                 for(int i=0; i<studentsToMove; i++ ) {
                     askforCharacter();
                     if (checkEnd() == true){return actionResult;}
-                    moveStudent();
+                    moveStudents();
                     gameController.update();
                 }
                 askforCharacter();
@@ -129,7 +129,7 @@ public class ActionPhase extends GamePhase {
     }
 
 
-    protected void moveStudent(){
+    protected void moveStudents(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
@@ -186,8 +186,8 @@ public class ActionPhase extends GamePhase {
             AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
             playerManager.sendMessage(ackMessage);
             this.moveSingleStudent(ColourPawn.get(indexColour), where);
-
             gameController.update();
+            askforCharacter();
         }
 
     }

@@ -89,6 +89,7 @@ public class Console {
                         askForCharacter();
                     }
                     moveStudent();
+                    System.out.println("\n\n\nFINE SPOSTA STUDENTE\n\n\n");
                 }
                 currActionBookMark = ActionBookMark.placeMotherNature;
                 break;
@@ -128,7 +129,7 @@ public class Console {
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
-                    //se ho giocato una carta mi arriva anche un update. Qui lo gestisco
+                    //mi arriva anche un update. Qui lo gestisco
                     receivedMessage = networkHandler.getReceivedMessage();
                     if (receivedMessage.getMessageType() == TypeOfMessage.Update){
                         UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
@@ -150,8 +151,6 @@ public class Console {
                 }
             }
         }while(valid == false);
-
-
     }
 
     public void askForCharacter(){
@@ -198,6 +197,7 @@ public class Console {
                     break;
                 }
             }
+            characterPlayed = null;
         }while(valid == false);
     }
 
