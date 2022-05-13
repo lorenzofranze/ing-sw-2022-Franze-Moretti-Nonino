@@ -7,12 +7,12 @@ import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.PawnsMap;
 
-public class Card7 extends CharacterEffect{
+public class Card7Effect extends CharacterEffect{
 
     private final GameController gameController;
     private PawnsMap pawns;
 
-    public Card7(GameController gameController){
+    public Card7Effect(GameController gameController){
         this.gameController = gameController;
         pawns = new PawnsMap();
         pawns.add(gameController.getGame().getStudentsBag().removeRandomly(6));

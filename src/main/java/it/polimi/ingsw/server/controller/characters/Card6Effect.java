@@ -4,18 +4,15 @@ import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.*;
 
-public class Card6 extends CharacterEffectInfluence{
+public class Card6Effect extends CharacterEffect{
 
-    private GameController gameController;
-
-    public Card6(GameController gameController){
-        this.gameController = gameController;
+    public Card6Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
     }
 
     @Override
     /**When resolving a Conquering on a Island, Towers do not count towards influence*/
     public Player effectInfluence(Island island) {
-
 
         Game game = this.gameController.getGame();
         Player moreInfluentPlayer = null;

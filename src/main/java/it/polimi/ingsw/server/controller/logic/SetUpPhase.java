@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller.logic;
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.controller.characters.*;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.Character;
+import it.polimi.ingsw.server.model.CharacterState;
 
 import java.util.*;
 
@@ -112,14 +112,14 @@ public class SetUpPhase extends GamePhase {
     }
 
     public void initializeCharactersEffects() {
-        for (Character cr : gameController.getGame().getCharacters()) {
-            if (cr.getCharacterId() == 1) {gameController.getCharacterEffects().put(cr, new Card1(gameController));}
-            if (cr.getCharacterId() == 2) {gameController.getCharacterEffects().put(cr, new Card2(gameController));}
-            if (cr.getCharacterId() == 3) {gameController.getCharacterEffects().put(cr, new Card3(gameController));}
-            if (cr.getCharacterId() == 4) {gameController.getCharacterEffects().put(cr, new Card4(gameController));}
-            if (cr.getCharacterId() == 5) {gameController.getCharacterEffects().put(cr, new Card5(gameController));}
-            if (cr.getCharacterId() == 6) {gameController.getCharacterEffects().put(cr, new Card6(gameController));}
-            if (cr.getCharacterId() == 7) {gameController.getCharacterEffects().put(cr, new Card7(gameController));}
+        for (CharacterState cr : gameController.getGame().getCharacters()) {
+            if (cr.getCharacterId() == 1) {gameController.getCharacterEffects().add(new Card1Effect(gameController, cr));}
+            if (cr.getCharacterId() == 2) {gameController.getCharacterEffects().add(new Card2Effect(gameController, cr));}
+            if (cr.getCharacterId() == 3) {gameController.getCharacterEffects().add(new Card3Effect(gameController, cr));}
+            if (cr.getCharacterId() == 4) {gameController.getCharacterEffects().add(new Card4Effect(gameController, cr));}
+            if (cr.getCharacterId() == 5) {gameController.getCharacterEffects().add(new Card5Effect(gameController, cr));}
+            if (cr.getCharacterId() == 6) {gameController.getCharacterEffects().add(new Card6Effect(gameController, cr));}
+            if (cr.getCharacterId() == 7) {gameController.getCharacterEffects().add(new Card7Effect(gameController, cr));}
             if (cr.getCharacterId() == 8) {gameController.getCharacterEffects().put(cr, new Card8(gameController));}
             if (cr.getCharacterId() == 9) {gameController.getCharacterEffects().put(cr, new Card9(gameController));}
             if (cr.getCharacterId() == 10) {gameController.getCharacterEffects().put(cr, new Card10(gameController));}

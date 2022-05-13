@@ -2,14 +2,13 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
-import it.polimi.ingsw.server.controller.characters.Card5;
+import it.polimi.ingsw.server.controller.characters.Card5Effect;
 import it.polimi.ingsw.server.controller.characters.CharacterEffect;
-import it.polimi.ingsw.server.controller.characters.CharacterEffectInfluence;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.Character;
+import it.polimi.ingsw.server.model.CharacterState;
 
 import java.util.*;
 
@@ -60,9 +59,9 @@ public class ActionPhase extends GamePhase {
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
                 if(whereMotherNature.getNumNoEntryTile()>0){
                     whereMotherNature.setNumNoEntryTile(whereMotherNature.getNumNoEntryTile()-1);
-                    for(Character c : gameController.getGame().getCharacters())
+                    for(CharacterState c : gameController.getGame().getCharacters())
                         if(c.getCharacterId()==5) {
-                            ((Card5)gameController.getCharacterEffects().get(c)).addNoEntryTile();
+                            ((Card5Effect)gameController.getCharacterEffects().get(c)).addNoEntryTile();
                         }
                 }
 
@@ -263,7 +262,7 @@ public class ActionPhase extends GamePhase {
         if(gameController.getGame().getActiveEffect()!=null) {
             int characterId=gameController.getGame().getActiveEffect().getCharacterId();
             if(characterId==2 || characterId==6 || characterId==8 || characterId==9){
-                CharacterEffectInfluence character= (CharacterEffectInfluence) gameController.getCharacterEffects().get(gameController.getGame().getActiveEffect());
+                CharacterEffect character= gameController.getCharacterByID(characterId);
                 moreInfluentPlayer = character.effectInfluence(island);
                 return moreInfluentPlayer;
             }
@@ -393,7 +392,7 @@ public class ActionPhase extends GamePhase {
     // fine metodi di gioco
 
     /** this method does nothing if game is in simple mode because no player has more than 0 coins
-     * otherwise it ask the player for character card he wants to use between that he can afford */
+     * otherwise it asks to the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
         GameMessage gameMessage;
         ErrorMessage errorGameMessage;
@@ -419,27 +418,27 @@ public class ActionPhase extends GamePhase {
             }
 
             Integer playedCard = gameMessage.getValue();
-            Character characterPlayed = null;
+            CharacterState characterStatePlayed = null;
             boolean cardExists = false;
-            for(Character character: gameController.getGame().getCharacters()) {
-                if (character.getCharacterId() == playedCard) {
-                    characterPlayed = character;
+            for(CharacterState characterState : gameController.getGame().getCharacters()) {
+                if (characterState.getCharacterId() == playedCard) {
+                    characterStatePlayed = characterState;
                     cardExists = true;
                 }
             }
 
 
             if (cardExists){
-                if (gameController.getCurrentPlayer().getCoins() < characterPlayed.getCost()) {
+                if (gameController.getCurrentPlayer().getCoins() < characterStatePlayed.getCost()) {
                     ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
                     playerManager.sendMessage(errorMessage);
                 } else {
 
-                    gameController.getGame().setActiveEffect(characterPlayed);
-                    gameController.getCurrentPlayer().removeCoins(characterPlayed.getCost());
-                    gameController.getGame().addCoins(characterPlayed.getCost());
+                    gameController.getGame().setActiveEffect(characterStatePlayed);
+                    gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
+                    gameController.getGame().addCoins(characterStatePlayed.getCost());
 
-                    characterPlayed.use(); //incremento il costo se è da incrementare
+                    characterStatePlayed.use(); //incremento il costo se è da incrementare
 
                     AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
@@ -447,9 +446,8 @@ public class ActionPhase extends GamePhase {
                     gameController.update();
 
 
-                    CharacterEffect currentCharacterEffect = gameController.getCharacterEffects().get(characterPlayed);
-                    //currentCharacterEffect.doEffect();     //DA GESTIRE POI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    // aggiungere eventuali update in base alle carte personaggio
+                    CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
+                    currentCharacterEffect.doEffect();
                     validChoice = true;
                 }
             }else{

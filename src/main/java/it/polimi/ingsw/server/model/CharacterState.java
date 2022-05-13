@@ -1,18 +1,16 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.CharacterPojo;
-import it.polimi.ingsw.server.controller.characters.*;
-import it.polimi.ingsw.server.controller.logic.GameController;
 
 import java.util.Objects;
 
-public class Character{
+public class CharacterState {
 
     private int characterId;
     private int actualCost;
     private boolean incremented;
 
-    public Character(int characterId, int actualCost) {
+    public CharacterState(int characterId, int actualCost) {
         this.characterId = characterId;
         this.actualCost = actualCost;
         this.incremented = false;
@@ -37,8 +35,8 @@ public class Character{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Character character = (Character) o;
-        return characterId == character.characterId;
+        CharacterState characterState = (CharacterState) o;
+        return characterId == characterState.characterId;
     }
 
     @Override
