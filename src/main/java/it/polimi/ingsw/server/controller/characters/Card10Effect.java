@@ -5,17 +5,20 @@ import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.model.CharacterState;
+import it.polimi.ingsw.server.model.Island;
+import it.polimi.ingsw.server.model.Player;
 
-public class Card10 extends CharacterEffect{
+public class Card10Effect extends CharacterEffect{
     private GameController gameController;
 
-    public Card10(GameController gameController){
-        this.gameController=gameController;
+    public Card10Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
     }
 
     public void doEffect() {
         boolean valid;
-        int num=0;
+        int count;
         int i, colourEntrance, colourDining;
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
@@ -24,26 +27,26 @@ public class Card10 extends CharacterEffect{
         GameMessage gameMessage;
         Message receivedMessage;
 
-        do{
+        // player chooses how many students to move
+        do {
             valid=true;
-            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentNumber);
-            if(receivedMessage == null){
-                System.out.println("ERROR-Card10-1");
-                return;
-            }
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.NumOfMove);
             gameMessage = (GameMessage) receivedMessage;
-            num = gameMessage.getValue();
-            if(num<0 || num >2){
+            count = gameMessage.getValue();
+            if (count<0 || count > 2) {  // max 3 movements
                 valid = false;
-                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
+                errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
                 playerManager.sendMessage(errorGameMessage);
+            }else{
+                AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                playerManager.sendMessage(ackMessage);
             }
         }while(!valid);
 
-        for (i=0; i<num; i++){
+        for (i=0; i<count; i++){
+            //player chooses student in his entrance
             do{
                 valid = true;
-                // to user: choose one color pawn
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
                 if(receivedMessage == null){
                     System.out.println("ERROR-Card10-2");
@@ -69,11 +72,15 @@ public class Card10 extends CharacterEffect{
                 if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(colourEntrance))>=10) {
                     valid = false;
-                    // to user: your school board in that row of your dining room is full
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
+                    playerManager.sendMessage(errorGameMessage);
                 }
-
+                if(valid){
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
+                }
             }while(!valid);
-
+            // now chooses the student in his dining room
             do{
                 valid=true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
@@ -83,14 +90,30 @@ public class Card10 extends CharacterEffect{
                 }
                 gameMessage = (GameMessage) receivedMessage;
                 colourDining= gameMessage.getValue();
-                if(gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0){
+                if(colourEntrance<=-1 || colourEntrance >=5){
+                    valid=false;
+                    // to user: index not valid
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
+                    playerManager.sendMessage(errorGameMessage);
+                }
+                if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0){
                     valid = false;
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
                 }
+                if(valid){
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
+                }
             }while(!valid);
 
             gameController.getCurrentPlayer().getSchoolBoard().swap(ColourPawn.get(colourEntrance), ColourPawn.get(colourDining), gameController.getGame());
+            gameController.update();
         }
+    }
+
+    @Override
+    public Player effectInfluence(Island island) {
+        return null;
     }
 }

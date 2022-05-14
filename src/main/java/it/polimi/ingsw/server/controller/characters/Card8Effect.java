@@ -4,18 +4,15 @@ import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.*;
 
-public class Card6 extends CharacterEffectInfluence{
+public class Card8Effect extends CharacterEffect{
 
-    private GameController gameController;
-
-    public Card6(GameController gameController){
-        this.gameController = gameController;
+    public Card8Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
     }
 
     @Override
-    /**When resolving a Conquering on a Island, Towers do not count towards influence*/
+    /**During the influence calculation this turn, you count as having 2 more influence*/
     public Player effectInfluence(Island island) {
-
 
         Game game = this.gameController.getGame();
         Player moreInfluentPlayer = null;
@@ -24,9 +21,15 @@ public class Card6 extends CharacterEffectInfluence{
         int currScore;
         for(Player p: game.getPlayers()) {
             currScore = 0;
+            if (p.equals(gameController.getCurrentPlayer())){
+                currScore += 2;
+            }
             for (ColourPawn professor : ColourPawn.values()) {
                 if(p.getSchoolBoard().getProfessors().get(professor)==1)
                     currScore += island.getStudents().get(professor);
+            }
+            if (p.getColourTower() == island.getTowerColour()) {
+                currScore += island.getTowerCount();
             }
 
             if (currScore > 0 && currScore > maxInfluence) {
@@ -42,4 +45,5 @@ public class Card6 extends CharacterEffectInfluence{
     public void doEffect() {
 
     }
+
 }

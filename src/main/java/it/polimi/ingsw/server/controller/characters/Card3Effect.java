@@ -5,19 +5,19 @@ import it.polimi.ingsw.server.controller.logic.ActionPhase;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.model.CharacterState;
 import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
-public class Card3 extends CharacterEffect{
-    private final GameController gameController;
+public class Card3Effect extends CharacterEffect{
     private Island island;
     boolean finishedTowers;
     boolean threeOrLessIslands;
 
 
 
-    public Card3(GameController gameController){
-        this.gameController = gameController;
+    public Card3Effect(GameController gameController, CharacterState characterState){
+        super(gameController, characterState );
         finishedTowers = false;
         threeOrLessIslands = false;
     }
@@ -51,11 +51,11 @@ public class Card3 extends CharacterEffect{
         islandIndex = gameMessage.getValue();
 
         if(islandIndex<0 || islandIndex>gameController.getGame().getIslands().size()-1){
-            //not valid card, rechoose
             errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
             playerManager.sendMessage(errorGameMessage);
+            return;
         }
-        //int islandIndex = messageHandler.getValueCLI("choose the island you want to use the effect on: ",gameController.getCurrentPlayer());
+
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();
         Player moreInfluentPlayer = actionPhase.calcultateInfluence(island);
@@ -67,7 +67,6 @@ public class Card3 extends CharacterEffect{
             if (finishedTowers) {
                 actionPhase.getActionResult().setFinishedTowers(true);
             }
-            //System.out.println(gameController.getCurrentPlayer().toString() + " has finished his/her Towers");
                 return;
             }
 
@@ -79,9 +78,13 @@ public class Card3 extends CharacterEffect{
 
             if(numIslands<4){
                 actionPhase.getActionResult().setThreeOrLessIslands(true);
-                //System.out.println("There are 3 or less islands");
                 return;
             }
         }
+
+    @Override
+    public Player effectInfluence(Island island) {
+        return null;
     }
+}
 

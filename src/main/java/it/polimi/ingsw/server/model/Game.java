@@ -24,12 +24,12 @@ public class Game {
     //EXPERT GAME ATTRIBUTES
     /**keeps track of the effect used by the current player. It represents the characterId
      * of the character used*/
-    private Character activeEffect;
+    private CharacterState activeEffect;
     private int coinSupply;
     /**I can place the three Character-Cards on the table also if the expert-mode is off: no one in a simple-play
      * will use them since they won't have any personal coin
      */
-    private List<Character> characters;
+    private List<CharacterState> characterStates;
 
 
 
@@ -70,28 +70,28 @@ public class Game {
             this.professorsLeft.add(currColor);
         }
 
-            List<Character>temp = new ArrayList<Character>(12);
+            List<CharacterState>temp = new ArrayList<CharacterState>(12);
 
-            temp.add(new Character(1, 1));
-            temp.add(new Character(2, 2));
-            temp.add(new Character(3, 3));
-            temp.add(new Character(4, 1));
-            temp.add(new Character(5, 2));
-            temp.add(new Character(6, 3));
-            temp.add(new Character(7, 1));
-            temp.add(new Character(8, 2));
-            temp.add(new Character(9, 3));
-            temp.add(new Character(10, 1));
-            temp.add(new Character(11, 2));
-            temp.add(new Character(12, 3));
+            temp.add(new CharacterState(1, 1));
+            temp.add(new CharacterState(2, 2));
+            temp.add(new CharacterState(3, 3));
+            temp.add(new CharacterState(4, 1));
+            temp.add(new CharacterState(5, 2));
+            temp.add(new CharacterState(6, 3));
+            temp.add(new CharacterState(7, 1));
+            temp.add(new CharacterState(8, 2));
+            temp.add(new CharacterState(9, 3));
+            temp.add(new CharacterState(10, 1));
+            temp.add(new CharacterState(11, 2));
+            temp.add(new CharacterState(12, 3));
 
             Collections.shuffle(temp);
 
-            characters = new ArrayList<Character>(3);
+            characterStates = new ArrayList<CharacterState>(3);
 
-            characters.add(temp.get(1));
-            characters.add(temp.get(2));
-            characters.add(temp.get(3));
+            characterStates.add(temp.get(1));
+            characterStates.add(temp.get(2));
+            characterStates.add(temp.get(3));
 
             this.coinSupply = 20;
 
@@ -140,11 +140,11 @@ public class Game {
     }
 
     /**returns the set of all the possible characters**/
-    public List<Character> getCharacters() {return characters;}
+    public List<CharacterState> getCharacters() {return characterStates;}
 
-    public Character getActiveEffect() {return activeEffect;}
+    public CharacterState getActiveEffect() {return activeEffect;}
 
-    public void setActiveEffect(Character activeEffect) {this.activeEffect = activeEffect;}
+    public void setActiveEffect(CharacterState activeEffect) {this.activeEffect = activeEffect;}
 
     public List<Island> getIslands() {return islands;}
 
@@ -232,7 +232,12 @@ public class Game {
         }
     }
 
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
+    public CharacterState getCharacterStateByID(int id){
+        for(CharacterState characterState : characterStates)
+            if(characterState.getCharacterId()==id)
+                return characterState;
+
+        return null;
+
     }
 }

@@ -3,17 +3,16 @@ package it.polimi.ingsw.server.controller.characters;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.controller.logic.GameController;
+import it.polimi.ingsw.server.model.CharacterState;
 import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.PawnsMap;
 import it.polimi.ingsw.server.model.Player;
 
-public class Card2 extends CharacterEffectInfluence {
-
-    private final GameController gameController;
+public class Card2Effect extends CharacterEffect{
     private PawnsMap stolenProfessors;
 
-    public Card2(GameController gameController){
-        this.gameController = gameController;
+    public Card2Effect(GameController gameController, CharacterState characterState){
+        super(gameController, characterState);
         this.stolenProfessors = new PawnsMap();
     }
 
@@ -26,7 +25,7 @@ public class Card2 extends CharacterEffectInfluence {
                             && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(colour) >=
                             p.getSchoolBoard().getDiningRoom().get(colour)) {
                                 stolenProfessors.add(colour);
-                        //to user: now you control also theese professors: print stolenProfessors
+
                     }
                 }
             }

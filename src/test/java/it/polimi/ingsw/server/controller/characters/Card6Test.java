@@ -1,17 +1,5 @@
 package it.polimi.ingsw.server.controller.characters;
 
-import it.polimi.ingsw.server.controller.characters.Card1;
-import it.polimi.ingsw.server.controller.characters.Card6;
-import it.polimi.ingsw.server.controller.logic.GameController;
-import it.polimi.ingsw.server.controller.logic.GameMode;
-import it.polimi.ingsw.server.controller.network.Lobby;
-import it.polimi.ingsw.server.model.Island;
-import it.polimi.ingsw.server.model.*;
-
-import java.net.Socket;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class Card6Test {
 
     /*public void card6Test(){

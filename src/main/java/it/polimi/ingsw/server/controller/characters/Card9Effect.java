@@ -5,15 +5,15 @@ import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.model.CharacterState;
 import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
-public class Card9 extends CharacterEffectInfluence{
-    private GameController gameController;
+public class Card9Effect extends CharacterEffect{
     private ColourPawn colourPawn;
 
-    public Card9(GameController gameController){
-        this.gameController = gameController;
+    public Card9Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
     }
 
     @Override
@@ -37,7 +37,6 @@ public class Card9 extends CharacterEffectInfluence{
             index= gameMessage.getValue();
             if(index<0 || index >4){
                 valid = false;
-                //the island doesn't exist
                 errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }

@@ -5,16 +5,15 @@ import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.model.CharacterState;
+import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
-public class Card12 extends CharacterEffect{
+public class Card12Effect extends CharacterEffect{
 
-    private GameController gameController;
-    public Card12(GameController gameController){
-        this.gameController=gameController;
+    public Card12Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
     }
-
-
     public void doEffect(){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         ErrorMessage errorGameMessage;
@@ -25,8 +24,8 @@ public class Card12 extends CharacterEffect{
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
         int chosenPawn; // index of ColourPawn enumeration
+
         do{
-            valid=false;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
             if(receivedMessage == null){
                 System.out.println("ERROR-card1-1");
@@ -35,6 +34,7 @@ public class Card12 extends CharacterEffect{
             gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
 
+            valid = false;
             for(ColourPawn p : ColourPawn.values()){
                 if(p.getIndexColour()==chosenPawn){
                     valid=true;
@@ -42,7 +42,6 @@ public class Card12 extends CharacterEffect{
             }
 
             if(!valid){
-                //the island doesn't exist
                 errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
@@ -64,5 +63,10 @@ public class Card12 extends CharacterEffect{
                 }
             }
         }
+    }
+
+    @Override
+    public Player effectInfluence(Island island) {
+        return null;
     }
 }

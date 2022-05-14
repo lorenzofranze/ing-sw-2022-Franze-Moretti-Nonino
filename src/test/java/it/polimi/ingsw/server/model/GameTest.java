@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
-import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.Character;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -91,9 +89,9 @@ class GameTest {
         listPlayer.add("Vale");
 
         Game game=new Game(listPlayer, 2);
-        Character character=game.getCharacters().get(1);
-        game.setActiveEffect(character);
-        assertEquals(character, game.getActiveEffect());
+        CharacterState characterState =game.getCharacters().get(1);
+        game.setActiveEffect(characterState);
+        assertEquals(characterState, game.getActiveEffect());
     }
 
 

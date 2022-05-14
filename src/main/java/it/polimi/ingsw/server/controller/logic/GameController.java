@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.controller.logic;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.AckMessage;
 import it.polimi.ingsw.common.messages.TypeOfAck;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
 import it.polimi.ingsw.server.controller.characters.CharacterEffect;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
@@ -11,7 +10,7 @@ import it.polimi.ingsw.common.messages.UpdateMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.controller.network.ServerController;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.Character;
+import it.polimi.ingsw.server.model.CharacterState;
 import it.polimi.ingsw.server.model.Cloud;
 
 import java.util.*;
@@ -42,13 +41,13 @@ public class GameController implements Runnable  {
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
 
-    private Map<Character, CharacterEffect> characterEffects; // per gli effetti
+    private List<CharacterEffect> characterEffects; // per gli effetti
 
     public GameController(Lobby lobby, boolean expert){
         this.game=new Game(lobby.getUsersNicknames(), this.gameID);
         this.expert=expert;
         this.gameID ++;
-        this.characterEffects = new HashMap<>();
+        this.characterEffects = new ArrayList<>();
         this.lobby=lobby;
 
         this.messageHandler= new MessageHandler(lobby);
@@ -238,15 +237,22 @@ public class GameController implements Runnable  {
         return gameID;
     }
 
-    public Map<Character, CharacterEffect> getCharacterEffects() {
+    public List<CharacterEffect> getCharacterEffects() {
         return characterEffects;
     }
 
+    public CharacterEffect getCharacterByID(int id){
+        for(CharacterEffect characterEffect : characterEffects)
+            if(characterEffect.getID() == id)
+                return characterEffect;
+        return null;
+    }
     /** used by Char4 doEffect()
      * it adds to the maximum movements of mother nature permitted by the assistant card chosen by the player
      * two additional steps
      * @param player
      */
+    //todo: vedere
     public void addTwoMovements(Player player){
         Integer numMax= pianificationResult.getMaximumMovements().get(player)+2;
         HashMap<Player,Integer> newMaxMovements= pianificationResult.getMaximumMovements();
@@ -293,7 +299,7 @@ public class GameController implements Runnable  {
         gameStatePojo.setCoinSupply(this.game.getCoinSupply());
 
         List<CharacterPojo> pojoCharacterPojos = new ArrayList<>();
-        for (Character c : this.game.getCharacters()){
+        for (CharacterState c : this.game.getCharacters()){
             CharacterPojo pojoCharacterPojo = c.toPojo();
             pojoCharacterPojos.add(pojoCharacterPojo);
         }
