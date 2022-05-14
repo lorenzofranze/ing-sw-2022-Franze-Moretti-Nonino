@@ -24,8 +24,8 @@ public class PlayerManager implements Runnable{
     private BufferedWriter bufferedReaderOut;
     private PingSender pingSender;
     private Thread pingThread;
-    private boolean isMyTurn=false;
-    private boolean toStop=false;
+    private transient boolean isMyTurn=false;
+    private transient boolean toStop=false;
 
     public PlayerManager(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = playerNickname;

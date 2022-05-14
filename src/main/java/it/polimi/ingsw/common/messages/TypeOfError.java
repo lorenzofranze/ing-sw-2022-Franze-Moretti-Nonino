@@ -1,6 +1,6 @@
 package it.polimi.ingsw.common.messages;
 
 public enum TypeOfError {
-    UsedName, UnmatchedMessages,
+    UsedName, UnmatchedMessages, AlreadyPlayed,
     FullDiningRoom, InvalidChoice, TurnError, NoMoney, FailedConnection;
 }

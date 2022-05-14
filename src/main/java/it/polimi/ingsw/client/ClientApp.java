@@ -59,9 +59,9 @@ public class ClientApp implements Runnable{
         try {
             networkHandler.connectToServer();
         } catch (IOException e) {
-            e.printStackTrace();
             ErrorMessage errorMessage = new ErrorMessage(TypeOfError.FailedConnection);
             view.showMessage(errorMessage);
+            return;
         }
 
         System.out.println("connesso al server"); //DA CANCELLARE

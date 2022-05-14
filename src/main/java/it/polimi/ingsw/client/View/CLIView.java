@@ -303,6 +303,9 @@ public class CLIView implements View {
             case InvalidChoice:
                 System.out.println("The choice you made is invalid.");
                 break;
+            case AlreadyPlayed:
+                System.out.println("an other player has already played this card");
+                break;
             case TurnError:
                 System.out.println("You cannot play. Wait for your turn.");
                 break;

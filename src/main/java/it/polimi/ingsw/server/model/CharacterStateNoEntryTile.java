@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.gamePojo.CharacterNoEntryPojo;
+import it.polimi.ingsw.common.gamePojo.CharacterPojo;
+
 public class CharacterStateNoEntryTile extends CharacterState{
     private int numNoEntry;
 
@@ -17,5 +20,14 @@ public class CharacterStateNoEntryTile extends CharacterState{
 
     public CharacterStateNoEntryTile(int characterId, int actualCost){
         super(characterId, actualCost);
+    }
+
+    public CharacterPojo toPojo(){
+        CharacterPojo pojoCharacterPojo = new CharacterNoEntryPojo();
+        pojoCharacterPojo.setCharacterId(this.getCharacterId());
+        pojoCharacterPojo.setActualCost(this.getCost());
+        ((CharacterNoEntryPojo)pojoCharacterPojo).setNumNoEntry(this.numNoEntry);
+
+        return pojoCharacterPojo;
     }
 }

@@ -15,7 +15,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class PingSender implements Runnable{
-    private boolean isConnected;
+    private volatile boolean isConnected;
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 60000;
 
@@ -39,6 +39,11 @@ public class PingSender implements Runnable{
 
     @Override
     public void run() {
+        try {
+            Thread.sleep(PING_TIMEOUT);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while(true){
             PingMessage message= new PingMessage();
             JsonConverter jsonConverter=new JsonConverter();

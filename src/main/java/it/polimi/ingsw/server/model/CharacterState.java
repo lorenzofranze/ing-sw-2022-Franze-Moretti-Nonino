@@ -48,7 +48,7 @@ public class CharacterState {
         CharacterPojo pojoCharacterPojo = new CharacterPojo();
         pojoCharacterPojo.setCharacterId(this.getCharacterId());
         pojoCharacterPojo.setActualCost(this.actualCost);
-        pojoCharacterPojo.setIncremented(this.incremented);
+
         return pojoCharacterPojo;
     }
 
