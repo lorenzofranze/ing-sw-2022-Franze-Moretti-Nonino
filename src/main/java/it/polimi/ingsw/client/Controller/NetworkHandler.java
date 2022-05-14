@@ -91,7 +91,7 @@ public class NetworkHandler {
             ClientController.getInstance().setDisconnected();
         }
         else if (receivedMessage.getMessageType().equals(Ping)) {
-            Runnable pongRunnable= new Runnable() {
+           /* Runnable pongRunnable= new Runnable() {
                 @Override
                 public void run() {
                     JsonConverter jsonConverter = new JsonConverter();
@@ -108,6 +108,16 @@ public class NetworkHandler {
             Thread pongThread=new Thread(pongRunnable);
             pongThread.start();
             //pongThread.interrupt();
+            return getReceivedMessage();
+        }
+        return receivedMessage;
+
+            */
+            try {
+                sendToServer(receivedMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return getReceivedMessage();
         }
         return receivedMessage;
