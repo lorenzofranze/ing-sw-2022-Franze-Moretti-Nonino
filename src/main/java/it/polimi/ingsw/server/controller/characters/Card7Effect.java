@@ -5,17 +5,16 @@ import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
-import it.polimi.ingsw.server.model.PawnsMap;
+import it.polimi.ingsw.server.model.*;
 
 public class Card7Effect extends CharacterEffect{
 
-    private final GameController gameController;
-    private PawnsMap pawns;
 
-    public Card7Effect(GameController gameController){
-        this.gameController = gameController;
-        pawns = new PawnsMap();
-        pawns.add(gameController.getGame().getStudentsBag().removeRandomly(6));
+    public Card7Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
+        for(int i=0; i<6; i++){
+            ((CharacterStateStudent)(this.characterState)).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
+        }
     }
 
     public void doEffect(){
@@ -25,69 +24,95 @@ public class Card7Effect extends CharacterEffect{
         Message receivedMessage;
 
         String currPlayer= gameController.getCurrentPlayer().getNickname();
-        PawnsMap pawnsChosen = new PawnsMap();
-        PawnsMap pawnsToRemove = new PawnsMap();
+
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
-        //System.out.println("The students on the card are:\n" + pawns);
-        //System.out.println("You can choose up to 3 Students from this card and replace them with the same amount of " +
-        //        "Students form your entrance ( colour pawn '-1' to end):\n");
+
         boolean valid;
-        int chosenPawn; // index of ColourPawn enumeration
-        int chosenIsland; // index island
-        int count = 0;
+        int pawnCard;
+        int pawnBoard;
+        int count = 0; // number of movements made
         boolean end = false;
-        do{
-            valid=false;
-            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-            if(receivedMessage == null){
-                System.out.println("ERROR-Card7-1");
-                return;
-            }
+
+        // player chooses how many students to move
+        do {
+            valid=true;
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.NumOfMove);
             gameMessage = (GameMessage) receivedMessage;
-            chosenPawn= gameMessage.getValue();
-            if (chosenPawn == -1){
-                valid=true;
-                end = true;
+            count = gameMessage.getValue();
+            if (count<0 || count > 3) {  // max 3 movements
+                valid = false;
+                errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
+                playerManager.sendMessage(errorGameMessage);
             }
-            for(ColourPawn p : ColourPawn.values()){
-                if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){
-                    valid=true;
-                    count++;
-                    if (count == 3){end = true;}
-                    pawns.remove(ColourPawn.values()[chosenPawn]);
-                    pawnsChosen.add(ColourPawn.values()[chosenPawn]);
+        }while(!valid);
+
+        // now the player chooses the students
+        for(int i=0; i<count; i++){
+            //firts of all the player chooses the student on the card
+            do {
+                valid = true;
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+
+                if (receivedMessage == null) {
+                    System.out.println("ERROR-Card7-1");
+                    return;
                 }
-            }
-        }while(!valid || (valid && end == false));
+                gameMessage = (GameMessage) receivedMessage;
+                pawnCard = gameMessage.getValue();
 
-        valid = true;
-        while(!valid || count > 0){
-            valid=false;
-            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-            if(receivedMessage == null){
-                System.out.println("ERROR-Card7-2");
-                return;
-            }
-            gameMessage = (GameMessage) receivedMessage;
-            chosenPawn= gameMessage.getValue();
+                valid=false;
+                for (ColourPawn p : ColourPawn.values()) {
+                    if (p.getIndexColour() == pawnCard && ((CharacterStateStudent) (this.characterState)).getAllStudents().get(p) >= 1)
+                        valid = true;
+                }
 
-            for(ColourPawn p : ColourPawn.values()){
-                if(p.getIndexColour()==chosenPawn && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1 ){
-                    count--;
-                    gameController.getCurrentPlayer().getSchoolBoard().getEntrance().remove(ColourPawn.values()[chosenPawn]);
-                    pawnsToRemove.add(ColourPawn.values()[chosenPawn]);
+                if(valid==false){
+                    errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
+                    playerManager.sendMessage(errorGameMessage);
                 }else{
-                    valid = false;
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
                 }
-            }
+            }while(!valid);
+            // now chooses the student in his entrance
+            do {
+                valid = true;
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+
+                if (receivedMessage == null) {
+                    System.out.println("ERROR-Card7-1");
+                    return;
+                }
+                gameMessage = (GameMessage) receivedMessage;
+                pawnBoard = gameMessage.getValue();
+
+                valid=false;
+                for (ColourPawn p : ColourPawn.values()) {
+                    if (p.getIndexColour() == pawnBoard && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1)
+                        valid = true;
+                }
+
+                if(valid==false){
+                    errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
+                    playerManager.sendMessage(errorGameMessage);
+                }else{
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
+                }
+            }while(!valid);
+            //swap
+            ((CharacterStateStudent) (this.characterState)).removeStudent(ColourPawn.values()[pawnCard]);
+            ((CharacterStateStudent) (this.characterState)).addStudent(ColourPawn.values()[pawnBoard]);
+            gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(ColourPawn.values()[pawnCard]);
+            gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(ColourPawn.values()[pawnBoard]);
+            gameController.update(); //otherwise he can't see how new pawns are placed
         }
 
-        /*now pawnsChosen contains the pawns chosen from the card and pawnsToRemove contains the pawns form the entrance*/
-        gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(pawnsChosen);
-        pawns.add(pawnsToRemove);
+    }
 
-        //System.out.println("Your current entrance is: " + gameController.getCurrentPlayer().getSchoolBoard().getEntrance());
-
+    @Override
+    public Player effectInfluence(Island island) {
+        return null;
     }
 }

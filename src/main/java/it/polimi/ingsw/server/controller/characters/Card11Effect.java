@@ -5,16 +5,15 @@ import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
-import it.polimi.ingsw.server.model.PawnsMap;
+import it.polimi.ingsw.server.model.*;
 
-public class Card11 extends CharacterEffect{
-    private final GameController gameController;
-    private PawnsMap pawns;
+public class Card11Effect extends CharacterEffect{
 
-    public Card11(GameController gameController){
-        this.gameController = gameController;
-        pawns = new PawnsMap();
-        pawns.add(gameController.getGame().getStudentsBag().removeRandomly(4));
+    public Card11Effect(GameController gameController, CharacterState characterState){
+        super(gameController, characterState);
+        for(int i=0; i<4; i++){
+            ((CharacterStateStudent)(this.characterState)).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
+        }
     }
 
     public void doEffect(){
@@ -28,8 +27,7 @@ public class Card11 extends CharacterEffect{
         int chosenPawn; // index of ColourPawn enumeration
 
         do{
-            valid=false;
-            //chosenPawn = messageHandler.getValueCLI("choose one color pawn: ",gameController.getCurrentPlayer());
+            valid=true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
             if(receivedMessage==null){
                 System.out.println("ERROR-Card11-1");
@@ -38,36 +36,44 @@ public class Card11 extends CharacterEffect{
             gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
 
+            if(chosenPawn <=-1 || chosenPawn >=5){
+                valid=false;
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
+                playerManager.sendMessage(errorGameMessage);
+            }
+            valid = false;
             for(ColourPawn p : ColourPawn.values()){
-                if(p.getIndexColour()==chosenPawn && pawns.get(p)>=1 ){
+                if(p.getIndexColour()==chosenPawn  && ((CharacterStateStudent)characterState).getAllStudents().get(p)>=1 ){
                     valid=true;
                 }
             }
-            if(!valid){
-                //the island doesn't exists
+            if(valid==false){
                 errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
 
         }while(!valid);
 
-        pawns.remove(ColourPawn.values()[chosenPawn]);
+        ((CharacterStateStudent)characterState).removeStudent(ColourPawn.values()[chosenPawn]);
 
         PawnsMap chosenPawnsMap= new PawnsMap();
-        chosenPawnsMap.add(ColourPawn.values()[chosenPawn], 1);
+        chosenPawnsMap.add(ColourPawn.values()[chosenPawn]);
 
         gameController.getCurrentPlayer().getSchoolBoard().addToDiningRoom(chosenPawnsMap, gameController.getGame());
 
 
         if(gameController.getGame().getStudentsBag().pawnsNumber()>=1){
-            pawns.add(gameController.getGame().getStudentsBag().removeRandomly());
+            ((CharacterStateStudent)characterState).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
         }
 
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
+
     }
 
-
-
-    public void showPawns(){
-        //mostra pawns sulla carta
+    @Override
+    public Player effectInfluence(Island island) {
+        return null;
     }
+
 }

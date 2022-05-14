@@ -232,7 +232,12 @@ public class Game {
         }
     }
 
-    public void setCharacters(List<CharacterState> characterStates) {
-        this.characterStates = characterStates;
+    public CharacterState getCharacterStateByID(int id){
+        for(CharacterState characterState : characterStates)
+            if(characterState.getCharacterId()==id)
+                return characterState;
+
+        return null;
+
     }
 }

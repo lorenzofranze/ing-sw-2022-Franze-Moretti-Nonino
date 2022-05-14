@@ -4,12 +4,12 @@ import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.*;
 
-public class Card8 extends CharacterEffectInfluence{
-    private final GameController gameController;
+public class Card8Effect extends CharacterEffect{
 
-    public Card8(GameController gameController){
-        this.gameController = gameController;
+    public Card8Effect(GameController gameController, CharacterState characterState) {
+        super(gameController, characterState);
     }
+
     @Override
     /**During the influence calculation this turn, you count as having 2 more influence*/
     public Player effectInfluence(Island island) {

@@ -59,10 +59,7 @@ public class ActionPhase extends GamePhase {
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
                 if(whereMotherNature.getNumNoEntryTile()>0){
                     whereMotherNature.setNumNoEntryTile(whereMotherNature.getNumNoEntryTile()-1);
-                    for(CharacterState c : gameController.getGame().getCharacters())
-                        if(c.getCharacterId()==5) {
-                            ((Card5Effect)gameController.getCharacterEffects().get(c)).addNoEntryTile();
-                        }
+                    ((CharacterStateNoEntryTile)(gameController.getGame().getCharacterStateByID(5))).addNoEntryTile();
                 }
 
                 gameController.update();
