@@ -66,9 +66,6 @@ public class Card11Effect extends CharacterEffect{
             ((CharacterStateStudent)characterState).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
         }
 
-        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-        playerManager.sendMessage(ackMessage);
-
     }
 
     @Override

@@ -445,6 +445,8 @@ public class ActionPhase extends GamePhase {
 
                     CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
                     currentCharacterEffect.doEffect();
+                    ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    playerManager.sendMessage(ackMessage);
                     validChoice = true;
                 }
             }else{
