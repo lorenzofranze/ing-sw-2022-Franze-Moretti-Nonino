@@ -7,6 +7,7 @@ import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.PingMessage;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
+import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.controller.network.ServerController;
 
 import java.io.BufferedReader;
@@ -18,12 +19,12 @@ public class PingSender implements Runnable{
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 60000;
 
-    private BufferedWriter bufferedWriterOut;
+    private PlayerManager playerManager;
     private String playerNickname;
 
-    public PingSender(String playerNickname, BufferedWriter bufferedReaderOut){
+    public PingSender(String playerNickname, PlayerManager playerManager){
         this.playerNickname=playerNickname;
-        this.bufferedWriterOut=bufferedReaderOut;
+        this.playerManager=playerManager;
 
         isConnected=true;
     }
@@ -38,7 +39,7 @@ public class PingSender implements Runnable{
 
     @Override
     public void run() {
-        while(isConnected){
+        while(true){
             PingMessage message= new PingMessage();
             JsonConverter jsonConverter=new JsonConverter();
             String messageString= jsonConverter.fromMessageToJson(message);
@@ -46,7 +47,7 @@ public class PingSender implements Runnable{
 
 
             //invio il ping
-            sendPingMessage();
+            playerManager.sendMessage(new PingMessage());
 
             try {
                 Thread.sleep(PING_TIMEOUT);
@@ -54,7 +55,9 @@ public class PingSender implements Runnable{
                 e.printStackTrace();
             }
 
-
+            if(this.isConnected=false) {
+                break;
+            }
             // se arriva il pong, player manager setta isconnected a true e continua il while
         }
 
@@ -70,18 +73,6 @@ public class PingSender implements Runnable{
 
     }
 
-    public void sendPingMessage(){
 
-        JsonConverter jsonConverter= new JsonConverter();
-        String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
-
-        try {
-            bufferedWriterOut.write(stringToSend);
-            bufferedWriterOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
 

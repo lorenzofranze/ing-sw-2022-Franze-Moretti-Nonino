@@ -6,6 +6,8 @@ import it.polimi.ingsw.server.controller.logic.GameMode;
 import java.io.*;
 import java.net.Socket;
 
+import static it.polimi.ingsw.common.messages.TypeOfMessage.Ping;
+
 public class NetworkHandler {
 
     private String serverIp;
@@ -85,8 +87,28 @@ public class NetworkHandler {
         if (!receivedMessage.getMessageType().equals(TypeOfMessage.Update)){  // DA CANCELLARE
             System.out.println(stringMessage);                                // DA CANCELLARE
         }
-        if(receivedMessage.getMessageType().equals(TypeOfMessage.Async)){
+        else if(receivedMessage.getMessageType().equals(TypeOfMessage.Async)){
             ClientController.getInstance().setDisconnected();
+        }
+        else if (receivedMessage.getMessageType().equals(Ping)) {
+            Runnable pongRunnable= new Runnable() {
+                @Override
+                public void run() {
+                    JsonConverter jsonConverter = new JsonConverter();
+                    String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
+
+                    try {
+                        out.write(stringToSend);
+                        out.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            Thread pongThread=new Thread(pongRunnable);
+            pongThread.start();
+            //pongThread.interrupt();
+            return getReceivedMessage();
         }
         return receivedMessage;
     }

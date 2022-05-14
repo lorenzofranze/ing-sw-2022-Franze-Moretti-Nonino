@@ -52,7 +52,7 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         Message receivedMessage;
-        this.pingSender=new PingSender(playerNickname, bufferedReaderOut);
+        this.pingSender=new PingSender(playerNickname, this);
         pingThread= new Thread(pingSender);
         pingThread.start();
 
@@ -339,6 +339,24 @@ public class PlayerManager implements Runnable{
             }
         }
     }
+
+    /*
+    public void sendPingMessage(){
+
+
+        JsonConverter jsonConverter= new JsonConverter();
+        String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
+
+        try {
+            bufferedWriterOut.write(stringToSend);
+            bufferedWriterOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+     */
 
     public Thread getPingThread() {
         return pingThread;

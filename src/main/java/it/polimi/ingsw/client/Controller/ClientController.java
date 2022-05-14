@@ -119,25 +119,7 @@ public class ClientController implements Runnable {
                 }
             }
 
-            else if (receivedMessage.getMessageType().equals(Ping)) {
-                Runnable pongRunnable= new Runnable() {
-                    @Override
-                    public void run() {
-                        JsonConverter jsonConverter = new JsonConverter();
-                        String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
 
-                        try {
-                            networkHandler.getOut().write(stringToSend);
-                            networkHandler.getOut().flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                Thread pongThread=new Thread(pongRunnable);
-                pongThread.start();
-                //pongThread.interrupt();
-            }
 
 
             else if (receivedMessage.getMessageType().equals(Error)) {
