@@ -337,6 +337,7 @@ public class CLIView implements View {
                 break;
             default:
                 System.out.println("Unknown ack message");
+                break;
         }
     }
 

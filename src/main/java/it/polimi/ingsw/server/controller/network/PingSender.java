@@ -15,7 +15,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class PingSender implements Runnable{
-    private boolean isConnected;
+    private volatile boolean isConnected;
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 60000;
 
