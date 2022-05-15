@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.View;
 
+import it.polimi.ingsw.client.Controller.CharacterCardsConsole;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
@@ -436,4 +437,157 @@ public class CLIView implements View {
 
         System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
     }
+
+    //METHODS FOR COMPLEX MODE:
+    @Override
+    public void moveStudentToIsland(){
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        System.out.println("\n"+"\033[01m"+"CARD1 EFFECT\n"+"\033[0m");
+        System.out.println("These are the colours you can choose from");
+        for (ColourPawn c : ColourPawn.values()){
+            System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
+        }
+        System.out.print("\nChoose a colour (insert the numerical index): ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice.");
+                System.out.print("\nChoose a colour (insert the numerical index): ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+
+        characterCardsConsole.setPawnColour(result);
+
+        System.out.println("\n - Insert the island index to place it on an island");
+        System.out.print("\nInsert your choice: ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice.");
+                System.out.print("\nInsert your choice (numerical index): ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnWhere(result);
+    }
+
+    public void chooseIsland(){
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        int cardID = gameStatePojo.getActiveEffect().getCharacterId(); // can be 3 or 5
+
+        System.out.println("\n"+"\033[01m"+"CARD"+cardID+" EFFECT"+"\033[0m");
+        System.out.print("Insert island index: ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert island index: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnWhere(result);
+    }
+
+    @Override
+    public void chooseColour() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        int cardID = gameStatePojo.getActiveEffect().getCharacterId();
+        if(cardID!=7 && cardID!=10) {
+            System.out.println("\n" + "\033[01m" + "CARD" + cardID + " EFFECT" + "\033[0m");
+        }
+        System.out.println("These are the colours you can choose from");
+        for (ColourPawn c : ColourPawn.values()){
+            System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
+        }
+        System.out.print("Insert colour: ");
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert colour: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnColour(result);
+    }
+
+    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
+    @Override
+    public void chooseNumOfMove() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        int cardID = gameStatePojo.getActiveEffect().getCharacterId(); // can be 7 or 10
+
+        System.out.println("\n"+"\033[01m"+"CARD"+cardID+" EFFECT"+"\033[0m");
+        System.out.print("Insert the number of students you want to move: ");
+
+        valid = false;
+        do {
+            resultString = scanner.nextLine();
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert number of students you want to move: ");
+                valid = false;
+                resultString = scanner.nextLine();
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnsToMove(result);
+        if(cardID==7){
+            System.out.println("\nFirst choose the student on the card then the student in your entrance");
+        }else if(cardID==10){
+            System.out.println("\nFirst choose the student in your entrance then the student in your dining room");
+        }
+    }
+
+
 }

@@ -37,8 +37,6 @@ public class Card1Effect extends CharacterEffect{
             indexColour = gameMessage.getColour();
             if(indexColour<=-1 || indexColour>=5){
                 valid=false;
-                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
-                playerManager.sendMessage(errorGameMessage);
             }
             valid = false;
             for(ColourPawn p : ColourPawn.values()){
@@ -65,9 +63,6 @@ public class Card1Effect extends CharacterEffect{
         if(gameController.getGame().getStudentsBag().pawnsNumber()>=1){
             ((CharacterStateStudent)characterState).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
         }
-
-        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-        playerManager.sendMessage(ackMessage);
 
     }
 
