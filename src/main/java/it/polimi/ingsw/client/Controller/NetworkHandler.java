@@ -87,10 +87,10 @@ public class NetworkHandler {
         if (!receivedMessage.getMessageType().equals(TypeOfMessage.Update)){  // DA CANCELLARE
             System.out.println(stringMessage);                                // DA CANCELLARE
         }
-        else if(receivedMessage.getMessageType().equals(TypeOfMessage.Async)){
+        if(receivedMessage.getMessageType().equals(TypeOfMessage.Async)){
             ClientController.getInstance().setDisconnected();
         }
-        else if (receivedMessage.getMessageType().equals(Ping)) {
+        if (receivedMessage.getMessageType().equals(Ping)) {
            /* Runnable pongRunnable= new Runnable() {
                 @Override
                 public void run() {

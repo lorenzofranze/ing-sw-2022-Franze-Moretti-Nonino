@@ -74,6 +74,7 @@ public class ClientController implements Runnable {
                     break;
                 case Ping:
                     view.showMessage(receivedMessage); //DA CANCELLARE
+                    receivedMessage = networkHandler.getReceivedMessage();
                     break;
                 case Async:
                     view.showMessage(receivedMessage); //DA CANCELLARE
@@ -108,14 +109,14 @@ public class ClientController implements Runnable {
                 if (responseAck.getTypeOfAck().equals(TypeOfAck.CorrectConnection)) {
                     valid = true;
                     return;
-                }else{
-                    System.out.println("ERROR-Login-connect-3 (unexpected ack message)");
+                }
+                else if(receivedMessage.getMessageType().equals(Ping)){
+                    receivedMessage = networkHandler.getReceivedMessage();
+                }
+                else {
+                        System.out.println("ERROR-Login-connect-3 (unexpected ack message)");
                 }
             }
-
-
-
-
             else if (receivedMessage.getMessageType().equals(Error)) {
                 ErrorMessage errorMessage = (ErrorMessage) receivedMessage;
                 valid = false;
@@ -166,6 +167,7 @@ public class ClientController implements Runnable {
                 }
             }
             else if(receivedMessage.getMessageType().equals(Ping)){
+                receivedMessage = networkHandler.getReceivedMessage();
             }
             else{
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
