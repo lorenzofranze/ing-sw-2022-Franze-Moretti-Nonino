@@ -205,7 +205,7 @@ public class PlayerManager implements Runnable{
 
         do {
             correctMatch = true;
-            this.setTimeout();
+            //this.setTimeout();
             receivedMessage = getLastMessage();
 
             System.out.println("Message received:\n"+jsonConverter.fromMessageToJson(receivedMessage));

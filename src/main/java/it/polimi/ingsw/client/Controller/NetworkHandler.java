@@ -118,7 +118,6 @@ public class NetworkHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return getReceivedMessage();
         }
         return receivedMessage;
     }

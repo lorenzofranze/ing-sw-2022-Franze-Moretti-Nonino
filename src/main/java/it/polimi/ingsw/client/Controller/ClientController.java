@@ -73,12 +73,6 @@ public class ClientController implements Runnable {
                     view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Ping:
-                    PingMessage pingMessage = new PingMessage();
-                    try {
-                        networkHandler.sendToServer(pingMessage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     view.showMessage(receivedMessage); //DA CANCELLARE
                     break;
                 case Async:
@@ -142,13 +136,18 @@ public class ClientController implements Runnable {
                 if (receivedAck.getTypeOfAck().equals(TypeOfAck.CompleteLobby)){
                     allJoined = true;
                 }
-            } else {
+            }
+            else if(receivedMessage.getMessageType().equals(Ping)){
+                receivedMessage = networkHandler.getReceivedMessage();
+            }
+            else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 receivedMessage = networkHandler.getReceivedMessage();
                 if(disconnected) return;
                 view.showMessage(receivedMessage); //DA CANCELLARE
             }
         }
+
     }
 
     private void waitForFirstGameState(){
@@ -165,6 +164,8 @@ public class ClientController implements Runnable {
                 if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
                     console.play();
                 }
+            }
+            else if(receivedMessage.getMessageType().equals(Ping)){
             }
             else{
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
