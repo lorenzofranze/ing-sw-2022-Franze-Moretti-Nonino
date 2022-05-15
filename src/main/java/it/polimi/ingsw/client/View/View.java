@@ -23,6 +23,12 @@ public interface View {
     void showAsync(AsyncMessage asyncMessage);
     void showPing(PingMessage pingMessage);
     void showMove(GameMessage gameMessage);
-
     void showGameState(GameStatePojo gameStatePojo);
+
+    //FOR COMPLEX MODE:
+    void moveStudentToIsland(); //used from card 1
+    void chooseColour(); //used from cards 9 - 12 - 7 - 10 - 11
+    void chooseIsland(); //used from cards 3 - 5
+    void chooseNumOfMove();
+
 }

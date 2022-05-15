@@ -23,7 +23,7 @@ public class Console {
     private Integer pawnWhere = null;
     private Integer stepsMotherNature = null;
     private Integer cloudChosen = null;
-
+    private CharacterCardsConsole characterCardsConsole = new CharacterCardsConsole(); //only methods
 
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
@@ -194,6 +194,9 @@ public class Console {
                             UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                             ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
                             view.showMessage(receivedMessage);
+                            //handling character card effect
+                            int currentCharacterID = updateMessage.getGameState().getActiveEffect().getCharacterId();
+                            characterCardsConsole.playEffect(currentCharacterID);
                         }else{
                             //messaggio imprevisto
                             view.showMessage(receivedMessage);

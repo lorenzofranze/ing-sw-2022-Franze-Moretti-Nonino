@@ -60,10 +60,12 @@ public class Card3Effect extends CharacterEffect{
         ActionPhase actionPhase = gameController.getActionPhase();
         Player moreInfluentPlayer = actionPhase.calcultateInfluence(island);
 
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
+
         if (moreInfluentPlayer != null){
             //isEnded is true if one player has finished his towers
             finishedTowers = actionPhase.placeTowerOfPlayer(moreInfluentPlayer, island);
-            gameController.update();
             if (finishedTowers) {
                 actionPhase.getActionResult().setFinishedTowers(true);
             }
@@ -72,7 +74,6 @@ public class Card3Effect extends CharacterEffect{
 
             boolean union = actionPhase.verifyUnion();
 
-            gameController.update();
 
             int numIslands= this.gameController.getGame().getIslands().size();
 

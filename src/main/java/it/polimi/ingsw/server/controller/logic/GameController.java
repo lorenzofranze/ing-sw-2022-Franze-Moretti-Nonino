@@ -252,7 +252,6 @@ public class GameController implements Runnable  {
      * two additional steps
      * @param player
      */
-    //todo: vedere
     public void addTwoMovements(Player player){
         Integer numMax= pianificationResult.getMaximumMovements().get(player)+2;
         HashMap<Player,Integer> newMaxMovements= pianificationResult.getMaximumMovements();
@@ -308,6 +307,8 @@ public class GameController implements Runnable  {
         if (this.game.getActiveEffect() != null){
             CharacterPojo pojoActiveCharacterPojo = this.game.getActiveEffect().toPojo();
             gameStatePojo.setActiveEffect(pojoActiveCharacterPojo);
+        }else{
+            gameStatePojo.setActiveEffect(null);
         }
 
         List<IslandPojo> pojoIslandPojos = new ArrayList<>();
