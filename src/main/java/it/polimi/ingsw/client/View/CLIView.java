@@ -91,7 +91,7 @@ public class CLIView implements View {
             } catch(NumberFormatException e){
                 System.out.print("Insert the turnOrder value of the card you want to play: ");
                 valid = false;
-                resultString = scanner.nextLine();
+                resultString = scanner.nextLine(); /**todo**/
             }
         }while(valid == false);
 
