@@ -39,6 +39,11 @@ public class PingSender implements Runnable{
 
     @Override
     public void run() {
+        try {
+            Thread.sleep(PING_TIMEOUT);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while(true){
             PingMessage message= new PingMessage();
             JsonConverter jsonConverter=new JsonConverter();

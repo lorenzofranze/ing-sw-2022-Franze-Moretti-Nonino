@@ -126,7 +126,7 @@ public class PianificationPhase extends GamePhase {
                     maximumMovements.put(currentPlayer, cardPlayed.getMovementsMotherNature());
                     currentPlayer.playAssistantCard(played);
                 }else{
-                    gameErrorMessage = new ErrorMessage(TypeOfError.InvalidChoice); // an other player has alrealy played this card in this round
+                    gameErrorMessage = new ErrorMessage(TypeOfError.AlreadyPlayed); // an other player has alrealy played this card in this round
                     playerManager.sendMessage(gameErrorMessage);
                 }
             }
