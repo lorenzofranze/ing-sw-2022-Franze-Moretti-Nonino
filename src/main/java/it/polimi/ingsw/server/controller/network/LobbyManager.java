@@ -180,22 +180,23 @@ public class LobbyManager implements Runnable {
                     }
                 }
                 //RESILIENZA ALLE DISCONNESSIONI
-                /*
                 else {
 
                     usedNicknames.remove(nickname);
                     for (int i : serverController.getInstance().getCurrentGames().keySet()) {
                         for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
                             if(p.getNickname()==nickname){
-                                GameController gameController=serverController.getInstance().getCurrentGames().get(i);
-                                gameController.update();
+                                PlayerManager playerManager=
+                                        ServerController.getInstance().getCurrentGames().get(i).getMessageHandler().getPlayerManager(nickname);
+                                playerManager.getPingSender().setConnected(true);
+                                /**todo**/ //gli invio l'update?
                             }
                         }
                     }
                     //si è riconnesso
-                    //GESTIRE
+
                 }
-                */
+
 
             }else{
                 System.out.println("ERROR-LobbyManager-1");
@@ -230,12 +231,10 @@ public class LobbyManager implements Runnable {
     }
 
     //RESILIENZA ALLE DISCONNESSIONI
-                /*
+
     public void addDisconnectedPlayers(String disconnectedPlayer) {
         this.disconnectedPlayers.add(disconnectedPlayer);
-        }
-
-                 */
+    }
 
 }
 

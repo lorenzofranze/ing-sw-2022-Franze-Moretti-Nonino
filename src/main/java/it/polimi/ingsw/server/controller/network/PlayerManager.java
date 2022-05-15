@@ -167,6 +167,7 @@ public class PlayerManager implements Runnable{
             bufferedReaderOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
+
             if(toStop==false) {
                 toStop = true;
                 if(pingThread.isInterrupted()==false){
@@ -362,6 +363,9 @@ public class PlayerManager implements Runnable{
         return pingThread;
     }
 
+    public PingSender getPingSender() {
+        return pingSender;
+    }
 
     public Queue<Message> getMessageQueue() {
         return messageQueue;
