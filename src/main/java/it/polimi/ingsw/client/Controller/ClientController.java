@@ -17,6 +17,7 @@ public class ClientController implements Runnable {
     private GameMode gameMode;
     private NetworkHandler networkHandler;
     private Console console;
+    private CharacterCardsConsole characterCardsConsole;
     private GameStatePojo gameStatePojo;
     private boolean disconnected=false;
 
@@ -41,6 +42,7 @@ public class ClientController implements Runnable {
             return;
         }
         console = new Console();
+        characterCardsConsole = new CharacterCardsConsole();
 
         waitForOtherPlayers();
         waitForFirstGameState();
@@ -221,5 +223,8 @@ public class ClientController implements Runnable {
 
     public void setGameStatePojo(GameStatePojo gameStatePojo) {
         this.gameStatePojo = gameStatePojo;
+    }
+    public CharacterCardsConsole getCharacterCardsConsole() {
+        return characterCardsConsole;
     }
 }
