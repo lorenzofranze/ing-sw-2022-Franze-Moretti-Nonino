@@ -53,6 +53,9 @@ public class NetworkHandler {
             asyncMessage.setDescription("disconnection message sent from " + ClientController.getInstance().getNickname());
             messageToSend = asyncMessage;
         }
+        if (message.getMessageType() == TypeOfMessage.Ping){
+            System.out.println("\nsend to server:\npong\n");
+        }
         String stringMessage = JsonConverter.fromMessageToJson(messageToSend);
         out.write(stringMessage);
         out.flush();
@@ -84,40 +87,25 @@ public class NetworkHandler {
         String stringMessage = this.readFromBuffer();
         Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
 
-        if (!receivedMessage.getMessageType().equals(TypeOfMessage.Update)){  // DA CANCELLARE
-            System.out.println(stringMessage);                                // DA CANCELLARE
-        }
-        if(receivedMessage.getMessageType().equals(TypeOfMessage.Async)){
-            ClientController.getInstance().setDisconnected();
-        }
-        if (receivedMessage.getMessageType().equals(Ping)) {
-           /* Runnable pongRunnable= new Runnable() {
-                @Override
-                public void run() {
-                    JsonConverter jsonConverter = new JsonConverter();
-                    String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
-
-                    try {
-                        out.write(stringToSend);
-                        out.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        switch (receivedMessage.getMessageType()){
+            case Update:
+                System.out.println("\nreceived from server:\nupdate\n");
+                break;
+            case Async:
+                System.out.println("\nreceived from server:\n"+stringMessage+"\n");
+                ClientController.getInstance().setDisconnected();
+                break;
+            case Ping:
+                System.out.println("\nreceived from server:\nping\n");
+                try {
+                    sendToServer(receivedMessage);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            };
-            Thread pongThread=new Thread(pongRunnable);
-            pongThread.start();
-            //pongThread.interrupt();
-            return getReceivedMessage();
-        }
-        return receivedMessage;
-
-            */
-            try {
-                sendToServer(receivedMessage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                receivedMessage = getReceivedMessage();
+                break;
+            default:
+                System.out.println("\nreceived from server:\n"+stringMessage+"\n");
         }
         return receivedMessage;
     }
