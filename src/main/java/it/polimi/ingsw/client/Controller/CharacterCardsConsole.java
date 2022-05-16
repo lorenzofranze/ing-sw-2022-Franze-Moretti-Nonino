@@ -98,7 +98,7 @@ public class CharacterCardsConsole {
         boolean valid = false;
         do{
             view.chooseNumOfMove();
-            GameMessage gameMessage = new GameMessage(TypeOfMove.NumOfMove , pawnsToMove);
+            GameMessage gameMessage = new GameMessage(TypeOfMove.NumOfMove, pawnsToMove);
 
             try {
                 networkHandler.sendToServer(gameMessage);

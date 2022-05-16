@@ -27,6 +27,18 @@ public class  JsonConverter {
 
         if(message.getMessageType() == TypeOfMessage.Update){
             UpdateMessage messageReal=  gson.fromJson(jsonString, UpdateMessage.class);
+            for (int i = 0; i < 3; i++){
+                if (messageReal.getGameState().getCharacters().get(i).getCharacterId() == 1 ||
+                        messageReal.getGameState().getCharacters().get(i).getCharacterId() == 7 ||
+                        messageReal.getGameState().getCharacters().get(i).getCharacterId() == 11){
+                //In realtà le characterPojos all'interno del GameStatePojo non sono veramente characterPojos,
+                    // ma CharacterStudentPojo --> DA RISOLVERE
+                }
+                if (messageReal.getGameState().getCharacters().get(i).getCharacterId() == 5){
+                //In realtà le characterPojos all'interno del GameStatePojo non sono veramente characterPojos,
+                    // ma CharacterNoEntryPojo --> DA RISOLVERE
+                }
+            }
             return messageReal;
         }
 

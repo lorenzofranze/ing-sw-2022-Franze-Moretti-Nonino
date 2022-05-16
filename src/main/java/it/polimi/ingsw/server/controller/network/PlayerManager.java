@@ -184,7 +184,8 @@ public class PlayerManager implements Runnable{
             System.out.println(stringToSend);
         }else{
             System.out.println("Message sent to: " + this.getPlayerNickname());
-            System.out.println("update");
+            //System.out.println("update");
+            System.out.println(stringToSend);
         }
         //(fine cancella *)
     }
