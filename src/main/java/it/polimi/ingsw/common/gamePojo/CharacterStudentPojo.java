@@ -11,6 +11,7 @@ public class CharacterStudentPojo extends CharacterPojo{
         this.students = students;
     }
 
+    @Override
     public String toString(){
         String ris = "Character " + this.getCharacterId() + " price: " + this.getActualCost() +" -- " + students.toString();
         return  ris;

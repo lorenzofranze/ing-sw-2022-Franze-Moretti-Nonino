@@ -41,7 +41,7 @@ public class GameController implements Runnable  {
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
 
-    private List<CharacterEffect> characterEffects; // per gli effetti
+    private List<CharacterEffect> characterEffects = null; // per gli effetti
 
     public GameController(Lobby lobby, boolean expert){
         this.game=new Game(lobby.getUsersNicknames(), this.gameID);

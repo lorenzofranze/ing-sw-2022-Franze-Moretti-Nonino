@@ -103,7 +103,7 @@ public class CLIView implements View {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         Console console = clientController.getConsole();
-        List<CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
+        List<? extends CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
         String resultString;
         Integer result = null;
         System.out.println("\n"+"\033[01m"+"CHARACTER MENU"+"\033[0m");

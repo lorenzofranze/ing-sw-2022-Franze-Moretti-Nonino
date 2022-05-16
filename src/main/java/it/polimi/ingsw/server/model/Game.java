@@ -72,26 +72,29 @@ public class Game {
 
             List<CharacterState>temp = new ArrayList<CharacterState>(12);
 
-            temp.add(new CharacterState(1, 1));
+            temp.add(new CharacterStateStudent(1, 1));
             temp.add(new CharacterState(2, 2));
             temp.add(new CharacterState(3, 3));
             temp.add(new CharacterState(4, 1));
-            temp.add(new CharacterState(5, 2));
+            temp.add(new CharacterStateNoEntryTile(5, 2));
             temp.add(new CharacterState(6, 3));
-            temp.add(new CharacterState(7, 1));
+            temp.add(new CharacterStateStudent(7, 1));
             temp.add(new CharacterState(8, 2));
             temp.add(new CharacterState(9, 3));
             temp.add(new CharacterState(10, 1));
-            temp.add(new CharacterState(11, 2));
+            temp.add(new CharacterStateStudent(11, 2));
             temp.add(new CharacterState(12, 3));
+
+
+            characterStates = new ArrayList<CharacterState>();
+            //todo: modificare
+            characterStates.add(temp.get(0));
+            characterStates.add(temp.get(4));
+            characterStates.add(temp.get(10));
 
             Collections.shuffle(temp);
 
-            characterStates = new ArrayList<CharacterState>(3);
 
-            characterStates.add(temp.get(1));
-            characterStates.add(temp.get(2));
-            characterStates.add(temp.get(3));
 
             this.coinSupply = 20;
 
