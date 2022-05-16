@@ -2,9 +2,11 @@ package it.polimi.ingsw.client.Controller;
 
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import it.polimi.ingsw.server.controller.network.PlayerManager;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 import static it.polimi.ingsw.common.messages.TypeOfMessage.Ping;
 
@@ -12,6 +14,7 @@ public class NetworkHandler {
 
     private String serverIp;
     private int serverPort;
+    private Socket socket;
 
     private BufferedReader in;
     private BufferedWriter out;
@@ -23,32 +26,33 @@ public class NetworkHandler {
         this.serverPort = serverPort;
     }
 
-    public void connectToServer() throws IOException{
-        Socket socket = null;
-        socket = new Socket(serverIp, serverPort);
+    public void connectToServer() throws IOException {
+        this.socket = new Socket(serverIp, serverPort);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-    /** read from network buffer */
-    private String readFromBuffer(){
+    /**
+     * read from network buffer
+     */
+    private String readFromBuffer() {
         String lastMessage = "";
 
-        try{
+        try {
             String line = in.readLine();
-            while (!("EOF").equals(line)){
+            while (!("EOF").equals(line)) {
                 lastMessage = lastMessage + line + "\n";
                 line = in.readLine();
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
         }
         return lastMessage;
     }
 
-    public void sendToServer(Message message) throws IOException{
+    public void sendToServer(Message message) throws IOException {
         Message messageToSend = message;
-        if (message.getMessageType() == TypeOfMessage.Async){
+        if (message.getMessageType() == TypeOfMessage.Async) {
             AsyncMessage asyncMessage = (AsyncMessage) message;
             asyncMessage.setDescription("disconnection message sent from " + ClientController.getInstance().getNickname());
             messageToSend = asyncMessage;
@@ -59,7 +63,7 @@ public class NetworkHandler {
         out.flush();
     }
 
-    public int reconnect(String nickname, GameMode gameMode){
+    public int reconnect(String nickname, GameMode gameMode) {
         ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
         try {
@@ -72,7 +76,7 @@ public class NetworkHandler {
         return 1;
     }
 
-    public void endClient(){
+    public void endClient() {
         try {
             out.close();
             in.close();
@@ -85,25 +89,26 @@ public class NetworkHandler {
         String stringMessage = this.readFromBuffer();
         Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
 
-        switch (receivedMessage.getMessageType()){
+        switch (receivedMessage.getMessageType()) {
             case Update:
                 System.out.println("\nreceived from server:\nupdate\n");
                 break;
             case Async:
-                System.out.println("\nreceived from server:\n"+stringMessage+"\n");
+                System.out.println("\nreceived from server:\n" + stringMessage + "\n");
                 ClientController.getInstance().setDisconnected();
                 break;
             case Ping:
                 System.out.println("\nreceived from server:\nping\n");
                 try {
                     sendToServer(receivedMessage);
+                    pingController();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 receivedMessage = getReceivedMessage();
                 break;
             default:
-                System.out.println("\nreceived from server:\n"+stringMessage+"\n");
+                System.out.println("\nreceived from server:\n" + stringMessage + "\n");
         }
         return receivedMessage;
     }
@@ -115,4 +120,16 @@ public class NetworkHandler {
     public BufferedWriter getOut() {
         return out;
     }
+
+    public void pingController() {
+        try {
+            this.socket.setSoTimeout(60000);
+        } catch (SocketException ex) {
+            ex.printStackTrace();
+            endClient();
+            ClientController.getInstance().setDisconnected();
+            AsyncMessage asyncMessage = new AsyncMessage("Il server non è più connesso");
+        }
+    }
 }
+
