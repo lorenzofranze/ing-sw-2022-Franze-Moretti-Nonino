@@ -49,9 +49,7 @@ public class GameController implements Runnable  {
         this.gameID ++;
         this.characterEffects = new ArrayList<>();
         this.lobby=lobby;
-
         this.messageHandler= new MessageHandler(lobby);
-
     }
 
     public void run(){
@@ -63,11 +61,13 @@ public class GameController implements Runnable  {
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
 
-        currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
+        System.out.println("FLAG GAME COMNTROLLER - fINE SETUP");
 
+        currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
         messageHandler.sendBroadcast(message);
         System.out.println("lobby completa: inizio partita");
+
         do{
             currentPhase = pianificationPhase;
             if (actionResult!=null) {

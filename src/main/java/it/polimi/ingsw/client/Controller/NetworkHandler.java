@@ -53,10 +53,8 @@ public class NetworkHandler {
             asyncMessage.setDescription("disconnection message sent from " + ClientController.getInstance().getNickname());
             messageToSend = asyncMessage;
         }
-        if (message.getMessageType() == TypeOfMessage.Ping){
-            System.out.println("\nsend to server:\npong\n");
-        }
         String stringMessage = JsonConverter.fromMessageToJson(messageToSend);
+        System.out.println("sent to server:\n" + stringMessage);
         out.write(stringMessage);
         out.flush();
     }

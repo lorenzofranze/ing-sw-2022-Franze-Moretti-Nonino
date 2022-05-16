@@ -88,9 +88,7 @@ public class Console {
             case moveStudents:
                 studentToMove = studentsToMoveTotal;
                 for(int i = 0; i < studentsToMoveTotal; i++){
-                    if (gameStatePojo.isExpert()) {
-                        askForCharacter();
-                    }
+                    askForCharacter();
                     studentToMove--;
                     moveStudent();
                 }
@@ -167,13 +165,16 @@ public class Console {
     }
 
     public void askForCharacter(){
+
         View view = ClientController.getInstance().view;
         NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
         Message receivedMessage;
 
         boolean valid = false;
         do{
-            view.askForCharacter();
+            if (ClientController.getInstance().getGameStatePojo().isExpert()){
+                view.askForCharacter();
+            }
             GameMessage gameMessage = new GameMessage(TypeOfMove.CharacterCard, characterPlayed);
 
             try {
