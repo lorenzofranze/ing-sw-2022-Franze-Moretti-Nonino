@@ -180,6 +180,7 @@ public class LobbyManager implements Runnable {
                     }
                 }
                 //RESILIENZA ALLE DISCONNESSIONI
+                /*
                 else {
 
                     usedNicknames.remove(nickname);
@@ -190,12 +191,11 @@ public class LobbyManager implements Runnable {
                                         ServerController.getInstance().getCurrentGames().get(i).getMessageHandler().getPlayerManager(nickname);
                                 playerManager.getPingSender().setConnected(true);
                                 /**todo**/ //gli invio l'update?
-                            }
+                           /* }
                         }
-                    }
+                     */
                     //si è riconnesso
 
-                }
 
 
             }else{

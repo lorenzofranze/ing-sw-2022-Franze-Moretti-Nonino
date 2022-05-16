@@ -277,6 +277,7 @@ public class CLIView implements View {
         }
         if(message.getMessageType().equals(TypeOfMessage.Async)){
             AsyncMessage asyncMessage = (AsyncMessage) message;
+
             showAsync(asyncMessage);
         }
     }

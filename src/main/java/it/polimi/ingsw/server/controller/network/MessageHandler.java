@@ -7,10 +7,7 @@ import it.polimi.ingsw.server.model.Player;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class MessageHandler {
     Scanner scanner = new Scanner(System.in);
@@ -21,12 +18,14 @@ public class MessageHandler {
     private Map<String,BufferedReader> bufferedReaderIn;
     private Map<String,BufferedWriter> bufferedReaderOut;
     private Map<String,PlayerManager> playerManagerMap;
+    private Map<PlayerManager,Thread> playerManagerThreads;
 
     private JsonConverter jsonConverter;
 
 
     public MessageHandler(Lobby lobby){
-
+        playerManagerThreads= new HashMap<>();
+        Thread t;
         bufferedReaderIn= new HashMap<>();
         bufferedReaderOut= new HashMap<>();
         playerManagerMap=new HashMap<>();
@@ -41,8 +40,9 @@ public class MessageHandler {
             bufferedReaderOut.put(s, out);
             playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
             playerManagerMap.put(s,playerManager);
-            Thread t = new Thread(playerManager);
+            t = new Thread(playerManager);
             t.start();
+            playerManagerThreads.put(playerManager,t);
             if(playerManager.isToStop()==true){
                 t.interrupt();
             }
@@ -164,5 +164,9 @@ public class MessageHandler {
 
     public void setPlayerManagerMap(Map<String, PlayerManager> playerManagerMap) {
         this.playerManagerMap = playerManagerMap;
+    }
+
+    public Map<PlayerManager, Thread> getPlayerManagerThreads() {
+        return playerManagerThreads;
     }
 }

@@ -46,6 +46,7 @@ public class PingSender implements Runnable{
             Thread.sleep(PING_TIMEOUT);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            ServerController.getInstance().closeConnection(playerNickname);
         }
         while(isConnected) {
             PingMessage message = new PingMessage();
@@ -65,8 +66,10 @@ public class PingSender implements Runnable{
 
             if (this.isConnected = false) {
                 System.out.println("Il ping del client " + playerNickname + "non è più arrivato al server");
-
+                break;
+                /*
                 //RESILIENZA ALLE DISCONNESSIONI
+
                 LobbyManager lobbyManager = LobbyManager.getInstance();
                 lobbyManager.addDisconnectedPlayers(playerNickname);
                 try {
@@ -74,6 +77,8 @@ public class PingSender implements Runnable{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                */
+
             }
         }
             // se arriva il pong, player manager (o nel caso di resilienza, il lobby manager)

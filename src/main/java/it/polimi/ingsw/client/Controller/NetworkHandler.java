@@ -92,11 +92,13 @@ public class NetworkHandler {
         switch (receivedMessage.getMessageType()) {
             case Update:
                 System.out.println("\nreceived from server:\nupdate\n");
+                UpdateMessage realMessage= (UpdateMessage) receivedMessage;
                 break;
             case Async:
                 System.out.println("\nreceived from server:\n" + stringMessage + "\n");
                 ClientController.getInstance().setDisconnected();
-                break;
+                AsyncMessage realAsyncMessage= (AsyncMessage) receivedMessage;
+                return realAsyncMessage;
             case Ping:
                 System.out.println("\nreceived from server:\nping\n");
                 try {
@@ -109,6 +111,7 @@ public class NetworkHandler {
                 break;
             default:
                 System.out.println("\nreceived from server:\n" + stringMessage + "\n");
+                break;
         }
         return receivedMessage;
     }

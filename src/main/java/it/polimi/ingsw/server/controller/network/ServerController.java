@@ -92,6 +92,9 @@ public class ServerController {
                     if(playerManager.getPingThread().isInterrupted()==false){
                         playerManager.getPingThread().interrupt();
                     }
+                    if(messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).isInterrupted()==false){
+                        messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).interrupt();
+                    }
                 }
             }
 
