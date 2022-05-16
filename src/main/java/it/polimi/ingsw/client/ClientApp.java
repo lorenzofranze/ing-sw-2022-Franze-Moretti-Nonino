@@ -14,7 +14,6 @@ public class ClientApp implements Runnable{
 
     private static String serverIp;
     private static int serverPort;
-    private Thread threadClientController;
 
     public ClientApp(View view) {
         ClientApp.view = view;
@@ -71,7 +70,7 @@ public class ClientApp implements Runnable{
         clientController.setNetworkHandler(networkHandler);
         clientController.setView(view);
 
-        threadClientController= new Thread(clientController);
+        Thread threadClientController= new Thread(clientController);
         threadClientController.start();
 
         if(ClientController.getInstance().isDisconnected()==true){
@@ -80,7 +79,4 @@ public class ClientApp implements Runnable{
         }
     }
 
-    public Thread getThreadClientController() {
-        return threadClientController;
-    }
 }

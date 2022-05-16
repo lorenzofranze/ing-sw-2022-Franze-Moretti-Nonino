@@ -51,6 +51,7 @@ public class NetworkHandler {
     }
 
     public void sendToServer(Message message) throws IOException {
+        if(ClientController.getInstance().isDisconnected()) return;
         Message messageToSend = message;
         if (message.getMessageType() == TypeOfMessage.Async) {
             AsyncMessage asyncMessage = (AsyncMessage) message;

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.Controller;
 
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.View.*;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.messages.*;
@@ -80,6 +81,7 @@ public class ClientController implements Runnable {
                     break;
                 case Async:
                     view.showMessage(receivedMessage); //DA CANCELLARE
+                    setDisconnected();
                     return;
             }
         }
@@ -217,6 +219,7 @@ public class ClientController implements Runnable {
     }
 
     public void setDisconnected(){
+
         disconnected=true;
     }
 

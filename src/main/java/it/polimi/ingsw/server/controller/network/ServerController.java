@@ -83,35 +83,39 @@ public class ServerController {
                 }
             }
         }
-        try {
+        if(messageHandler!=null) {
             //avvisa gli utenti che il gioco è finito per colpa di una disconnessione
-            AsyncMessage asyncMessage=new AsyncMessage();
-            for (PlayerManager playerManager: messageHandler.getPlayerManagerMap().values()){
-                if(!playerManager.getPlayerNickname().equals(playerNickname)) {
+            AsyncMessage asyncMessage = new AsyncMessage();
+            for (PlayerManager playerManager : messageHandler.getPlayerManagerMap().values()) {
+                if (!playerManager.getPlayerNickname().equals(playerNickname)) {
                     playerManager.sendMessage(asyncMessage);
-                    if(playerManager.getPingThread().isInterrupted()==false){
+                    if (playerManager.getPingThread().isInterrupted() == false) {
                         playerManager.getPingThread().interrupt();
                     }
-                    /*
-                    if(messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).isInterrupted()==false){
-                        messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).interrupt();
-                    }
-                    */
+                /*
+                if(messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).isInterrupted()==false){
+                    messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).interrupt();
+                }
+                */
                 }
             }
-
-            for (Socket socket : lobby.getUsersReadyToPlay().values()){
-                socket.close();
-            }
-
-            setToStop(gameControllerToStop.getGameID());
-            gameControllerToStop.setForceStop(true);
-
-
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
         }
+
+
+        for (Socket socket : lobby.getUsersReadyToPlay().values()){
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        setToStop(gameControllerToStop.getGameID());
+        gameControllerToStop.setForceStop(true);
+
+
     }
 }
+
 
 
