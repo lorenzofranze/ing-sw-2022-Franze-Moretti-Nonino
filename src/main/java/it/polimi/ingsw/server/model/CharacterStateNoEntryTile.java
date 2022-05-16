@@ -22,6 +22,7 @@ public class CharacterStateNoEntryTile extends CharacterState{
         super(characterId, actualCost);
     }
 
+    @Override
     public CharacterPojo toPojo(){
         CharacterPojo pojoCharacterPojo = new CharacterNoEntryPojo();
         pojoCharacterPojo.setCharacterId(this.getCharacterId());

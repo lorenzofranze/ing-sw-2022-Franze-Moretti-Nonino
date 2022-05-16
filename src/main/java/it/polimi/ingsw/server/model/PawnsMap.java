@@ -82,7 +82,7 @@ public class PawnsMap{
      * @return which ColourPawn has been removed*/
     public ColourPawn removeRandomly(){
 
-        List<ColourPawn> temp = new ArrayList<ColourPawn>(pawns.get(ColourPawn.Yellow));
+        List<ColourPawn> temp = new ArrayList<ColourPawn>();
 
         for (ColourPawn currColor: ColourPawn.values()){
             for (int i = 0; i < pawns.get(currColor); i++){

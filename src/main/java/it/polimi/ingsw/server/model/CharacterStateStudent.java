@@ -10,6 +10,7 @@ public class CharacterStateStudent extends CharacterState{
 
     public CharacterStateStudent(int characterId, int actualCost){
         super(characterId, actualCost);
+        students=new PawnsMap();
     }
 
     public void removeStudent (ColourPawn colour){
@@ -26,6 +27,7 @@ public class CharacterStateStudent extends CharacterState{
         return tmp;
     }
 
+    @Override
     public CharacterPojo toPojo(){
         CharacterPojo pojoCharacterPojo = new CharacterStudentPojo();
         pojoCharacterPojo.setCharacterId(this.getCharacterId());

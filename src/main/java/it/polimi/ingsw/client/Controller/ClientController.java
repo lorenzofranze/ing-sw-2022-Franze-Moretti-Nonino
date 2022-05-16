@@ -227,6 +227,7 @@ public class ClientController implements Runnable {
     public void setGameStatePojo(GameStatePojo gameStatePojo) {
         this.gameStatePojo = gameStatePojo;
     }
+
     public CharacterCardsConsole getCharacterCardsConsole() {
         return characterCardsConsole;
     }
