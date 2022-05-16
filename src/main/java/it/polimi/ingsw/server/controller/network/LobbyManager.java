@@ -157,8 +157,8 @@ public class LobbyManager implements Runnable {
                     if (!usedNicknames.contains(nickname)) {
                         GameMode gameMode = connectionMessage.getGameMode();
                         System.out.println(nickname + " si è connesso");
-                        addNickname(nickname, gameMode, clientSocket, in, out);
                         AckMessage messageAck = new AckMessage(TypeOfAck.CorrectConnection);
+                        addNickname(nickname, gameMode, clientSocket, in, out);
                         validName = true;
                         try {
                             stringMessage = JsonConverter.fromMessageToJson(messageAck);

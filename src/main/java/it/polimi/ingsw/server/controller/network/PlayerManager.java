@@ -235,7 +235,9 @@ public class PlayerManager implements Runnable{
                         if(specificTypeOfMessage.equals(receivedMessageGame.getTypeOfMove())){
                             return receivedMessageGame;
                         }else{
-                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages, "both Game, different types");
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.UnmatchedMessages,
+                                    "both Game, different types. Requested " + specificTypeOfMessage.toString()+
+                                    "; recived " + receivedMessageGame.getTypeOfMove());
                             sendMessage(errorMessage);
                             correctMatch = false;
                         }

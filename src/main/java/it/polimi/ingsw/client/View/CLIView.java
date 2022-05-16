@@ -83,16 +83,15 @@ public class CLIView implements View {
         }
 
         System.out.print("\n");
+        System.out.print("Insert the turnOrder value of the card you want to play: ");
         do{
             valid = true;
-            System.out.print("Insert the turnOrder value of the card you want to play: ");
             resultString = scanner.nextLine();
             try{
                 result = Integer.parseInt(resultString);
             } catch(NumberFormatException e){
                 System.out.print("Insert the turnOrder value of the card you want to play: ");
                 valid = false;
-                resultString = scanner.nextLine(); /**todo**/
             }
         }while(valid == false);
 
@@ -112,13 +111,14 @@ public class CLIView implements View {
             System.out.println(c.toString());
         }
         boolean valid = false;
+        System.out.print("\nDo you want to play a Character Card (y/n)? ");
         do {
-            System.out.print("\nDo you want to play a Character Card (y/n)? ");
             resultString = scanner.nextLine();
             if (resultString.equals("y") || resultString.equals("n")){
                 valid = true;
             }else{
                 System.out.println("Invalid choice.");
+                System.out.print("\nDo you want to play a Character Card (y/n)? ");
             }
         }while(valid == false);
 
@@ -137,8 +137,6 @@ public class CLIView implements View {
             } catch(NumberFormatException e){
                 System.out.print("Invalid choice.");
                 System.out.println("Insert the number of the Character Card you want to play: ");
-                valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
 
@@ -171,7 +169,6 @@ public class CLIView implements View {
                 System.out.println("Invalid choice.");
                 System.out.print("\nChoose a colour (insert the numerical index): ");
                 valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
 
@@ -180,8 +177,8 @@ public class CLIView implements View {
         System.out.println("\nYou can place the student on an island or on your DiningRoom.");
         System.out.println("\t- Insert the island index if you want to place it on an island");
         System.out.println("\t- Insert '-1' if you want to place it in your DiningRoom");
-        System.out.print("\nInsert your choice: ");
 
+        System.out.print("\nInsert your choice: ");
         valid = false;
         do {
             resultString = scanner.nextLine();
@@ -192,7 +189,6 @@ public class CLIView implements View {
                 System.out.println("Invalid choice.");
                 System.out.print("\nInsert your choice (numerical index): ");
                 valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
 
@@ -221,8 +217,6 @@ public class CLIView implements View {
             } catch(NumberFormatException e){
                 System.out.println("Invalid choice. You must choose a number.");
                 System.out.print("Insert the number of steps you want to make: ");
-                valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
 
@@ -250,8 +244,6 @@ public class CLIView implements View {
             } catch(NumberFormatException e){
                 System.out.println("Invalid choice. You must choose a number.");
                 System.out.print("Insert cloud index: ");
-                valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
         console.setCloudChosen(result);
@@ -546,8 +538,6 @@ public class CLIView implements View {
             } catch(NumberFormatException e){
                 System.out.println("Invalid choice. You must choose a number.");
                 System.out.print("Insert colour: ");
-                valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
         characterCardsConsole.setPawnColour(result);
@@ -577,8 +567,6 @@ public class CLIView implements View {
             } catch(NumberFormatException e){
                 System.out.println("Invalid choice. You must choose a number.");
                 System.out.print("Insert number of students you want to move: ");
-                valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
         characterCardsConsole.setPawnsToMove(result);
