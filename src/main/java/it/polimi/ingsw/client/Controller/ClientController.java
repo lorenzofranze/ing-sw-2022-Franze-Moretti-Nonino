@@ -42,8 +42,8 @@ public class ClientController implements Runnable {
         if(disconnected==true){
             return;
         }
-        console = new Console();
         characterCardsConsole = new CharacterCardsConsole();
+        console = new Console();
 
         waitForOtherPlayers();
         waitForFirstGameState();

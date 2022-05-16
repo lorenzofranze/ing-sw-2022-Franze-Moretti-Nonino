@@ -458,7 +458,6 @@ public class CLIView implements View {
                 System.out.println("Invalid choice.");
                 System.out.print("\nChoose a colour (insert the numerical index): ");
                 valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
 
@@ -477,7 +476,6 @@ public class CLIView implements View {
                 System.out.println("Invalid choice.");
                 System.out.print("\nInsert your choice (numerical index): ");
                 valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
         characterCardsConsole.setPawnWhere(result);
@@ -506,7 +504,6 @@ public class CLIView implements View {
                 System.out.println("Invalid choice. You must choose a number.");
                 System.out.print("Insert island index: ");
                 valid = false;
-                resultString = scanner.nextLine();
             }
         }while(valid == false);
         characterCardsConsole.setPawnWhere(result);
