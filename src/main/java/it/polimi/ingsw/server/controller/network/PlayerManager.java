@@ -320,14 +320,14 @@ public class PlayerManager implements Runnable{
                         playerManager.sendMessage(asyncMessage);
                     }
 
-                    if(toStop==false) {
-                        toStop = true;
-                        if(pingThread.isInterrupted()==false){
-                            pingThread.interrupt();
-                        }
 
-                        ServerController.getInstance().closeConnection(playerNickname);
+                    toStop = true;
+                    if(pingThread.isInterrupted()==false){
+                        pingThread.interrupt();
                     }
+
+                    ServerController.getInstance().closeConnection(playerNickname);
+
                     return;
                 }
 

@@ -92,9 +92,11 @@ public class ServerController {
                     if(playerManager.getPingThread().isInterrupted()==false){
                         playerManager.getPingThread().interrupt();
                     }
+                    /*
                     if(messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).isInterrupted()==false){
                         messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).interrupt();
                     }
+                    */
                 }
             }
 
@@ -102,7 +104,9 @@ public class ServerController {
                 socket.close();
             }
 
-            ServerController.getInstance().getCurrentGames().remove(gameControllerToStop);
+            setToStop(gameControllerToStop.getGameID());
+            gameControllerToStop.setForceStop(true);
+
 
         } catch (IOException e) {
             System.err.println(e.getMessage());

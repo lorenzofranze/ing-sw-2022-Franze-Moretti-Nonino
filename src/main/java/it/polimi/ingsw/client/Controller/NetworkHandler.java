@@ -130,8 +130,9 @@ public class NetworkHandler {
         } catch (SocketException ex) {
             ex.printStackTrace();
             endClient();
+            System.out.println("Il server non è più connesso");
             ClientController.getInstance().setDisconnected();
-            AsyncMessage asyncMessage = new AsyncMessage("Il server non è più connesso");
+
         }
     }
 }

@@ -37,6 +37,7 @@ public class GameController implements Runnable  {
     private Player currentPlayer;
     private Player winner;
     private Lobby lobby;
+    private boolean forceStop;
 
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
@@ -99,7 +100,9 @@ public class GameController implements Runnable  {
         while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards || gameOver));
 
         //System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
-
+        if(forceStop){
+            return;
+        }
         calculateWinner(); //se winner è null, allora la partita è finita in pareggio
 
 
@@ -330,5 +333,9 @@ public class GameController implements Runnable  {
 
     public Lobby getLobby() {
         return lobby;
+    }
+
+    public void setForceStop(boolean forceStop) {
+        this.forceStop = forceStop;
     }
 }
