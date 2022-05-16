@@ -285,31 +285,31 @@ public class CLIView implements View {
     public void showError(ErrorMessage errorMessage) {
         switch(errorMessage.getTypeOfError()) {
             case UsedName:
-                System.out.println("Nickname already in use by other players.");
+                System.out.println("Nickname already in use by other players.\n");
                 break;
             case UnmatchedMessages:
-                System.out.println("Unexpected message received from server.");
+                System.out.println("Unexpected message received from server.\n");
                 break;
             case FullDiningRoom:
-                System.out.println("The diningroom is full. Place the student in another place.");
+                System.out.println("The diningroom is full. Place the student in another place.\n");
                 break;
             case InvalidChoice:
-                System.out.println("The choice you made is invalid.");
+                System.out.println("The choice you made is invalid.\n");
                 break;
             case AlreadyPlayed:
-                System.out.println("an other player has already played this card");
+                System.out.println("Another player has already played this card.\n");
                 break;
             case TurnError:
-                System.out.println("You cannot play. Wait for your turn.");
+                System.out.println("You cannot play. Wait for your turn.\n");
                 break;
             case NoMoney:
-                System.out.println("You don't have enough money.");
+                System.out.println("You don't have enough money.\n");
                 break;
             case FailedConnection:
-                System.out.println("Failed connection to the server.");
+                System.out.println("Failed connection to the server.\n");
                 break;
             default:
-                System.out.println("Unknown error message");
+                System.out.println("Unknown error message.\n");
         }
     }
 

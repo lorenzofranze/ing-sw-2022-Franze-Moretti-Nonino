@@ -66,7 +66,8 @@ public class Console {
             }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
                     clientController.view.showMessage(receivedMessage);
                     ErrorMessage errorMessage=(ErrorMessage)receivedMessage;
-                    if(!errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice)){
+                    if(!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice) ||
+                            errorMessage.getTypeOfError().equals(TypeOfError.AlreadyPlayed))){
                             break;
                     }
             }
