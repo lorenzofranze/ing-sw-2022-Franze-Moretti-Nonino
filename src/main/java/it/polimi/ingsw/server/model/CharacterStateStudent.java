@@ -28,13 +28,13 @@ public class CharacterStateStudent extends CharacterState{
     }
 
     @Override
-    public CharacterPojo toPojo(){
-        CharacterPojo pojoCharacterPojo = new CharacterStudentPojo();
-        pojoCharacterPojo.setCharacterId(this.getCharacterId());
-        pojoCharacterPojo.setActualCost(this.getCost());
-        ((CharacterStudentPojo)pojoCharacterPojo).setStudents(new PawnsMapPojo(this.students));
+    public CharacterStudentPojo toPojo(){
+        CharacterStudentPojo characterStudentPojo = new CharacterStudentPojo();
+        characterStudentPojo.setCharacterId(this.getCharacterId());
+        characterStudentPojo.setActualCost(this.getCost());
+        characterStudentPojo.setStudents(new PawnsMapPojo(this.students));
 
-        return pojoCharacterPojo;
+        return characterStudentPojo;
     }
 
 }

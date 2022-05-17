@@ -9,9 +9,9 @@ public class CharacterCardsConsole {
     private View view = ClientController.getInstance().view;
     private NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
 
-    private Integer pawnColour=null;
-    private Integer pawnWhere=null;
-    private Integer pawnsToMove=null;
+    private int pawnColour;
+    private int pawnWhere;
+    private int pawnsToMove;
 
 
     public void playEffect(int id){
@@ -237,15 +237,15 @@ public class CharacterCardsConsole {
 
     //getter and setter
 
-    public void setPawnColour(Integer pawnColour) {
+    public void setPawnColour(int pawnColour) {
         this.pawnColour = pawnColour;
     }
 
-    public void setPawnWhere(Integer pawnWhere) {
+    public void setPawnWhere(int pawnWhere) {
         this.pawnWhere = pawnWhere;
     }
 
-    public void setPawnsToMove(Integer pawnsToMove) {
+    public void setPawnsToMove(int pawnsToMove) {
         this.pawnsToMove = pawnsToMove;
     }
 }

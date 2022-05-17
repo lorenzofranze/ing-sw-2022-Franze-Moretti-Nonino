@@ -47,6 +47,7 @@ public class ActionPhase extends GamePhase {
                 int studentsToMove = gameController.getGame().getPlayers().size()+1;
 
                 askforCharacter();
+                gameController.update();
                 if (checkEnd() == true){return actionResult;}
 
                 moveStudents();

@@ -23,12 +23,11 @@ public class CharacterStateNoEntryTile extends CharacterState{
     }
 
     @Override
-    public CharacterPojo toPojo(){
-        CharacterPojo pojoCharacterPojo = new CharacterNoEntryPojo();
-        pojoCharacterPojo.setCharacterId(this.getCharacterId());
-        pojoCharacterPojo.setActualCost(this.getCost());
-        ((CharacterNoEntryPojo)pojoCharacterPojo).setNumNoEntry(this.numNoEntry);
-
-        return pojoCharacterPojo;
+    public CharacterNoEntryPojo toPojo(){
+        CharacterNoEntryPojo characterNoEntryPojo = new CharacterNoEntryPojo();
+        characterNoEntryPojo.setCharacterId(this.getCharacterId());
+        characterNoEntryPojo.setActualCost(this.getCost());
+        characterNoEntryPojo.setNumNoEntry(this.numNoEntry);
+        return characterNoEntryPojo;
     }
 }

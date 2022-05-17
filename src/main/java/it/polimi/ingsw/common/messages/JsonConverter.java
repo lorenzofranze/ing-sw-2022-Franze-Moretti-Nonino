@@ -2,6 +2,7 @@ package it.polimi.ingsw.common.messages;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.server.model.CharacterState;
 
 public class  JsonConverter {
     private static GsonBuilder builder = new GsonBuilder();
