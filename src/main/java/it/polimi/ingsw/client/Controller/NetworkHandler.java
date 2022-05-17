@@ -81,7 +81,6 @@ public class NetworkHandler {
     */
 
     public void endClient() {
-        ClientController.getInstance().setDisconnected();
         try {
             out.close();
             in.close();

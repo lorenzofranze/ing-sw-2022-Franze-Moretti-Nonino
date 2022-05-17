@@ -43,7 +43,7 @@ public class Console {
         ClientController clientController = ClientController.getInstance();
         NetworkHandler networkHandler = clientController.getNetworkHandler();
 
-        Message receivedMessage;
+        Message receivedMessage=null;
         GameMessage gameMessage;
         boolean moveAccepted = false;
 
@@ -59,7 +59,10 @@ public class Console {
                 e.printStackTrace();
             }
 
-            receivedMessage = networkHandler.getReceivedMessage();
+            if(!ClientController.getInstance().isDisconnected()){
+                receivedMessage = networkHandler.getReceivedMessage();
+            }
+
 
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
                 AckMessage ackMessage = (AckMessage) receivedMessage;
