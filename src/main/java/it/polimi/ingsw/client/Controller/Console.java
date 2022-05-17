@@ -138,7 +138,10 @@ public class Console {
                 e.printStackTrace();
             }
 
-            receivedMessage = networkHandler.getReceivedMessage();
+            if(!clientController.isDisconnected()){
+                receivedMessage = networkHandler.getReceivedMessage();
+            }
+
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){

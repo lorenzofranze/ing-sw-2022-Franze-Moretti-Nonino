@@ -45,7 +45,7 @@ public class PingSender implements Runnable{
         try {
             Thread.sleep(PING_TIMEOUT);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Interrompo il timeout del ping");
             ServerController.getInstance().closeConnection(playerNickname);
         }
         while(isConnected) {

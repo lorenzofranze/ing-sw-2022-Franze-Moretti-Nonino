@@ -51,7 +51,10 @@ public class ClientController implements Runnable {
 
         while (gameStatePojo.isGameOver() == false) {
 
-            Message receivedMessage = networkHandler.getReceivedMessage();
+            Message receivedMessage=null;
+            if(!disconnected){
+                receivedMessage = networkHandler.getReceivedMessage();
+            }
             if(disconnected) return;
 
             switch (receivedMessage.getMessageType()) {

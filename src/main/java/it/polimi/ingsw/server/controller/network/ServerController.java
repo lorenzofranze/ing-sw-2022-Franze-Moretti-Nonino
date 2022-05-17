@@ -101,20 +101,23 @@ public class ServerController {
             }
         }
         if(gameControllerToStop!=null){
-            setToStop(gameControllerToStop.getGameID());
+            if(this.currentGames.keySet().contains(gameControllerToStop.getGameID())){
+                setToStop(gameControllerToStop.getGameID());
+            }
+
             gameControllerToStop.setForceStop(true);
         }
 
 
-        for (Socket socket : lobby.getUsersReadyToPlay().values()){
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(lobby!=null){
+            for (Socket socket : lobby.getUsersReadyToPlay().values()){
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
-
     }
 }
 
