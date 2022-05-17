@@ -99,6 +99,8 @@ public class ServerController {
                 */
                 }
             }
+            setToStop(gameControllerToStop.getGameID());
+            gameControllerToStop.setForceStop(true);
         }
 
 
@@ -109,9 +111,6 @@ public class ServerController {
                 e.printStackTrace();
             }
         }
-
-        setToStop(gameControllerToStop.getGameID());
-        gameControllerToStop.setForceStop(true);
 
 
     }
