@@ -57,7 +57,7 @@ public class PlayerManager implements Runnable{
         pingThread= new Thread(pingSender);
         pingThread.start();
 
-        while (toStop!=true) {
+        while (toStop!=true && !ClientController.getInstance().isDisconnected()) {
             receivedString = readFromBuffer();
             receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
 
@@ -317,8 +317,9 @@ public class PlayerManager implements Runnable{
                     clientSocket.setSoTimeout(120000);
                 } catch (SocketException ex) {
                     ex.printStackTrace();
+                    System.out.println("the player"+playerNickname+ "is too slow! His round has exceeded 2 minutes!");
                     AsyncMessage asyncMessage=new AsyncMessage("the player"+playerNickname+
-                            "is too slow! His round has exceeded 2 minutes!");
+                            "is too slow! His round has exceeded 2 minutes!"); /**todo: fare leggere il messaggio sul client**/
                     for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
                         playerManager.sendMessage(asyncMessage);
                     }
