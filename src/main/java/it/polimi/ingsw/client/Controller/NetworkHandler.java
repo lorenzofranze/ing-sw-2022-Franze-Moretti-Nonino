@@ -36,6 +36,7 @@ public class NetworkHandler {
      * read from network buffer
      */
     private String readFromBuffer() {
+
         String lastMessage = "";
 
         try {
@@ -64,6 +65,7 @@ public class NetworkHandler {
         out.flush();
     }
 
+    /*
     public int reconnect(String nickname, GameMode gameMode) {
         ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
         String stringToSend = JsonConverter.fromMessageToJson(cm);
@@ -76,8 +78,10 @@ public class NetworkHandler {
         }
         return 1;
     }
+    */
 
     public void endClient() {
+        ClientController.getInstance().setDisconnected();
         try {
             out.close();
             in.close();
@@ -87,6 +91,7 @@ public class NetworkHandler {
     }
 
     public Message getReceivedMessage() {
+
         String stringMessage = this.readFromBuffer();
         Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
 
@@ -108,7 +113,10 @@ public class NetworkHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                receivedMessage = getReceivedMessage();
+                if(!ClientController.getInstance().isDisconnected()){
+                    receivedMessage = getReceivedMessage();
+                }
+
                 break;
             default:
                 System.out.println("\nreceived from server:\n" + stringMessage + "\n");

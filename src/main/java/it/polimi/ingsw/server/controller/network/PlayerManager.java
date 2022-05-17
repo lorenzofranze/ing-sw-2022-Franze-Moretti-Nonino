@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
@@ -64,6 +65,7 @@ public class PlayerManager implements Runnable{
                 case Async: //if i have received an async message(a disconnection message)
                     System.out.println(receivedString);
                     pingThread.interrupt();
+
                     if(toStop==false)
                     {
                         toStop=true;

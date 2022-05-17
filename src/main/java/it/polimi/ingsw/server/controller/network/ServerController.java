@@ -99,6 +99,8 @@ public class ServerController {
                 */
                 }
             }
+        }
+        if(gameControllerToStop!=null){
             setToStop(gameControllerToStop.getGameID());
             gameControllerToStop.setForceStop(true);
         }

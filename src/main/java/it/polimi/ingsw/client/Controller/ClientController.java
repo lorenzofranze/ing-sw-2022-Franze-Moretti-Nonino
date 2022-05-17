@@ -104,7 +104,10 @@ public class ClientController implements Runnable {
                 return;
             }
 
-            Message receivedMessage = networkHandler.getReceivedMessage();
+            Message receivedMessage=null;
+            if(!disconnected){
+                receivedMessage = networkHandler.getReceivedMessage();
+            }
             if(disconnected) return;
             view.showMessage(receivedMessage);
 
@@ -130,7 +133,11 @@ public class ClientController implements Runnable {
 
 
     private void waitForOtherPlayers(){
-        Message receivedMessage = networkHandler.getReceivedMessage();
+        Message receivedMessage=null;
+        if(!disconnected){
+            receivedMessage = networkHandler.getReceivedMessage();
+        }
+
         if(disconnected) return;
         view.showMessage(receivedMessage); //DA CANCELLARE
         boolean allJoined = false;
@@ -143,11 +150,17 @@ public class ClientController implements Runnable {
                 }
             }
             else if(receivedMessage.getMessageType().equals(Ping)){
-                receivedMessage = networkHandler.getReceivedMessage();
+                if(!disconnected){
+                    receivedMessage = networkHandler.getReceivedMessage();
+                }
+
             }
             else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
-                receivedMessage = networkHandler.getReceivedMessage();
+                if(!disconnected){
+                    receivedMessage = networkHandler.getReceivedMessage();
+                }
+
                 if(disconnected) return;
                 view.showMessage(receivedMessage); //DA CANCELLARE
             }
@@ -156,7 +169,10 @@ public class ClientController implements Runnable {
     }
 
     private void waitForFirstGameState(){
-        Message receivedMessage = networkHandler.getReceivedMessage();
+        Message receivedMessage=null;
+        if(!disconnected){
+            receivedMessage = networkHandler.getReceivedMessage();
+        }
         if(disconnected) return;
         boolean gameStateReceived = false;
 
@@ -171,12 +187,17 @@ public class ClientController implements Runnable {
                 }
             }
             else if(receivedMessage.getMessageType().equals(Ping)){
-                receivedMessage = networkHandler.getReceivedMessage();
+                if(!disconnected){
+                    receivedMessage = networkHandler.getReceivedMessage();
+                }
             }
             else{
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 view.showMessage(receivedMessage);     //DA CANCELLARE
-                receivedMessage = networkHandler.getReceivedMessage();
+
+                if(!disconnected){
+                    receivedMessage = networkHandler.getReceivedMessage();
+                }
                 if(disconnected) return;
             }
         }
@@ -219,8 +240,9 @@ public class ClientController implements Runnable {
     }
 
     public void setDisconnected(){
-
+        networkHandler.endClient();
         disconnected=true;
+
     }
 
     public boolean isDisconnected() {

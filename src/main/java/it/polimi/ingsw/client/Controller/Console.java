@@ -28,6 +28,7 @@ public class Console {
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
 
+        if(ClientController.getInstance().isDisconnected()) return;
         switch (currentPhase){
             case PIANIFICATION:
                 playPianification();
@@ -51,7 +52,9 @@ public class Console {
             gameMessage = new GameMessage(TypeOfMove.AssistantCard, assistantCardPlayed);
 
             try {
+                if(ClientController.getInstance().isDisconnected()) return;
                 networkHandler.sendToServer(gameMessage);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -129,6 +132,7 @@ public class Console {
             GameMessage gameMessage = new PawnMovementMessage(pawnColour, pawnWhere);
 
             try {
+                if(ClientController.getInstance().isDisconnected()) return;
                 networkHandler.sendToServer(gameMessage);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -179,6 +183,7 @@ public class Console {
             GameMessage gameMessage = new GameMessage(TypeOfMove.CharacterCard, characterPlayed);
 
             try {
+                if(ClientController.getInstance().isDisconnected()) return;
                 networkHandler.sendToServer(gameMessage);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -230,11 +235,13 @@ public class Console {
             GameMessage gameMessage = new GameMessage(TypeOfMove.MoveMotherNature, stepsMotherNature);
 
             try {
+                if(ClientController.getInstance().isDisconnected()) return;
                 networkHandler.sendToServer(gameMessage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            if(ClientController.getInstance().isDisconnected()) return;
             receivedMessage = networkHandler.getReceivedMessage();
 
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
@@ -277,6 +284,7 @@ public class Console {
             GameMessage gameMessage = new GameMessage(TypeOfMove.CloudChoice, cloudChosen);
 
             try {
+                if(ClientController.getInstance().isDisconnected()) return;
                 networkHandler.sendToServer(gameMessage);
             } catch (IOException e) {
                 e.printStackTrace();
