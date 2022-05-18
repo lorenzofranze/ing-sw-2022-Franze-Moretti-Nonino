@@ -7,16 +7,17 @@ import it.polimi.ingsw.server.controller.network.PlayerManager;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.LinkedBlockingQueue;
 
-import static it.polimi.ingsw.common.messages.TypeOfMessage.Ping;
+import static it.polimi.ingsw.common.messages.TypeOfMessage.*;
 
-public class NetworkHandler {
+public class NetworkHandler implements Runnable{
 
     private String serverIp;
     private int serverPort;
     private Socket socket;
     private PingSenderFromClient pingSenderFromClient;
-
+    private LinkedBlockingQueue<Message> messageQueue;
     private BufferedReader in;
     private BufferedWriter out;
 
@@ -26,6 +27,7 @@ public class NetworkHandler {
     public NetworkHandler(String serverIp, int serverPort) {
         this.serverIp = serverIp;
         this.serverPort = serverPort;
+        this.messageQueue= new LinkedBlockingQueue<>();
     }
 
     public void connectToServer() throws IOException {
@@ -34,8 +36,8 @@ public class NetworkHandler {
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         pingSenderFromClient=new PingSenderFromClient();
         pingSenderFromClientThread= new Thread(pingSenderFromClient);
-        pingSenderFromClientThread.start();
 
+        pingSenderFromClientThread.start();
     }
 
     /**
@@ -88,7 +90,6 @@ public class NetworkHandler {
 
     public void endClient() {
         try {
-            pingSenderFromClientThread.interrupt();
             out.close();
             in.close();
         } catch (IOException e) {
@@ -97,41 +98,62 @@ public class NetworkHandler {
     }
 
     public Message getReceivedMessage() {
+        try {
+            return messageQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            ClientController.getInstance().setDisconnected();
+        }
+        return null;
+    }
 
-        String stringMessage = this.readFromBuffer();
-        Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
+    @Override
+    public void run(){
 
-        switch (receivedMessage.getMessageType()) {
-            case Update:
-                System.out.println("\nreceived from server:\nupdate\n");
-                UpdateMessage realMessage= (UpdateMessage) receivedMessage;
-                break;
-            case Async:
+        while(true) {
+
+            String stringMessage = this.readFromBuffer();
+            Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
+
+            if (receivedMessage.getMessageType()==Update) {
+                UpdateMessage realMessage = (UpdateMessage) receivedMessage;
+                messageQueue.add(realMessage);
+            }
+            else if(receivedMessage.getMessageType()==Async) {
                 System.out.println("\nreceived from server:\n" + stringMessage + "\n");
                 ClientController.getInstance().setDisconnected();
-                AsyncMessage realAsyncMessage= (AsyncMessage) receivedMessage;
-                return realAsyncMessage;
-            case Ping:
+                AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
+                break;
+            }
+            else if(receivedMessage.getMessageType()==Ping) {
+
                 System.out.println("\nreceived from server:\nping\n");
                 try {
                     sendToServer(new PongMessage());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if(!ClientController.getInstance().isDisconnected()){
-                    receivedMessage = getReceivedMessage();
-                }
 
-                break;
-            case Pong:
+            }
+            else if(receivedMessage.getMessageType()==Pong) {
                 System.out.println("\nreceived from server:\npong\n");
                 pingSenderFromClient.setConnected(true);
-
-            default:
-                System.out.println("\nreceived from server:\n" + stringMessage + "\n");
-                break;
+            }
+            else if(receivedMessage.getMessageType()==Ack){
+                messageQueue.add(receivedMessage);
+            }
+            else if(receivedMessage.getMessageType()==Error){
+                messageQueue.add(receivedMessage);
+            }
+            else if(receivedMessage.getMessageType()==Game)
+            {
+                messageQueue.add(receivedMessage);
+            }
+            else{
+                messageQueue.add(receivedMessage);
+            }
         }
-        return receivedMessage;
+
     }
 
     public BufferedReader getIn() {
@@ -142,5 +164,8 @@ public class NetworkHandler {
         return out;
     }
 
+    public Thread getPingSenderFromClientThread() {
+        return pingSenderFromClientThread;
+    }
 }
 

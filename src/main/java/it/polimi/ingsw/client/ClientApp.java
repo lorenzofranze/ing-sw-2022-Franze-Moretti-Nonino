@@ -8,7 +8,7 @@ import it.polimi.ingsw.common.messages.TypeOfError;
 
 import java.io.IOException;
 
-public class ClientApp implements Runnable{
+public class ClientApp {
 
     private static View view;
 
@@ -26,7 +26,7 @@ public class ClientApp implements Runnable{
 
         if (args.length == 0){
             serverIp = "localhost";
-            serverPort = 32501;
+            serverPort = 32502;
             typeOfView = "cli";
         }else{
             typeOfView = args[0];
@@ -37,7 +37,7 @@ public class ClientApp implements Runnable{
         if(typeOfView.equals("cli")){
             view = new CLIView();
             ClientApp clientApp = new ClientApp(view);
-            clientApp.run();
+            clientApp.start();
         }
         else if(typeOfView.equals("gui")){
             /*
@@ -51,8 +51,7 @@ public class ClientApp implements Runnable{
     }
 
 
-    @Override
-    public void run() {
+    public void start() {
 
         NetworkHandler networkHandler = new NetworkHandler(serverIp, serverPort);
 
@@ -70,11 +69,9 @@ public class ClientApp implements Runnable{
         clientController.setNetworkHandler(networkHandler);
         clientController.setView(view);
 
-        Thread threadClientController= new Thread(clientController);
-        threadClientController.start();
+        clientController.game();
 
         if(ClientController.getInstance().isDisconnected()==true){
-            threadClientController.interrupt();
             networkHandler.endClient();
         }
     }

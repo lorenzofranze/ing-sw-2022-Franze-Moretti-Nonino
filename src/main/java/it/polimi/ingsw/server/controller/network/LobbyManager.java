@@ -18,9 +18,10 @@ public class LobbyManager implements Runnable {
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
     private Socket clientSocket;
-    private int lobbyPortNumber = 32501;
+    private int lobbyPortNumber=32502;
     private List<String> disconnectedPlayers;
     private static LobbyManager lobbyManager = null;
+
 
     /**
      * there is only one serverController used to manage the new connections. When a player is accepted,
@@ -31,19 +32,25 @@ public class LobbyManager implements Runnable {
 
     private LobbyManager() {
         System.out.println("porta server 32501");
+        boolean portAvailable=false;
         this.waitingLobbies = new HashMap<>();
         this.serverController = ServerController.getInstance();
         this.disconnectedPlayers = new ArrayList<>();
 
 
-        try {
-            lobbyServerSocket = new ServerSocket(lobbyPortNumber);
-        } catch (IOException e) {
-            System.err.println("port not available" + e.getMessage()); //port not available
-            System.out.println("porta cambiata in quella successiva");
-            lobbyPortNumber++;
-            return;
+
+        while(!portAvailable) {
+            portAvailable=true;
+            try {
+                lobbyServerSocket = new ServerSocket(lobbyPortNumber);
+            } catch (IOException e) {
+                System.err.println("port not available " + e.getMessage()); //port not available
+                System.out.println("porta cambiata in quella successiva");
+                this.lobbyPortNumber++;
+                portAvailable=false;
+            }
         }
+        return;
 
     }
 

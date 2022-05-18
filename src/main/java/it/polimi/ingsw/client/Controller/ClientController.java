@@ -11,12 +11,13 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.common.messages.TypeOfMessage.*;
 
-public class ClientController implements Runnable {
+public class ClientController {
 
     private static ClientController instance;
     private String nickname;
     private GameMode gameMode;
     private NetworkHandler networkHandler;
+    private Thread networkHandlerThread;
     private Console console;
     private CharacterCardsConsole characterCardsConsole;
     private GameStatePojo gameStatePojo;
@@ -35,8 +36,8 @@ public class ClientController implements Runnable {
         return instance;
     }
 
-    @Override
-    public void run() {
+
+    public void game() {
 
         connect();
         if(disconnected==true){
@@ -45,8 +46,10 @@ public class ClientController implements Runnable {
         characterCardsConsole = new CharacterCardsConsole();
         console = new Console();
 
+
         waitForOtherPlayers();
         waitForFirstGameState();
+
 
 
         while (gameStatePojo.isGameOver() == false) {
@@ -66,7 +69,7 @@ public class ClientController implements Runnable {
                     UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                     this.gameStatePojo = updateMessage.getGameState();
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
-                        console.run();
+                        console.play();
                     }
                     break;
                 case Ack:
@@ -80,11 +83,9 @@ public class ClientController implements Runnable {
                     break;
                 case Ping:
                     view.showMessage(receivedMessage); //DA CANCELLARE
-                    receivedMessage = networkHandler.getReceivedMessage();
                     break;
                 case Async:
                     view.showMessage(receivedMessage); //DA CANCELLARE
-                    setDisconnected();
                     return;
             }
         }
@@ -92,6 +93,8 @@ public class ClientController implements Runnable {
 
     private void connect(){
 
+        this.networkHandlerThread= new Thread(networkHandler);
+        this.networkHandlerThread.start();
         view.chooseGameMode();
 
         boolean valid = true;
@@ -119,9 +122,6 @@ public class ClientController implements Runnable {
                 if (responseAck.getTypeOfAck().equals(TypeOfAck.CorrectConnection)) {
                     valid = true;
                     return;
-                }
-                else if(receivedMessage.getMessageType().equals(Ping)){
-                    receivedMessage = networkHandler.getReceivedMessage();
                 }
                 else {
                         System.out.println("ERROR-Login-connect-3 (unexpected ack message)");
@@ -152,12 +152,6 @@ public class ClientController implements Runnable {
                     allJoined = true;
                 }
             }
-            else if(receivedMessage.getMessageType().equals(Ping)){
-                if(!disconnected){
-                    receivedMessage = networkHandler.getReceivedMessage();
-                }
-
-            }
             else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 if(!disconnected){
@@ -186,12 +180,7 @@ public class ClientController implements Runnable {
                 this.gameStatePojo = updateMessage.getGameState();
                 gameStateReceived = true;
                 if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
-                    console.run();
-                }
-            }
-            else if(receivedMessage.getMessageType().equals(Ping)){
-                if(!disconnected){
-                    receivedMessage = networkHandler.getReceivedMessage();
+                    console.play();
                 }
             }
             else{
@@ -243,9 +232,9 @@ public class ClientController implements Runnable {
     }
 
     public void setDisconnected(){
-        networkHandler.endClient();
+        networkHandler.getPingSenderFromClientThread().interrupt();
+        networkHandlerThread.interrupt();
         disconnected=true;
-
     }
 
     public boolean isDisconnected() {

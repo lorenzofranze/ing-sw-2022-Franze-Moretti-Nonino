@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.controller.logic.GamePhase;
 
 import java.io.IOException;
 
-public class Console implements Runnable {
+public class Console{
 
     private enum ActionBookMark{moveStudents, placeMotherNature, chooseCloud}
 
@@ -25,10 +25,11 @@ public class Console implements Runnable {
     private Integer cloudChosen = null;
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
 
-    public void run(){
+    public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
 
         if(ClientController.getInstance().isDisconnected()) return;
+
         switch (currentPhase){
             case PIANIFICATION:
                 playPianification();

@@ -65,7 +65,6 @@ public class PlayerManager implements Runnable{
                 case Async: //if i have received an async message(a disconnection message)
                     System.out.println(receivedString);
                     pingThread.interrupt();
-
                     if(toStop==false)
                     {
                         toStop=true;
