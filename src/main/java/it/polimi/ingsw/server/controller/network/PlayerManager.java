@@ -73,8 +73,12 @@ public class PlayerManager implements Runnable{
                     }
                     return;
                     //nota : ho tolto break
-                case Ping:
+                case Pong:
                     pingSender.setConnected(true);
+                    break;
+                case Ping:
+                    PongMessage pongMessage=new PongMessage();
+                    sendMessage(pongMessage);
                     break;
                 case Game:
                     GameMessage gameMessage = (GameMessage) receivedMessage;
@@ -184,10 +188,6 @@ public class PlayerManager implements Runnable{
         if (!message.getMessageType().equals(TypeOfMessage.Update)) {
             System.out.println("Message sent to: " + this.getPlayerNickname());
             System.out.println(stringToSend);
-        }else{
-            System.out.println("Message sent to: " + this.getPlayerNickname());
-            //System.out.println("update");
-            System.out.println(stringToSend);
         }
         //(fine cancella *)
     }
@@ -257,6 +257,9 @@ public class PlayerManager implements Runnable{
                     case Ping:
                         PingMessage receivedMessagePing = (PingMessage) receivedMessage;
                         return receivedMessagePing;
+                    case Pong:
+                        PongMessage receivedMessagePong = (PongMessage) receivedMessage;
+                        return receivedMessagePong;
                     case Async:
                         AsyncMessage receivedMessageAsync = (AsyncMessage) receivedMessage;
                         return receivedMessageAsync;
@@ -316,8 +319,8 @@ public class PlayerManager implements Runnable{
                 try {
                     clientSocket.setSoTimeout(120000);
                 } catch (SocketException ex) {
-                    ex.printStackTrace();
                     System.out.println("the player"+playerNickname+ "is too slow! His round has exceeded 2 minutes!");
+                    ex.printStackTrace();
                     AsyncMessage asyncMessage=new AsyncMessage("the player"+playerNickname+
                             "is too slow! His round has exceeded 2 minutes!"); /**todo: fare leggere il messaggio sul client**/
                     for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){

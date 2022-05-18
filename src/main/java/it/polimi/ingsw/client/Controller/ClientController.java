@@ -66,7 +66,7 @@ public class ClientController implements Runnable {
                     UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                     this.gameStatePojo = updateMessage.getGameState();
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
-                        console.play();
+                        console.run();
                     }
                     break;
                 case Ack:
@@ -186,7 +186,7 @@ public class ClientController implements Runnable {
                 this.gameStatePojo = updateMessage.getGameState();
                 gameStateReceived = true;
                 if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
-                    console.play();
+                    console.run();
                 }
             }
             else if(receivedMessage.getMessageType().equals(Ping)){

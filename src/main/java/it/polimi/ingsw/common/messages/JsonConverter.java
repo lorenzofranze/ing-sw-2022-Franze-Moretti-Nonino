@@ -52,17 +52,22 @@ public class  JsonConverter {
             return messageReal1;
         }
 
-        if(message.getMessageType() == TypeOfMessage.Error){
+        else if(message.getMessageType() == TypeOfMessage.Error){
             ErrorMessage messageReal=  gson.fromJson(jsonString, ErrorMessage.class);
             return messageReal;
         }
 
-        if(message.getMessageType() == TypeOfMessage.Ping){
+        else if(message.getMessageType() == TypeOfMessage.Ping){
             PingMessage messageReal=  gson.fromJson(jsonString, PingMessage.class);
             return messageReal;
         }
 
-        if(message.getMessageType() == TypeOfMessage.Async){
+        else if(message.getMessageType() == TypeOfMessage.Pong){
+            PongMessage messageReal=  gson.fromJson(jsonString, PongMessage.class);
+            return messageReal;
+        }
+
+        else if(message.getMessageType() == TypeOfMessage.Async){
             AsyncMessage messageReal=  gson.fromJson(jsonString, AsyncMessage.class);
             return messageReal;
         }

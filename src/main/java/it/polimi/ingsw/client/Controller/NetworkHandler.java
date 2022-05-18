@@ -15,11 +15,13 @@ public class NetworkHandler {
     private String serverIp;
     private int serverPort;
     private Socket socket;
+    private PingSenderFromClient pingSenderFromClient;
 
     private BufferedReader in;
     private BufferedWriter out;
 
     private JsonConverter jsonConverter = new JsonConverter();
+    private static Thread pingSenderFromClientThread;
 
     public NetworkHandler(String serverIp, int serverPort) {
         this.serverIp = serverIp;
@@ -30,6 +32,10 @@ public class NetworkHandler {
         this.socket = new Socket(serverIp, serverPort);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        pingSenderFromClient=new PingSenderFromClient();
+        pingSenderFromClientThread= new Thread(pingSenderFromClient);
+        pingSenderFromClientThread.start();
+
     }
 
     /**
@@ -82,6 +88,7 @@ public class NetworkHandler {
 
     public void endClient() {
         try {
+            pingSenderFromClientThread.interrupt();
             out.close();
             in.close();
         } catch (IOException e) {
@@ -107,8 +114,7 @@ public class NetworkHandler {
             case Ping:
                 System.out.println("\nreceived from server:\nping\n");
                 try {
-                    sendToServer(receivedMessage);
-                    pingController();
+                    sendToServer(new PongMessage());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -117,6 +123,10 @@ public class NetworkHandler {
                 }
 
                 break;
+            case Pong:
+                System.out.println("\nreceived from server:\npong\n");
+                pingSenderFromClient.setConnected(true);
+
             default:
                 System.out.println("\nreceived from server:\n" + stringMessage + "\n");
                 break;
@@ -132,16 +142,5 @@ public class NetworkHandler {
         return out;
     }
 
-    public void pingController() {
-        try {
-            this.socket.setSoTimeout(60000);
-        } catch (SocketException ex) {
-            ex.printStackTrace();
-            endClient();
-            System.out.println("Il server non è più connesso");
-            ClientController.getInstance().setDisconnected();
-
-        }
-    }
 }
 
