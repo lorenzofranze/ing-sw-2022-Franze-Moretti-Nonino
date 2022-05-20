@@ -402,11 +402,17 @@ public class PlayerManager implements Runnable{
     }
 
     public boolean getConnected() {
-        return connected;
+        boolean ris;
+        synchronized( connected ) {
+            ris = connected;
+        }
+        return ris;
     }
 
     public void setConnected(boolean connected) {
-        connected = connected;
+        synchronized(this.connected) {
+            this.connected = connected;
+        }
     }
 
 }
