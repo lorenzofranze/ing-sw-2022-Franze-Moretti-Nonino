@@ -213,7 +213,6 @@ public class Console{
                                 ackMessage = (AckMessage) receivedMessage;
                                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                                     valid = true;
-                                    System.out.println("FLAG console 1");
                                 }
                             }
                             if (valid == false){
