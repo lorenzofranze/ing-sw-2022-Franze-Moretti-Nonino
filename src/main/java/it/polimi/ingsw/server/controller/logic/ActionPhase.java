@@ -47,7 +47,7 @@ public class ActionPhase extends GamePhase {
                 int studentsToMove = gameController.getGame().getPlayers().size()+1;
 
                 askforCharacter();
-                gameController.update();
+
                 if (checkEnd() == true){return actionResult;}
 
                 moveStudents();
@@ -438,15 +438,15 @@ public class ActionPhase extends GamePhase {
 
                     characterStatePlayed.use(); //incremento il costo se è da incrementare
 
-                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
                     playerManager.sendMessage(ackMessage);
 
                     gameController.update();
 
-
                     CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
                     currentCharacterEffect.doEffect();
-                    ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+
+                    ackMessage = new AckMessage(TypeOfAck.CorrectMove, "end of effect");
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
                 }

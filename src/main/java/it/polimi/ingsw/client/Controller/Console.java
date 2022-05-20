@@ -18,7 +18,6 @@ public class Console{
 
     private int assistantCardPlayed = -1;
     private Integer characterPlayed = null;
-    private Integer studentToMove = null;
     private Integer pawnColour = null;
     private Integer pawnWhere = null;
     private Integer stepsMotherNature = null;
@@ -94,13 +93,12 @@ public class Console{
 
         switch (currActionBookMark){
             case moveStudents:
-                studentToMove = studentsToMoveTotal;
                 for(int i = 0; i < studentsToMoveTotal; i++){
                     askForCharacter();
-                    studentToMove--;
                     moveStudent();
                 }
                 askForCharacter();
+                currActionBookMark = ActionBookMark.placeMotherNature;
                 break;
             case placeMotherNature:
                 placeMotherNature();
@@ -150,9 +148,6 @@ public class Console{
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
-                    if (studentToMove == 0){
-                        currActionBookMark = ActionBookMark.placeMotherNature;
-                    }
                     receivedMessage = networkHandler.getReceivedMessage();
                     if (receivedMessage.getMessageType() == TypeOfMessage.Update){
                         UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
@@ -201,7 +196,7 @@ public class Console{
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
-                    //se ho giocato una carta mi arriva anche un update. Qui lo gestisco
+                    //se ho giocato una carta (e quindi characterPlayed != null) mi arriva anche un update. Qui lo gestisco
                     if (characterPlayed != null){
                         receivedMessage = networkHandler.getReceivedMessage();
                         if (receivedMessage.getMessageType() == TypeOfMessage.Update){
@@ -211,6 +206,22 @@ public class Console{
                             //handling character card effect
                             int currentCharacterID = updateMessage.getGameState().getActiveEffect().getCharacterId();
                             characterCardsConsole.playEffect(currentCharacterID);
+
+                            receivedMessage = networkHandler.getReceivedMessage();
+                            valid = false;
+                            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                                ackMessage = (AckMessage) receivedMessage;
+                                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
+                                    valid = true;
+                                    System.out.println("FLAG console 1");
+                                }
+                            }
+                            if (valid == false){
+                                //messaggio imprevisto
+                                view.showMessage(receivedMessage);
+                            }
+
+
                         }else{
                             //messaggio imprevisto
                             view.showMessage(receivedMessage);
@@ -222,7 +233,7 @@ public class Console{
                 }
             }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
                 view.showMessage(receivedMessage);
-                ErrorMessage errorMessage = (ErrorMessage)receivedMessage;
+                ErrorMessage errorMessage = (ErrorMessage) receivedMessage;
                 if(!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice) || (errorMessage.getTypeOfError().equals(TypeOfError.NoMoney)))){
                     break;
                 }

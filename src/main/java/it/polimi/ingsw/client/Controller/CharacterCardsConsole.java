@@ -43,6 +43,7 @@ public class CharacterCardsConsole {
 
             receivedMessage = networkHandler.getReceivedMessage();
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                System.out.println("FLAG - CHAACTERCARDSCONSOLE");
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                     valid = true;

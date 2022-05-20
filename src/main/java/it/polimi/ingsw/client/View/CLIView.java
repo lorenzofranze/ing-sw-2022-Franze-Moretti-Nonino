@@ -14,7 +14,7 @@ public class CLIView implements View {
     private Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void chooseGameMode() {
+    public synchronized void chooseGameMode() {
         ClientController clientController = ClientController.getInstance();
 
         System.out.println("\n\n");
@@ -46,7 +46,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void beginReadUsername() {
+    public synchronized void beginReadUsername() {
         ClientController clientController = ClientController.getInstance();
         System.out.print("INSERT NICKNAME (at least 4 characters): ");
         boolean valid;
@@ -64,7 +64,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void chooseAssistantCard() {
+    public synchronized void chooseAssistantCard() {
         ClientController clientController = ClientController.getInstance();
         String resultString;
         int result = 0;
@@ -99,13 +99,14 @@ public class CLIView implements View {
     }
 
     @Override
-    public void askForCharacter() {
+    public synchronized void askForCharacter() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         Console console = clientController.getConsole();
         List<? extends CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
         String resultString;
         Integer result = null;
+
         System.out.println("\n"+"\033[01m"+"CHARACTER MENU"+"\033[0m");
         for (CharacterPojo c : characterPojoList){
             System.out.println(c.toString());
@@ -144,7 +145,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void moveStudent() {
+    public synchronized void moveStudent() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         Console console = clientController.getConsole();
@@ -196,7 +197,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void placeMotherNature() {
+    public synchronized void placeMotherNature() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         Console console = clientController.getConsole();
@@ -224,7 +225,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void chooseCloud() {
+    public synchronized void chooseCloud() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         Console console = clientController.getConsole();
@@ -250,7 +251,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void showMessage(Message message) {
+    public synchronized void showMessage(Message message) {
         if(message.getMessageType().equals(TypeOfMessage.Connection)){
             ConnectionMessage connectionMessage = (ConnectionMessage) message;
             showConnection(connectionMessage);
@@ -283,7 +284,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void showError(ErrorMessage errorMessage) {
+    public synchronized void showError(ErrorMessage errorMessage) {
         switch(errorMessage.getTypeOfError()) {
             case UsedName:
                 System.out.println("Nickname already in use by other players.\n");
@@ -315,14 +316,14 @@ public class CLIView implements View {
     }
 
     @Override
-    public void showConnection(ConnectionMessage connectionMessage) {
+    public synchronized void showConnection(ConnectionMessage connectionMessage) {
         JsonConverter jsonConverter = new JsonConverter();
         String stringConnection = jsonConverter.fromMessageToJson(connectionMessage);
         System.out.println(connectionMessage);
     }
 
     @Override
-    public void showAck(AckMessage ackMessage) {
+    public synchronized void showAck(AckMessage ackMessage) {
 
         switch(ackMessage.getTypeOfAck()) {
             case CorrectConnection:
@@ -339,34 +340,34 @@ public class CLIView implements View {
     }
 
     @Override
-    public void showUpdate(UpdateMessage updateMessage) {
+    public synchronized void showUpdate(UpdateMessage updateMessage) {
         GameStatePojo gameStatePojo = updateMessage.getGameState();
         showGameState(gameStatePojo);
     }
 
     @Override
-    public void showAsync(AsyncMessage asyncMessage) {
+    public synchronized void showAsync(AsyncMessage asyncMessage) {
         JsonConverter jsonConverter = new JsonConverter();
         String stringAsync = jsonConverter.fromMessageToJson(asyncMessage);
         System.out.println(stringAsync);
     }
 
     @Override
-    public void showMove(GameMessage gameMessage) {
+    public synchronized void showMove(GameMessage gameMessage) {
         JsonConverter jsonConverter = new JsonConverter();
         String stringMove = jsonConverter.fromMessageToJson(gameMessage);
         System.out.println(stringMove);
     }
 
     @Override
-    public void showPing(PingMessage pingMessage) {
+    public synchronized void showPing(PingMessage pingMessage) {
         JsonConverter jsonConverter = new JsonConverter();
         String stringPing = jsonConverter.fromMessageToJson(pingMessage);
         System.out.println(stringPing);
     }
 
     @Override
-    public void showGameState(GameStatePojo gameStatePojo) {
+    public synchronized void showGameState(GameStatePojo gameStatePojo) {
         ClientController clientController = ClientController.getInstance();
 
         System.out.println("\n----------------------------------------------------GAME STATE----------------------------------------------------\n");
@@ -433,7 +434,7 @@ public class CLIView implements View {
 
     //METHODS FOR COMPLEX MODE:
     @Override
-    public void moveStudentToIsland(){
+    public synchronized void moveStudentToIsland(){
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
@@ -481,7 +482,8 @@ public class CLIView implements View {
         characterCardsConsole.setPawnWhere(result);
     }
 
-    public void chooseIsland(){
+    @Override
+    public synchronized void chooseIsland(){
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
@@ -510,7 +512,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void chooseColour() {
+    public synchronized void chooseColour() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
@@ -543,7 +545,7 @@ public class CLIView implements View {
 
     /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
     @Override
-    public void chooseNumOfMove() {
+    public synchronized void chooseNumOfMove() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();

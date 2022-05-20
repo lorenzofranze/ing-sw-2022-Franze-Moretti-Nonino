@@ -43,7 +43,7 @@ public class NetworkHandler implements Runnable{
     /**
      * read from network buffer
      */
-    private String readFromBuffer() {
+    private Message readFromBuffer() {
 
         String lastMessage = "";
 
@@ -55,8 +55,41 @@ public class NetworkHandler implements Runnable{
             }
         } catch (IOException e) {
             System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
+            return null;
         }
-        return lastMessage;
+
+        Message receivedMessage = jsonConverter.fromJsonToMessage(lastMessage);
+
+        if (receivedMessage.getMessageType()!=Update) {                             //DA CANCELLARE
+            System.out.println("\n\nreceived from server: "+lastMessage+"\n\n");    //DA CANCELLARE
+        }else{                                                                      //DA CANCELLARE
+            System.out.println("\n\nreceived from server: \nupdate\n\n");           //DA CANCELLARE
+        }                                                                           //DA CANCELLARE
+
+
+        if (    (receivedMessage.getMessageType() == Update)       ||
+                (receivedMessage.getMessageType() == Ack)       ||
+                (receivedMessage.getMessageType() == Error)     ||
+                (receivedMessage.getMessageType() == Game)          ){
+                    messageQueue.add(receivedMessage);
+        }
+        switch(receivedMessage.getMessageType()){
+            case Async:
+                ClientController.getInstance().setDisconnected();
+                AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
+                break;
+            case Ping:
+                try {
+                    sendToServer(new PongMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Pong:
+                pingSenderFromClient.setConnected(true);
+                break;
+        }
+        return receivedMessage;
     }
 
     public void sendToServer(Message message) throws IOException {
@@ -111,49 +144,8 @@ public class NetworkHandler implements Runnable{
     public void run(){
 
         while(true) {
-
-            String stringMessage = this.readFromBuffer();
-            Message receivedMessage = jsonConverter.fromJsonToMessage(stringMessage);
-
-            if (receivedMessage.getMessageType()==Update) {
-                UpdateMessage realMessage = (UpdateMessage) receivedMessage;
-                messageQueue.add(realMessage);
-            }
-            else if(receivedMessage.getMessageType()==Async) {
-                System.out.println("\nreceived from server:\n" + stringMessage + "\n");
-                ClientController.getInstance().setDisconnected();
-                AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
-                break;
-            }
-            else if(receivedMessage.getMessageType()==Ping) {
-
-                System.out.println("\nreceived from server:\nping\n");
-                try {
-                    sendToServer(new PongMessage());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            else if(receivedMessage.getMessageType()==Pong) {
-                System.out.println("\nreceived from server:\npong\n");
-                pingSenderFromClient.setConnected(true);
-            }
-            else if(receivedMessage.getMessageType()==Ack){
-                messageQueue.add(receivedMessage);
-            }
-            else if(receivedMessage.getMessageType()==Error){
-                messageQueue.add(receivedMessage);
-            }
-            else if(receivedMessage.getMessageType()==Game)
-            {
-                messageQueue.add(receivedMessage);
-            }
-            else{
-                messageQueue.add(receivedMessage);
-            }
+            Message receivedMessage = this.readFromBuffer();
         }
-
     }
 
     public BufferedReader getIn() {
