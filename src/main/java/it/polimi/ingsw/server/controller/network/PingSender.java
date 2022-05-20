@@ -81,6 +81,7 @@ public class PingSender implements Runnable{
             // setta isconnected a true e continua il while
 
         //SE ARRIVO QUI è DISCONNESSO
+        System.out.println("Ping sender: is connected non è più true");
         ServerController.getInstance().closeConnection(playerNickname);
     }
 }

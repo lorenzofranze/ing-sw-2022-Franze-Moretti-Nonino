@@ -67,7 +67,7 @@ public class ServerController {
      * @param playerNickname
      */
     public void closeConnection(String playerNickname) {
-        System.out.println("player "+ playerNickname + "is disconnected");
+        System.out.println("ServerController closeConnection: player "+ playerNickname + " is disconnected");
 
         //find the lobby that hosts the player who has disconnected from the game
 

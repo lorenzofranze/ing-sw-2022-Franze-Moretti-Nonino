@@ -205,6 +205,16 @@ public class LobbyManager implements Runnable {
 
 
 
+            }else if(unknown.getMessageType() == TypeOfMessage.Ping){
+                PongMessage pongMessage = new PongMessage();
+                try {
+                    stringMessage = JsonConverter.fromMessageToJson(pongMessage);
+                    out.write(stringMessage);
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR-LobbyManager-2");
+                }
             }else{
                 System.out.println("ERROR-LobbyManager-1");
             }

@@ -68,6 +68,7 @@ public class PlayerManager implements Runnable{
                     if(toStop==false)
                     {
                         toStop=true;
+                        System.out.println("Player manager: received an Async message");
                         ServerController.getInstance().closeConnection(playerNickname);
                     }
                     return;
@@ -153,6 +154,7 @@ public class PlayerManager implements Runnable{
                     if(pingThread.isInterrupted()==false){
                         pingThread.interrupt();
                     }
+                    System.out.println("Player manage: close connection 1");
                     ServerController.getInstance().closeConnection(playerNickname);
                 }
             }
@@ -178,6 +180,7 @@ public class PlayerManager implements Runnable{
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
+                System.out.println("Player manager: error in sending message");
                 ServerController.getInstance().closeConnection(playerNickname);
             }
             return;
@@ -332,6 +335,8 @@ public class PlayerManager implements Runnable{
                         pingThread.interrupt();
                     }
 
+                    System.out.println("Player manager: the player"+playerNickname+ "is too slow! His round has exceeded 2 minutes!");
+                    ex.printStackTrace();
                     ServerController.getInstance().closeConnection(playerNickname);
 
                     return;
