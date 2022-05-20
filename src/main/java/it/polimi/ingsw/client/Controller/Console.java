@@ -106,7 +106,6 @@ public class Console{
                 currActionBookMark = ActionBookMark.chooseCloud;
                 break;
             case chooseCloud:
-                System.out.println("FLAG CHOOSECLOUD - CONSOLE");
                 chooseCloud();
                 currActionBookMark = ActionBookMark.moveStudents;
                 break;
