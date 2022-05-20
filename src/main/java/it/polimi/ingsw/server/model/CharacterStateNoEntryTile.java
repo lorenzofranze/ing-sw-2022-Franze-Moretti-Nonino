@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
-
-import it.polimi.ingsw.common.gamePojo.CharacterNoEntryPojo;
 import it.polimi.ingsw.common.gamePojo.CharacterPojo;
+import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 public class CharacterStateNoEntryTile extends CharacterState{
     private int numNoEntry;
@@ -23,11 +22,14 @@ public class CharacterStateNoEntryTile extends CharacterState{
     }
 
     @Override
-    public CharacterNoEntryPojo toPojo(){
-        CharacterNoEntryPojo characterNoEntryPojo = new CharacterNoEntryPojo();
-        characterNoEntryPojo.setCharacterId(this.getCharacterId());
-        characterNoEntryPojo.setActualCost(this.getCost());
-        characterNoEntryPojo.setNumNoEntry(this.numNoEntry);
-        return characterNoEntryPojo;
+    public CharacterPojo toPojo(){
+        CharacterPojo characterStudentPojo = new CharacterPojo();
+        characterStudentPojo.setCharacterId(this.getCharacterId());
+        characterStudentPojo.setActualCost(this.getCost());
+        characterStudentPojo.setIncremented(this.isIncremented());
+        characterStudentPojo.setStudents(null);
+        characterStudentPojo.setNumNoEntry(this.numNoEntry);
+
+        return characterStudentPojo;
     }
 }

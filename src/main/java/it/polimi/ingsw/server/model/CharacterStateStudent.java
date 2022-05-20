@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.CharacterPojo;
-import it.polimi.ingsw.common.gamePojo.CharacterStudentPojo;
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
@@ -28,11 +27,13 @@ public class CharacterStateStudent extends CharacterState{
     }
 
     @Override
-    public CharacterStudentPojo toPojo(){
-        CharacterStudentPojo characterStudentPojo = new CharacterStudentPojo();
+    public CharacterPojo toPojo(){
+        CharacterPojo characterStudentPojo = new CharacterPojo();
         characterStudentPojo.setCharacterId(this.getCharacterId());
         characterStudentPojo.setActualCost(this.getCost());
+        characterStudentPojo.setIncremented(this.isIncremented());
         characterStudentPojo.setStudents(new PawnsMapPojo(this.students));
+        characterStudentPojo.setNumNoEntry(null);
 
         return characterStudentPojo;
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.CharacterPojo;
+import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 import java.util.Objects;
 
@@ -45,11 +46,14 @@ public class CharacterState {
     }
 
     public CharacterPojo toPojo(){
-        CharacterPojo pojoCharacterPojo = new CharacterPojo();
-        pojoCharacterPojo.setCharacterId(this.getCharacterId());
-        pojoCharacterPojo.setActualCost(this.actualCost);
+        CharacterPojo characterStudentPojo = new CharacterPojo();
+        characterStudentPojo.setCharacterId(this.getCharacterId());
+        characterStudentPojo.setActualCost(this.getCost());
+        characterStudentPojo.setIncremented(this.isIncremented());
+        characterStudentPojo.setStudents(null);
+        characterStudentPojo.setNumNoEntry(null);
 
-        return pojoCharacterPojo;
+        return characterStudentPojo;
     }
 
     public boolean isIncremented() {
