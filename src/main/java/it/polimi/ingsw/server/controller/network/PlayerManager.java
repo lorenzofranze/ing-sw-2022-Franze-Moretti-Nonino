@@ -211,7 +211,7 @@ public class PlayerManager implements Runnable{
 
         do {
             correctMatch = true;
-            this.setTimeout();
+            //this.setTimeout();
             receivedMessage = getLastMessage();
 
             System.out.println("Message received:\n"+jsonConverter.fromMessageToJson(receivedMessage));
@@ -288,6 +288,7 @@ public class PlayerManager implements Runnable{
      * it is called in the readMessage method (in playerManager)
      * so it is called every thime the gameController asks to read the last message of the queue
      */
+    /*
     public void setTimeout() {
         //nei test questo metodo non fa nulla
         if (ServerController.getInstance().getCurrentGames().isEmpty()){
@@ -325,7 +326,9 @@ public class PlayerManager implements Runnable{
                     ex.printStackTrace();
                     AsyncMessage asyncMessage=new AsyncMessage("the player"+playerNickname+
                             "is too slow! His round has exceeded 2 minutes!"); /**todo: fare leggere il messaggio sul client**/
-                    for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
+
+
+    /*for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
                         playerManager.sendMessage(asyncMessage);
                     }
 
@@ -353,6 +356,7 @@ public class PlayerManager implements Runnable{
             }
         }
     }
+    /*
 
     /*
     public void sendPingMessage(){
