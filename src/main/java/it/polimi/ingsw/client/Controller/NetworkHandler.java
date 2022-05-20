@@ -60,12 +60,13 @@ public class NetworkHandler implements Runnable{
 
         Message receivedMessage = jsonConverter.fromJsonToMessage(lastMessage);
 
+        /*
         if (receivedMessage.getMessageType()!=Update) {                             //DA CANCELLARE
             System.out.println("\n\nreceived from server: "+lastMessage+"\n\n");    //DA CANCELLARE
         }else{                                                                      //DA CANCELLARE
             System.out.println("\n\nreceived from server: \nupdate\n\n");           //DA CANCELLARE
         }                                                                           //DA CANCELLARE
-
+        */
 
         if (    (receivedMessage.getMessageType() == Update)       ||
                 (receivedMessage.getMessageType() == Ack)       ||
@@ -101,7 +102,7 @@ public class NetworkHandler implements Runnable{
             messageToSend = asyncMessage;
         }
         String stringMessage = JsonConverter.fromMessageToJson(messageToSend);
-        System.out.println("sent to server:\n" + stringMessage);
+        //System.out.println("sent to server:\n" + stringMessage);
         out.write(stringMessage);
         out.flush();
     }
