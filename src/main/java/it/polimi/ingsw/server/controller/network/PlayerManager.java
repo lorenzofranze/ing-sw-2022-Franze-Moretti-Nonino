@@ -25,6 +25,7 @@ public class PlayerManager implements Runnable{
     private BufferedWriter bufferedReaderOut;
     private PingSender pingSender;
     private Thread pingThread;
+    private Boolean connected;
     private transient boolean isMyTurn=false;
     private transient boolean toStop=false;
 
@@ -34,6 +35,7 @@ public class PlayerManager implements Runnable{
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
 
+        this.connected=true;
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
     }
@@ -74,7 +76,7 @@ public class PlayerManager implements Runnable{
                     return;
                     //nota : ho tolto break
                 case Pong:
-                    pingSender.setConnected(true);
+                    setConnected(true);
                     break;
                 case Ping:
                     PongMessage pongMessage=new PongMessage();
@@ -398,4 +400,13 @@ public class PlayerManager implements Runnable{
     public void setMessageQueue(LinkedBlockingQueue<Message> messageQueue) {
         this.messageQueue = messageQueue;
     }
+
+    public boolean getConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        connected = connected;
+    }
+
 }

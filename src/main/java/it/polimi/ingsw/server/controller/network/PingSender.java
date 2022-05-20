@@ -16,9 +16,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class PingSender implements Runnable{
-    private volatile boolean isConnected;
     //1 minute ping timeout
-    private final static int PING_TIMEOUT= 600000000;
+    private final static int PING_TIMEOUT= 30000;
     private final static int RECONNECTION_TIMEOUT= 20000;
 
 
@@ -28,26 +27,17 @@ public class PingSender implements Runnable{
     public PingSender(String playerNickname, PlayerManager playerManager){
         this.playerNickname=playerNickname;
         this.playerManager=playerManager;
-
-        isConnected=true;
     }
 
-    public boolean isConnected() {
-        return isConnected;
-    }
-
-    public void setConnected(boolean connected) {
-        isConnected = connected;
-    }
 
     @Override
     public void run() {
 
-        while(isConnected) {
+        while(playerManager.getConnected()) {
             PingMessage message = new PingMessage();
             JsonConverter jsonConverter = new JsonConverter();
             String messageString = jsonConverter.fromMessageToJson(message);
-            this.isConnected = false;
+            playerManager.setConnected(false);
 
 
             //invio il ping
@@ -60,7 +50,7 @@ public class PingSender implements Runnable{
                 ServerController.getInstance().closeConnection(playerNickname);
             }
 
-            if (this.isConnected = false) {
+            if (playerManager.getConnected() == false) {
                 System.out.println("Il ping del client " + playerNickname + "non è più arrivato al server");
                 break;
                 /*

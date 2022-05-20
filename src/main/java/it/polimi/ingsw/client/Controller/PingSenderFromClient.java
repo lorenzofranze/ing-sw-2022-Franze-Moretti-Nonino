@@ -10,7 +10,7 @@ import java.io.IOException;
 public class PingSenderFromClient implements Runnable {
     private volatile boolean isConnected;
     //1 minute ping timeout
-    private final static int PING_TIMEOUT= 600000000;
+    private final static int PING_TIMEOUT= 30000;
 
     public PingSenderFromClient(){
         isConnected=true;
