@@ -234,6 +234,7 @@ public class ClientController {
     public void setDisconnected(){
         networkHandler.getPingSenderFromClientThread().interrupt();
         networkHandlerThread.interrupt();
+
         disconnected=true;
     }
 

@@ -76,6 +76,7 @@ public class NetworkHandler implements Runnable{
         }
         switch(receivedMessage.getMessageType()){
             case Async:
+                System.out.println("Ti stai disconnettendo perchè hai ricevuto un saync message");
                 ClientController.getInstance().setDisconnected();
                 AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
                 break;

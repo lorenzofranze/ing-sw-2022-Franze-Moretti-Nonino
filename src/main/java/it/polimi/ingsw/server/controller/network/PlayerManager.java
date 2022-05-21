@@ -67,11 +67,11 @@ public class PlayerManager implements Runnable{
             switch(receivedMessage.getMessageType()){
                 case Async: //if i have received an async message(a disconnection message)
                     System.out.println(receivedString);
+                    System.out.println("Player manager: received an Async message");
                     pingThread.interrupt();
                     if(toStop==false)
                     {
                         toStop=true;
-                        System.out.println("Player manager: received an Async message");
                         if(!closeConnectionBeenCalled) {
                             ServerController.getInstance().closeConnection(playerNickname);
                         }
@@ -127,6 +127,14 @@ public class PlayerManager implements Runnable{
                 message =  messageQueue.take();
                 received = true;
             } catch (InterruptedException e) {
+                if(toStop==false)
+                {
+                    toStop=true;
+                    if(!closeConnectionBeenCalled) {
+                        ServerController.getInstance().closeConnection(playerNickname);
+                        pingThread.interrupt();
+                    }
+                }
                 e.printStackTrace();
             }
         }while(received == false);
@@ -151,14 +159,13 @@ public class PlayerManager implements Runnable{
             if(toStop==false)
             {
                 toStop=true;
+                System.out.println("Player manage: close connection 1");
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
-
-                    System.out.println("Player manage: close connection 1");
-                    if(!closeConnectionBeenCalled) {
-                        ServerController.getInstance().closeConnection(playerNickname);
-                    }
+                if(!closeConnectionBeenCalled) {
+                    ServerController.getInstance().closeConnection(playerNickname);
+                }
             }
             return null;
         }
@@ -179,10 +186,10 @@ public class PlayerManager implements Runnable{
 
             if(toStop==false) {
                 toStop = true;
+                System.out.println("Player manager: error in sending message");
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
-                System.out.println("Player manager: error in sending message");
                 if(!closeConnectionBeenCalled){
                     ServerController.getInstance().closeConnection(playerNickname);
                 }

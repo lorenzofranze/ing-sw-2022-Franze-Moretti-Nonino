@@ -79,8 +79,8 @@ public class ServerController {
             for (Player p : gameController.getGame().getPlayers()) {
                 if(p.getNickname().equals(playerNickname)){
                     lobby=gameController.getLobby();
-                    messageHandler=gameController.getMessageHandler();
                     gameControllerToStop=gameController;
+                    messageHandler=gameControllerToStop.getMessageHandler();
                 }
             }
         }
