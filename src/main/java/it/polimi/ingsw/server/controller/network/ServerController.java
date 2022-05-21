@@ -120,6 +120,7 @@ public class ServerController {
                 }
             }
         }
+        System.out.println("\n La partita dei giocatore "+ playerNickname+ " è finita");
     }
 }
 

@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.common.messages.TypeOfMessage.*;
 
-public class ClientController {
+public class ClientController implements Runnable {
 
     private static ClientController instance;
     private String nickname;
@@ -23,10 +23,12 @@ public class ClientController {
     private GameStatePojo gameStatePojo;
     private boolean disconnected=false;
 
+    private Object lock;
     public View view;
 
     private ClientController(){
         this.instance=null;
+        this.lock=new Object();
     }
 
     public static ClientController getInstance(){
@@ -37,7 +39,8 @@ public class ClientController {
     }
 
 
-    public void game() {
+    @Override
+    public void run() {
         Message receivedMessage=null;
 
 
@@ -237,11 +240,18 @@ public class ClientController {
         return networkHandler;
     }
 
-    public void setDisconnected(){
+    public void setDisconnected() {
         networkHandler.getPingSenderFromClientThread().interrupt();
         networkHandlerThread.interrupt();
 
-        disconnected=true;
+        disconnected = true;
+        synchronized (lock) {
+            try {
+                lock.notifyAll();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean isDisconnected() {
@@ -254,5 +264,9 @@ public class ClientController {
 
     public CharacterCardsConsole getCharacterCardsConsole() {
         return characterCardsConsole;
+    }
+
+    public Object getLock() {
+        return lock;
     }
 }

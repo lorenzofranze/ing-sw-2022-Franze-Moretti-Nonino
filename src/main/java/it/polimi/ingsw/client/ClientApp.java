@@ -7,6 +7,7 @@ import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
 
 import java.io.IOException;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientApp {
 
@@ -69,11 +70,26 @@ public class ClientApp {
         clientController.setNetworkHandler(networkHandler);
         clientController.setView(view);
 
-        clientController.game();
+        Thread threadClientController= new Thread(clientController);
+        threadClientController.start();
 
-        if(ClientController.getInstance().isDisconnected()==true){
+        /*
+        ReentrantLock mutex = new ReentrantLock();
+        mutex.lock();
+
+         */
+        Object clientControllerLock=clientController.getLock();
+        synchronized (clientControllerLock){
+            try {
+                clientControllerLock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             networkHandler.endClient();
+            threadClientController.interrupt();
         }
+
     }
+
 
 }

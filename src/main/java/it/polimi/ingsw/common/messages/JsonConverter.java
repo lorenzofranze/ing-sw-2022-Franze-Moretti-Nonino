@@ -14,8 +14,10 @@ public class  JsonConverter {
     }
 
     public static Message fromJsonToMessage(String jsonString){
+
         Message message = gson.fromJson(jsonString, Message.class);
 
+        if(message==null) return null;
         if(message.getMessageType() == TypeOfMessage.Connection){
             ConnectionMessage messageReal=  gson.fromJson(jsonString, ConnectionMessage.class);
             return messageReal;

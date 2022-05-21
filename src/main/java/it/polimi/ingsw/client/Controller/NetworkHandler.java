@@ -142,7 +142,7 @@ public class NetworkHandler implements Runnable{
             return messageQueue.take();
         } catch (InterruptedException e) {
             ClientController.getInstance().setDisconnected();
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }

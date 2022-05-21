@@ -252,6 +252,7 @@ public class CLIView implements View {
 
     @Override
     public synchronized void showMessage(Message message) {
+        if(message==null) return;
         if(message.getMessageType().equals(TypeOfMessage.Connection)){
             ConnectionMessage connectionMessage = (ConnectionMessage) message;
             showConnection(connectionMessage);

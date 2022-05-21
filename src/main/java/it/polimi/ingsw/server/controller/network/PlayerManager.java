@@ -63,6 +63,7 @@ public class PlayerManager implements Runnable{
         while (toStop!=true && !ClientController.getInstance().isDisconnected()) {
             receivedString = readFromBuffer();
             receivedMessage = jsonConverter.fromJsonToMessage(receivedString);
+            if(receivedMessage==null) return;
 
             switch(receivedMessage.getMessageType()){
                 case Async: //if i have received an async message(a disconnection message)
@@ -157,7 +158,7 @@ public class PlayerManager implements Runnable{
                 line = bufferedReaderIn.readLine();
             }
         } catch(IOException e){
-            e.printStackTrace();
+            //e.printStackTrace();
             if(toStop==false)
             {
                 toStop=true;
@@ -185,7 +186,7 @@ public class PlayerManager implements Runnable{
             bufferedReaderOut.write(stringToSend);
             bufferedReaderOut.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
 
             if(toStop==false) {
                 toStop = true;

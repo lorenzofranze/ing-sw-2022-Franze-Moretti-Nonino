@@ -45,7 +45,9 @@ public class PingSenderFromClient implements Runnable {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
                 System.out.println("Interrompo il timeout del ping");
-                ClientController.getInstance().setDisconnected();
+                if(!ClientController.getInstance().isDisconnected()){
+                    ClientController.getInstance().setDisconnected();
+                }
                 return;
             }
 
