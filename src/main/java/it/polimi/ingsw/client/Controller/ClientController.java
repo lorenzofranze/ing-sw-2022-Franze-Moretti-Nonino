@@ -38,6 +38,8 @@ public class ClientController {
 
 
     public void game() {
+        Message receivedMessage=null;
+
 
         connect();
         if(disconnected==true){
@@ -54,7 +56,7 @@ public class ClientController {
 
         while (gameStatePojo.isGameOver() == false && disconnected==false) {
 
-            Message receivedMessage=null;
+
             if(!disconnected){
                 receivedMessage = networkHandler.getReceivedMessage();
             }
@@ -69,7 +71,8 @@ public class ClientController {
                     UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                     this.gameStatePojo = updateMessage.getGameState();
                     if (gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)) {
-                        console.play();
+                        if(gameStatePojo.isGameOver()==false && gameStatePojo.getWinner()==null)
+                            console.play();
                     }
                     break;
                 case Ack:
@@ -89,6 +92,8 @@ public class ClientController {
                     return;
             }
         }
+        //game ended show last update
+        view.showMessage(receivedMessage);
     }
 
     private void connect(){
@@ -181,6 +186,7 @@ public class ClientController {
                 gameStateReceived = true;
                 if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
                     console.play();
+                    System.out.println("num round:");
                 }
             }
             else{

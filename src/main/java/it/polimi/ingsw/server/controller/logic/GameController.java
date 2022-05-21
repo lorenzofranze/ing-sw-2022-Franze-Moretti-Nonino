@@ -35,7 +35,7 @@ public class GameController implements Runnable  {
     private boolean expert;
     private MessageHandler messageHandler;
     private Player currentPlayer;
-    private Player winner;
+    private Player winner=null;
     private Lobby lobby;
     private boolean forceStop;
 
@@ -103,8 +103,9 @@ public class GameController implements Runnable  {
         if(forceStop){
             return;
         }
-        calculateWinner(); //se winner è null, allora la partita è finita in pareggio
+        calculateWinner(); //se winner è "?", allora la partita è finita in pareggio
 
+        update(); // last update: game ended and winner setted
 
         //System.out.println("Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
         //for(Player p : this.game.getPlayers())
@@ -147,6 +148,7 @@ public class GameController implements Runnable  {
         for(Player p : getGame().getPlayers()){
             if (p.getSchoolBoard().getSpareTowers() <= 0){
                 winner = p;
+                gameOver=true;
                 return;
             }
         }
@@ -182,6 +184,7 @@ public class GameController implements Runnable  {
         }
         if (isOnly == true){
             winner = tempWinner;
+            gameOver=true;
             return;
         }
 
@@ -205,8 +208,11 @@ public class GameController implements Runnable  {
         }
         if (isOnly == true){
             winner = tempWinner;
+            gameOver=true;
             return;
         }
+        winner = new Player("?", null, null);
+
 
     }
 
@@ -274,6 +280,7 @@ public class GameController implements Runnable  {
         GameStatePojo gameStatePojo = new GameStatePojo();
         gameStatePojo.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
         gameStatePojo.setGameId(this.getGameID());
+
         if (this.winner != null){
             gameStatePojo.setWinner(this.winner.getNickname());
         }

@@ -23,7 +23,6 @@ public class Console{
     private Integer stepsMotherNature = null;
     private Integer cloudChosen = null;
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
-
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
 

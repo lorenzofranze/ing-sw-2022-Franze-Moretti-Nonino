@@ -429,6 +429,16 @@ public class CLIView implements View {
             }
         }
 
+        //game ended with winner or draw
+        if(gameStatePojo.isGameOver() && gameStatePojo.getWinner()!=null) {
+            if(gameStatePojo.getWinner().equals("?"))
+                System.out.println("\u001B[41m"+"GAME ENDED. WINNER: PAREGGIO"+ "\u001B[0m");
+            else{
+                System.out.println("\u001B[41m"+"GAME ENDED. WINNER: " +gameStatePojo.getWinner()+ "\u001B[0m");
+
+            }
+        }
+
         System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
     }
 
