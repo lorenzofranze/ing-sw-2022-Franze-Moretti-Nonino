@@ -73,6 +73,7 @@ public class PlayerManager implements Runnable{
                     {
                         toStop=true;
                         if(!closeConnectionBeenCalled) {
+                            closeConnectionBeenCalled=true;
                             ServerController.getInstance().closeConnection(playerNickname);
                         }
                     }
@@ -131,6 +132,7 @@ public class PlayerManager implements Runnable{
                 {
                     toStop=true;
                     if(!closeConnectionBeenCalled) {
+                        closeConnectionBeenCalled=true;
                         ServerController.getInstance().closeConnection(playerNickname);
                         pingThread.interrupt();
                     }
@@ -164,6 +166,7 @@ public class PlayerManager implements Runnable{
                     pingThread.interrupt();
                 }
                 if(!closeConnectionBeenCalled) {
+                    closeConnectionBeenCalled=true;
                     ServerController.getInstance().closeConnection(playerNickname);
                 }
             }
@@ -191,6 +194,7 @@ public class PlayerManager implements Runnable{
                     pingThread.interrupt();
                 }
                 if(!closeConnectionBeenCalled){
+                    closeConnectionBeenCalled=true;
                     ServerController.getInstance().closeConnection(playerNickname);
                 }
 

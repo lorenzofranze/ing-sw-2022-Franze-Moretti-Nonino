@@ -33,7 +33,7 @@ public class PingSender implements Runnable{
     @Override
     public void run() {
 
-        while(playerManager.getConnected()) {
+        while(playerManager.getConnected() && playerManager.getCloseConnectionBeenCalled()==false) {
             PingMessage message = new PingMessage();
             JsonConverter jsonConverter = new JsonConverter();
             String messageString = jsonConverter.fromMessageToJson(message);
@@ -48,6 +48,7 @@ public class PingSender implements Runnable{
             } catch (InterruptedException e) {
                 System.out.println("Interrompo il timeout del ping perchè c'è stata un'eccezione");
                 if(!playerManager.getCloseConnectionBeenCalled()) {
+                    playerManager.setCloseConnectionBeenCalled(true);
                     ServerController.getInstance().closeConnection(playerNickname);
                 }
             }
@@ -75,6 +76,7 @@ public class PingSender implements Runnable{
         //SE ARRIVO QUI è DISCONNESSO
         System.out.println("Ping sender: is connected non è più true");
         if(!playerManager.getCloseConnectionBeenCalled()) {
+            playerManager.setCloseConnectionBeenCalled(true);
             ServerController.getInstance().closeConnection(playerNickname);
         }
     }
