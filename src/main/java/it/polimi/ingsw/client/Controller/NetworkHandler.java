@@ -72,6 +72,7 @@ public class NetworkHandler implements Runnable{
         if (    (receivedMessage.getMessageType() == Update)       ||
                 (receivedMessage.getMessageType() == Ack)       ||
                 (receivedMessage.getMessageType() == Error)     ||
+                (receivedMessage.getMessageType() == Async)     ||
                 (receivedMessage.getMessageType() == Game)          ){
                     messageQueue.add(receivedMessage);
         }
