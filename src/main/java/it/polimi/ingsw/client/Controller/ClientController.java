@@ -52,7 +52,7 @@ public class ClientController {
 
 
 
-        while (gameStatePojo.isGameOver() == false) {
+        while (gameStatePojo.isGameOver() == false && disconnected==false) {
 
             Message receivedMessage=null;
             if(!disconnected){

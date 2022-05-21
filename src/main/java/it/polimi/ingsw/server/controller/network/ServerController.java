@@ -89,11 +89,11 @@ public class ServerController {
             AsyncMessage asyncMessage = new AsyncMessage();
             for (PlayerManager playerManager : messageHandler.getPlayerManagerMap().values()) {
                 if (!playerManager.getPlayerNickname().equals(playerNickname)) {
-                    playerManager.sendMessage(asyncMessage);
                     System.out.println("avviso interruzione gioco");
                     if (playerManager.getPingThread().isInterrupted() == false) {
                         playerManager.getPingThread().interrupt();
                     }
+                    playerManager.sendMessage(asyncMessage);
                 /*
                 if(messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).isInterrupted()==false){
                     messageHandler.getPlayerManagerThreads().get(playerManager.getPlayerNickname()).interrupt();

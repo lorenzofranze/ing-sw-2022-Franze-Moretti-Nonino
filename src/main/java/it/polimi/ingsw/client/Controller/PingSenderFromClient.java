@@ -45,7 +45,8 @@ public class PingSenderFromClient implements Runnable {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
                 System.out.println("Interrompo il timeout del ping");
-                ClientController.getInstance().getNetworkHandler().endClient();
+                ClientController.getInstance().setDisconnected();
+                return;
             }
 
             if (this.isConnected = false) {
@@ -67,7 +68,7 @@ public class PingSenderFromClient implements Runnable {
         }
         // se arriva il pong, player manager (o nel caso di resilienza, il lobby manager)
         // setta isconnected a true e continua il while
-
+        ClientController.getInstance().setDisconnected();
         //SE ARRIVO QUI è DISCONNESSO
 
     }

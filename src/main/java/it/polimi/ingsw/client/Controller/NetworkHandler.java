@@ -54,6 +54,7 @@ public class NetworkHandler implements Runnable{
                 line = in.readLine();
             }
         } catch (IOException e) {
+            ClientController.getInstance().setDisconnected();
             System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
             return null;
         }
@@ -76,7 +77,7 @@ public class NetworkHandler implements Runnable{
         }
         switch(receivedMessage.getMessageType()){
             case Async:
-                System.out.println("Ti stai disconnettendo perchè hai ricevuto un saync message");
+                System.out.println("Ti stai disconnettendo perchè hai ricevuto un async message");
                 ClientController.getInstance().setDisconnected();
                 AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
                 break;
@@ -84,7 +85,8 @@ public class NetworkHandler implements Runnable{
                 try {
                     sendToServer(new PongMessage());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ClientController.getInstance().setDisconnected();
+                    System.out.println("ERROR-ClientMessageHandler-1");
                 }
                 break;
             case Pong:
@@ -129,15 +131,17 @@ public class NetworkHandler implements Runnable{
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("ERROR-ClientMessageHandler-endclient");
         }
     }
 
     public Message getReceivedMessage() {
+        /*TODO INTERROMPERE TAKE*/
         try {
             return messageQueue.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
             ClientController.getInstance().setDisconnected();
+            e.printStackTrace();
         }
         return null;
     }
@@ -145,7 +149,7 @@ public class NetworkHandler implements Runnable{
     @Override
     public void run(){
 
-        while(true) {
+        while(!ClientController.getInstance().isDisconnected()) {
             Message receivedMessage = this.readFromBuffer();
         }
     }
