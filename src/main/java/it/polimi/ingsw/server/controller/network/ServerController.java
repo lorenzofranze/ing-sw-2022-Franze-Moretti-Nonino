@@ -9,6 +9,7 @@ import it.polimi.ingsw.common.messages.AsyncMessage;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.FileSystemNotFoundException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -89,6 +90,7 @@ public class ServerController {
             for (PlayerManager playerManager : messageHandler.getPlayerManagerMap().values()) {
                 if (!playerManager.getPlayerNickname().equals(playerNickname)) {
                     playerManager.sendMessage(asyncMessage);
+                    System.out.println("avviso interruzione gioco");
                     if (playerManager.getPingThread().isInterrupted() == false) {
                         playerManager.getPingThread().interrupt();
                     }

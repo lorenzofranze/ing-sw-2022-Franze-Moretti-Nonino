@@ -46,8 +46,10 @@ public class PingSender implements Runnable{
             try {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
-                System.out.println("Interrompo il timeout del ping");
-                ServerController.getInstance().closeConnection(playerNickname);
+                System.out.println("Interrompo il timeout del ping perchè c'è stata un'eccezione");
+                if(!playerManager.getCloseConnectionBeenCalled()) {
+                    ServerController.getInstance().closeConnection(playerNickname);
+                }
             }
 
             if (playerManager.getConnected() == false) {
@@ -72,7 +74,9 @@ public class PingSender implements Runnable{
 
         //SE ARRIVO QUI è DISCONNESSO
         System.out.println("Ping sender: is connected non è più true");
-        ServerController.getInstance().closeConnection(playerNickname);
+        if(!playerManager.getCloseConnectionBeenCalled()) {
+            ServerController.getInstance().closeConnection(playerNickname);
+        }
     }
 }
 

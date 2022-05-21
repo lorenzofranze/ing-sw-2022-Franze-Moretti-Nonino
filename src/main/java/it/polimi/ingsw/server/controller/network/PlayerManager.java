@@ -28,13 +28,14 @@ public class PlayerManager implements Runnable{
     private Boolean connected;
     private transient boolean isMyTurn=false;
     private transient boolean toStop=false;
+    private boolean closeConnectionBeenCalled;
 
     public PlayerManager(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = playerNickname;
         this.bufferedReaderIn=bufferedReaderIn;
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
-
+        this.closeConnectionBeenCalled=false;
         this.connected=true;
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
@@ -71,7 +72,9 @@ public class PlayerManager implements Runnable{
                     {
                         toStop=true;
                         System.out.println("Player manager: received an Async message");
-                        ServerController.getInstance().closeConnection(playerNickname);
+                        if(!closeConnectionBeenCalled) {
+                            ServerController.getInstance().closeConnection(playerNickname);
+                        }
                     }
                     return;
                     //nota : ho tolto break
@@ -151,14 +154,11 @@ public class PlayerManager implements Runnable{
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
-                if(toStop==false) {
-                    toStop = true;
-                    if(pingThread.isInterrupted()==false){
-                        pingThread.interrupt();
-                    }
+
                     System.out.println("Player manage: close connection 1");
-                    ServerController.getInstance().closeConnection(playerNickname);
-                }
+                    if(!closeConnectionBeenCalled) {
+                        ServerController.getInstance().closeConnection(playerNickname);
+                    }
             }
             return null;
         }
@@ -183,7 +183,10 @@ public class PlayerManager implements Runnable{
                     pingThread.interrupt();
                 }
                 System.out.println("Player manager: error in sending message");
-                ServerController.getInstance().closeConnection(playerNickname);
+                if(!closeConnectionBeenCalled){
+                    ServerController.getInstance().closeConnection(playerNickname);
+                }
+
             }
             return;
         }
@@ -415,4 +418,11 @@ public class PlayerManager implements Runnable{
         }
     }
 
+    public boolean getCloseConnectionBeenCalled() {
+        return closeConnectionBeenCalled;
+    }
+
+    public void setCloseConnectionBeenCalled(boolean closeConnectionBeenCalled) {
+        this.closeConnectionBeenCalled = closeConnectionBeenCalled;
+    }
 }
