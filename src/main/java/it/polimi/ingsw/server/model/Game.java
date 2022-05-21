@@ -87,13 +87,12 @@ public class Game {
 
 
             characterStates = new ArrayList<CharacterState>();
-            //todo: modificare
-            characterStates.add(temp.get(0));
-            characterStates.add(temp.get(4));
-            characterStates.add(temp.get(10));
+
 
             Collections.shuffle(temp);
-
+            characterStates.add(temp.get(0));
+            characterStates.add(temp.get(1));
+            characterStates.add(temp.get(2));
 
 
             this.coinSupply = 20;
