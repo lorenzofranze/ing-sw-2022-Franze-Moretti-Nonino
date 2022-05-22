@@ -70,7 +70,10 @@ public class PingSenderFromClient implements Runnable {
         }
         // se arriva il pong, player manager (o nel caso di resilienza, il lobby manager)
         // setta isconnected a true e continua il while
-        ClientController.getInstance().setDisconnected();
+        if(!ClientController.getInstance().isDisconnected()){
+            ClientController.getInstance().setDisconnected();
+        }
+
         //SE ARRIVO QUI è DISCONNESSO
 
     }

@@ -54,9 +54,12 @@ public class NetworkHandler implements Runnable{
                 line = in.readLine();
             }
         } catch (IOException e) {
-            ClientController.getInstance().setDisconnected();
-            System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
-            return null;
+            if(!ClientController.getInstance().isDisconnected()){
+                ClientController.getInstance().setDisconnected();
+                System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
+                return null;
+            }
+
         }
 
         Message receivedMessage = jsonConverter.fromJsonToMessage(lastMessage);
@@ -86,8 +89,10 @@ public class NetworkHandler implements Runnable{
                 try {
                     sendToServer(new PongMessage());
                 } catch (IOException e) {
-                    ClientController.getInstance().setDisconnected();
-                    System.out.println("ERROR-ClientMessageHandler-1");
+                    if(!ClientController.getInstance().isDisconnected()) {
+                        ClientController.getInstance().setDisconnected();
+                        System.out.println("ERROR-ClientMessageHandler-1");
+                    }
                 }
                 break;
             case Pong:
@@ -137,12 +142,15 @@ public class NetworkHandler implements Runnable{
     }
 
     public Message getReceivedMessage() {
-        /*TODO INTERROMPERE TAKE*/
         try {
             return messageQueue.take();
         } catch (InterruptedException e) {
-            ClientController.getInstance().setDisconnected();
-            //e.printStackTrace();
+            if(!ClientController.getInstance().isDisconnected()) {
+                ClientController.getInstance().setDisconnected();
+                System.out.println("NetworkHandeler: Error -" +
+                        " interruption the function take() in getReceivedMessage");
+                //e.printStackTrace();
+            }
         }
         return null;
     }
