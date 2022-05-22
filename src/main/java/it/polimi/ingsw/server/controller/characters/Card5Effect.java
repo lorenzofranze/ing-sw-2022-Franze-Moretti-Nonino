@@ -57,6 +57,8 @@ public class Card5Effect extends CharacterEffect{
         }
         //so if there is no entry tile the player has lost his money OK: he wasn't focused
 
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
         return;
     }
 

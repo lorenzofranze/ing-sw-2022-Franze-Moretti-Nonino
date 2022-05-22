@@ -170,73 +170,81 @@ public class Console{
     }
 
     public void askForCharacter(){
+        if (ClientController.getInstance().getGameStatePojo().isExpert()) {
+            View view = ClientController.getInstance().view;
+            NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
+            Message receivedMessage;
 
-        View view = ClientController.getInstance().view;
-        NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
-        Message receivedMessage;
-
-        boolean valid = false;
-        do{
-            if (ClientController.getInstance().getGameStatePojo().isExpert()){
+            boolean valid = false;
+            do {
                 view.askForCharacter();
-            }
-            GameMessage gameMessage = new GameMessage(TypeOfMove.CharacterCard, characterPlayed);
+                GameMessage gameMessage = new GameMessage(TypeOfMove.CharacterCard, characterPlayed);
 
-            try {
-                if(ClientController.getInstance().isDisconnected()) return;
-                networkHandler.sendToServer(gameMessage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                try {
+                    if (ClientController.getInstance().isDisconnected()) return;
+                    networkHandler.sendToServer(gameMessage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            receivedMessage = networkHandler.getReceivedMessage();
-            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
-                AckMessage ackMessage = (AckMessage) receivedMessage;
-                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
-                    valid = true;
-                    //se ho giocato una carta (e quindi characterPlayed != null) mi arriva anche un update. Qui lo gestisco
-                    if (characterPlayed != null){
-                        receivedMessage = networkHandler.getReceivedMessage();
-                        if (receivedMessage.getMessageType() == TypeOfMessage.Update){
-                            UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
-                            ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
-                            view.showMessage(receivedMessage);
-                            //handling character card effect
-                            int currentCharacterID = updateMessage.getGameState().getActiveEffect().getCharacterId();
-                            characterCardsConsole.playEffect(currentCharacterID);
-
+                receivedMessage = networkHandler.getReceivedMessage();
+                if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)) {
+                    AckMessage ackMessage = (AckMessage) receivedMessage;
+                    if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
+                        valid = true;
+                        //se ho giocato una carta (e quindi characterPlayed != null) mi arriva anche un update. Qui lo gestisco
+                        if (characterPlayed != null) {
                             receivedMessage = networkHandler.getReceivedMessage();
-                            valid = false;
-                            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
-                                ackMessage = (AckMessage) receivedMessage;
-                                if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
-                                    valid = true;
+                            if (receivedMessage.getMessageType() == TypeOfMessage.Update) {
+                                UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
+                                ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+                                view.showMessage(receivedMessage);
+                                //handling character card effect
+                                int currentCharacterID = updateMessage.getGameState().getActiveEffect().getCharacterId();
+                                characterCardsConsole.playEffect(currentCharacterID);
+
+                                receivedMessage = networkHandler.getReceivedMessage();
+                                valid = false;
+                                if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)) {
+                                    ackMessage = (AckMessage) receivedMessage;
+                                    if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
+                                        valid = true;
+                                    }
+                                    if (valid) {
+                                        receivedMessage = networkHandler.getReceivedMessage();
+                                        if (receivedMessage.getMessageType() == TypeOfMessage.Update) {
+                                            updateMessage = (UpdateMessage) receivedMessage;
+                                            ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+                                            view.showMessage(receivedMessage);
+                                        } else {
+                                            //messaggio imprevisto
+                                            view.showMessage(receivedMessage);
+                                        }
+                                    }
                                 }
-                            }
-                            if (valid == false){
+                                if (valid == false) {
+                                    //messaggio imprevisto
+                                    view.showMessage(receivedMessage);
+                                }
+                            } else {
                                 //messaggio imprevisto
                                 view.showMessage(receivedMessage);
                             }
-
-
-                        }else{
-                            //messaggio imprevisto
-                            view.showMessage(receivedMessage);
                         }
+                    } else {
+                        //messaggio imprevisto
+                        view.showMessage(receivedMessage);
                     }
-                }else{
-                    //messaggio imprevisto
+                } else if (receivedMessage.getMessageType().equals(TypeOfMessage.Error)) {
                     view.showMessage(receivedMessage);
+                    ErrorMessage errorMessage = (ErrorMessage) receivedMessage;
+                    if (!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice) || (errorMessage.getTypeOfError().equals(TypeOfError.NoMoney)))) {
+                        break;
+                    }
                 }
-            }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
-                view.showMessage(receivedMessage);
-                ErrorMessage errorMessage = (ErrorMessage) receivedMessage;
-                if(!(errorMessage.getTypeOfError().equals(TypeOfError.InvalidChoice) || (errorMessage.getTypeOfError().equals(TypeOfError.NoMoney)))){
-                    break;
-                }
-            }
-            characterPlayed = null;
-        }while(valid == false);
+                characterPlayed = null;
+            } while (valid == false);
+        }
     }
 
     public void placeMotherNature(){

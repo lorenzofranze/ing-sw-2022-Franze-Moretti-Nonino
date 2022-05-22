@@ -46,8 +46,8 @@ public class SetUpPhase extends GamePhase {
      */
     private void distributeCoins() {
         for (Player player : this.gameController.getGame().getPlayers()) {
-            player.addCoins(1);
-            this.gameController.getGame().removeCoins(1);
+            player.addCoins(5);
+            this.gameController.getGame().removeCoins(5);
         }
     }
 

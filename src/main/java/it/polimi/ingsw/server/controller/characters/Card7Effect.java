@@ -46,6 +46,8 @@ public class Card7Effect extends CharacterEffect{
                 playerManager.sendMessage(errorGameMessage);
             }
         }while(!valid);
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
 
         // now the player chooses the students
         for(int i=0; i<count; i++){
@@ -70,11 +72,12 @@ public class Card7Effect extends CharacterEffect{
                 if(valid==false){
                     errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
                     playerManager.sendMessage(errorGameMessage);
-                }else{
-                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                    playerManager.sendMessage(ackMessage);
                 }
             }while(!valid);
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
+
+
             // now chooses the student in his entrance
             do {
                 valid = true;
@@ -96,17 +99,19 @@ public class Card7Effect extends CharacterEffect{
                 if(valid==false){
                     errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
                     playerManager.sendMessage(errorGameMessage);
-                }else{
-                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                    playerManager.sendMessage(ackMessage);
                 }
             }while(!valid);
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
+
             //swap
             ((CharacterStateStudent) (this.characterState)).removeStudent(ColourPawn.values()[pawnCard]);
             ((CharacterStateStudent) (this.characterState)).addStudent(ColourPawn.values()[pawnBoard]);
             gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(ColourPawn.values()[pawnCard]);
             gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(ColourPawn.values()[pawnBoard]);
             gameController.update(); //otherwise he can't see how new pawns are placed
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
         }
 
     }

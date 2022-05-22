@@ -55,8 +55,6 @@ public class Card1Effect extends CharacterEffect{
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // destination not valid
                     playerManager.sendMessage(errorGameMessage);
                 }
-                AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                playerManager.sendMessage(ackMessage);
             }
         }while(!valid);
 
@@ -65,6 +63,8 @@ public class Card1Effect extends CharacterEffect{
         if(gameController.getGame().getStudentsBag().pawnsNumber()>=1){
             ((CharacterStateStudent)characterState).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
         }
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
 
     }
 

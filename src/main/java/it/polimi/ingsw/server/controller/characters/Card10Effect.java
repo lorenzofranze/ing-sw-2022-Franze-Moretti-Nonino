@@ -37,11 +37,10 @@ public class Card10Effect extends CharacterEffect{
                 valid = false;
                 errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
                 playerManager.sendMessage(errorGameMessage);
-            }else{
-                AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                playerManager.sendMessage(ackMessage);
             }
         }while(!valid);
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
 
         for (i=0; i<count; i++){
             //player chooses student in his entrance
@@ -75,11 +74,11 @@ public class Card10Effect extends CharacterEffect{
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
                 }
-                if(valid){
-                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                    playerManager.sendMessage(ackMessage);
-                }
             }while(!valid);
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
+
+
             // now chooses the student in his dining room
             do{
                 valid=true;
@@ -101,14 +100,15 @@ public class Card10Effect extends CharacterEffect{
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
                 }
-                if(valid){
-                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                    playerManager.sendMessage(ackMessage);
-                }
             }while(!valid);
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
 
             gameController.getCurrentPlayer().getSchoolBoard().swap(ColourPawn.get(colourEntrance), ColourPawn.get(colourDining), gameController.getGame());
             gameController.update();
+
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
         }
     }
 

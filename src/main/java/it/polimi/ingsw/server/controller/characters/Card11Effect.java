@@ -65,6 +65,8 @@ public class Card11Effect extends CharacterEffect{
         if(gameController.getGame().getStudentsBag().pawnsNumber()>=1){
             ((CharacterStateStudent)characterState).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
         }
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
 
     }
 

@@ -35,15 +35,16 @@ public class Card9Effect extends CharacterEffect{
             }
             gameMessage = (GameMessage) receivedMessage;
             index= gameMessage.getValue();
-            if(index<0 || index >4){
+            if(index<0 || index >4) {
                 valid = false;
-                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
+                errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice);
                 playerManager.sendMessage(errorGameMessage);
             }
         }while(!valid);
 
         this.colourPawn = ColourPawn.get(index);
-
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
     }
 
     public Player effectInfluence(Island island) {

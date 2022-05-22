@@ -63,6 +63,8 @@ public class Card12Effect extends CharacterEffect{
                 }
             }
         }
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
     }
 
     @Override

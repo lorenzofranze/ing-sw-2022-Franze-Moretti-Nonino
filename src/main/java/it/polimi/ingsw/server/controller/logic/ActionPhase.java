@@ -45,14 +45,14 @@ public class ActionPhase extends GamePhase {
 
                 //move students (while moving the students, the player can decide to play a characterCard)
                 int studentsToMove = gameController.getGame().getPlayers().size()+1;
+                for(int i = 0; i < studentsToMove; i++){
+                    askforCharacter();
+                    if (checkEnd() == true){return actionResult;}
+                    moveStudent();
+                    gameController.update();
+                }
 
                 askforCharacter();
-
-                if (checkEnd() == true){return actionResult;}
-
-                moveStudents();
-                gameController.update();
-
                 if (checkEnd() == true){return actionResult;}
 
                 //move mother nature
@@ -94,7 +94,6 @@ public class ActionPhase extends GamePhase {
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
 
-            gameController.update();
 
             if (!isLastRoundFinishedStudentsBag) {
                 System.out.println("\nACTION PHASE - HANDLE - FLAG 1\n");
@@ -105,11 +104,10 @@ public class ActionPhase extends GamePhase {
             }
             System.out.println("\nACTION PHASE - HANDLE - FLAG 4\n");
 
-            if (checkEnd() == true){return actionResult;}
-
+            /*reset characterEffects activated*/
+            gameController.getGame().setActiveEffect(null);
         }
-        /*reset characterEffects activated*/
-        gameController.getGame().setActiveEffect(null);
+
 
         return actionResult;
     }
@@ -135,7 +133,7 @@ public class ActionPhase extends GamePhase {
     }
 
 
-    protected void moveStudents(){
+    protected void moveStudent(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         PlayerManager playerManager= messageHandler.getPlayerManager(currPlayer);
@@ -146,55 +144,47 @@ public class ActionPhase extends GamePhase {
         PawnMovementMessage gameMessage;
         int where = 0;   // -1 refer for diningRoom, index of island for island
 
-        int studentsToMove = 0;
-        if (gameController.getGame().getPlayers().size() == 2){studentsToMove = 3;}
-        if (gameController.getGame().getPlayers().size() == 3){studentsToMove = 4;}
 
-        for(int i=0; i<studentsToMove; i++){
-
-            do{
-                valid = true;
-                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.PawnMovement);
-                if (receivedMessage == null){
-                    System.out.println("ERROR-moveStudent");
-                    return;
-                }
-                gameMessage = (PawnMovementMessage) receivedMessage;
-                indexColour = gameMessage.getColour();
-                if(indexColour<=-1 || indexColour>=5){
-                    valid=false;
-                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
-                    playerManager.sendMessage(errorGameMessage);
-                }
-                if(valid){
-                    if (gameController.getCurrentPlayer().getSchoolBoard()
-                            .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
-                        valid = false;
-                        errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);  // no student
-                        playerManager.sendMessage(errorGameMessage);
-                    }
-                }
-                if(valid){
-                    where = gameMessage.getWhere();
-                    if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
-                        valid = false;
-                        errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // destination not valid
-                        playerManager.sendMessage(errorGameMessage);
-                    }
-                }
-                if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
-                        get(ColourPawn.get(indexColour))>=10) {
+        do{
+            valid = true;
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.PawnMovement);
+            if (receivedMessage == null){
+                System.out.println("ERROR-moveStudent");
+                return;
+            }
+            gameMessage = (PawnMovementMessage) receivedMessage;
+            indexColour = gameMessage.getColour();
+            if(indexColour<=-1 || indexColour>=5){
+                valid=false;
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
+                playerManager.sendMessage(errorGameMessage);
+            }
+            if(valid){
+                if (gameController.getCurrentPlayer().getSchoolBoard()
+                        .getEntrance().get(ColourPawn.get(indexColour)) <= 0){
                     valid = false;
-                    errorGameMessage=new ErrorMessage(TypeOfError.FullDiningRoom); // out of row -> 10 students
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);  // no student
                     playerManager.sendMessage(errorGameMessage);
                 }
-            }while(!valid);
-            AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-            playerManager.sendMessage(ackMessage);
-            this.moveSingleStudent(ColourPawn.get(indexColour), where);
-            gameController.update();
-            askforCharacter();
-        }
+            }
+            if(valid){
+                where = gameMessage.getWhere();
+                if(where!= -1 && (where <0 || where > gameController.getGame().getIslands().size()-1 )) {
+                    valid = false;
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice); // destination not valid
+                    playerManager.sendMessage(errorGameMessage);
+                }
+            }
+            if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
+                    get(ColourPawn.get(indexColour))>=10) {
+                valid = false;
+                errorGameMessage=new ErrorMessage(TypeOfError.FullDiningRoom); // out of row -> 10 students
+                playerManager.sendMessage(errorGameMessage);
+            }
+        }while(!valid);
+        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+        playerManager.sendMessage(ackMessage);
+        this.moveSingleStudent(ColourPawn.get(indexColour), where);
 
     }
 
@@ -392,69 +382,72 @@ public class ActionPhase extends GamePhase {
     /** this method does nothing if game is in simple mode because no player has more than 0 coins
      * otherwise it asks to the player for character card he wants to use between that he can afford */
     protected void askforCharacter(){
-        GameMessage gameMessage;
-        ErrorMessage errorGameMessage;
-        Message receivedMessage;
-        Integer cardPlayed = null;
-        String currPlayer= gameController.getCurrentPlayer().getNickname();
-        MessageHandler messageHandler = this.gameController.getMessageHandler();
-        PlayerManager playerManager = messageHandler.getPlayerManagerMap().get(currPlayer);
+        if(gameController.isExpert()) {
+            GameMessage gameMessage;
+            ErrorMessage errorGameMessage;
+            Message receivedMessage;
+            Integer cardPlayed = null;
+            String currPlayer = gameController.getCurrentPlayer().getNickname();
+            MessageHandler messageHandler = this.gameController.getMessageHandler();
+            PlayerManager playerManager = messageHandler.getPlayerManagerMap().get(currPlayer);
 
-        int cardNumber;
-        boolean validChoice = false;
+            int cardNumber;
+            boolean validChoice = false;
 
-        do{
-            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CharacterCard);
-            gameMessage = (GameMessage) receivedMessage;
+            do {
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CharacterCard);
+                gameMessage = (GameMessage) receivedMessage;
 
-            if (gameMessage.getValue() == null){
-                //il giocatore NON ha voluto giocare una carta personaggio
-                AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-                playerManager.sendMessage(ackMessage);
-                validChoice = true;
-                return;
-            }
-
-            Integer playedCard = gameMessage.getValue();
-            CharacterState characterStatePlayed = null;
-            boolean cardExists = false;
-            for(CharacterState characterState : gameController.getGame().getCharacters()) {
-                if (characterState.getCharacterId() == playedCard) {
-                    characterStatePlayed = characterState;
-                    cardExists = true;
-                }
-            }
-
-
-            if (cardExists){
-                if (gameController.getCurrentPlayer().getCoins() < characterStatePlayed.getCost()) {
-                    ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
-                    playerManager.sendMessage(errorMessage);
-                } else {
-
-                    gameController.getGame().setActiveEffect(characterStatePlayed);
-                    gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
-                    gameController.getGame().addCoins(characterStatePlayed.getCost());
-
-                    characterStatePlayed.use(); //incremento il costo se è da incrementare
-
-                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
-                    playerManager.sendMessage(ackMessage);
-
-                    gameController.update();
-
-                    CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
-                    currentCharacterEffect.doEffect();
-
-                    ackMessage = new AckMessage(TypeOfAck.CorrectMove, "end of effect");
+                if (gameMessage.getValue() == null) {
+                    //il giocatore NON ha voluto giocare una carta personaggio
+                    AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
+                    return;
                 }
-            }else{
-                ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
-                playerManager.sendMessage(errorMessage);
-            }
-        }while(validChoice == false);
+
+                Integer playedCard = gameMessage.getValue();
+                CharacterState characterStatePlayed = null;
+                boolean cardExists = false;
+                for (CharacterState characterState : gameController.getGame().getCharacters()) {
+                    if (characterState.getCharacterId() == playedCard) {
+                        characterStatePlayed = characterState;
+                        cardExists = true;
+                    }
+                }
+
+
+                if (cardExists) {
+                    if (gameController.getCurrentPlayer().getCoins() < characterStatePlayed.getCost()) {
+                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
+                        playerManager.sendMessage(errorMessage);
+                    } else {
+
+                        gameController.getGame().setActiveEffect(characterStatePlayed);
+                        gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
+                        gameController.getGame().addCoins(characterStatePlayed.getCost());
+
+                        characterStatePlayed.use(); //incremento il costo se è da incrementare
+
+                        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
+                        playerManager.sendMessage(ackMessage);
+
+                        gameController.update();
+
+                        CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
+                        currentCharacterEffect.doEffect();
+
+                        ackMessage = new AckMessage(TypeOfAck.CorrectMove, "end of effect");
+                        playerManager.sendMessage(ackMessage);
+                        validChoice = true;
+                    }
+                } else {
+                    ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
+                    playerManager.sendMessage(errorMessage);
+                }
+            } while (validChoice == false);
+            gameController.update();
+        }
     }
 
     public void setCurrPlayer(Player currPlayer) {
