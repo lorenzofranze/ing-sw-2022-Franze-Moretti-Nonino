@@ -72,6 +72,9 @@ public class NetworkHandler implements Runnable{
         }                                                                           //DA CANCELLARE
         */
 
+        if(receivedMessage==null){
+            return null;
+        }
         if (    (receivedMessage.getMessageType() == Update)       ||
                 (receivedMessage.getMessageType() == Ack)       ||
                 (receivedMessage.getMessageType() == Error)     ||
