@@ -20,7 +20,7 @@ public class NetworkHandler implements Runnable{
     private LinkedBlockingQueue<Message> messageQueue;
     private BufferedReader in;
     private BufferedWriter out;
-    private volatile boolean isConnected;
+    private boolean isConnected;
 
     private JsonConverter jsonConverter = new JsonConverter();
     private static Thread pingSenderFromClientThread;

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class PingSenderFromClient implements Runnable {
 
     //1 minute ping timeout
-    private final static int PING_TIMEOUT= 60000;
+    private final static int PING_TIMEOUT= 10000;
     NetworkHandler networkHandler;
 
     public PingSenderFromClient(NetworkHandler networkHandler){

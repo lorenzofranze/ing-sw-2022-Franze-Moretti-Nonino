@@ -287,6 +287,9 @@ public class CLIView implements View {
                 break;
             case UnmatchedMessages:
                 System.out.println("Unexpected message received from server.\n");
+                if(ClientController.getInstance().isDisconnected()==false){
+                    ClientController.getInstance().setDisconnected();
+                }
                 break;
             case FullDiningRoom:
                 System.out.println("The diningroom is full. Place the student in another place.\n");
