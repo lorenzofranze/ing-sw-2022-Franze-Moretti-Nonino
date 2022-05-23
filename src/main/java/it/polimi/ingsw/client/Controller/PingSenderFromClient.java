@@ -8,35 +8,29 @@ import it.polimi.ingsw.server.controller.network.ServerController;
 import java.io.IOException;
 
 public class PingSenderFromClient implements Runnable {
-    private volatile boolean isConnected;
+
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 60000;
+    NetworkHandler networkHandler;
 
-    public PingSenderFromClient(){
-        isConnected=true;
+    public PingSenderFromClient(NetworkHandler networkHandler){
+        this.networkHandler=networkHandler;
     }
 
-    public boolean isConnected() {
-        return isConnected;
-    }
-
-    public void setConnected(boolean connected) {
-        isConnected = connected;
-    }
 
     @Override
     public void run() {
 
-        while(isConnected) {
+        while(networkHandler.isPingConnected()) {
             PingMessage message = new PingMessage();
             JsonConverter jsonConverter = new JsonConverter();
             String messageString = jsonConverter.fromMessageToJson(message);
-            this.isConnected = false;
+            networkHandler.setPingConnected(false);
 
 
             //invio il ping
             try {
-                ClientController.getInstance().getNetworkHandler().sendToServer(new PingMessage());
+                networkHandler.sendToServer(new PingMessage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -51,7 +45,7 @@ public class PingSenderFromClient implements Runnable {
                 return;
             }
 
-            if (this.isConnected = false) {
+            if (networkHandler.isPingConnected() == false) {
                 System.out.println("Il ping del server non è più arrivato al client");
                 break;
                 /*

@@ -20,6 +20,7 @@ public class NetworkHandler implements Runnable{
     private LinkedBlockingQueue<Message> messageQueue;
     private BufferedReader in;
     private BufferedWriter out;
+    private volatile boolean isConnected;
 
     private JsonConverter jsonConverter = new JsonConverter();
     private static Thread pingSenderFromClientThread;
@@ -34,7 +35,8 @@ public class NetworkHandler implements Runnable{
         this.socket = new Socket(serverIp, serverPort);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        pingSenderFromClient=new PingSenderFromClient();
+        isConnected=true;
+        pingSenderFromClient=new PingSenderFromClient(this);
         pingSenderFromClientThread= new Thread(pingSenderFromClient);
 
         pingSenderFromClientThread.start();
@@ -101,7 +103,7 @@ public class NetworkHandler implements Runnable{
                 break;
             case Pong:
                 System.out.println("invio Pong");
-                pingSenderFromClient.setConnected(true);
+                setPingConnected(true);
                 break;
         }
         return receivedMessage;
@@ -178,6 +180,15 @@ public class NetworkHandler implements Runnable{
 
     public Thread getPingSenderFromClientThread() {
         return pingSenderFromClientThread;
+    }
+
+
+    public boolean isPingConnected() {
+        return isConnected;
+    }
+
+    public void setPingConnected(boolean connected) {
+        isConnected = connected;
     }
 }
 
