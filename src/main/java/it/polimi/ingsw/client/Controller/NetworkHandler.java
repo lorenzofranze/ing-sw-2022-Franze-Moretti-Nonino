@@ -91,6 +91,7 @@ public class NetworkHandler implements Runnable{
             case Ping:
                 try {
                     sendToServer(new PongMessage());
+                    System.out.println("invio Ping");
                 } catch (IOException e) {
                     if(!ClientController.getInstance().isDisconnected()) {
                         ClientController.getInstance().setDisconnected();
@@ -99,6 +100,7 @@ public class NetworkHandler implements Runnable{
                 }
                 break;
             case Pong:
+                System.out.println("invio Pong");
                 pingSenderFromClient.setConnected(true);
                 break;
         }
