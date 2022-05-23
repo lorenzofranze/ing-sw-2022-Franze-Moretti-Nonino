@@ -55,6 +55,7 @@ public class ActionPhase extends GamePhase {
                 askforCharacter();
                 if (checkEnd() == true){return actionResult;}
 
+
                 //move mother nature
                 Island whereMotherNature = moveMotherNature(p);
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
@@ -79,11 +80,8 @@ public class ActionPhase extends GamePhase {
                     }
                 }
 
-                /*gameController.update();
+                gameController.update();
 
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 1\n");
-                if (true ) return null;
-                gameController.update();*/
             }
 
             if (checkEnd() == true){return actionResult;}
@@ -403,6 +401,7 @@ public class ActionPhase extends GamePhase {
                     AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
+                    gameController.update();
                     return;
                 }
 
@@ -446,6 +445,8 @@ public class ActionPhase extends GamePhase {
                     playerManager.sendMessage(errorMessage);
                 }
             } while (validChoice == false);
+            gameController.update();
+        }else{
             gameController.update();
         }
     }

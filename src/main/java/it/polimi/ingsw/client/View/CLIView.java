@@ -102,15 +102,10 @@ public class CLIView implements View {
     public synchronized void askForCharacter() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
-        Console console = clientController.getConsole();
-        List<? extends CharacterPojo> characterPojoList = gameStatePojo.getCharacters();
+        Console console = clientController.getConsole();;
         String resultString;
         Integer result = null;
 
-        System.out.println("\n"+"\033[01m"+"CHARACTER MENU"+"\033[0m");
-        for (CharacterPojo c : characterPojoList){
-            System.out.println(c.toString());
-        }
         boolean valid = false;
         System.out.print("\nDo you want to play a Character Card (y/n)? ");
         do {
