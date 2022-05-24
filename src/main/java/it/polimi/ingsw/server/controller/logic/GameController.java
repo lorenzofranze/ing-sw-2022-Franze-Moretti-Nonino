@@ -106,10 +106,6 @@ public class GameController implements Runnable  {
 
         update(); // last update: game ended and winner setted
 
-        //System.out.println("Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
-        //for(Player p : this.game.getPlayers())
-        //    System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
-
         ServerController.getInstance().setToStop(this.getGameID());
     }
 
