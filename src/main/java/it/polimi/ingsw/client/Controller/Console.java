@@ -214,7 +214,7 @@ public class Console{
                         //se ho giocato una carta (e quindi characterPlayed != null) mi arriva anche un update. Qui lo gestisco
                         if (characterPlayed != null) {
                             receivedMessage = networkHandler.getReceivedMessage();
-                            if (receivedMessage.getMessageType() == TypeOfMessage.Update) {
+                            if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update coins
                                 UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                                 ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
                                 view.showMessage(receivedMessage);

@@ -49,14 +49,21 @@ public class ActionPhase extends GamePhase {
                 studentsToMove = gameController.getGame().getPlayers().size()+1;
                 for(studentsMoved = 0; studentsMoved < studentsToMove; studentsMoved++){
                     askforCharacter();
-                    if (checkEnd() == true){return actionResult;}
+                    if (checkEnd() == true) {
+                        return actionResult;
+                    }else{
+                        gameController.update();
+                    }
                     moveStudent();
-                    gameController.update();
+                    gameController.update(); // update student move
                 }
 
                 askforCharacter();
-
-                if (checkEnd() == true){return actionResult;}
+                if (checkEnd() == true) {
+                    return actionResult;
+                }else{
+                    gameController.update();
+                }
 
 
                 //move mother nature
@@ -88,8 +95,11 @@ public class ActionPhase extends GamePhase {
             if (checkEnd() == true){return actionResult;}
 
             askforCharacter();
-
-            if (checkEnd() == true){return actionResult;}
+            if (checkEnd() == true) {
+                return actionResult;
+            }else{
+                gameController.update();
+            }
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
 
@@ -433,7 +443,7 @@ public class ActionPhase extends GamePhase {
                         AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
                         playerManager.sendMessage(ackMessage);
 
-                        gameController.update();
+                        gameController.update(); // coins update
 
                         CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
                         currentCharacterEffect.doEffect();
@@ -448,10 +458,11 @@ public class ActionPhase extends GamePhase {
                     playerManager.sendMessage(errorMessage);
                 }
             } while (validChoice == false);
-            gameController.update();
+            gameController.update(); //update end ask for character
+
         }else{
             if (studentsMoved.equals(studentsToMove)){
-                gameController.update();
+                gameController.update(); // controol
             }
         }
     }
