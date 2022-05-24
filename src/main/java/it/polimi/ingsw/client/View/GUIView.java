@@ -5,45 +5,63 @@ import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.messages.*;
 
+import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 
 public class GUIView extends Application implements View{
 
-    
+    private Stage currentStage;
 
-    void beginUsername(MouseEvent event){
-        Stage startWindow= (Stage) tfTitle.getScene().getWindow();
-        String title=
-    }
-    @Override
-    public void beginReadUsername() {
-        {
-            ClientController clientController = ClientController.getInstance();
-            System.out.print("INSERT NICKNAME (at least 4 characters): ");
-            boolean valid;
-            String result;
-            do {
-                valid = true;
-                result = scanner.nextLine();
-                if (result.length() < 4 ) {
-                    System.out.println("You must insert a nickname of at least 4 characters.");
-                    System.out.print("INSERT NICKNAME (at least 4 characters): ");
-                    valid = false;
-                }
-            } while (!valid);
-            clientController.setNickname(result);
+    private void showScene(String nameFileFxml){
+        Parent root=null;
+        try {
+            root= FXMLLoader.load(getClass().getResource("startFrame.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        currentStage.setScene(new Scene(root,800,500));
+        currentStage.show();
     }
+
+    @Override
+    public void startScreen(){
+        showScene("startFrame.fxml");
+    }
+
 
     @Override
     public synchronized void chooseGameMode() {
+        ClientController clientController = ClientController.getInstance();
+        showScene("chooseGameModeFrame.fxml");
+
+
+        System.out.println("\nTHESE ARE THE POSSIBLE GAME MODES:");
+        System.out.println("1. 2 players simple\n" + "2. 3 players simple\n" + "3. 2 players complex\n" + "4. 3 players complex");
+        System.out.print("\nCHOOSE THE GAME MODE: ");
+        boolean valid;
+        int result = 0;
+        do {
+            valid = true;
+
+        } while (!valid);
+        clientController.setGameMode(GameMode.values()[result-1]);
+    }
+
+
+    @Override
+    public void beginReadUsername() {
+
     }
 
     @Override
@@ -279,5 +297,9 @@ public class GUIView extends Application implements View{
     @Override
     protected int _getKeyCodeForChar(char c) {
         return 0;
+    }
+
+    public void setCurrentStage(Stage currentStage) {
+        this.currentStage = currentStage;
     }
 }

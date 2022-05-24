@@ -3,8 +3,10 @@ package it.polimi.ingsw.client.View;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.gamePojo.PlayerPojo;
 import it.polimi.ingsw.common.messages.*;
+import javafx.stage.Stage;
 
 public interface View {
+
 
     void beginReadUsername();
     void chooseGameMode();
@@ -31,4 +33,8 @@ public interface View {
     void chooseIsland(); //used from cards 3 - 5
     void chooseNumOfMove();
 
+
+    public void setCurrentStage(Stage stage);
+
+    public void startScreen();
 }

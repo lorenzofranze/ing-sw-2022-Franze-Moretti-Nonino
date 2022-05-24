@@ -6,11 +6,13 @@ import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class CLIView implements View {
+    private Stage currentStage=null;
     private Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -592,6 +594,14 @@ public class CLIView implements View {
         }else if(cardID==10){
             System.out.println("\nFirst choose the student in your entrance then the student in your dining room");
         }
+    }
+
+    @Override
+    public void setCurrentStage(Stage stage) {}
+
+    @Override
+    public void startScreen() {
+
     }
 
 

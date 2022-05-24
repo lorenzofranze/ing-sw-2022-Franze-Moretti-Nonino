@@ -5,11 +5,13 @@ import it.polimi.ingsw.client.Controller.NetworkHandler;
 import it.polimi.ingsw.client.View.*;
 import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ClientApp {
+public class ClientApp extends Application {
 
     private static View view;
 
@@ -38,18 +40,30 @@ public class ClientApp {
         if(typeOfView.equals("cli")){
             view = new CLIView();
             ClientApp clientApp = new ClientApp(view);
-            clientApp.start();
+            clientApp.play();
         }
         else if(typeOfView.equals("gui")){
             view= new GUIView();
+            launch(args);
+            view.startScreen();
             ClientApp clientApp = new ClientApp(view);
-            clientApp.start();
+            clientApp.play();
 
         }
     }
 
+    /**
+     * Method that initialize stage and load scenes
+     * @param primaryStage game stage
+     * @throws Exception impossible start game
+     */
+    public void start(Stage primaryStage) throws Exception {
+        view.setCurrentStage(primaryStage);
+    }
 
-    public void start() {
+
+
+    public void play() {
 
         NetworkHandler networkHandler = new NetworkHandler(serverIp, serverPort);
 
@@ -85,6 +99,7 @@ public class ClientApp {
             networkHandler.endClient();
             threadClientController.interrupt();
         }
+
 
     }
 
