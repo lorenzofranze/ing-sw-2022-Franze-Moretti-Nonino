@@ -69,6 +69,8 @@ public class CLIView implements View {
         String resultString;
         int result = 0;
         boolean valid = true;
+        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
+
         System.out.println("\033[01m"+"PIANIFICATION PHASE"+"\033[0m" + "\nYou need to choose your Assistant Card. Here is your deck.\n");
 
         PlayerPojo me = null;
@@ -107,7 +109,9 @@ public class CLIView implements View {
         Integer result = null;
 
         boolean valid = false;
-        System.out.print("\nDo you want to play a Character Card (y/n)? ");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
+
+        System.out.print("Do you want to play a Character Card (y/n)? ");
         do {
             resultString = scanner.nextLine();
             if (resultString.equals("y") || resultString.equals("n")){
@@ -439,6 +443,8 @@ public class CLIView implements View {
 
             }
         }
+
+        System.out.println("\n");
     }
 
     //METHODS FOR COMPLEX MODE:
