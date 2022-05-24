@@ -92,16 +92,15 @@ public class ActionPhase extends GamePhase {
                     }
                 }
 
-                gameController.update();
+                gameController.update(); // update post madre natura
 
             }
 
-            if(gameController.isExpert()) {
-                if (checkEnd() == true) {
-                    return actionResult;
-                } else {
-                    gameController.update();
-                }
+
+            if (checkEnd() == true) {
+                return actionResult;
+            } else {
+                gameController.update();
             }
 
             askforCharacter();
@@ -115,15 +114,11 @@ public class ActionPhase extends GamePhase {
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
 
-
+            gameController.update(); // start choose cloud
             if (!isLastRoundFinishedStudentsBag) {
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 1\n");
                 chooseCloud();
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 2\n");
                 gameController.update();
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 3\n");
             }
-            System.out.println("\nACTION PHASE - HANDLE - FLAG 4\n");
 
             /*reset characterEffects activated*/
             gameController.getGame().setActiveEffect(null);
