@@ -49,23 +49,27 @@ public class ActionPhase extends GamePhase {
                 studentsToMove = gameController.getGame().getPlayers().size()+1;
                 for(studentsMoved = 0; studentsMoved < studentsToMove; studentsMoved++){
                     askforCharacter();
-                    if (checkEnd() == true) {
-                        return actionResult;
-                    }else{
-                        gameController.update();
+                    if(gameController.isExpert()) {
+                        if (checkEnd() == true) {
+                            return actionResult;
+                        } else {
+                            gameController.update();
+                        }
                     }
                     moveStudent();
                     gameController.update(); // update student move
                 }
 
                 askforCharacter();
-                if (checkEnd() == true) {
-                    return actionResult;
-                }else{
-                    gameController.update();
+                if(gameController.isExpert()) {
+                    if (checkEnd() == true) {
+                        return actionResult;
+                    } else {
+                        gameController.update();
+                    }
                 }
 
-
+                gameController.update(); // update start move mother nature
                 //move mother nature
                 Island whereMotherNature = moveMotherNature(p);
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
@@ -92,13 +96,21 @@ public class ActionPhase extends GamePhase {
 
             }
 
-            if (checkEnd() == true){return actionResult;}
+            if(gameController.isExpert()) {
+                if (checkEnd() == true) {
+                    return actionResult;
+                } else {
+                    gameController.update();
+                }
+            }
 
             askforCharacter();
-            if (checkEnd() == true) {
-                return actionResult;
-            }else{
-                gameController.update();
+            if(gameController.isExpert()) {
+                if (checkEnd() == true) {
+                    return actionResult;
+                } else {
+                    gameController.update();
+                }
             }
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
@@ -412,10 +424,7 @@ public class ActionPhase extends GamePhase {
                     AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
-                    if (studentsMoved.equals(studentsToMove)){
-                        gameController.update();
-                    }
-                    return;
+                    break;
                 }
 
                 Integer playedCard = gameMessage.getValue();
@@ -460,10 +469,6 @@ public class ActionPhase extends GamePhase {
             } while (validChoice == false);
             gameController.update(); //update end ask for character
 
-        }else{
-            if (studentsMoved.equals(studentsToMove)){
-                gameController.update(); // controol
-            }
         }
     }
 
