@@ -54,7 +54,7 @@ public class PingSender implements Runnable{
             }
 
             if (playerManager.getConnected() == false) {
-                System.out.println("Il ping del client " + playerNickname + "non è più arrivato al server");
+                System.out.println("Il ping del client " + playerNickname + " non è più arrivato al server");
                 break;
                 /*
                 //RESILIENZA ALLE DISCONNESSIONI
