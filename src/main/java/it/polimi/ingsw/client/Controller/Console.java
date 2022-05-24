@@ -170,11 +170,11 @@ public class Console{
     }
 
     public void askForCharacter(){
-        if (ClientController.getInstance().getGameStatePojo().isExpert()) {
-            View view = ClientController.getInstance().view;
-            NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
-            Message receivedMessage;
+        NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
+        Message receivedMessage;
+        View view = ClientController.getInstance().view;
 
+        if (ClientController.getInstance().getGameStatePojo().isExpert()) {
             boolean valid = false;
             do {
                 view.askForCharacter();

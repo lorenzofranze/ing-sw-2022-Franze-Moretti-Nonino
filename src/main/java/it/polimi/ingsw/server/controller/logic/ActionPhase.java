@@ -19,6 +19,8 @@ public class ActionPhase extends GamePhase {
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
     private ActionResult actionResult;
+    private Integer studentsMoved;
+    private Integer studentsToMove;
 
     public ActionPhase(GameController gameController) {
         this.gameController = gameController;
@@ -44,8 +46,8 @@ public class ActionPhase extends GamePhase {
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
 
                 //move students (while moving the students, the player can decide to play a characterCard)
-                int studentsToMove = gameController.getGame().getPlayers().size()+1;
-                for(int i = 0; i < studentsToMove; i++){
+                studentsToMove = gameController.getGame().getPlayers().size()+1;
+                for(studentsMoved = 0; studentsMoved < studentsToMove; studentsMoved++){
                     askforCharacter();
                     if (checkEnd() == true){return actionResult;}
                     moveStudent();
@@ -53,6 +55,7 @@ public class ActionPhase extends GamePhase {
                 }
 
                 askforCharacter();
+
                 if (checkEnd() == true){return actionResult;}
 
 
@@ -401,7 +404,9 @@ public class ActionPhase extends GamePhase {
                     AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
-                    gameController.update();
+                    if (studentsMoved.equals(studentsToMove)){
+                        gameController.update();
+                    }
                     return;
                 }
 
@@ -414,7 +419,6 @@ public class ActionPhase extends GamePhase {
                         cardExists = true;
                     }
                 }
-
 
                 if (cardExists) {
                     if (gameController.getCurrentPlayer().getCoins() < characterStatePlayed.getCost()) {
@@ -441,13 +445,16 @@ public class ActionPhase extends GamePhase {
                         validChoice = true;
                     }
                 } else {
+                    System.out.println("LA carta non esiste");
                     ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorMessage);
                 }
             } while (validChoice == false);
             gameController.update();
         }else{
-            gameController.update();
+            if (studentsMoved.equals(studentsToMove)){
+                gameController.update();
+            }
         }
     }
 

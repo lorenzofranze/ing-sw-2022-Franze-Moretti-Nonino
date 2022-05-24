@@ -66,13 +66,13 @@ public class NetworkHandler implements Runnable{
 
         Message receivedMessage = jsonConverter.fromJsonToMessage(lastMessage);
 
-        /*
-        if (receivedMessage.getMessageType()!=Update) {                             //DA CANCELLARE
+
+        if (receivedMessage.getMessageType()!=Update && receivedMessage.getMessageType()!=Ping && receivedMessage.getMessageType()!=Pong) {                             //DA CANCELLARE
             System.out.println("\n\nreceived from server: "+lastMessage+"\n\n");    //DA CANCELLARE
-        }else{                                                                      //DA CANCELLARE
+        }else if (receivedMessage.getMessageType()==Update){                        //DA CANCELLARE
             System.out.println("\n\nreceived from server: \nupdate\n\n");           //DA CANCELLARE
         }                                                                           //DA CANCELLARE
-        */
+
 
         if(receivedMessage==null){
             return null;
@@ -93,7 +93,7 @@ public class NetworkHandler implements Runnable{
             case Ping:
                 try {
                     sendToServer(new PongMessage());
-                    System.out.println("invio Ping");
+                    //System.out.println("invio Ping");
                 } catch (IOException e) {
                     if(!ClientController.getInstance().isDisconnected()) {
                         ClientController.getInstance().setDisconnected();
@@ -102,7 +102,7 @@ public class NetworkHandler implements Runnable{
                 }
                 break;
             case Pong:
-                System.out.println("invio Pong");
+                //System.out.println("invio Pong");
                 setPingConnected(true);
                 break;
         }

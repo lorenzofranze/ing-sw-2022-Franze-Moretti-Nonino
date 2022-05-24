@@ -134,11 +134,12 @@ public class LobbyManager implements Runnable {
                 return;
             }
 
-            System.out.println(words);
+            //System.out.println(words);
             jsonConverter = new JsonConverter();
             unknown = jsonConverter.fromJsonToMessage(words);
 
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
+                System.out.println(words);
                 ConnectionMessage firstMessage = (ConnectionMessage) unknown;
                 String nickname = firstMessage.getNickname();
                 ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
@@ -216,7 +217,7 @@ public class LobbyManager implements Runnable {
                     System.out.println("ERROR-LobbyManager-2");
                 }
             }else{
-                System.out.println("ERROR-LobbyManager-1");
+                System.out.println("ERROR-LobbyManager-1: message received \n" + words);
             }
         }
     }

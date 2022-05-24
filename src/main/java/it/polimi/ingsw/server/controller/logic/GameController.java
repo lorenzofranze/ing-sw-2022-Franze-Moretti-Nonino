@@ -62,12 +62,10 @@ public class GameController implements Runnable  {
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
 
-        System.out.println("FLAG GAME COMNTROLLER - fINE SETUP");
-
         currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
         messageHandler.sendBroadcast(message);
-        System.out.println("lobby completa: inizio partita");
+        System.out.println("lobby completa: inizio partita\n");
 
         do{
             currentPhase = pianificationPhase;
