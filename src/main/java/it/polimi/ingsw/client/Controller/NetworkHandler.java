@@ -89,7 +89,7 @@ public class NetworkHandler implements Runnable{
                 System.out.println("Ti stai disconnettendo perchè hai ricevuto un async message");
                 ClientController.getInstance().setDisconnected();
                 AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
-                break;
+                return null;
             case Ping:
                 try {
                     sendToServer(new PongMessage());
