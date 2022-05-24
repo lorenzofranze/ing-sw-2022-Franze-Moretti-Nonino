@@ -41,13 +41,10 @@ public class ClientApp {
             clientApp.start();
         }
         else if(typeOfView.equals("gui")){
-            /*
-            viewBegin = new GUIViewBegin();
-            viewEnd = new GUIViewEnd();
-            ClientApp clientApp = new ClientApp(viewBegin, viewEnd);
-            clientApp.run();
+            view= new GUIView();
+            ClientApp clientApp = new ClientApp(view);
+            clientApp.start();
 
-             */
         }
     }
 
