@@ -49,16 +49,27 @@ public class ActionPhase extends GamePhase {
                 studentsToMove = gameController.getGame().getPlayers().size()+1;
                 for(studentsMoved = 0; studentsMoved < studentsToMove; studentsMoved++){
                     askforCharacter();
-                    if (checkEnd() == true){return actionResult;}
+                    if(gameController.isExpert()) {
+                        if (checkEnd() == true) {
+                            return actionResult;
+                        } else {
+                            gameController.update();
+                        }
+                    }
                     moveStudent();
-                    gameController.update();
+                    gameController.update(); // update student move
                 }
 
                 askforCharacter();
+                if(gameController.isExpert()) {
+                    if (checkEnd() == true) {
+                        return actionResult;
+                    } else {
+                        gameController.update();
+                    }
+                }
 
-                if (checkEnd() == true){return actionResult;}
-
-
+                gameController.update(); // update start move mother nature
                 //move mother nature
                 Island whereMotherNature = moveMotherNature(p);
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
@@ -66,8 +77,6 @@ public class ActionPhase extends GamePhase {
                     whereMotherNature.setNumNoEntryTile(whereMotherNature.getNumNoEntryTile()-1);
                     ((CharacterStateNoEntryTile)(gameController.getGame().getCharacterStateByID(5))).addNoEntryTile();
                 }
-
-                //gameController.update();
 
                 if (moreInfluentPlayer != null){
                     isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);
@@ -83,27 +92,33 @@ public class ActionPhase extends GamePhase {
                     }
                 }
 
-                gameController.update();
+                gameController.update(); // update post madre natura
 
             }
 
-            if (checkEnd() == true){return actionResult;}
+
+            if (checkEnd() == true) {
+                return actionResult;
+            } else {
+                gameController.update();
+            }
 
             askforCharacter();
-
-            if (checkEnd() == true){return actionResult;}
+            if(gameController.isExpert()) {
+                if (checkEnd() == true) {
+                    return actionResult;
+                } else {
+                    gameController.update();
+                }
+            }
             /*in this round players choose the cloud only if in the pianification phase i had enough
             studentsPawns in the bag to fill ALL the clouds*/
 
-
+            gameController.update(); // start choose cloud
             if (!isLastRoundFinishedStudentsBag) {
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 1\n");
                 chooseCloud();
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 2\n");
                 gameController.update();
-                System.out.println("\nACTION PHASE - HANDLE - FLAG 3\n");
             }
-            System.out.println("\nACTION PHASE - HANDLE - FLAG 4\n");
 
             /*reset characterEffects activated*/
             gameController.getGame().setActiveEffect(null);
@@ -404,10 +419,7 @@ public class ActionPhase extends GamePhase {
                     AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
-                    if (studentsMoved.equals(studentsToMove)){
-                        gameController.update();
-                    }
-                    return;
+                    break;
                 }
 
                 Integer playedCard = gameMessage.getValue();
@@ -435,7 +447,7 @@ public class ActionPhase extends GamePhase {
                         AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
                         playerManager.sendMessage(ackMessage);
 
-                        gameController.update();
+                        gameController.update(); // coins update
 
                         CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
                         currentCharacterEffect.doEffect();
@@ -450,11 +462,8 @@ public class ActionPhase extends GamePhase {
                     playerManager.sendMessage(errorMessage);
                 }
             } while (validChoice == false);
-            gameController.update();
-        }else{
-            if (studentsMoved.equals(studentsToMove)){
-                gameController.update();
-            }
+            gameController.update(); //update end ask for character
+
         }
     }
 

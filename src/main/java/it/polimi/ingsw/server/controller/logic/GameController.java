@@ -61,11 +61,12 @@ public class GameController implements Runnable  {
 
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
-
         currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
         messageHandler.sendBroadcast(message);
-        System.out.println("lobby completa: inizio partita\n");
+
+        update(); // update game start
+        //lobby completa: inizio partita
 
         do{
             currentPhase = pianificationPhase;
@@ -104,10 +105,6 @@ public class GameController implements Runnable  {
         calculateWinner(); //se winner è "?", allora la partita è finita in pareggio
 
         update(); // last update: game ended and winner setted
-
-        //System.out.println("Students left in Studentbag:" + this.game.getStudentsBag().pawnsNumber());
-        //for(Player p : this.game.getPlayers())
-        //    System.out.println(p.getNickname()+": " + p.getSchoolBoard().getSpareTowers() + " towers left on schoolboard");
 
         ServerController.getInstance().setToStop(this.getGameID());
     }

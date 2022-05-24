@@ -100,7 +100,7 @@ public class SchoolBoard {
     }
 
 
-    /** receives in input a cloud and inserts all the students in entrance **/
+    /** receives in input a cloud and inserts all the students in entrance and clear the students on the cloud**/
     public void insertCloud(Cloud cloud){this.entrance.add(cloud.clearCloud());}
 
     /**move students in input to the dining room and remove from

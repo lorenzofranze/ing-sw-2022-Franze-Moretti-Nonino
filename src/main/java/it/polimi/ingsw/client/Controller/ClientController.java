@@ -95,8 +95,8 @@ public class ClientController implements Runnable {
                     return;
             }
         }
-        //game ended show last update
-        view.showMessage(receivedMessage);
+
+        //GAME ENDED
     }
 
     private void connect(){
@@ -187,13 +187,9 @@ public class ClientController implements Runnable {
                 UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                 this.gameStatePojo = updateMessage.getGameState();
                 gameStateReceived = true;
-                if(gameStatePojo.getCurrentPlayer().getNickname().equals(nickname)){
-                    console.play();
-                    System.out.println("num round:");
-                }
             }
             else{
-                System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
+                //messaggio scorretto
                 view.showMessage(receivedMessage);     //DA CANCELLARE
 
                 if(!disconnected){

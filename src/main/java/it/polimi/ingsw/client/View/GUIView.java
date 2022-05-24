@@ -45,6 +45,9 @@ public class GUIView implements View{
         }
         currentStage.setScene(new Scene(root,800,500));
         currentStage.show();
+    void beginUsername(MouseEvent event){
+        //Stage startWindow= (Stage) tfTitle.getScene().getWindow();
+        //String title=
     }
 
     @Override
@@ -69,13 +72,27 @@ public class GUIView implements View{
 
         } while (!valid);
         clientController.setGameMode(GameMode.values()[result-1]);
-    }
-
-
-    @Override
     public void beginReadUsername() {
-
+        {
+            ClientController clientController = ClientController.getInstance();
+            System.out.print("INSERT NICKNAME (at least 4 characters): ");
+            boolean valid;
+            String result;
+            /*
+            do {
+                valid = true;
+                result = scanner.nextLine();
+                if (result.length() < 4 ) {
+                    System.out.println("You must insert a nickname of at least 4 characters.");
+                    System.out.print("INSERT NICKNAME (at least 4 characters): ");
+                    valid = false;
+                }
+             */
+            //} while (!valid);
+            //clientController.setNickname(result);
+        }
     }
+
 
     @Override
     public void chooseAssistantCard() {
@@ -310,9 +327,5 @@ public class GUIView implements View{
     @Override
     protected int _getKeyCodeForChar(char c) {
         return 0;
-    }
-
-    public void setCurrentStage(Stage currentStage) {
-        this.currentStage = currentStage;
     }
 }

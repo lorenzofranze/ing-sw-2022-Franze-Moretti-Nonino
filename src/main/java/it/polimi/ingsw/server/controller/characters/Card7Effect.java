@@ -105,10 +105,12 @@ public class Card7Effect extends CharacterEffect{
             playerManager.sendMessage(ackMessage);
 
             //swap
+            //pawnCard è quello preso dalla carta personaggio
+            //pawnBoard è quello preso dalla entrance
             ((CharacterStateStudent) (this.characterState)).removeStudent(ColourPawn.values()[pawnCard]);
             ((CharacterStateStudent) (this.characterState)).addStudent(ColourPawn.values()[pawnBoard]);
             gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(ColourPawn.values()[pawnCard]);
-            gameController.getCurrentPlayer().getSchoolBoard().getEntrance().add(ColourPawn.values()[pawnBoard]);
+            gameController.getCurrentPlayer().getSchoolBoard().getEntrance().remove(ColourPawn.values()[pawnBoard]);
             gameController.update(); //otherwise he can't see how new pawns are placed
             ackMessage = new AckMessage(TypeOfAck.CorrectMove);
             playerManager.sendMessage(ackMessage);
