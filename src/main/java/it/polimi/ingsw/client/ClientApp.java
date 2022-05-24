@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ClientApp {
+public class ClientApp extends Application{
 
     private static View view;
 
@@ -43,7 +43,7 @@ public class ClientApp {
             clientApp.play();
         }
         else if(typeOfView.equals("gui")){
-            Application.launch(GUIView.class, args);
+            Application.launch(args);
             view= new GUIView();
             view.startScreen();
             ClientApp clientApp = new ClientApp(view);
