@@ -95,8 +95,8 @@ public class ClientController implements Runnable {
                     return;
             }
         }
-        //game ended show last update
-        view.showMessage(receivedMessage);
+
+        //GAME ENDED
     }
 
     private void connect(){

@@ -1,3 +1,4 @@
+
 package it.polimi.ingsw.client.View;
 
 import com.sun.glass.ui.*;

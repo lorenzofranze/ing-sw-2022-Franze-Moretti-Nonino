@@ -22,6 +22,8 @@ public class Console{
     private Integer pawnWhere = null;
     private Integer stepsMotherNature = null;
     private Integer cloudChosen = null;
+    private boolean gameOver = false;
+
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
@@ -94,19 +96,35 @@ public class Console{
             case moveStudents:
                 for(int i = 0; i < studentsToMoveTotal; i++){
                     askForCharacter();
+                    if (gameOver == true){
+                        view.showGameState(ClientController.getInstance().getGameStatePojo());
+                        return;
+                    }
                     moveStudent();
                 }
                 askForCharacter();
+                if (gameOver == true){
+                    view.showGameState(ClientController.getInstance().getGameStatePojo());
+                    return;
+                }
                 currActionBookMark = ActionBookMark.placeMotherNature;
                 break;
             case placeMotherNature:
                 placeMotherNature();
                 askForCharacter();
+                if (gameOver == true){
+                    view.showGameState(ClientController.getInstance().getGameStatePojo());
+                    return;
+                }
                 currActionBookMark = ActionBookMark.chooseCloud;
                 System.out.println("FLAG - CONSOLE - 1");
                 break;
             case chooseCloud:
                 chooseCloud();
+                if (gameOver == true){
+                    view.showGameState(ClientController.getInstance().getGameStatePojo());
+                    return;
+                }
                 currActionBookMark = ActionBookMark.moveStudents;
                 break;
         }
@@ -148,7 +166,7 @@ public class Console{
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
                     receivedMessage = networkHandler.getReceivedMessage();
-                    if (receivedMessage.getMessageType() == TypeOfMessage.Update){
+                    if (receivedMessage.getMessageType() == TypeOfMessage.Update){ //update student move
                         UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                         ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
                         view.showMessage(receivedMessage);
@@ -207,7 +225,7 @@ public class Console{
                                 receivedMessage = networkHandler.getReceivedMessage();
                                 valid = false;
                                 if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)) {
-                                    ackMessage = (AckMessage) receivedMessage;
+                                    ackMessage = (AckMessage) receivedMessage; //end of effect
                                     if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                                         valid = true;
                                     }
@@ -248,6 +266,27 @@ public class Console{
                 }
                 characterPlayed = null;
             } while (valid == false);
+
+            receivedMessage = networkHandler.getReceivedMessage();
+            if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update end ask for character
+                UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
+                ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+                view.showMessage(receivedMessage);
+
+                receivedMessage = networkHandler.getReceivedMessage();
+                if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update di fine gioco
+                    updateMessage = (UpdateMessage) receivedMessage;
+                    ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+                    view.showMessage(receivedMessage);
+                    if (ClientController.getInstance().getGameStatePojo().isGameOver()){
+                        gameOver = true;
+                    }
+                }
+
+            } else {
+                //messaggio imprevisto
+                view.showMessage(receivedMessage);
+            }
         }
     }
 
