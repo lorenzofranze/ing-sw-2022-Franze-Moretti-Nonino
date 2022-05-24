@@ -30,7 +30,7 @@ public class ClientApp extends Application{
         if (args.length == 0){
             serverIp = "localhost";
             serverPort = 32502;
-            typeOfView = "gui";
+            typeOfView = "cli";
         }else{
             typeOfView = args[0];
             serverIp = args[1];
@@ -50,6 +50,8 @@ public class ClientApp extends Application{
             clientApp.play();
 
         }
+
+        return;
     }
 
     /**

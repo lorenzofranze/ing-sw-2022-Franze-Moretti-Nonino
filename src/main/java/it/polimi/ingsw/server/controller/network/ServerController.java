@@ -56,7 +56,6 @@ public class ServerController {
 
     public synchronized void setToStop(Integer toStop){
         this.currentGames.remove(toStop);
-        this.currentGames.get(toStop).setGameOver(true);
     }
 
     public Map<Integer, GameController> getCurrentGames() {
@@ -104,6 +103,7 @@ public class ServerController {
         }
         if(gameControllerToStop!=null){
             if(this.currentGames.keySet().contains(gameControllerToStop.getGameID())){
+                gameControllerToStop.setGameOver(true);
                 setToStop(gameControllerToStop.getGameID());
             }
 
