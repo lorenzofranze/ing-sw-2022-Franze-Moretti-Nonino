@@ -117,10 +117,6 @@ public class Console{
                 break;
             case chooseCloud:
                 chooseCloud();
-                if (gameOver == true){
-                    view.showGameState(ClientController.getInstance().getGameStatePojo());
-                    return;
-                }
                 currActionBookMark = ActionBookMark.moveStudents;
                 break;
         }
