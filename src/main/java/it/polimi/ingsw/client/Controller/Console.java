@@ -211,6 +211,7 @@ public class Console{
                                     if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                                         valid = true;
                                     }
+                                    /*
                                     if (valid) {
                                         receivedMessage = networkHandler.getReceivedMessage();
                                         if (receivedMessage.getMessageType() == TypeOfMessage.Update) {
@@ -221,7 +222,9 @@ public class Console{
                                             //messaggio imprevisto
                                             view.showMessage(receivedMessage);
                                         }
+
                                     }
+                                     */
                                 }
                                 if (valid == false) {
                                     //messaggio imprevisto
