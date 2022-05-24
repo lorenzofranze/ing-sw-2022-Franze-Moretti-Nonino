@@ -37,4 +37,6 @@ public interface View {
     public void setCurrentStage(Stage stage);
 
     public void startScreen();
+
+    public void start(Stage stage) throws Exception;
 }

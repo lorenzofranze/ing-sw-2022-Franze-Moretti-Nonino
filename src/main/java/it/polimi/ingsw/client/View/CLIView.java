@@ -604,5 +604,10 @@ public class CLIView implements View {
 
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+
+    }
+
 
 }

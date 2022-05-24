@@ -19,9 +19,22 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 
-public class GUIView extends Application implements View{
+public class GUIView implements View{
 
     private Stage currentStage;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("startFrame"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void showScene(String nameFileFxml){
         Parent root=null;

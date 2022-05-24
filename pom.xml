@@ -30,14 +30,6 @@
       <version>2.9.0</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx</artifactId>
-      <version>19-ea+7</version>
-      <type>pom</type>
-    </dependency>
-
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
@@ -80,9 +72,9 @@
         <executions>
           <execution>
             <!-- Default configuration for running with: mvn clean javafx:run -->
-            <id>default-cli</id>
+            <id>default-gui</id>
             <configuration>
-              <mainClass>it.polimi.ingsw.Client.View.GUIView</mainClass>
+              <mainClass>it.polimi.ingsw.client.ClientApp</mainClass>
               <options>
                 <option></option>
                 <option></option>
@@ -90,6 +82,12 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.2.0</version>
       </plugin>
 
     </plugins>
