@@ -148,6 +148,7 @@ public class CLIView implements View {
         Integer result = null;
         boolean valid;
 
+        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
         System.out.println("\n"+"\033[01m"+"MOVE A STUDENT FROM YOUR ENTRANCE\n"+"\033[0m");
         System.out.println("These are the colours you can choose from");
         for (ColourPawn c : ColourPawn.values()){

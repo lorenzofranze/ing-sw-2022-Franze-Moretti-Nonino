@@ -19,23 +19,14 @@ public class SetUpPhase extends GamePhase {
         this.placePawnsIslands();
         this.fillSchoolBoard();
 
-        System.out.println("FLAG - SETUP - 1");
-
         Player p = chooseFirstPianificationPlayer();
         SetUpResult ris = new SetUpResult();
         ris.setFirstRandomPianificationPlayer(p);
 
-        System.out.println("FLAG - SETUP - 2");
-
         if (gameController.isExpert() == true) {
-            System.out.println("FLAG - SETUP - 3A");
             this.distributeCoins();
-            System.out.println("FLAG - SETUP - 3B");
             this.initializeCharactersEffects();
-            System.out.println("FLAG - SETUP - 3C");
         }
-
-        System.out.println("FLAG - SETUP - 4");
 
         return ris;
 
@@ -121,7 +112,6 @@ public class SetUpPhase extends GamePhase {
     }
 
     public void initializeCharactersEffects() {
-        System.out.println("FLAG - SETUP - initilize effect");
         for (CharacterState cr : gameController.getGame().getCharacters()) {
             if (cr.getCharacterId() == 1) {gameController.getCharacterEffects().add(new Card1Effect(gameController, cr));}
             if (cr.getCharacterId() == 2) {gameController.getCharacterEffects().add(new Card2Effect(gameController, cr));}

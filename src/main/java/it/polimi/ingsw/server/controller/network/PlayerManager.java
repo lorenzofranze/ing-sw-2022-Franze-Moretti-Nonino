@@ -204,13 +204,14 @@ public class PlayerManager implements Runnable{
         }
 
         //da cancellare fino a (fine cancella*)
-        if (!message.getMessageType().equals(TypeOfMessage.Update)) {
-            System.out.println("Message sent to: " + this.getPlayerNickname());
-            System.out.println(stringToSend);
-        }
-        else{
+        if (message.getMessageType().equals(TypeOfMessage.Update)) {
             System.out.println("Message sent to: " + this.getPlayerNickname());
             System.out.println("update");
+        }else{
+            if (!(message.getMessageType().equals(TypeOfMessage.Ping)) && !(message.getMessageType().equals(TypeOfMessage.Pong))) {
+                System.out.println("Message sent to: " + this.getPlayerNickname());
+                System.out.println(stringToSend);
+            }
         }
         //(fine cancella *)
     }
