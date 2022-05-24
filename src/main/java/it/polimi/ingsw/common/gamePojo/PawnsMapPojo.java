@@ -19,6 +19,16 @@ public class PawnsMapPojo {
         return pawns;
     }
 
+    /** @return the number of pawns */
+    public int pawnsNumber(){
+        int tot=0;
+        ColourPawn pawnsList[] = ColourPawn.values();
+        for(ColourPawn p : pawnsList) {
+            tot += this.pawns.get(p);
+        }
+        return tot;
+    }
+
     public void setPawns(HashMap<ColourPawn, Integer> pawns) {
         this.pawns = pawns;
     }

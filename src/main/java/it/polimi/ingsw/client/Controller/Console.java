@@ -116,7 +116,10 @@ public class Console{
                 currActionBookMark = ActionBookMark.chooseCloud;
                 break;
             case chooseCloud:
-                chooseCloud();
+                int studentLimit  = gameStatePojo.getPlayers().size() == 2 ? 3 : 4;
+                if (gameStatePojo.getStudentsBag().pawnsNumber() >= studentLimit){
+                    chooseCloud();
+                }
                 currActionBookMark = ActionBookMark.moveStudents;
                 break;
         }
