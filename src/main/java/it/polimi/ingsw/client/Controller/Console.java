@@ -103,21 +103,17 @@ public class Console{
                     moveStudent();
                 }
                 askForCharacter();
-                if (gameOver == true){
-                    view.showGameState(ClientController.getInstance().getGameStatePojo());
-                    return;
-                }
                 currActionBookMark = ActionBookMark.placeMotherNature;
                 break;
             case placeMotherNature:
                 placeMotherNature();
-                askForCharacter();
                 if (gameOver == true){
                     view.showGameState(ClientController.getInstance().getGameStatePojo());
                     return;
+                }else{
+                    askForCharacter();
                 }
                 currActionBookMark = ActionBookMark.chooseCloud;
-                System.out.println("FLAG - CONSOLE - 1");
                 break;
             case chooseCloud:
                 chooseCloud();
@@ -329,13 +325,23 @@ public class Console{
         }while(valid == false);
 
         receivedMessage = networkHandler.getReceivedMessage();
-        if (receivedMessage.getMessageType() == TypeOfMessage.Update){
+        if (receivedMessage.getMessageType() == TypeOfMessage.Update){ //update posto madre natura
             UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
             ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
             view.showMessage(receivedMessage);
         }else{
             //messaggio imprevisto
             view.showMessage(receivedMessage);
+        }
+
+        receivedMessage = networkHandler.getReceivedMessage();
+        if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update di fine gioco
+            UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
+            ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
+            view.showMessage(receivedMessage);
+            if (ClientController.getInstance().getGameStatePojo().isGameOver()){
+                gameOver = true;
+            }
         }
     }
 
