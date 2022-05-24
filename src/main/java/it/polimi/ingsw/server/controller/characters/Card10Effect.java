@@ -33,7 +33,7 @@ public class Card10Effect extends CharacterEffect{
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.NumOfMove);
             gameMessage = (GameMessage) receivedMessage;
             count = gameMessage.getValue();
-            if (count<0 || count > 2) {  // max 3 movements
+            if (count<0 || count > 2 || gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().pawnsNumber()<count) {  // max 3 movements
                 valid = false;
                 errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
                 playerManager.sendMessage(errorGameMessage);
