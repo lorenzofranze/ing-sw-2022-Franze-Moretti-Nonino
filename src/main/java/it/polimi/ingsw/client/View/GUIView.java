@@ -19,8 +19,8 @@ public class GUIView extends Application implements View{
     
 
     void beginUsername(MouseEvent event){
-        Stage startWindow= (Stage) tfTitle.getScene().getWindow();
-        String title=
+        //Stage startWindow= (Stage) tfTitle.getScene().getWindow();
+        //String title=
     }
     @Override
     public void beginReadUsername() {
@@ -29,6 +29,7 @@ public class GUIView extends Application implements View{
             System.out.print("INSERT NICKNAME (at least 4 characters): ");
             boolean valid;
             String result;
+            /*
             do {
                 valid = true;
                 result = scanner.nextLine();
@@ -37,10 +38,12 @@ public class GUIView extends Application implements View{
                     System.out.print("INSERT NICKNAME (at least 4 characters): ");
                     valid = false;
                 }
-            } while (!valid);
-            clientController.setNickname(result);
+             */
+            //} while (!valid);
+            //clientController.setNickname(result);
         }
     }
+
 
     @Override
     public synchronized void chooseGameMode() {
