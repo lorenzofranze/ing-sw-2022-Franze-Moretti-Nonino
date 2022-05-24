@@ -103,6 +103,7 @@ public class Console{
                 placeMotherNature();
                 askForCharacter();
                 currActionBookMark = ActionBookMark.chooseCloud;
+                System.out.println("FLAG - CONSOLE - 1");
                 break;
             case chooseCloud:
                 chooseCloud();

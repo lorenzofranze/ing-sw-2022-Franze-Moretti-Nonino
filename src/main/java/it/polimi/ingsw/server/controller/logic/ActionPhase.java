@@ -67,7 +67,7 @@ public class ActionPhase extends GamePhase {
                     ((CharacterStateNoEntryTile)(gameController.getGame().getCharacterStateByID(5))).addNoEntryTile();
                 }
 
-                gameController.update();
+                //gameController.update();
 
                 if (moreInfluentPlayer != null){
                     isEnded = placeTowerOfPlayer(moreInfluentPlayer, whereMotherNature);

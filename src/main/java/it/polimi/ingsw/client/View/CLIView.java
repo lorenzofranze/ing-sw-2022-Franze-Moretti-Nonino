@@ -235,7 +235,8 @@ public class CLIView implements View {
         Integer result = null;
         boolean valid;
 
-        System.out.println("\n"+"\033[01m"+"CHOOSE YOUR CLOUD"+"\033[0m");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
+        System.out.println("\033[01m"+"CHOOSE YOUR CLOUD"+"\033[0m");
         System.out.print("Insert cloud index: ");
 
         valid = false;
