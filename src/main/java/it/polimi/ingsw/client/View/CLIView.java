@@ -202,6 +202,7 @@ public class CLIView implements View {
         boolean valid;
 
         int i = gameStatePojo.getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature();
+        System.out.println("-----------------------------------------------------------------------------------------------------------------");
         System.out.println("\n"+"\033[01m"+"MOVE MOTHERNATURE: watch out! Your steps are limited to " + i + ".\n"+"\033[0m");
         System.out.print("Insert the number of steps you want to make: ");
 
@@ -438,8 +439,6 @@ public class CLIView implements View {
 
             }
         }
-
-        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
     }
 
     //METHODS FOR COMPLEX MODE:

@@ -452,7 +452,9 @@ public class ActionPhase extends GamePhase {
             } while (validChoice == false);
             gameController.update();
         }else{
-            gameController.update();
+            if (studentsMoved.equals(studentsToMove)){
+                gameController.update();
+            }
         }
     }
 
