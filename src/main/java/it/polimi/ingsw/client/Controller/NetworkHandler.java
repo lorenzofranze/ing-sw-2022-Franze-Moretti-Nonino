@@ -31,6 +31,11 @@ public class NetworkHandler implements Runnable{
         this.messageQueue= new LinkedBlockingQueue<>();
     }
 
+    /**
+     * crea i buffer in ingresso e uscita e fa partire il thread del ping (essendo chiamato subito da
+     * clientApp, il ping funziona anche durante la connessione con il server)
+     * @throws IOException
+     */
     public void connectToServer() throws IOException {
         this.socket = new Socket(serverIp, serverPort);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -43,7 +48,8 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * read from network buffer
+     * legge dal buffer le stringhe e li trasforma in messaggi con Json,
+     *
      */
     private Message readFromBuffer() {
 

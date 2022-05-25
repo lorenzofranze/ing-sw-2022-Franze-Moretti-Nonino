@@ -39,12 +39,18 @@ public class ClientController implements Runnable {
     }
 
 
+    /** il thread è invocato da ClientApp.
+     * si occupa della connessione del client col metodo connect(),
+     * una volta arrivato il primo update dal server, finchè il gioco non termina o sono arrivati errori
+     * di disconnessione, se il messaggio arrivato è di tipo update(), invoca console.play()
+     */
     @Override
     public void run() {
         Message receivedMessage=null;
 
 
         connect();
+
         if(disconnected==true){
             return;
         }
@@ -53,6 +59,9 @@ public class ClientController implements Runnable {
 
 
         waitForOtherPlayers();
+        if(disconnected==true){
+            return;
+        }
         waitForFirstGameState();
 
 
@@ -99,6 +108,12 @@ public class ClientController implements Runnable {
         //GAME ENDED
     }
 
+    /**
+     * si occupa della gestione dei messaggi di connessione, di errore e di ack durante la fase di connessione.
+     * Il giocatore sceglie un gameMode (in locale si verifica che la modalità sia tra quelle proposte)
+     * e sceglie un nickname. Viene inviato il messaggio che contiene le due informazioni e se il nome non è
+     * valido si chiede di scegliere un altro nickname
+     */
     private void connect(){
 
         this.networkHandlerThread= new Thread(networkHandler);
@@ -115,6 +130,7 @@ public class ClientController implements Runnable {
                 networkHandler.sendToServer(cm);
             } catch (IOException ex) {
                 System.out.println("ERROR-Login-connect-1");
+                disconnected=true;
                 return;
             }
 
@@ -133,16 +149,25 @@ public class ClientController implements Runnable {
                 }
                 else {
                         System.out.println("ERROR-Login-connect-3 (unexpected ack message)");
+                        disconnected=true;
                 }
             }
             else if (receivedMessage.getMessageType().equals(Error)) {
                 ErrorMessage errorMessage = (ErrorMessage) receivedMessage;
                 valid = false;
             }
+            else if(receivedMessage.getMessageType()==Async){
+                disconnected=true;
+                return;
+            }
         }while (!valid);
     }
 
 
+    /**
+     * attende l'arrivo del messaggio di ack che avvisa del riempimento della lobby e nel frattempo
+     * controlla non ci siano problemi di disconnessione per i quali bisogna settare disconnected a true
+     */
     private void waitForOtherPlayers(){
         Message receivedMessage=null;
         if(!disconnected){
@@ -160,6 +185,10 @@ public class ClientController implements Runnable {
                     allJoined = true;
                 }
             }
+            else if(receivedMessage.getMessageType().equals(Async)){
+                disconnected=true;
+                return;
+            }
             else {
                 System.out.println("MESSAGGIO SCORRETTO");  //DA CANCELLARE
                 if(!disconnected){
@@ -173,6 +202,10 @@ public class ClientController implements Runnable {
 
     }
 
+    /**
+     * attende per il primo messaggio di update e nel frattempo
+     * controlla non ci siano problemi di disconnessione per i quali bisogna settare disconnected a true
+     */
     private void waitForFirstGameState(){
         Message receivedMessage=null;
         if(!disconnected){
@@ -188,17 +221,22 @@ public class ClientController implements Runnable {
                 this.gameStatePojo = updateMessage.getGameState();
                 gameStateReceived = true;
             }
-            else{
-                //messaggio scorretto
-                view.showMessage(receivedMessage);     //DA CANCELLARE
-
-                if(!disconnected){
-                    receivedMessage = networkHandler.getReceivedMessage();
+            else if(receivedMessage.getMessageType().equals(Async)){
+                    disconnected = true;
+                    return;
                 }
-                if(disconnected) return;
+            else{
+                    //messaggio scorretto
+                    view.showMessage(receivedMessage);     //DA CANCELLARE
+
+                    if(!disconnected){
+                        receivedMessage = networkHandler.getReceivedMessage();
+                    }
+                    if(disconnected) return;
+                }
             }
         }
-    }
+
 
     public void setNickname(String nickname) {
         this.nickname = nickname;

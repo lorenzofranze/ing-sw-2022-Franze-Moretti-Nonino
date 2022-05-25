@@ -25,6 +25,7 @@ public class Console{
     private boolean gameOver = false;
 
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
+
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
 

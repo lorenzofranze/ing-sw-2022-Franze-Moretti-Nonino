@@ -99,6 +99,7 @@ public class LobbyManager implements Runnable {
         lobbyServerSocket.close();
     }
 
+    @Override
     public void run(){
         Message unknown;
         JsonConverter jsonConverter = new JsonConverter();

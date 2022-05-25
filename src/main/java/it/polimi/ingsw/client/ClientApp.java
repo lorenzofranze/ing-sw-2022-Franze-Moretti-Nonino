@@ -22,6 +22,11 @@ public class ClientApp extends Application{
         ClientApp.view = view;
     }
 
+    /**
+     * il gioco parte con cli o gui
+     * viene chiamato il metodo play
+     * @param args
+     */
     public static void main(String[] args) {
 
         String typeOfView;
@@ -65,6 +70,14 @@ public class ClientApp extends Application{
 
 
 
+    /**
+     * viene fatta la connessione al server con networkHandler.connectToServer();
+     * viene creato un thread per l'eseguzione del clientController, questo thread viene interrotto
+     * dopo che viene chiamato clientController.setDisconnected() in una qualsiasi parte del codice:
+     * per fare ciò si è creato l'oggetto clientControllerLock su cui si fa wait, così nel metodo
+     * clientController.setDisconnected() verrà chiamato notifyAll(), e si può procedere con l'interrupt()
+     * del threadClientController
+     */
     public void play() {
 
         NetworkHandler networkHandler = new NetworkHandler(serverIp, serverPort);
@@ -86,11 +99,7 @@ public class ClientApp extends Application{
         Thread threadClientController= new Thread(clientController);
         threadClientController.start();
 
-        /*
-        ReentrantLock mutex = new ReentrantLock();
-        mutex.lock();
 
-         */
         Object clientControllerLock=clientController.getLock();
         synchronized (clientControllerLock){
             try {
