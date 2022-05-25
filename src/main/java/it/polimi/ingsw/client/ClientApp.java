@@ -52,7 +52,6 @@ public class ClientApp{
         } else if (typeOfView.equals("gui")) {
             Application.launch(args);
             view = new GUIView();
-            view.startScreen();
             ClientApp clientApp = new ClientApp(view);
             clientApp.play();
 

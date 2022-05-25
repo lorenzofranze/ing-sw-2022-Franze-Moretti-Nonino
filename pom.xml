@@ -70,19 +70,9 @@
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
-        <executions>
-          <execution>
-            <!-- Default configuration for running with: mvn clean javafx:run -->
-            <id>default-gui</id>
-            <configuration>
-              <mainClass>it.polimi.ingsw.client.ClientApp</mainClass>
-              <options>
-                <option></option>
-                <option></option>
-              </options>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <mainClass>it.polimi.ingsw.client.View.GUIView</mainClass>
+        </configuration>
       </plugin>
 
       <plugin>

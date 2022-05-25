@@ -1,23 +1,19 @@
 package it.polimi.ingsw.client.View;
 
-import com.sun.glass.ui.*;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 
 import static javafx.application.Application.launch;
 
@@ -35,8 +31,9 @@ public class GUIView extends Application implements View{
      */
     public void start(Stage primaryStage) throws Exception {
         try {
-            this.root = FXMLLoader.load(getClass().getResource("startFrame.fxml"));
+            this.root = FXMLLoader.load(getClass().getClassLoader().getResource("startFrame.fxml"));
             Scene scene = new Scene(root);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch(Exception e) {
