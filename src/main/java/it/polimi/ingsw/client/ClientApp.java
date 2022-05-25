@@ -55,8 +55,6 @@ public class ClientApp extends Application{
             clientApp.play();
 
         }
-
-        return;
     }
 
     /**
