@@ -6,12 +6,15 @@ import it.polimi.ingsw.client.View.*;
 import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ClientApp extends Application{
+public class ClientApp{
 
     private static View view;
 
@@ -35,7 +38,7 @@ public class ClientApp extends Application{
         if (args.length == 0) {
             serverIp = "localhost";
             serverPort = 32502;
-            typeOfView = "cli";
+            typeOfView = "gui";
         } else {
             typeOfView = args[0];
             serverIp = args[1];
@@ -57,14 +60,7 @@ public class ClientApp extends Application{
         System.exit(0);
     }
 
-    /**
-     * Method that initialize stage and load scenes
-     * @param primaryStage game stage
-     * @throws Exception impossible start game
-     */
-    public void start(Stage primaryStage) throws Exception {
-        view.setCurrentStage(primaryStage);
-    }
+
 
 
 

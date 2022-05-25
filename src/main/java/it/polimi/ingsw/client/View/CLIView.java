@@ -596,8 +596,6 @@ public class CLIView implements View {
         }
     }
 
-    @Override
-    public void setCurrentStage(Stage stage) {}
 
     @Override
     public void startScreen() {
