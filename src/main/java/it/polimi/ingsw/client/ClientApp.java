@@ -32,29 +32,29 @@ public class ClientApp extends Application{
         String typeOfView;
         View view;
 
-        if (args.length == 0){
+        if (args.length == 0) {
             serverIp = "localhost";
             serverPort = 32502;
             typeOfView = "cli";
-        }else{
+        } else {
             typeOfView = args[0];
             serverIp = args[1];
             serverPort = Integer.parseInt(args[2]);
         }
 
-        if(typeOfView.equals("cli")){
+        if (typeOfView.equals("cli")) {
             view = new CLIView();
             ClientApp clientApp = new ClientApp(view);
             clientApp.play();
-        }
-        else if(typeOfView.equals("gui")){
+        } else if (typeOfView.equals("gui")) {
             Application.launch(args);
-            view= new GUIView();
+            view = new GUIView();
             view.startScreen();
             ClientApp clientApp = new ClientApp(view);
             clientApp.play();
 
         }
+        System.exit(0);
     }
 
     /**
