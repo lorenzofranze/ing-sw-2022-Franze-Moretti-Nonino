@@ -13,8 +13,7 @@ import java.util.Map;
 public class Lobby {
     // string è nickname
     private Map<String, Socket> usersReadyToPlaySocket;
-    private Map<String, BufferedReader> usersReadyToPlayBufferedReader;
-    private Map<String, BufferedWriter> usersReadyToPlayBufferedWriter;
+    private Map<String, PlayerManager> usersPlayerManager;
 
     public GameMode getGameMode() {
         return gameMode;
@@ -26,30 +25,29 @@ public class Lobby {
         return usersReadyToPlaySocket;
     }
 
-    public Lobby(GameMode gameMode){
+    public Lobby(GameMode gameMode) {
         this.usersReadyToPlaySocket = new HashMap<>();
-        this.usersReadyToPlayBufferedWriter = new HashMap<>();
-        this.usersReadyToPlayBufferedReader = new HashMap<>();
+        this.usersPlayerManager = new HashMap<>();
         this.gameMode = gameMode;
     }
 
     public List<String> getUsersNicknames() {
-        ArrayList<String> nicknames= new ArrayList<>();
+        ArrayList<String> nicknames = new ArrayList<>();
         nicknames.addAll(usersReadyToPlaySocket.keySet());
         return nicknames;
     }
 
-    public void addUsersReadyToPlay(String nickname, Socket clientSocket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
-        usersReadyToPlaySocket.put(nickname,clientSocket);
-        usersReadyToPlayBufferedReader.put(nickname, bufferedReader);
-        usersReadyToPlayBufferedWriter.put(nickname, bufferedWriter);
+    public void addUsersReadyToPlay(String nickname, Socket clientSocket, PlayerManager playerManager) {
+        usersReadyToPlaySocket.put(nickname, clientSocket);
+        usersPlayerManager.put(nickname, playerManager);
     }
 
-    public Map<String, BufferedReader> getUsersReadyToPlayBufferedReader() {
-        return usersReadyToPlayBufferedReader;
+    public Map<String, PlayerManager> getUsersPlayerManager() {
+        return usersPlayerManager;
     }
 
-    public Map<String, BufferedWriter> getUsersReadyToPlayBufferedWriter() {
-        return usersReadyToPlayBufferedWriter;
+    public Map<String, Socket> getUsersReadyToPlaySocket() {
+        return usersReadyToPlaySocket;
     }
 }
+

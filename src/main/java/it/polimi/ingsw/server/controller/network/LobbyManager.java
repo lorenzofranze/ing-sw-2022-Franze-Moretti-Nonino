@@ -4,7 +4,7 @@ import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.model.Player;
-
+import it.polimi.ingsw.Server.Controller.Network.PingSender;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -92,6 +92,7 @@ public class LobbyManager implements Runnable {
                 this.clientSocket = lobbyServerSocket.accept();
                 Thread t = new Thread(this);
                 t.start();
+
             } catch (IOException e) {
                 break; //In case the serverSocket gets closed
             }
@@ -109,7 +110,6 @@ public class LobbyManager implements Runnable {
         String stringMessage;
         BufferedReader in = null;
         BufferedWriter out = null;
-
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -118,6 +118,10 @@ public class LobbyManager implements Runnable {
             System.out.println("error in client IO");
             return;
         }
+        PlayerManager playerManager=new PlayerManager(in, out);
+
+
+
 
         validName = false;
         while (!validName) {
@@ -167,8 +171,10 @@ public class LobbyManager implements Runnable {
                         GameMode gameMode = connectionMessage.getGameMode();
                         System.out.println(nickname + " si è connesso");
                         AckMessage messageAck = new AckMessage(TypeOfAck.CorrectConnection);
-                        addNickname(nickname, gameMode, clientSocket, in, out);
+                        addNickname(nickname, gameMode, clientSocket, playerManager);
                         validName = true;
+                        playerManager.setPlayerNickname(nickname);
+                        playerManager.getPingSender().setPlayerNickname(nickname);
                         try {
                             stringMessage = JsonConverter.fromMessageToJson(messageAck);
                             out.write(stringMessage);
@@ -208,6 +214,7 @@ public class LobbyManager implements Runnable {
 
 
             }else if(unknown.getMessageType() == TypeOfMessage.Ping){
+                System.out.println("ping ricevuto, invio pong");
                 PongMessage pongMessage = new PongMessage();
                 try {
                     stringMessage = JsonConverter.fromMessageToJson(pongMessage);
@@ -217,7 +224,11 @@ public class LobbyManager implements Runnable {
                     e.printStackTrace();
                     System.out.println("ERROR-LobbyManager-2");
                 }
-            }else{
+            }else if(unknown.getMessageType() == TypeOfMessage.Pong){
+                System.out.println("pong ricevuto");
+                playerManager.setConnected(true);
+            }
+        else{
                 System.out.println("ERROR-LobbyManager-1: message received \n" + words);
             }
         }
@@ -235,16 +246,16 @@ public class LobbyManager implements Runnable {
      * @param mode
      * @param clientSocket
      */
-    public void addNickname(String nickname, GameMode mode, Socket clientSocket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    public void addNickname(String nickname, GameMode mode, Socket clientSocket, PlayerManager playerManager) {
         if (waitingLobbies.containsKey(mode)) {
-            waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket, bufferedReader, bufferedWriter);
+            waitingLobbies.get(mode).addUsersReadyToPlay(nickname, clientSocket, playerManager);
             if (waitingLobbies.get(mode).getUsersReadyToPlay().size() == mode.getNumPlayers()) {
                 serverController.startGame(waitingLobbies.get(mode));
                 waitingLobbies.remove(mode);
             }
         } else {
             Lobby newLobby = new Lobby(mode);
-            newLobby.addUsersReadyToPlay(nickname, clientSocket, bufferedReader, bufferedWriter);
+            newLobby.addUsersReadyToPlay(nickname, clientSocket, playerManager);
             waitingLobbies.put(mode, newLobby);
         }
     }

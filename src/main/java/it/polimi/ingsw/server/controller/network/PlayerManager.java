@@ -30,8 +30,8 @@ public class PlayerManager implements Runnable{
     private transient boolean toStop=false;
     private boolean closeConnectionBeenCalled;
 
-    public PlayerManager(String playerNickname, BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
-        this.playerNickname = playerNickname;
+    public PlayerManager(BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
+        this.playerNickname = " invalid Nickname ";
         this.bufferedReaderIn=bufferedReaderIn;
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;
@@ -39,12 +39,12 @@ public class PlayerManager implements Runnable{
         this.connected=true;
         /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
+        this.pingSender=new PingSender(this);
+        this.pingThread= new Thread(pingSender);
+        pingThread.start();
     }
 
-    public PlayerManager(String playerNickname){
-        this.playerNickname = playerNickname;
-        this.jsonConverter= new JsonConverter();
-    }
+
 
     //called in messageHandler
 
@@ -56,9 +56,7 @@ public class PlayerManager implements Runnable{
     public void run(){
         String receivedString;
         Message receivedMessage;
-        this.pingSender=new PingSender(playerNickname, this);
-        pingThread= new Thread(pingSender);
-        pingThread.start();
+
 
         while (toStop!=true && !ClientController.getInstance().isDisconnected()) {
             receivedString = readFromBuffer();
@@ -437,5 +435,13 @@ public class PlayerManager implements Runnable{
 
     public void setCloseConnectionBeenCalled(boolean closeConnectionBeenCalled) {
         this.closeConnectionBeenCalled = closeConnectionBeenCalled;
+    }
+
+    public void setPlayerNickname(String playerNickname) {
+        this.playerNickname = playerNickname;
+    }
+
+    public BufferedReader getBufferedReaderIn() {
+        return bufferedReaderIn;
     }
 }

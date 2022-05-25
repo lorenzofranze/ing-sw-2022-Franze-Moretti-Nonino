@@ -15,8 +15,6 @@ public class MessageHandler {
     private int index =0;
 
     private int portNumber;
-    private Map<String,BufferedReader> bufferedReaderIn;
-    private Map<String,BufferedWriter> bufferedReaderOut;
     private Map<String,PlayerManager> playerManagerMap;
     private Map<PlayerManager,Thread> playerManagerThreads;
 
@@ -26,24 +24,13 @@ public class MessageHandler {
     public MessageHandler(Lobby lobby){
         playerManagerThreads= new HashMap<>();
         Thread t;
-        bufferedReaderIn= new HashMap<>();
-        bufferedReaderOut= new HashMap<>();
-        playerManagerMap=new HashMap<>();
+        playerManagerMap=lobby.getUsersPlayerManager();
         //inetAddresses= new HashMap<>();
-        for(String s: lobby.getUsersReadyToPlay().keySet()){
-            PlayerManager playerManager;
-            Socket clientSocket = lobby.getUsersReadyToPlay().get(s);
-            if (clientSocket==null) return;
-            BufferedReader in= lobby.getUsersReadyToPlayBufferedReader().get(s);
-            bufferedReaderIn.put(s, in);
-            BufferedWriter out= lobby.getUsersReadyToPlayBufferedWriter().get(s);
-            bufferedReaderOut.put(s, out);
-            playerManager=new PlayerManager(s, bufferedReaderIn.get(s), bufferedReaderOut.get(s));
-            playerManagerMap.put(s,playerManager);
-            t = new Thread(playerManager);
+        for(PlayerManager p: playerManagerMap.values()){
+            t = new Thread(p);
             t.start();
-            playerManagerThreads.put(playerManager,t);
-            if(playerManager.isToStop()==true){
+            playerManagerThreads.put(p,t);
+            if(p.isToStop()==true){
                 t.interrupt();
             }
         }
@@ -118,15 +105,8 @@ public class MessageHandler {
     */
 
 
-    public Map<String, BufferedReader> getBufferedReaderIn() {
-        return bufferedReaderIn;
-    }
-    public Map<String, BufferedWriter> getBufferedReaderOut() {
-        return bufferedReaderOut;
-    }
-
     private String readFromBuffer(String nickname){
-        BufferedReader in = bufferedReaderIn.get(nickname);
+        BufferedReader in = playerManagerMap.get(nickname).getBufferedReaderIn();
         String lastMessage = "";
 
         try{

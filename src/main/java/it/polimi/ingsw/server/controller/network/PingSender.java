@@ -24,8 +24,8 @@ public class PingSender implements Runnable{
     private PlayerManager playerManager;
     private String playerNickname;
 
-    public PingSender(String playerNickname, PlayerManager playerManager){
-        this.playerNickname=playerNickname;
+    public PingSender(PlayerManager playerManager){
+        this.playerNickname=" invalid Nickname ";
         this.playerManager=playerManager;
     }
 
@@ -42,6 +42,7 @@ public class PingSender implements Runnable{
 
             //invio il ping
             playerManager.sendMessage(new PingMessage());
+            System.out.println("invio ping");
 
             try {
                 Thread.sleep(PING_TIMEOUT);
@@ -80,5 +81,10 @@ public class PingSender implements Runnable{
             ServerController.getInstance().closeConnection(playerNickname);
         }
     }
+
+    public void setPlayerNickname(String playerNickname) {
+        this.playerNickname = playerNickname;
+    }
+
 }
 
