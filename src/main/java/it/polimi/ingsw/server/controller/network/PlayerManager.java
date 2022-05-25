@@ -31,7 +31,7 @@ public class PlayerManager implements Runnable{
     private boolean closeConnectionBeenCalled;
 
     public PlayerManager(BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
-        this.playerNickname = " invalid Nickname ";
+        this.playerNickname = " invalidNickname ";
         this.bufferedReaderIn=bufferedReaderIn;
         this.messageQueue=new LinkedBlockingQueue<>();
         this.bufferedReaderOut=bufferedReaderOut;

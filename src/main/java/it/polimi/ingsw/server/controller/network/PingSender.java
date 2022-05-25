@@ -25,7 +25,7 @@ public class PingSender implements Runnable{
     private String playerNickname;
 
     public PingSender(PlayerManager playerManager){
-        this.playerNickname=" invalid Nickname ";
+        this.playerNickname=" invalidNickname ";
         this.playerManager=playerManager;
     }
 
