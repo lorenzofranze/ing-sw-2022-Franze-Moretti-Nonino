@@ -26,6 +26,9 @@ public class Console{
 
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
 
+    /**
+     * controlla dall'ultimo update in quale fase sono (pinificazion o action) e chiama il metodo play corrispondente
+     */
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
 
@@ -40,6 +43,7 @@ public class Console{
                 break;
         }
     }
+
 
     private void playPianification(){
         ClientController clientController = ClientController.getInstance();

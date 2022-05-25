@@ -56,7 +56,7 @@ public class NetworkHandler implements Runnable{
      * -- se è Async chiama ClientController.setDisconnected();
      * anche in caso di errori chiama ClientController.setDisconnected().
      */
-    private Message readFromBuffer() {
+    private void readFromBuffer() {
 
         String lastMessage = "";
 
@@ -70,7 +70,7 @@ public class NetworkHandler implements Runnable{
             if(!ClientController.getInstance().isDisconnected()){
                 ClientController.getInstance().setDisconnected();
                 System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
-                return null;
+                return;
             }
 
         }
@@ -86,7 +86,7 @@ public class NetworkHandler implements Runnable{
         */
 
         if(receivedMessage==null){
-            return null;
+            return;
         }
         if (    (receivedMessage.getMessageType() == Update)       ||
                 (receivedMessage.getMessageType() == Ack)       ||
@@ -100,7 +100,7 @@ public class NetworkHandler implements Runnable{
                 System.out.println("Ti stai disconnettendo perchè hai ricevuto un async message");
                 ClientController.getInstance().setDisconnected();
                 AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
-                return null;
+                return;
             case Ping:
                 try {
                     sendToServer(new PongMessage());
@@ -115,7 +115,7 @@ public class NetworkHandler implements Runnable{
                 setPingConnected(true);
                 break;
         }
-        return receivedMessage;
+        return;
     }
 
     /**
@@ -184,13 +184,13 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * finchè non c'è disconnessione, chiamo readFromBuffer() per leggere dalla coda
+     * finchè non c'è disconnessione, chiamo readFromBuffer() per poter aggiungere i messaggi in coda (o gestirli
+     * senza aggiungerli alla coda nel caso di Ping, Pong, Async) appena questi arrivano sul buffer
      */
     @Override
     public void run(){
-
         while(!ClientController.getInstance().isDisconnected()) {
-            Message receivedMessage = this.readFromBuffer();
+            this.readFromBuffer();
         }
     }
 
