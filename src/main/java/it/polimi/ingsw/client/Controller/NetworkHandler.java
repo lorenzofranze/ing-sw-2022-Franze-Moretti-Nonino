@@ -49,7 +49,12 @@ public class NetworkHandler implements Runnable{
 
     /**
      * legge dal buffer le stringhe e li trasforma in messaggi con Json,
-     *
+     * se sono di tipo Update, Ack, Error, Async, Game, li aggiunge alla coda dei messaggi
+     * altrimenti
+     * -- se è Ping, invia il Pong;
+     * -- se è Pong, setta connected del PingSender a true;
+     * -- se è Async chiama ClientController.setDisconnected();
+     * anche in caso di errori chiama ClientController.setDisconnected().
      */
     private Message readFromBuffer() {
 
@@ -113,6 +118,11 @@ public class NetworkHandler implements Runnable{
         return receivedMessage;
     }
 
+    /**
+     * invia i messaggi passati come parametro al server
+     * @param message
+     * @throws IOException
+     */
     public void sendToServer(Message message) throws IOException {
         if(ClientController.getInstance().isDisconnected()) return;
         Message messageToSend = message;
@@ -141,6 +151,10 @@ public class NetworkHandler implements Runnable{
     }
     */
 
+    /**
+     * è chiamato da ClientApp quando bisogna chiudere il client.
+     * Chiude i buffer in ingresso e uscita.
+     */
     public void endClient() {
         try {
             out.close();
@@ -151,6 +165,11 @@ public class NetworkHandler implements Runnable{
         }
     }
 
+    /**
+     * preleva e restituisce i messaggi aggiunti alla coda da readFromBuffer().
+     * nel caso la coda sia vuota, il metodo take() attende che si riempa con un messaggio.
+     * @return
+     */
     public Message getReceivedMessage() {
         try {
             return messageQueue.take();
@@ -164,6 +183,9 @@ public class NetworkHandler implements Runnable{
         return null;
     }
 
+    /**
+     * finchè non c'è disconnessione, chiamo readFromBuffer() per leggere dalla coda
+     */
     @Override
     public void run(){
 
