@@ -26,14 +26,7 @@ public class MessageHandler {
         Thread t;
         playerManagerMap=lobby.getUsersPlayerManager();
         //inetAddresses= new HashMap<>();
-        for(PlayerManager p: playerManagerMap.values()){
-            t = new Thread(p);
-            t.start();
-            playerManagerThreads.put(p,t);
-            if(p.isToStop()==true){
-                t.interrupt();
-            }
-        }
+        playerManagerThreads=lobby.getPlayerManagerThreads();
         jsonConverter = new JsonConverter();
     }
 

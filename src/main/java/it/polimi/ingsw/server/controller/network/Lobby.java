@@ -14,6 +14,7 @@ public class Lobby {
     // string è nickname
     private Map<String, Socket> usersReadyToPlaySocket;
     private Map<String, PlayerManager> usersPlayerManager;
+    private Map<PlayerManager,Thread> playerManagerThreads;
 
     public GameMode getGameMode() {
         return gameMode;
@@ -29,6 +30,7 @@ public class Lobby {
         this.usersReadyToPlaySocket = new HashMap<>();
         this.usersPlayerManager = new HashMap<>();
         this.gameMode = gameMode;
+
     }
 
     public List<String> getUsersNicknames() {
@@ -40,6 +42,12 @@ public class Lobby {
     public void addUsersReadyToPlay(String nickname, Socket clientSocket, PlayerManager playerManager) {
         usersReadyToPlaySocket.put(nickname, clientSocket);
         usersPlayerManager.put(nickname, playerManager);
+        Thread playerManagerThread = new Thread(playerManager);
+        playerManagerThread.start();
+        playerManagerThreads.put(playerManager,playerManagerThread);
+        if(playerManager.isToStop()==true){
+            playerManagerThread.interrupt();
+        }
     }
 
     public Map<String, PlayerManager> getUsersPlayerManager() {
@@ -48,6 +56,10 @@ public class Lobby {
 
     public Map<String, Socket> getUsersReadyToPlaySocket() {
         return usersReadyToPlaySocket;
+    }
+
+    public Map<PlayerManager, Thread> getPlayerManagerThreads() {
+        return playerManagerThreads;
     }
 }
 
