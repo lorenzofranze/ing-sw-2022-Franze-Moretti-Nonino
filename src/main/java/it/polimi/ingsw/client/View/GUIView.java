@@ -6,6 +6,7 @@ import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,7 +34,7 @@ public class GUIView extends Application implements View{
         try {
             this.root = FXMLLoader.load(getClass().getClassLoader().getResource("startFrame.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.initStyle(StageStyle.UNDECORATED);
+            //primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch(Exception e) {
@@ -41,13 +42,10 @@ public class GUIView extends Application implements View{
         }
     }
 
-    public static void main(String[] args){launch(args);}
-
-
     private void showScene(String nameFileFxml) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("startFrame.fxml"));
+            root = FXMLLoader.load(getClass().getResource(nameFileFxml));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,17 +69,34 @@ public class GUIView extends Application implements View{
         ClientController clientController = ClientController.getInstance();
         showScene("chooseGameModeFrame.fxml");
 
-
         System.out.println("\nTHESE ARE THE POSSIBLE GAME MODES:");
         System.out.println("1. 2 players simple\n" + "2. 3 players simple\n" + "3. 2 players complex\n" + "4. 3 players complex");
         System.out.print("\nCHOOSE THE GAME MODE: ");
-        boolean valid;
-        int result = 0;
-        do {
-            valid = true;
 
-        } while (!valid);
-        clientController.setGameMode(GameMode.values()[result - 1]);
+    }
+
+    @FXML
+    public void inputChoice1(MouseEvent event) {
+        ClientController clientController = ClientController.getInstance();
+        clientController.setGameMode(GameMode.values()[0]);
+    }
+
+    @FXML
+    public void inputChoice2(MouseEvent event) {
+        ClientController clientController = ClientController.getInstance();
+        clientController.setGameMode(GameMode.values()[1]);
+    }
+
+    @FXML
+    public void inputChoice3(MouseEvent event) {
+        ClientController clientController = ClientController.getInstance();
+        clientController.setGameMode(GameMode.values()[2]);
+    }
+
+    @FXML
+    public void inputChoice4(MouseEvent event) {
+        ClientController clientController = ClientController.getInstance();
+        clientController.setGameMode(GameMode.values()[3]);
     }
 
     public void beginReadUsername() {

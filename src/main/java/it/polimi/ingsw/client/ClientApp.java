@@ -50,9 +50,9 @@ public class ClientApp{
             ClientApp clientApp = new ClientApp(view);
             clientApp.play();
         } else if (typeOfView.equals("gui")) {
-            Application.launch(args);
             view = new GUIView();
             ClientApp clientApp = new ClientApp(view);
+            Application.launch(GUIView.class, args);
             clientApp.play();
 
         }
