@@ -32,16 +32,20 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.View.GUIView">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.View.GUIView">
    <children>
-      <ImageView fitHeight="194.0" fitWidth="600.0" layoutY="108.0" onMouseReleased="#chooseGameMode" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="194.0" fitWidth="600.0" layoutY="108.0" onMouseReleased="#chooseGameModeGUI" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Eriantys_slider.jpg" />
          </image>
       </ImageView>
    </children>
+   <effect>
+      <Blend />
+   </effect>
 </Pane>

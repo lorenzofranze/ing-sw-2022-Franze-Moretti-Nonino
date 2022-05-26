@@ -32,8 +32,4 @@ public interface View {
     void chooseColour(); //used from cards 9 - 12 - 7 - 10 - 11
     void chooseIsland(); //used from cards 3 - 5
     void chooseNumOfMove();
-
-    public void startScreen();
-
-    public void start(Stage stage) throws Exception;
 }

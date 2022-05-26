@@ -54,7 +54,6 @@ public class ClientApp{
             ClientApp clientApp = new ClientApp(view);
             Application.launch(GUIView.class, args);
             clientApp.play();
-
         }
         System.exit(0);
     }

@@ -6,14 +6,17 @@ import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import static javafx.application.Application.launch;
@@ -24,9 +27,11 @@ public class GUIView extends Application implements View{
     private Stage currentStage;
     private Parent root;
 
-    @Override
+    private int gameModeChosen;
+
     /**
      * Method that initialize stage and load scenes
+     * it calls chooseGameModeGUI on muoseClicked
      * @param primaryStage game stage
      * @throws Exception impossible start game
      */
@@ -42,15 +47,70 @@ public class GUIView extends Application implements View{
         }
     }
 
-    private void showScene(String nameFileFxml) {
+    public void setCurrentStage(String fxmlName){
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource(nameFileFxml));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource(fxmlName));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentStage.setScene(new Scene(root, 800, 500));
+        Scene scene = new Scene(root);
+        currentStage.setScene(scene);
         currentStage.show();
+    }
+
+    /**
+     * it shows the game mode and it calls input Choice1/2/3/4 on mouse clicked
+     */
+    public void chooseGameModeGUI(MouseEvent mouseEvent) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("chooseGameModeFrame.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        currentStage.setScene(scene);
+        currentStage.show();
+    }
+
+
+    /**
+     * when the client controller calls chooseGameMode, the client controller's attribute "gameMode" is
+     * set with the value gameModeChosen
+     */
+    @Override
+    public synchronized void chooseGameMode(){
+
+        ClientController clientController = ClientController.getInstance();
+        clientController.setGameMode(GameMode.values()[gameModeChosen]);
+    }
+
+
+
+    @FXML
+    public void inputChoice1(MouseEvent event) {
+        this.gameModeChosen=0;
+        setCurrentStage("chooseNameFrame.fxml");
+    }
+
+    @FXML
+    public void inputChoice2(MouseEvent event) {
+        this.gameModeChosen=1;
+        setCurrentStage("chooseNameFrame.fxml");
+    }
+
+    @FXML
+    public void inputChoice3(MouseEvent event) {
+        this.gameModeChosen=2;
+        setCurrentStage("chooseNameFrame.fxml");
+    }
+
+    @FXML
+    public void inputChoice4(MouseEvent event) {
+        this.gameModeChosen=3;
+        setCurrentStage("chooseNameFrame.fxml");
     }
 
     void beginUsername(MouseEvent event){
@@ -58,46 +118,7 @@ public class GUIView extends Application implements View{
         //String title=
     }
 
-    @Override
-    public void startScreen(){
-        showScene("startFrame.fxml");
-    }
 
-
-    @Override
-    public synchronized void chooseGameMode() {
-        ClientController clientController = ClientController.getInstance();
-        showScene("chooseGameModeFrame.fxml");
-
-        System.out.println("\nTHESE ARE THE POSSIBLE GAME MODES:");
-        System.out.println("1. 2 players simple\n" + "2. 3 players simple\n" + "3. 2 players complex\n" + "4. 3 players complex");
-        System.out.print("\nCHOOSE THE GAME MODE: ");
-
-    }
-
-    @FXML
-    public void inputChoice1(MouseEvent event) {
-        ClientController clientController = ClientController.getInstance();
-        clientController.setGameMode(GameMode.values()[0]);
-    }
-
-    @FXML
-    public void inputChoice2(MouseEvent event) {
-        ClientController clientController = ClientController.getInstance();
-        clientController.setGameMode(GameMode.values()[1]);
-    }
-
-    @FXML
-    public void inputChoice3(MouseEvent event) {
-        ClientController clientController = ClientController.getInstance();
-        clientController.setGameMode(GameMode.values()[2]);
-    }
-
-    @FXML
-    public void inputChoice4(MouseEvent event) {
-        ClientController clientController = ClientController.getInstance();
-        clientController.setGameMode(GameMode.values()[3]);
-    }
 
     public void beginReadUsername() {
             ClientController clientController = ClientController.getInstance();

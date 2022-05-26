@@ -597,15 +597,5 @@ public class CLIView implements View {
     }
 
 
-    @Override
-    public void startScreen() {
-
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
-    }
-
 
 }
