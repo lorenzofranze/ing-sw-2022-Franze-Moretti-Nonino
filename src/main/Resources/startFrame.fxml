@@ -41,7 +41,7 @@
    <children>
       <ImageView fitHeight="194.0" fitWidth="600.0" layoutY="108.0" onMouseReleased="#chooseGameModeGUI" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/Eriantys_slider.jpg" />
+            <Image url="@images/imageStart/Eriantys_slider.jpg" />
          </image>
       </ImageView>
    </children>

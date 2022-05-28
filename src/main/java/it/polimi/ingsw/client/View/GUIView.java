@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,16 +24,18 @@ import java.io.IOException;
 import static javafx.application.Application.launch;
 
 
-public class GUIView extends Application implements View{
+public class GUIView extends Application implements View {
 
-    private Stage currentStage;
-    private Parent root;
+    private static Stage currentStage;
+    private static Parent root;
 
     private int gameModeChosen;
+    private String nameChosen;
 
     /**
      * Method that initialize stage and load scenes
      * it calls chooseGameModeGUI on muoseClicked
+     *
      * @param primaryStage game stage
      * @throws Exception impossible start game
      */
@@ -42,12 +46,12 @@ public class GUIView extends Application implements View{
             //primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setCurrentStage(String fxmlName){
+    public void setCurrentStage(String fxmlName) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource(fxmlName));
@@ -81,63 +85,78 @@ public class GUIView extends Application implements View{
      * set with the value gameModeChosen
      */
     @Override
-    public synchronized void chooseGameMode(){
+    public synchronized void chooseGameMode() {
 
         ClientController clientController = ClientController.getInstance();
         clientController.setGameMode(GameMode.values()[gameModeChosen]);
+        System.out.println("game mode chosen: " + gameModeChosen);
     }
 
 
-
     @FXML
-    public void inputChoice1(MouseEvent event) {
-        this.gameModeChosen=0;
+    public void inputChoice1(MouseEvent mouseEvent) {
+        this.gameModeChosen = 0;
+        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
     }
 
     @FXML
-    public void inputChoice2(MouseEvent event) {
-        this.gameModeChosen=1;
+    public void inputChoice2(MouseEvent mouseEvent) {
+        this.gameModeChosen = 1;
+        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
     }
 
     @FXML
-    public void inputChoice3(MouseEvent event) {
-        this.gameModeChosen=2;
+    public void inputChoice3(MouseEvent mouseEvent) {
+        this.gameModeChosen = 2;
+        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
     }
 
     @FXML
-    public void inputChoice4(MouseEvent event) {
-        this.gameModeChosen=3;
+    public void inputChoice4(MouseEvent mouseEvent) {
+        this.gameModeChosen = 3;
+        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
     }
 
-    void beginUsername(MouseEvent event){
-        //Stage startWindow= (Stage) tfTitle.getScene().getWindow();
-        //String title=
-    }
+    @FXML
+    private TextField TextFieldNickname;
 
+    @FXML
+    private Label LabelNickname;
+
+    @FXML
+    public void nameCheck(MouseEvent mouseEvent){
+        boolean valid;
+        String result;
+
+        valid = true;
+        result= TextFieldNickname.getText();
+        System.out.println("controllo nome");
+        if (result.length() < 4) {
+            valid = false;
+            LabelNickname.setText("The nickname is too short, choose another one");
+            System.out.println("nome sbagliato");
+
+            result= TextFieldNickname.getText();
+            return;
+        }
+        else{
+            currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            setCurrentStage("gameTableFrame.fxml");
+        }
+
+    }
 
 
     public void beginReadUsername() {
-            ClientController clientController = ClientController.getInstance();
-            System.out.print("INSERT NICKNAME (at least 4 characters): ");
-            boolean valid;
-            String result;
-            /*
-            do {
-                valid = true;
-                result = scanner.nextLine();
-                if (result.length() < 4 ) {
-                    System.out.println("You must insert a nickname of at least 4 characters.");
-                    System.out.print("INSERT NICKNAME (at least 4 characters): ");
-                    valid = false;
-                }
-             */
-            //} while (!valid);
-            //clientController.setNickname(result);
-        }
+        ClientController clientController = ClientController.getInstance();
+        clientController.setNickname(nameChosen);
+    }
+
+
 
 
 
