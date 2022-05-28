@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.View;
 
+import it.polimi.ingsw.client.Controller.CharacterCardsConsole;
 import it.polimi.ingsw.client.Controller.ClientController;
-import it.polimi.ingsw.common.gamePojo.GameStatePojo;
+import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
@@ -186,69 +187,280 @@ public class GUIView extends Application implements View {
     }
 
     @Override
-    public void showMessage(Message message) {
 
+    public synchronized void showMessage(Message message) {
+        if(message==null) return;
+        if(message.getMessageType().equals(TypeOfMessage.Connection)){
+            ConnectionMessage connectionMessage = (ConnectionMessage) message;
+            showConnection(connectionMessage);
+        }
+        if(message.getMessageType().equals(TypeOfMessage.Ack)){
+            AckMessage ackMessage = (AckMessage) message;
+            showAck(ackMessage);
+        }
+        if(message.getMessageType().equals(TypeOfMessage.Update)){
+            UpdateMessage updateMessage = (UpdateMessage) message;
+            showUpdate(updateMessage);
+        }
+        if(message.getMessageType().equals(TypeOfMessage.Game)){
+            GameMessage gameMessage = (GameMessage) message;
+            showMove(gameMessage);
+        }
+        if(message.getMessageType().equals(TypeOfMessage.Error)){
+            ErrorMessage errorMessage = (ErrorMessage) message;
+            showError(errorMessage);
+        }
+        if(message.getMessageType().equals(TypeOfMessage.Ping)){
+            PingMessage pingMessage = (PingMessage) message;
+            showPing(pingMessage);
+        }
+        if(message.getMessageType().equals(TypeOfMessage.Async)){
+            AsyncMessage asyncMessage = (AsyncMessage) message;
+
+            showAsync(asyncMessage);
+        }
     }
 
     @Override
-    public void showConnection(ConnectionMessage connectionMessage) {
-
+    public synchronized void showError(ErrorMessage errorMessage) {
+        switch(errorMessage.getTypeOfError()) {
+            case UsedName:
+                System.out.println("Nickname already in use by other players.\n");
+                break;
+            case UnmatchedMessages:
+                System.out.println("Unexpected message received from server.\n");
+                if(ClientController.getInstance().isDisconnected()==false){
+                    ClientController.getInstance().setDisconnected();
+                }
+                break;
+            case FullDiningRoom:
+                System.out.println("The diningroom is full. Place the student in another place.\n");
+                break;
+            case InvalidChoice:
+                System.out.println("The choice you made is invalid.\n");
+                break;
+            case AlreadyPlayed:
+                System.out.println("Another player has already played this card.\n");
+                break;
+            case TurnError:
+                System.out.println("You cannot play. Wait for your turn.\n");
+                break;
+            case NoMoney:
+                System.out.println("You don't have enough money.\n");
+                break;
+            case FailedConnection:
+                System.out.println("Failed connection to the server.\n");
+                break;
+            default:
+                System.out.println("Unknown error message.\n");
+        }
     }
 
     @Override
-    public void showError(ErrorMessage errorMessage) {
-
+    public synchronized void showConnection(ConnectionMessage connectionMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
+        String stringConnection = jsonConverter.fromMessageToJson(connectionMessage);
+        System.out.println(connectionMessage);
     }
 
     @Override
-    public void showAck(AckMessage ackMessage) {
+    public synchronized void showAck(AckMessage ackMessage) {
 
+        switch(ackMessage.getTypeOfAck()) {
+            case CorrectConnection:
+                System.out.println("Successful connection.");
+                break;
+            case CompleteLobby:
+                System.out.println("All players have joined the lobby. The game can start.");
+                System.out.println("\n\n\n##########################################     WELCOME IN ERYANTIS!     ##########################################");
+                break;
+            default:
+                System.out.println("Unknown ack message");
+                break;
+        }
     }
 
     @Override
-    public void showUpdate(UpdateMessage updateMessage) {
-
+    public synchronized void showUpdate(UpdateMessage updateMessage) {
+        GameStatePojo gameStatePojo = updateMessage.getGameState();
+        showGameState(gameStatePojo);
     }
 
     @Override
-    public void showAsync(AsyncMessage asyncMessage) {
-
+    public synchronized void showAsync(AsyncMessage asyncMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
+        String stringAsync = jsonConverter.fromMessageToJson(asyncMessage);
+        System.out.println(stringAsync);
     }
 
     @Override
-    public void showPing(PingMessage pingMessage) {
-
+    public synchronized void showMove(GameMessage gameMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
+        String stringMove = jsonConverter.fromMessageToJson(gameMessage);
+        System.out.println(stringMove);
     }
 
     @Override
-    public void showMove(GameMessage gameMessage) {
-
+    public synchronized void showPing(PingMessage pingMessage) {
+        JsonConverter jsonConverter = new JsonConverter();
+        String stringPing = jsonConverter.fromMessageToJson(pingMessage);
+        System.out.println(stringPing);
     }
 
     @Override
-    public void showGameState(GameStatePojo gameStatePojo) {
+    public synchronized void showGameState(GameStatePojo gameStatePojo) {
+        ClientController clientController = ClientController.getInstance();
 
+        System.out.println("\n----------------------------------------------------GAME STATE----------------------------------------------------\n");
+        /**todo**/
+    }
+
+    //METHODS FOR COMPLEX MODE:
+    @Override
+    public synchronized void moveStudentToIsland(){
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        System.out.println("\n"+"\033[01m"+"CARD1 EFFECT\n"+"\033[0m");
+        System.out.println("These are the colours you can choose from");
+        for (ColourPawn c : ColourPawn.values()){
+            System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
+        }
+        System.out.print("\nChoose a colour (insert the numerical index): ");
+
+        valid = false;
+        do {
+            resultString = null;
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice.");
+                System.out.print("\nChoose a colour (insert the numerical index): ");
+                valid = false;
+            }
+        }while(valid == false);
+
+        characterCardsConsole.setPawnColour(result);
+
+        System.out.println("\n - Insert the island index to place it on an island");
+        System.out.print("\nInsert your choice: ");
+
+        valid = false;
+        do {
+            resultString = null;
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice.");
+                System.out.print("\nInsert your choice (numerical index): ");
+                valid = false;
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnWhere(result);
     }
 
     @Override
-    public void moveStudentToIsland() {
+    public synchronized void chooseIsland(){
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
 
+        int cardID = gameStatePojo.getActiveEffect().getCharacterId(); // can be 3 or 5
+
+        System.out.println("\n"+"\033[01m"+"CARD"+cardID+" EFFECT"+"\033[0m");
+        System.out.print("Insert island index: ");
+
+        valid = false;
+        do {
+            resultString = null;
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert island index: ");
+                valid = false;
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnWhere(result);
     }
 
     @Override
-    public void chooseColour() {
+    public synchronized void chooseColour() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
 
+        int cardID = gameStatePojo.getActiveEffect().getCharacterId();
+        if(cardID!=7 && cardID!=10) {
+            System.out.println("\n" + "\033[01m" + "CARD" + cardID + " EFFECT" + "\033[0m");
+        }
+        System.out.println("These are the colours you can choose from");
+        for (ColourPawn c : ColourPawn.values()){
+            System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
+        }
+        System.out.print("Insert colour: ");
+        valid = false;
+        do {
+            resultString = null;
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert colour: ");
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnColour(result);
     }
 
+    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
     @Override
-    public void chooseIsland() {
+    public synchronized void chooseNumOfMove() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        CharacterCardsConsole characterCardsConsole = clientController.getCharacterCardsConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
 
+        int cardID = gameStatePojo.getActiveEffect().getCharacterId(); // can be 7 or 10
+
+        System.out.println("\n"+"\033[01m"+"CARD"+cardID+" EFFECT"+"\033[0m");
+        System.out.print("Insert the number of students you want to move: ");
+
+        valid = false;
+        do {
+            resultString = null;
+            try{
+                result = Integer.parseInt(resultString);
+                valid = true;
+            } catch(NumberFormatException e){
+                System.out.println("Invalid choice. You must choose a number.");
+                System.out.print("Insert number of students you want to move: ");
+            }
+        }while(valid == false);
+        characterCardsConsole.setPawnsToMove(result);
+        if(cardID==7){
+            System.out.println("\nFirst choose the student on the card then the student in your entrance");
+        }else if(cardID==10){
+            System.out.println("\nFirst choose the student in your entrance then the student in your dining room");
+        }
     }
 
-    @Override
-    public void chooseNumOfMove() {
 
-    }
 
 
 
