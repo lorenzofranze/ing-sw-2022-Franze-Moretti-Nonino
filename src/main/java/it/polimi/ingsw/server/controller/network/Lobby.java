@@ -29,6 +29,7 @@ public class Lobby {
     public Lobby(GameMode gameMode) {
         this.usersReadyToPlaySocket = new HashMap<>();
         this.usersPlayerManager = new HashMap<>();
+        this.playerManagerThreads= new HashMap<>();
         this.gameMode = gameMode;
 
     }
