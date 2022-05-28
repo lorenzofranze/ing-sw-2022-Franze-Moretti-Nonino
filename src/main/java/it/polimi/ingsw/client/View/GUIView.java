@@ -7,7 +7,6 @@ import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,9 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import static javafx.application.Application.launch;
@@ -122,12 +119,23 @@ public class GUIView extends Application implements View {
         setCurrentStage("chooseNameFrame.fxml");
     }
 
+    public void beginReadUsername() {
+        ClientController clientController = ClientController.getInstance();
+        clientController.setNickname(nameChosen);
+    }
+
+
     @FXML
     private TextField TextFieldNickname;
 
     @FXML
     private Label LabelNickname;
 
+    /**
+     * controlla il nome inserito: se è più lungo di 4, cambia scena
+     * senò lo richiede
+     * @param mouseEvent
+     */
     @FXML
     public void nameCheck(MouseEvent mouseEvent){
         boolean valid;
@@ -146,16 +154,11 @@ public class GUIView extends Application implements View {
         }
         else{
             currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-            setCurrentStage("gameTableFrame.fxml");
+            setCurrentStage("gamePianificationFrame.fxml");
         }
 
     }
 
-
-    public void beginReadUsername() {
-        ClientController clientController = ClientController.getInstance();
-        clientController.setNickname(nameChosen);
-    }
 
 
 
@@ -324,13 +327,6 @@ public class GUIView extends Application implements View {
         String resultString;
         Integer result = null;
         boolean valid;
-
-        System.out.println("\n"+"\033[01m"+"CARD1 EFFECT\n"+"\033[0m");
-        System.out.println("These are the colours you can choose from");
-        for (ColourPawn c : ColourPawn.values()){
-            System.out.println(c.getIndexColour() + " - " + c.toString() + ".");
-        }
-        System.out.print("\nChoose a colour (insert the numerical index): ");
 
         valid = false;
         do {
