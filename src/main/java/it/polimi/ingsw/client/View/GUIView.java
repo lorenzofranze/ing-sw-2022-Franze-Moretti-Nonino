@@ -6,6 +6,7 @@ import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import it.polimi.ingsw.server.model.AssistantCard;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +15,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
 
 import static javafx.application.Application.launch;
 
@@ -29,6 +34,7 @@ public class GUIView extends Application implements View {
 
     private int gameModeChosen;
     private String nameChosen;
+    private int assistantCardChosen;
 
     /**
      * Method that initialize stage and load scenes
@@ -159,6 +165,172 @@ public class GUIView extends Application implements View {
 
     }
 
+    @FXML
+    private ImageView AssistantCard1;
+
+    @FXML
+    private ImageView AssistantCard2;
+
+    @FXML
+    private ImageView AssistantCard3;
+
+    @FXML
+    private ImageView AssistantCard4;
+
+    @FXML
+    private ImageView AssistantCard5;
+
+    @FXML
+    private ImageView AssistantCard6;
+
+    @FXML
+    private ImageView AssistantCard7;
+
+    @FXML
+    private ImageView AssistantCard8;
+
+    @FXML
+    private ImageView AssistantCard9;
+
+    @FXML
+    private ImageView AssistantCard10;
+
+    @FXML
+    void setAssistantCardChosen1(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==1){
+                valid=true;
+                this.assistantCardChosen=1;
+            }
+        }
+    }
+
+    @FXML
+    void setAssistantCardChosen2(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==2){
+                valid=true;
+                this.assistantCardChosen=2;
+            }
+        }
+    }
+
+    @FXML
+    void setAssistantCardChosen3(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==3){
+                valid=true;
+                this.assistantCardChosen=3;
+            }
+        }
+    }
+    @FXML
+    void setAssistantCardChosen4(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==4){
+                valid=true;
+                this.assistantCardChosen=4;
+            }
+        }
+    }
+
+    @FXML
+    void setAssistantCardChosen5(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==5){
+                valid=true;
+                this.assistantCardChosen=5;
+            }
+        }
+    }
+    @FXML
+    void setAssistantCardChosen6(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==6){
+                valid=true;
+                this.assistantCardChosen=6;
+            }
+        }
+    }
+
+    @FXML
+    void setAssistantCardChosen7(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==7){
+                valid=true;
+                this.assistantCardChosen=7;
+            }
+        }
+    }
+    @FXML
+    void setAssistantCardChosen8(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==8){
+                valid=true;
+                this.assistantCardChosen=8;
+            }
+        }
+    }
+
+    @FXML
+    void setAssistantCardChosen9(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==9){
+                valid=true;
+                this.assistantCardChosen=9;
+            }
+        }
+    }
+
+    @FXML
+    void setAssistantCardChosen10(MouseEvent event) {
+
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
+        for (AssistantCardPojo a : assistantCardPojos) {
+            if(a.getTurnOrder()==10){
+                valid=true;
+                this.assistantCardChosen=10;
+            }
+        }
+    }
 
 
 
@@ -166,6 +338,16 @@ public class GUIView extends Application implements View {
 
     @Override
     public void chooseAssistantCard() {
+
+        ClientController clientController = ClientController.getInstance();
+        String resultString;
+        int result = 0;
+        boolean valid = true;
+        System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
+
+        System.out.println("\033[01m"+"PIANIFICATION PHASE"+"\033[0m" + "\nYou need to choose your Assistant Card. Here is your deck.\n");
+
+        clientController.getConsole().setAssistantCardPlayed(this.assistantCardChosen);
 
     }
 
@@ -313,9 +495,55 @@ public class GUIView extends Application implements View {
     @Override
     public synchronized void showGameState(GameStatePojo gameStatePojo) {
         ClientController clientController = ClientController.getInstance();
+        PlayerPojo me = null;
+        for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()){
+            if (p.getNickname().equals(ClientController.getInstance().getNickname())){
+                me = p;
+            }
+        }
 
         System.out.println("\n----------------------------------------------------GAME STATE----------------------------------------------------\n");
-        /**todo**/
+        // PIANIFICATION
+        if(clientController.getGameStatePojo().getCurrentPhase().equals(Phase.PIANIFICATION)){
+
+            Set<AssistantCardPojo> assistantCardPojos= me.getDeck();
+            for(AssistantCardPojo a: assistantCardPojos) {
+
+                if (a.getTurnOrder()== 1) {
+                    AssistantCard1.setImage(AssistantCard1.getImage());
+                }
+                if (a.getTurnOrder()== 2) {
+                    AssistantCard2.setImage(AssistantCard2.getImage());
+                }
+                if (a.getTurnOrder()== 3) {
+                    AssistantCard3.setImage(AssistantCard3.getImage());
+                }
+                if (a.getTurnOrder()== 4) {
+                    AssistantCard4.setImage(AssistantCard4.getImage());
+                }
+                if (a.getTurnOrder()== 5) {
+                    AssistantCard5.setImage(AssistantCard5.getImage());
+                }
+                if (a.getTurnOrder()== 6) {
+                    AssistantCard7.setImage(AssistantCard6.getImage());
+                }
+                if (a.getTurnOrder()== 7) {
+                    AssistantCard8.setImage(AssistantCard7.getImage());
+                }
+                if (a.getTurnOrder()== 8) {
+                    AssistantCard9.setImage(AssistantCard8.getImage());
+                }
+                if (a.getTurnOrder()== 9) {
+                    AssistantCard10.setImage(AssistantCard9.getImage());
+                }
+                if (a.getTurnOrder()== 10) {
+                    AssistantCard10.setImage(AssistantCard10.getImage());
+                }
+            }
+
+
+
+        }
     }
 
     //METHODS FOR COMPLEX MODE:

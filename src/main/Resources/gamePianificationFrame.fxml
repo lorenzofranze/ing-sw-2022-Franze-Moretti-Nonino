@@ -4,102 +4,136 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.View.GUIView">
+<AnchorPane prefHeight="394.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.View.GUIView">
    <children>
-      <ImageView fitHeight="415.0" fitWidth="633.0" pickOnBounds="true">
+      <ImageView fitHeight="186.0" fitWidth="596.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/CarteTOT_back_21@3x.png" />
+            <Image url="@images/imageStart/Eriantys_slider.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="77.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="63.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="70.0" layoutY="114.0" pickOnBounds="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/reameB_1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="56.0" layoutY="179.0" pickOnBounds="true">
          <image>
             <Image url="@images/imageGamePianification/nuvola.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="77.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="63.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/imageGamePianification/reameB_1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="125.0" fitWidth="314.0" layoutX="344.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/imageGamePianification/PLANCIA%20GIOCO_2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="125.0" fitWidth="314.0" layoutX="344.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/imageGamePianification/PLANCIA%20GIOCO_2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="125.0" fitWidth="314.0" layoutX="344.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/imageGamePianification/PLANCIA%20GIOCO_2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="73.0" layoutY="224.0" pickOnBounds="true">
+      <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="59.0" layoutY="289.0" pickOnBounds="true">
          <image>
             <Image url="@images/imageGamePianification/nuvola.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="73.0" layoutY="169.0" pickOnBounds="true">
+      <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="59.0" layoutY="234.0" pickOnBounds="true">
          <image>
             <Image url="@images/imageGamePianification/nuvola.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard1" fitHeight="119.0" fitWidth="123.0" layoutX="189.0" layoutY="161.0" onMouseClicked="#setAssistantCardChosen1" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(1).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard2" fitHeight="119.0" fitWidth="123.0" layoutX="270.0" layoutY="161.0" onMouseClicked="#setAssistantCardChosen2" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(2).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard3" fitHeight="119.0" fitWidth="123.0" layoutX="351.0" layoutY="161.0" onMouseClicked="#setAssistantCardChosen3" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(3).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard4" fitHeight="119.0" fitWidth="123.0" layoutX="432.0" layoutY="161.0" onMouseClicked="#setAssistantCardChosen4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(4).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard5" fitHeight="119.0" fitWidth="123.0" layoutX="513.0" layoutY="161.0" onMouseClicked="#setAssistantCardChosen5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(5).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard6" fitHeight="119.0" fitWidth="123.0" layoutX="189.0" layoutY="280.0" onMouseClicked="#setAssistantCardChosen6" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(6).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard7" fitHeight="119.0" fitWidth="123.0" layoutX="270.0" layoutY="280.0" onMouseClicked="#setAssistantCardChosen7" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(7).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard8" fitHeight="119.0" fitWidth="123.0" layoutX="351.0" layoutY="280.0" onMouseClicked="#setAssistantCardChosen8" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(8).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard9" fitHeight="119.0" fitWidth="123.0" layoutX="432.0" layoutY="280.0" onMouseClicked="#setAssistantCardChosen9" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(9).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="AssistantCard10" fitHeight="119.0" fitWidth="123.0" layoutX="513.0" layoutY="280.0" onMouseClicked="#setAssistantCardChosen10" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/imageGamePianification/Assistente%20(10).png" />
          </image>
       </ImageView>
    </children>
