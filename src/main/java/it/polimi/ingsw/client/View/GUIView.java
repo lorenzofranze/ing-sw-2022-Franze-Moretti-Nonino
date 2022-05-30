@@ -127,7 +127,7 @@ public class GUIView extends Application implements View {
 
     public void beginReadUsername() {
         ClientController clientController = ClientController.getInstance();
-        clientController.setNickname(nameChosen);
+        clientController.getNickname();
     }
 
 
@@ -159,6 +159,7 @@ public class GUIView extends Application implements View {
             return;
         }
         else{
+            this.nameChosen=result;
             currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             setCurrentStage("gamePianificationFrame.fxml");
         }
