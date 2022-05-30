@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.View;
 
 import it.polimi.ingsw.client.Controller.CharacterCardsConsole;
 import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static javafx.application.Application.launch;
@@ -35,6 +38,7 @@ public class GUIView extends Application implements View {
     private int gameModeChosen;
     private String nameChosen;
     private int assistantCardChosen;
+    private boolean isAssistantCardChosen;
 
     /**
      * Method that initialize stage and load scenes
@@ -206,6 +210,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==1){
                 valid=true;
                 this.assistantCardChosen=1;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -220,6 +225,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==2){
                 valid=true;
                 this.assistantCardChosen=2;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -234,6 +240,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==3){
                 valid=true;
                 this.assistantCardChosen=3;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -247,6 +254,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==4){
                 valid=true;
                 this.assistantCardChosen=4;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -261,6 +269,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==5){
                 valid=true;
                 this.assistantCardChosen=5;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -274,6 +283,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==6){
                 valid=true;
                 this.assistantCardChosen=6;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -288,6 +298,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==7){
                 valid=true;
                 this.assistantCardChosen=7;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -301,6 +312,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==8){
                 valid=true;
                 this.assistantCardChosen=8;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -315,6 +327,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==9){
                 valid=true;
                 this.assistantCardChosen=9;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -329,6 +342,7 @@ public class GUIView extends Application implements View {
             if(a.getTurnOrder()==10){
                 valid=true;
                 this.assistantCardChosen=10;
+                this.isAssistantCardChosen=true;
             }
         }
     }
@@ -349,8 +363,87 @@ public class GUIView extends Application implements View {
         System.out.println("\033[01m"+"PIANIFICATION PHASE"+"\033[0m" + "\nYou need to choose your Assistant Card. Here is your deck.\n");
 
         clientController.getConsole().setAssistantCardPlayed(this.assistantCardChosen);
+    }
+
+    @FXML
+    private ImageView Cloud1;
+
+    @FXML
+    private ImageView Cloud2;
+
+    @FXML
+    private ImageView Cloud3;
+
+    @FXML
+    private Button blueOnCloud1;
+
+    @FXML
+    private Button blueOnCloud2;
+
+    @FXML
+    private Button blueOnCloud3;
+
+    @FXML
+    private Button greenOnCloud1;
+
+    @FXML
+    private Button greenOnCloud2;
+
+    @FXML
+    private Button greenOnCloud3;
+
+    @FXML
+    private Button redOnCloud1;
+
+    @FXML
+    private Button redOnCloud2;
+
+    @FXML
+    private Button redOnCloud3;
+
+    @FXML
+    private Button yellowOnCloud1;
+
+    @FXML
+    private Button yellowOnCloud2;
+
+    @FXML
+    private Button yellowOnCloud3;
+
+
+
+    @FXML
+    void setCloudChosen1(MouseEvent event) {
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(0);
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&)
 
     }
+
+    @FXML
+    void setCloudChosen2(MouseEvent event) {
+
+    }
+
+    @FXML
+    void setCloudChosen3(MouseEvent event) {
+
+    }
+
+    @Override
+    public synchronized void chooseCloud() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        Console console = clientController.getConsole();
+        String resultString;
+        Integer result = null;
+        boolean valid;
+
+        valid = false;
+        console.setCloudChosen(result);
+    }
+
 
     @Override
     public void askForCharacter() {
@@ -364,11 +457,6 @@ public class GUIView extends Application implements View {
 
     @Override
     public void placeMotherNature() {
-
-    }
-
-    @Override
-    public void chooseCloud() {
 
     }
 
@@ -542,6 +630,27 @@ public class GUIView extends Application implements View {
                 }
             }
 
+            List<CloudPojo> cloudPojos=clientController.getGameStatePojo().getClouds();
+            for(CloudPojo c: cloudPojos){
+                if(c.getCloudId()==0){
+                    redOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
+                    yellowOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
+                    blueOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
+                    greenOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
+                }
+                if(c.getCloudId()==1){
+                    redOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
+                    yellowOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
+                    blueOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
+                    greenOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
+                }
+                if(c.getCloudId()==2){
+                    redOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
+                    yellowOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
+                    blueOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
+                    greenOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
+                }
+            }
 
 
         }
