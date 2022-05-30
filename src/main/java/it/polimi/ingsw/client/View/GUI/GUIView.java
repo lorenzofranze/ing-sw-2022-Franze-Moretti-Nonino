@@ -1,7 +1,8 @@
-package it.polimi.ingsw.client.View;
+package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.CharacterCardsConsole;
 import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.client.View.View;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 
@@ -25,76 +26,15 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
+import java.util.function.Consumer;
 
-import static javafx.application.Application.launch;
+
+public class GUIView implements View {
+
+    private Consumer<Boolean> nameCompleteObserver;
 
 
-public class GUIView extends Application implements View, Runnable{
-
-    private static Stage currentStage;
-    private static Parent root;
-    Semaphore semaphore = new Semaphore(0, true);
-
-    private int gameModeChosen;
-    private String nameChosen;
-    private int assistantCardChosen;
-
-    /**
-     * Method that initialize stage and load scenes
-     * it calls chooseGameModeGUI on muoseClicked
-     *
-     * @param primaryStage game stage
-     * @throws Exception impossible start game
-     */
-
-    public void run()
-    {
-        launch();
-    }
-
-    public void start(Stage primaryStage) throws Exception {
-        this.currentStage=primaryStage;
-        try {
-            this.root = FXMLLoader.load(getClass().getClassLoader().getResource("startFrame.fxml"));
-            Scene scene = new Scene(root);
-            //primaryStage.initStyle(StageStyle.UNDECORATED);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setCurrentStage(String fxmlName) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource(fxmlName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scene scene = new Scene(root);
-        currentStage.setScene(scene);
-        currentStage.show();
-    }
-
-    /**
-     * it shows the game mode and it calls input Choice1/2/3/4 on mouse clicked
-     */
-    public void chooseGameModeGUI(MouseEvent mouseEvent) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("chooseGameModeFrame.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        currentStage.setScene(scene);
-        currentStage.sizeToScene();
-        currentStage.setTitle("Login");
-        currentStage.show();
-    }
-
+    private int assistantCardChosen; // to remove
 
     /**
      * when the client controller calls chooseGameMode, the client controller's attribute "gameMode" is
@@ -102,94 +42,26 @@ public class GUIView extends Application implements View, Runnable{
      */
     @Override
     public synchronized void chooseGameMode() {
-        semaphore.acquireUninterruptibly();
-        ClientController clientController = ClientController.getInstance();
-        clientController.setGameMode(GameMode.values()[gameModeChosen]);
-        System.out.println("game mode chosen: " + gameModeChosen);
-    }
-
-
-    @FXML
-    public void inputChoice1(MouseEvent mouseEvent) {
-        this.gameModeChosen = 0;
-        /*
-        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        setCurrentStage("chooseNameFrame.fxml");
-         */
-        semaphore.release();
-    }
-
-    @FXML
-    public void inputChoice2(MouseEvent mouseEvent) {
-        this.gameModeChosen = 1;
-        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        setCurrentStage("chooseNameFrame.fxml");
-        semaphore.release();
-    }
-
-    @FXML
-    public void inputChoice3(MouseEvent mouseEvent) {
-        this.gameModeChosen = 2;
-        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        setCurrentStage("chooseNameFrame.fxml");
-        semaphore.release();
-    }
-
-    @FXML
-    public void inputChoice4(MouseEvent mouseEvent) {
-        this.gameModeChosen = 3;
-        currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        setCurrentStage("chooseNameFrame.fxml");
-        semaphore.release();
+        try {
+            ClientController.getSemaphore().acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void beginReadUsername() {
         try {
-            semaphore.acquire();
-        } catch(InterruptedException i){
-            i.printStackTrace();
+            ClientController.getSemaphore().acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        ClientController clientController = ClientController.getInstance();
-        clientController.setNickname(nameChosen);
+
     }
 
-
-    @FXML
-    private TextField TextFieldNickname;
-
-    @FXML
-    private Label LabelNickname;
-
-    /**
-     * controlla il nome inserito: se è più lungo di 4, cambia scena
-     * senò lo richiede
-     * @param mouseEvent
-     */
-    @FXML
-    public void nameCheck(MouseEvent mouseEvent){
-        boolean valid;
-        String result;
-
-        valid = true;
-        result= TextFieldNickname.getText();
-        System.out.println("controllo nome");
-        if (result == null || result.length() < 4) {
-            valid = false;
-            LabelNickname.setText("The nickname is too short, choose another one");
-            System.out.println("nome sbagliato");
-            result= TextFieldNickname.getText();
-            return;
-        }
-        else{
-            this.nameChosen=result;
-            semaphore.release();
-            /*
-            currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-            setCurrentStage("gamePianificationFrame.fxml");
-             */
-        }
-
+    synchronized public void setNameCompleteObserver(Consumer<Boolean> nameCompleteObserver)
+    {
+        this.nameCompleteObserver = nameCompleteObserver;
     }
 
     @FXML
@@ -402,10 +274,7 @@ public class GUIView extends Application implements View, Runnable{
 
     public synchronized void showMessage(Message message) {
         if(message==null) return;
-        if(message.getMessageType().equals(TypeOfMessage.Connection)){
-            ConnectionMessage connectionMessage = (ConnectionMessage) message;
-            showConnection(connectionMessage);
-        }
+
         if(message.getMessageType().equals(TypeOfMessage.Ack)){
             AckMessage ackMessage = (AckMessage) message;
             showAck(ackMessage);
@@ -437,7 +306,10 @@ public class GUIView extends Application implements View, Runnable{
     public synchronized void showError(ErrorMessage errorMessage) {
         switch(errorMessage.getTypeOfError()) {
             case UsedName:
-                System.out.println("Nickname already in use by other players.\n");
+                //notify name already in use
+                if(nameCompleteObserver!=null){
+                    nameCompleteObserver.accept(false);
+                }
                 break;
             case UnmatchedMessages:
                 System.out.println("Unexpected message received from server.\n");
@@ -480,7 +352,8 @@ public class GUIView extends Application implements View, Runnable{
 
         switch(ackMessage.getTypeOfAck()) {
             case CorrectConnection:
-                System.out.println("Successful connection.");
+                //name ok -> change view
+                GuiController.getInstance().switchWaitScene();
                 break;
             case CompleteLobby:
                 System.out.println("All players have joined the lobby. The game can start.");

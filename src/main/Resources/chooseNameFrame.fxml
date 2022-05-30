@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="399.0" prefWidth="575.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.View.GUIView">
+<AnchorPane prefHeight="399.0" prefWidth="575.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.View.GUI.ChooseNameScene">
    <children>
       <ImageView fitHeight="400.0" fitWidth="595.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>

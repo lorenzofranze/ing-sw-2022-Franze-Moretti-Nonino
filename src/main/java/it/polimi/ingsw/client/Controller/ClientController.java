@@ -1,13 +1,15 @@
 package it.polimi.ingsw.client.Controller;
 
 
-import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.View.*;
+import it.polimi.ingsw.client.View.GUI.GUIView;
+import it.polimi.ingsw.client.View.GUI.GuiController;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.IOException;
+import java.util.concurrent.Semaphore;
 
 import static it.polimi.ingsw.common.messages.TypeOfMessage.*;
 
@@ -22,6 +24,7 @@ public class ClientController implements Runnable {
     private CharacterCardsConsole characterCardsConsole;
     private GameStatePojo gameStatePojo;
     private boolean disconnected=false;
+    private static Semaphore semaphore = new Semaphore(0);
 
     private Object lock;
     public View view;
@@ -38,6 +41,9 @@ public class ClientController implements Runnable {
         return instance;
     }
 
+    public static Semaphore getSemaphore() {
+        return semaphore;
+    }
 
     /** il thread è invocato da ClientApp.
      * si occupa della connessione del client col metodo connect(),
@@ -46,6 +52,11 @@ public class ClientController implements Runnable {
      */
     @Override
     public void run() {
+        //if view is GUI type GuiController is launched otherwise no action
+        if(view instanceof GUIView){
+            GuiController.main(null);
+        }
+        System.out.println("GUI lanciata ora 2 thread");
         Message receivedMessage=null;
 
 
@@ -119,12 +130,13 @@ public class ClientController implements Runnable {
         this.networkHandlerThread= new Thread(networkHandler);
         this.networkHandlerThread.start();
         view.chooseGameMode();
-        System.out.println("mod scelta");
+        System.out.println("game mode chosen: " + this.gameMode); // debug
 
         boolean valid = true;
         do {
             valid = true;
             view.beginReadUsername();
+            System.out.println("game mode chosen: " + this.nickname); // debug
             ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
 
             try {
@@ -258,6 +270,11 @@ public class ClientController implements Runnable {
 
     public void setView(View view) {
         this.view = view;
+    }
+
+    //used only for GUI mode
+    public GUIView getView(){
+        return (GUIView) this.view;
     }
 
     public GameStatePojo getGameStatePojo() {

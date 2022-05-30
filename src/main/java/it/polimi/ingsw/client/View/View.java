@@ -5,12 +5,11 @@ import it.polimi.ingsw.common.gamePojo.PlayerPojo;
 import it.polimi.ingsw.common.messages.*;
 import javafx.stage.Stage;
 
-public interface View extends Runnable{
+public interface View{
 
 
     void beginReadUsername();
     void chooseGameMode();
-    void run();
 
     void chooseAssistantCard();
     void askForCharacter();
