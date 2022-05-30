@@ -596,6 +596,8 @@ public class CLIView implements View {
         }
     }
 
+    public void run(){}
+
 
 
 }

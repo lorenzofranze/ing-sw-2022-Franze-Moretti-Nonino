@@ -23,14 +23,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
 
 import static javafx.application.Application.launch;
 
 
-public class GUIView extends Application implements View {
+public class GUIView extends Application implements View, Runnable{
 
     private static Stage currentStage;
     private static Parent root;
+    Semaphore semaphore = new Semaphore(0, true);
 
     private int gameModeChosen;
     private String nameChosen;
@@ -43,7 +46,14 @@ public class GUIView extends Application implements View {
      * @param primaryStage game stage
      * @throws Exception impossible start game
      */
+
+    public void run()
+    {
+        launch();
+    }
+
     public void start(Stage primaryStage) throws Exception {
+        this.currentStage=primaryStage;
         try {
             this.root = FXMLLoader.load(getClass().getClassLoader().getResource("startFrame.fxml"));
             Scene scene = new Scene(root);
@@ -80,6 +90,8 @@ public class GUIView extends Application implements View {
         currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
+        currentStage.sizeToScene();
+        currentStage.setTitle("Login");
         currentStage.show();
     }
 
@@ -90,7 +102,7 @@ public class GUIView extends Application implements View {
      */
     @Override
     public synchronized void chooseGameMode() {
-
+        semaphore.acquireUninterruptibly();
         ClientController clientController = ClientController.getInstance();
         clientController.setGameMode(GameMode.values()[gameModeChosen]);
         System.out.println("game mode chosen: " + gameModeChosen);
@@ -100,8 +112,11 @@ public class GUIView extends Application implements View {
     @FXML
     public void inputChoice1(MouseEvent mouseEvent) {
         this.gameModeChosen = 0;
+        /*
         currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
+         */
+        semaphore.release();
     }
 
     @FXML
@@ -109,6 +124,7 @@ public class GUIView extends Application implements View {
         this.gameModeChosen = 1;
         currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
+        semaphore.release();
     }
 
     @FXML
@@ -116,6 +132,7 @@ public class GUIView extends Application implements View {
         this.gameModeChosen = 2;
         currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
+        semaphore.release();
     }
 
     @FXML
@@ -123,9 +140,16 @@ public class GUIView extends Application implements View {
         this.gameModeChosen = 3;
         currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         setCurrentStage("chooseNameFrame.fxml");
+        semaphore.release();
     }
 
+    @Override
     public void beginReadUsername() {
+        try {
+            semaphore.acquire();
+        } catch(InterruptedException i){
+            i.printStackTrace();
+        }
         ClientController clientController = ClientController.getInstance();
         clientController.setNickname(nameChosen);
     }
@@ -150,17 +174,20 @@ public class GUIView extends Application implements View {
         valid = true;
         result= TextFieldNickname.getText();
         System.out.println("controllo nome");
-        if (result.length() < 4) {
+        if (result == null || result.length() < 4) {
             valid = false;
             LabelNickname.setText("The nickname is too short, choose another one");
             System.out.println("nome sbagliato");
-
             result= TextFieldNickname.getText();
             return;
         }
         else{
+            this.nameChosen=result;
+            semaphore.release();
+            /*
             currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             setCurrentStage("gamePianificationFrame.fxml");
+             */
         }
 
     }

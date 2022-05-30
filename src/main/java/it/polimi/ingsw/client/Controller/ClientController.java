@@ -119,6 +119,7 @@ public class ClientController implements Runnable {
         this.networkHandlerThread= new Thread(networkHandler);
         this.networkHandlerThread.start();
         view.chooseGameMode();
+        System.out.println("mod scelta");
 
         boolean valid = true;
         do {
@@ -161,6 +162,7 @@ public class ClientController implements Runnable {
                 return;
             }
         }while (!valid);
+
     }
 
 

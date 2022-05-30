@@ -133,8 +133,7 @@ public class LobbyManager implements Runnable {
                     words = words + line + "\n";
                     line = in.readLine();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException e){
                 System.out.println("client has disconnected");
                 return;
             }

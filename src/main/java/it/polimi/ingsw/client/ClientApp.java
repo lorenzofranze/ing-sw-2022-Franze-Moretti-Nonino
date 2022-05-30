@@ -52,7 +52,9 @@ public class ClientApp{
         } else if (typeOfView.equals("gui")) {
             view = new GUIView();
             ClientApp clientApp = new ClientApp(view);
-            Application.launch(GUIView.class, args);
+            Thread threadGui= new Thread(view);
+            threadGui.start();
+            System.out.println("gui partita ora anche play");
             clientApp.play();
         }
         System.exit(0);
