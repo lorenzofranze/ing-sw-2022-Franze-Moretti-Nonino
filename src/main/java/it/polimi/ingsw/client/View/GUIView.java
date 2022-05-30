@@ -39,6 +39,8 @@ public class GUIView extends Application implements View {
     private String nameChosen;
     private int assistantCardChosen;
     private boolean isAssistantCardChosen;
+    private boolean isCloudChosen;
+    private int cloudChosen;
 
     /**
      * Method that initialize stage and load scenes
@@ -417,31 +419,80 @@ public class GUIView extends Application implements View {
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(0);
-        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&)
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Red)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Yellow)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Blue)==0 ||
+                isAssistantCardChosen==false){
+            return;
+        }
+        else{
+            isAssistantCardChosen=false;
+            redOnCloud1.setId("0");
+            yellowOnCloud1.setId("0");
+            greenOnCloud1.setId("0");
+            blueOnCloud1.setId("0");
+            isCloudChosen=true;
+            cloudChosen=0;
+        }
 
     }
 
     @FXML
     void setCloudChosen2(MouseEvent event) {
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(1);
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Red)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Yellow)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Blue)==0 ||
+                isAssistantCardChosen==false){
+            return;
+        }
+        else{
+            isAssistantCardChosen=false;
+            redOnCloud1.setId("0");
+            yellowOnCloud2.setId("0");
+            greenOnCloud2.setId("0");
+            blueOnCloud2.setId("0");
+            isCloudChosen=true;
+            cloudChosen=1;
+        }
 
     }
+
 
     @FXML
     void setCloudChosen3(MouseEvent event) {
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(2);
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Red)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Yellow)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Blue)==0 ||
+                isAssistantCardChosen==false || isCloudChosen==true){
+            return;
+        }
+        else{
+            redOnCloud1.setId("0");
+            yellowOnCloud1.setId("0");
+            greenOnCloud1.setId("0");
+            blueOnCloud1.setId("0");
+            isCloudChosen=true;
+            cloudChosen=2;
+        }
 
     }
+
 
     @Override
     public synchronized void chooseCloud() {
         ClientController clientController = ClientController.getInstance();
         GameStatePojo gameStatePojo = clientController.getGameStatePojo();
         Console console = clientController.getConsole();
-        String resultString;
-        Integer result = null;
-        boolean valid;
-
-        valid = false;
-        console.setCloudChosen(result);
+        console.setCloudChosen(this.cloudChosen);
     }
 
 
