@@ -204,7 +204,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen1(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -219,7 +219,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen2(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -234,7 +234,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen3(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -248,7 +248,7 @@ public class GUIView extends Application implements View {
     }
     @FXML
     void setAssistantCardChosen4(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -263,7 +263,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen5(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -277,7 +277,7 @@ public class GUIView extends Application implements View {
     }
     @FXML
     void setAssistantCardChosen6(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -292,7 +292,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen7(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -306,7 +306,7 @@ public class GUIView extends Application implements View {
     }
     @FXML
     void setAssistantCardChosen8(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -321,7 +321,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen9(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
@@ -336,7 +336,7 @@ public class GUIView extends Application implements View {
 
     @FXML
     void setAssistantCardChosen10(MouseEvent event) {
-
+        if(this.isAssistantCardChosen==true) return;
         ClientController clientController= ClientController.getInstance();
         boolean valid=false;
         Set<AssistantCardPojo> assistantCardPojos = clientController.getGameStatePojo().getCurrentPlayer().getDeck();
