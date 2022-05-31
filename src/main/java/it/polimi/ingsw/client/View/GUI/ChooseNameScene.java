@@ -42,9 +42,14 @@ public class ChooseNameScene {
             ClientController.getInstance().setNickname(result);
             ClientController.getSemaphore().release();
         }
-
     }
 
+    /**
+     * okButton è disabilitato da initialize, e ogni volta che inserisco un carattere (ovvero avviene un
+     * keyEvent), viene invocata lengthCheck. lengthCheck controlla la lunghezza del nickname inserito, se questo
+     * è più lungo di 3 caratteri, abilita il okButton
+     * @param event
+     */
     @FXML
     void lengthCheck(KeyEvent event) {
         okButton.setDisable(TextFieldNickname.getText().length()<4);

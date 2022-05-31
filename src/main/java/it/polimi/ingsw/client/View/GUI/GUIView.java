@@ -38,7 +38,10 @@ public class GUIView implements View {
 
     /**
      * when the client controller calls chooseGameMode, the client controller's attribute "gameMode" is
-     * set with the value gameModeChosen
+     * set with the value chosen in ChooseGameModeScene.
+     * The semaphore is initialized with 0, so that the thread waits in chooseGameMode until someone calls
+     * semaphore.release. This is done by a JavaFX thread at the end of inputChoice1/2/3/4()
+     * (in  the class ChooseGameModeScene)
      */
     @Override
     public synchronized void chooseGameMode() {
@@ -49,6 +52,13 @@ public class GUIView implements View {
         }
     }
 
+    /**
+     * when the client controller calls beginReadUsername, the client controller's attribute "nickname" is
+     * set with the value chosen in ChooseNameScene.
+     * The semaphore is 0, so that the thread waits in beginReadUsername until someone calls
+     * semaphore.release. This is done by a JavaFX thread at the end of nameCheck()
+     * (in  the class ChooseNameScene)
+     */
     @Override
     public void beginReadUsername() {
         try {
@@ -308,6 +318,8 @@ public class GUIView implements View {
             case UsedName:
                 //notify name already in use
                 if(nameCompleteObserver!=null){
+                    // accept calls the consumer in nameCompleteObserver with argument false
+                    //so a message of allert will be shown
                     nameCompleteObserver.accept(false);
                 }
                 break;

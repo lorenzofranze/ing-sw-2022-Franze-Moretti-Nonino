@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class GuiController extends Application {
     private Stage currentStage;
@@ -59,6 +60,11 @@ public class GuiController extends Application {
     }
 
 
+    /**
+     * SetNameCompleteObserver in GUIView is set with a consumer.
+     * The consumer show an alert message if the value of its argument is false.
+     * The SetNameCompleteObserver will be called in GUIView if the name is already in use (using accept(false))
+     */
     public void switchNameScene() {
         Parent root;
         try {
@@ -68,14 +74,15 @@ public class GuiController extends Application {
             return;
         }
         //questo metodo dopo show muore tuttavia qui passa una callback da chiamre se serve alla guiView
-        ClientController.getInstance().getView().setNameCompleteObserver((ok) -> {
+        Consumer<Boolean> consumer = (ok) -> {
             Platform.runLater(() -> {
-                if (!ok) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Name already in use", ButtonType.OK);
-                    alert.showAndWait();
-                }
-            });
-        });
+                        if (!ok) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR, "Name already in use", ButtonType.OK);
+                            alert.showAndWait();
+                        }
+                    });
+        };
+        ClientController.getInstance().getView().setNameCompleteObserver(consumer);
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
         currentStage.sizeToScene();
