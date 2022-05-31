@@ -161,8 +161,8 @@ public class ClientController implements Runnable {
                     return;
                 }
                 else {
-                        System.out.println("ERROR-Login-connect-3 (unexpected ack message)");
-                        disconnected=true;
+                    System.out.println("ERROR-Login-connect-3 (unexpected ack message)");
+                    disconnected=true;
                 }
             }
             else if (receivedMessage.getMessageType().equals(Error)) {
@@ -236,20 +236,20 @@ public class ClientController implements Runnable {
                 gameStateReceived = true;
             }
             else if(receivedMessage.getMessageType().equals(Async)){
-                    disconnected = true;
-                    return;
-                }
+                disconnected = true;
+                return;
+            }
             else{
-                    //messaggio scorretto
-                    view.showMessage(receivedMessage);     //DA CANCELLARE
+                //messaggio scorretto
+                view.showMessage(receivedMessage);     //DA CANCELLARE
 
-                    if(!disconnected){
-                        receivedMessage = networkHandler.getReceivedMessage();
-                    }
-                    if(disconnected) return;
+                if(!disconnected){
+                    receivedMessage = networkHandler.getReceivedMessage();
                 }
+                if(disconnected) return;
             }
         }
+    }
 
 
     public void setNickname(String nickname) {
