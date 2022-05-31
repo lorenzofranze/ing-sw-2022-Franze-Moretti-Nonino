@@ -17,11 +17,11 @@
             <Image url="@images/imageChooseName/Personaggi_retro.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="TextFieldNickname" layoutX="226.0" layoutY="217.0" style="-fx-background-color: pink;">
+      <TextField fx:id="TextFieldNickname" layoutX="226.0" layoutY="217.0" onKeyTyped="#lengthCheck" style="-fx-background-color: pink;">
          <effect>
             <Glow level="0.03" />
          </effect></TextField>
-      <Button layoutX="275.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#nameCheck" text="ok">
+      <Button fx:id="okButton" layoutX="275.0" layoutY="255.0" mnemonicParsing="false" onAction="#nameCheck" text="ok">
          <effect>
             <DropShadow radius="4.75" width="0.0" />
          </effect></Button>

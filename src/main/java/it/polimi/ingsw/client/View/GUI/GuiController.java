@@ -28,6 +28,7 @@ public class GuiController extends Application {
         t.start();
     }
 
+
     public static GuiController getInstance(){
         return guiController;
     }

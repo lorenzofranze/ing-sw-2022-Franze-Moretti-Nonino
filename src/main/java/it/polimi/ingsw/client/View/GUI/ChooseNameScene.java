@@ -1,13 +1,21 @@
 package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.ClientController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.*;
-
 public class ChooseNameScene {
+
+    public void inizialize(){
+        okButton.setDisable(true);
+    }
+
+    @FXML
+    private Button okButton;
 
     @FXML
     private javafx.scene.control.TextField TextFieldNickname;
@@ -21,7 +29,7 @@ public class ChooseNameScene {
      * @param mouseEvent
      */
     @FXML
-    public void nameCheck(MouseEvent mouseEvent){
+    public void nameCheck(ActionEvent mouseEvent){
         String result;
 
         result= TextFieldNickname.getText();
@@ -36,5 +44,11 @@ public class ChooseNameScene {
         }
 
     }
+
+    @FXML
+    void lengthCheck(KeyEvent event) {
+        okButton.setDisable(TextFieldNickname.getText().length()<4);
+    }
+
 
 }
