@@ -3,16 +3,11 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.client.Controller.NetworkHandler;
 import it.polimi.ingsw.client.View.*;
+import it.polimi.ingsw.client.View.GUI.GUIView;
 import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientApp{
 
@@ -52,7 +47,6 @@ public class ClientApp{
         } else if (typeOfView.equals("gui")) {
             view = new GUIView();
             ClientApp clientApp = new ClientApp(view);
-            Application.launch(GUIView.class, args);
             clientApp.play();
         }
         System.exit(0);

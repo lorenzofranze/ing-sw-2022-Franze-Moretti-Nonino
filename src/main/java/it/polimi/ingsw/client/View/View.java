@@ -5,7 +5,7 @@ import it.polimi.ingsw.common.gamePojo.PlayerPojo;
 import it.polimi.ingsw.common.messages.*;
 import javafx.stage.Stage;
 
-public interface View {
+public interface View{
 
 
     void beginReadUsername();
