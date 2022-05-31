@@ -353,11 +353,12 @@ public class GUIView implements View {
         switch(ackMessage.getTypeOfAck()) {
             case CorrectConnection:
                 //name ok -> change view
-                GuiController.getInstance().switchWaitScene();
+                GuiController.getInstance().setRunnable(()->GuiController.getInstance().switchWaitScene());
+                GuiController.getInstance().change();
                 break;
             case CompleteLobby:
-                System.out.println("All players have joined the lobby. The game can start.");
-                System.out.println("\n\n\n##########################################     WELCOME IN ERYANTIS!     ##########################################");
+                GuiController.getInstance().setRunnable(()->GuiController.getInstance().switchGameScene());
+                GuiController.getInstance().change();
                 break;
             default:
                 System.out.println("Unknown ack message");

@@ -21,17 +21,9 @@ import java.io.IOException;
 public class GuiController extends Application {
     private Stage currentStage;
     private static GuiController guiController;
+    private Runnable runnable;
 
-    /**
-     * Method that initialize stage and load scenes
-     * it calls chooseGameModeGUI on muoseClicked
-     *
-     * @param newStage game stage
-     * @throws Exception impossible start game
-     */
-
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Thread t = new Thread(()->launch(args));
         t.start();
     }
@@ -40,6 +32,12 @@ public class GuiController extends Application {
         return guiController;
     }
 
+
+    public void setRunnable(Runnable runnable) {
+        this.runnable = runnable;
+    }
+
+    /** first method called: display gameModeFrame */
     @Override
     public void start(Stage newStage) throws Exception {
         guiController = this;
@@ -60,8 +58,7 @@ public class GuiController extends Application {
     }
 
 
-    public void switchNameScene()
-    {
+    public void switchNameScene() {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("/chooseNameFrame.fxml"));
@@ -69,6 +66,7 @@ public class GuiController extends Application {
             e.printStackTrace();
             return;
         }
+        //questo metodo dopo show muore tuttavia qui passa una callback da chiamre se serve alla guiView
         ClientController.getInstance().getView().setNameCompleteObserver((ok) -> {
             Platform.runLater(() -> {
                 if (!ok) {
@@ -85,5 +83,38 @@ public class GuiController extends Application {
 
     public void switchWaitScene() {
         System.out.println("sto aspettando altri giocatori");
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/waitingPlayersFrame.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        Scene scene = new Scene(root);
+        currentStage.setScene(scene);
+        currentStage.setTitle("ERIANTYS");
+        currentStage.sizeToScene();
+        currentStage.setMaximized(true);
+        currentStage.show();
+    }
+
+    public void switchGameScene() {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/gameActionFrame.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        Scene scene = new Scene(root);
+        currentStage.setScene(scene);
+        currentStage.sizeToScene();
+        currentStage.show();
+    }
+
+
+    public void change() {
+        Platform.runLater(runnable);
+        runnable=null;
     }
 }
