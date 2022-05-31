@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.CharacterCardsConsole;
 import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.client.View.View;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -23,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
@@ -32,6 +35,9 @@ import java.util.function.Consumer;
 public class GUIView implements View {
 
     private Consumer<Boolean> nameCompleteObserver;
+    private boolean isAssistantCardChosen;
+    private boolean isCloudChosen;
+    private int cloudChosen;
 
 
     private int assistantCardChosen; // to remove
@@ -275,10 +281,134 @@ public class GUIView implements View {
 
     }
 
-    @Override
-    public void chooseCloud() {
+    @FXML
+    private ImageView Cloud1;
+
+    @FXML
+    private ImageView Cloud2;
+
+    @FXML
+    private ImageView Cloud3;
+
+    @FXML
+    private Button blueOnCloud1;
+
+    @FXML
+    private Button blueOnCloud2;
+
+    @FXML
+    private Button blueOnCloud3;
+
+    @FXML
+    private Button greenOnCloud1;
+
+    @FXML
+    private Button greenOnCloud2;
+
+    @FXML
+    private Button greenOnCloud3;
+
+    @FXML
+    private Button redOnCloud1;
+
+    @FXML
+    private Button redOnCloud2;
+
+    @FXML
+    private Button redOnCloud3;
+
+    @FXML
+    private Button yellowOnCloud1;
+
+    @FXML
+    private Button yellowOnCloud2;
+
+    @FXML
+    private Button yellowOnCloud3;
+
+
+
+    @FXML
+    void setCloudChosen1(MouseEvent event) {
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(0);
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Red)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Yellow)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Blue)==0 ||
+                isAssistantCardChosen==false){
+            return;
+        }
+        else{
+            isAssistantCardChosen=false;
+            redOnCloud1.setId("0");
+            yellowOnCloud1.setId("0");
+            greenOnCloud1.setId("0");
+            blueOnCloud1.setId("0");
+            isCloudChosen = true;
+            cloudChosen=0;
+        }
 
     }
+
+    @FXML
+    void setCloudChosen2(MouseEvent event) {
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(1);
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Red)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Yellow)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Blue)==0 ||
+                isAssistantCardChosen==false){
+            return;
+        }
+        else{
+            isAssistantCardChosen=false;
+            redOnCloud1.setId("0");
+            yellowOnCloud2.setId("0");
+            greenOnCloud2.setId("0");
+            blueOnCloud2.setId("0");
+            isCloudChosen=true;
+            cloudChosen=1;
+        }
+
+    }
+
+
+    @FXML
+    void setCloudChosen3(MouseEvent event) {
+        ClientController clientController= ClientController.getInstance();
+        boolean valid=false;
+        CloudPojo cloud= ClientController.getInstance().getGameStatePojo().getClouds().get(2);
+        if(cloud.getStudents().getPawns().get(ColourPawn.Green)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Red)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Yellow)==0 &&
+                cloud.getStudents().getPawns().get(ColourPawn.Blue)==0 ||
+                isAssistantCardChosen==false || isCloudChosen==true){
+            return;
+        }
+        else{
+            redOnCloud1.setId("0");
+            yellowOnCloud1.setId("0");
+            greenOnCloud1.setId("0");
+            blueOnCloud1.setId("0");
+            isCloudChosen=true;
+            cloudChosen=2;
+        }
+
+    }
+
+
+    @Override
+    public synchronized void chooseCloud() {
+        ClientController clientController = ClientController.getInstance();
+        GameStatePojo gameStatePojo = clientController.getGameStatePojo();
+        Console console = clientController.getConsole();
+        console.setCloudChosen(this.cloudChosen);
+    }
+
 
     @Override
 
@@ -456,7 +586,34 @@ public class GUIView implements View {
 
 
 
+
         }
+
+
+
+        List<CloudPojo> cloudPojos=clientController.getGameStatePojo().getClouds();
+        for(CloudPojo c: cloudPojos){
+            if(c.getCloudId()==0){
+                redOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
+                yellowOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
+                blueOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
+                greenOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
+            }
+            if(c.getCloudId()==1){
+                redOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
+                yellowOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
+                blueOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
+                greenOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
+            }
+            if(c.getCloudId()==2){
+                redOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
+                yellowOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
+                blueOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
+                greenOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
+            }
+        }
+
+
     }
 
     //METHODS FOR COMPLEX MODE:
