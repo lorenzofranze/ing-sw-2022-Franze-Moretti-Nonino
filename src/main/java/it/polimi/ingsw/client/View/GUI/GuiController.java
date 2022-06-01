@@ -93,7 +93,8 @@ public class GuiController extends Application {
         ClientController.getInstance().getView().setNameCompleteObserver(consumer);
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.sizeToScene();
+        currentStage.setFullScreen(true);
+        currentStage.setResizable(true);
         currentStage.show();
     }
 
@@ -109,8 +110,8 @@ public class GuiController extends Application {
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
         currentStage.setTitle("ERIANTYS");
-        currentStage.sizeToScene();
-        currentStage.setMaximized(true);
+        currentStage.setFullScreen(true);
+        currentStage.setResizable(true);
         currentStage.show();
     }
 
@@ -125,7 +126,8 @@ public class GuiController extends Application {
         }
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.sizeToScene();
+        currentStage.setFullScreen(true);
+        currentStage.setResizable(true);
         currentStage.show();
     }
 
@@ -177,6 +179,8 @@ public class GuiController extends Application {
             AssistantCard8.setDisable(false);
             AssistantCard9.setDisable(false);
             AssistantCard10.setDisable(false);
+
+
 
             /*
             Set<AssistantCardPojo> assistantCardPojos= me.getDeck();
