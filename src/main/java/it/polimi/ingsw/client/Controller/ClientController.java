@@ -227,6 +227,7 @@ public class ClientController implements Runnable {
 
         while(gameStateReceived == false){
             if (receivedMessage.getMessageType().equals(Update)){
+                this.gameStatePojo=((UpdateMessage)receivedMessage).getGameState();
                 view.showMessage(receivedMessage);
                 UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
                 this.gameStatePojo = updateMessage.getGameState();

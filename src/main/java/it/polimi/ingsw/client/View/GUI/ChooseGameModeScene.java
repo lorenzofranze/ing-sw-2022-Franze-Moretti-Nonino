@@ -16,14 +16,14 @@ public class ChooseGameModeScene {
 
     @FXML
     public void inputChoice2(MouseEvent mouseEvent) {
-        ClientController.getInstance().setGameMode(GameMode.values()[1]);
+        ClientController.getInstance().setGameMode(GameMode.values()[2]);
         ClientController.getSemaphore().release();
         GuiController.getInstance().switchNameScene();
     }
 
     @FXML
     public void inputChoice3(MouseEvent mouseEvent) {
-        ClientController.getInstance().setGameMode(GameMode.values()[2]);
+        ClientController.getInstance().setGameMode(GameMode.values()[1]);
         ClientController.getSemaphore().release();
         GuiController.getInstance().switchNameScene();
     }
