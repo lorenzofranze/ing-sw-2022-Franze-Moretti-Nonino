@@ -59,7 +59,6 @@ public class ClientController implements Runnable {
         System.out.println("GUI lanciata ora 2 thread");
         Message receivedMessage=null;
 
-
         connect();
 
         if(disconnected==true){
@@ -76,9 +75,7 @@ public class ClientController implements Runnable {
         waitForFirstGameState();
 
 
-
         while (gameStatePojo.isGameOver() == false && disconnected==false) {
-
 
             if(!disconnected){
                 receivedMessage = networkHandler.getReceivedMessage();

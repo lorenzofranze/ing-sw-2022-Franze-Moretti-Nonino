@@ -27,7 +27,8 @@ public class Console{
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
 
     /**
-     * controlla dall'ultimo update in quale fase sono (pinificazion o action) e chiama il metodo play corrispondente
+     * checks form the last update in which Phase the game is currently in (Pianification or Action) and calls the
+     * correct play method
      */
     public void play(){
         currentPhase = ClientController.getInstance().getGameStatePojo().getCurrentPhase();
@@ -44,7 +45,8 @@ public class Console{
         }
     }
 
-
+    /**It lets the player choose his/her AssistantCard. If the card chosen is not valid, an error message is received.
+     * The method terminates only if a valid card has been chosen and an ack message is received*/
     private void playPianification(){
         ClientController clientController = ClientController.getInstance();
         NetworkHandler networkHandler = clientController.getNetworkHandler();
@@ -86,6 +88,12 @@ public class Console{
         }while(moveAccepted==false);
     }
 
+    /**It lets the player play his/her ActionPhase. According to currActionBookmark, the player can:
+     * 1. (currActionBookMark = moveStudents) -> move 3 (2-players-mode) or 4 (3-players-mode) students from his/her
+     * entrance. For each student the method moveStudent is called.
+     * 2. (currActionBookMark = placeMotherNature) -> The mother nature move is handled by the method placeMotherNature.
+     * 3. (currActionBookMark = chooseCloud) -> the player chooses a cloud. The method chooseCloud is called.
+     * Once the action is completed, the currActionBookMark is changed.*/
     private void playAction(){
         View view = ClientController.getInstance().view;
         GameStatePojo gameStatePojo = ClientController.getInstance().getGameStatePojo();
@@ -131,14 +139,9 @@ public class Console{
 
     }
 
-    public void setAssistantCardPlayed(int assistantCardPlayed) {
-        this.assistantCardPlayed = assistantCardPlayed;
-    }
-
-    public void setCharacterPlayed(Integer characterPlayed) {
-        this.characterPlayed = characterPlayed;
-    }
-
+    /**Makes the player choose a student and where to place it through the view. A message containing this information
+     * is sent to server. If an error message is received the player must remake his decision; if an ack message is
+     *received, an update is requested from server.*/
     public void moveStudent(){
         ClientController clientController = ClientController.getInstance();
         NetworkHandler networkHandler = clientController.getNetworkHandler();
@@ -171,11 +174,11 @@ public class Console{
                         ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
                         view.showMessage(receivedMessage);
                     }else{
-                        //messaggio imprevisto
+                        //unexpected message
                         view.showMessage(receivedMessage);
                     }
                 }else{
-                    //messaggio imprevisto
+                    //unexpected message
                     view.showMessage(receivedMessage);
                 }
             }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
@@ -188,6 +191,14 @@ public class Console{
         }while(valid == false);
     }
 
+    /**The player is asked if he/she wants to play a CharacterCad through the view.
+     * YES -> a message containing the card chosen is sent to server.
+     * NO -> a message containing characterPlayed = null is sent to server.
+     *If an error message is received the player must remake his decision; if the player decision is valid, multiple
+     *acks/updates are received.
+     * 1^ ack received -> the client waits for the update of coins and characterCardsConsole.playEffect(currentCharacterID)
+     * is called;
+     * 2^ ack received -> the effect has been correctly used and the client waits for two more updates.*/
     public void askForCharacter(){
         NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
         Message receivedMessage;
@@ -211,7 +222,8 @@ public class Console{
                     AckMessage ackMessage = (AckMessage) receivedMessage;
                     if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                         valid = true;
-                        //se ho giocato una carta (e quindi characterPlayed != null) mi arriva anche un update. Qui lo gestisco
+                        //if the player has played a characterCard (and characterPlayed != null), an update is received.
+                        // Here I handle the updateMessage
                         if (characterPlayed != null) {
                             receivedMessage = networkHandler.getReceivedMessage();
                             if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update coins
@@ -229,32 +241,18 @@ public class Console{
                                     if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                                         valid = true;
                                     }
-                                    /*
-                                    if (valid) {
-                                        receivedMessage = networkHandler.getReceivedMessage();
-                                        if (receivedMessage.getMessageType() == TypeOfMessage.Update) {
-                                            updateMessage = (UpdateMessage) receivedMessage;
-                                            ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
-                                            view.showMessage(receivedMessage);
-                                        } else {
-                                            //messaggio imprevisto
-                                            view.showMessage(receivedMessage);
-                                        }
-
-                                    }
-                                     */
                                 }
                                 if (valid == false) {
-                                    //messaggio imprevisto
+                                    //unexpected message
                                     view.showMessage(receivedMessage);
                                 }
                             } else {
-                                //messaggio imprevisto
+                                //unexpected message
                                 view.showMessage(receivedMessage);
                             }
                         }
                     } else {
-                        //messaggio imprevisto
+                        //unexpected message
                         view.showMessage(receivedMessage);
                     }
                 } else if (receivedMessage.getMessageType().equals(TypeOfMessage.Error)) {
@@ -274,7 +272,7 @@ public class Console{
                 view.showMessage(receivedMessage);
 
                 receivedMessage = networkHandler.getReceivedMessage();
-                if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update di fine gioco
+                if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update game ended
                     updateMessage = (UpdateMessage) receivedMessage;
                     ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
                     view.showMessage(receivedMessage);
@@ -284,12 +282,15 @@ public class Console{
                 }
 
             } else {
-                //messaggio imprevisto
+                //unexpected message
                 view.showMessage(receivedMessage);
             }
         }
     }
 
+    /**Makes the player choose where to place mother nature. A message containing this information is sent to server.
+     * If an error message is received the player must remake his decision; if an ack message is received, 2 updates
+     * (update mother nature place and update possible endgame) are requested from server.*/
     public void placeMotherNature(){
         View view = ClientController.getInstance().view;
         NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
@@ -315,7 +316,7 @@ public class Console{
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
                 }else{
-                    //messaggio imprevisto
+                    //unexpected message
                     view.showMessage(receivedMessage);
                 }
             }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
@@ -329,17 +330,17 @@ public class Console{
         }while(valid == false);
 
         receivedMessage = networkHandler.getReceivedMessage();
-        if (receivedMessage.getMessageType() == TypeOfMessage.Update){ //update posto madre natura
+        if (receivedMessage.getMessageType() == TypeOfMessage.Update){ //update motherNature place
             UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
             ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
             view.showMessage(receivedMessage);
         }else{
-            //messaggio imprevisto
+            //unexpected message
             view.showMessage(receivedMessage);
         }
 
         receivedMessage = networkHandler.getReceivedMessage();
-        if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update di fine gioco
+        if (receivedMessage.getMessageType() == TypeOfMessage.Update) { //update game ended
             UpdateMessage updateMessage = (UpdateMessage) receivedMessage;
             ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
             view.showMessage(receivedMessage);
@@ -349,6 +350,9 @@ public class Console{
         }
     }
 
+    /**Makes the player choose a cloud. A message containing this information is sent to server.
+     * If an error message is received the player must remake his decision; if an ack message is received, an update is
+     * requested from server.*/
     public void chooseCloud(){
         View view = ClientController.getInstance().view;
         NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();
@@ -373,7 +377,7 @@ public class Console{
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)){
                     valid = true;
                 }else{
-                    //messaggio imprevisto
+                    //unexpected message
                     view.showMessage(receivedMessage);
                 }
             }else if(receivedMessage.getMessageType().equals(TypeOfMessage.Error)){
@@ -393,7 +397,7 @@ public class Console{
             ClientController.getInstance().setGameStatePojo(updateMessage.getGameState());
             view.showMessage(receivedMessage);
         }else{
-            //messaggio imprevisto
+            //unexpected message
             view.showMessage(receivedMessage);
         }
     }
@@ -412,5 +416,13 @@ public class Console{
 
     public void setCloudChosen(Integer cloudChosen) {
         this.cloudChosen = cloudChosen;
+    }
+
+    public void setAssistantCardPlayed(int assistantCardPlayed) {
+        this.assistantCardPlayed = assistantCardPlayed;
+    }
+
+    public void setCharacterPlayed(Integer characterPlayed) {
+        this.characterPlayed = characterPlayed;
     }
 }
