@@ -393,10 +393,8 @@ public class ActionPhase extends GamePhase {
         gameController.getCurrentPlayer().getSchoolBoard().insertCloud(gameController.getGame().getClouds().get(indexCloud));
     }
 
-    // fine metodi di gioco
-
-    /** this method does nothing if game is in simple mode because no player has more than 0 coins
-     * otherwise it asks to the player for character card he wants to use between that he can afford */
+    /** this method does nothing if game is in simple mode. Otherwise it asks the player which character card he wants +
+     * to use. The method does not terminate until a valid choice is made.*/
     protected void askforCharacter(){
         if(gameController.isExpert()) {
             GameMessage gameMessage;
@@ -415,7 +413,7 @@ public class ActionPhase extends GamePhase {
                 gameMessage = (GameMessage) receivedMessage;
 
                 if (gameMessage.getValue() == null) {
-                    //il giocatore NON ha voluto giocare una carta personaggio
+                    //the player DID NOT WANT to play a character
                     AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);
                     playerManager.sendMessage(ackMessage);
                     validChoice = true;
@@ -437,27 +435,28 @@ public class ActionPhase extends GamePhase {
                         ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
                         playerManager.sendMessage(errorMessage);
                     } else {
-
                         gameController.getGame().setActiveEffect(characterStatePlayed);
                         gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
                         gameController.getGame().addCoins(characterStatePlayed.getCost());
-
                         characterStatePlayed.use(); //incremento il costo se è da incrementare
 
                         AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
                         playerManager.sendMessage(ackMessage);
-
                         gameController.update(); // coins update
 
                         CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
-                        currentCharacterEffect.doEffect();
+
+                        //if playerManager.getBufferedReaderOut() is null, I am running a test and I shouldn't call doEffect
+                        if (playerManager.getBufferedReaderOut() != null){
+                            currentCharacterEffect.doEffect();
+                        }
 
                         ackMessage = new AckMessage(TypeOfAck.CorrectMove, "end of effect");
                         playerManager.sendMessage(ackMessage);
                         validChoice = true;
                     }
                 } else {
-                    System.out.println("LA carta non esiste");
+                    System.out.println("The card doesn't exist");
                     ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorMessage);
                 }

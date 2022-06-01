@@ -531,6 +531,108 @@ class ActionPhaseTest {
 
     @Test
     public void testAskForCharacter() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+        GameController gameController = new GameController(lobby, true);
+        ActionPhase actionPhase = new ActionPhase(gameController);
+        Game g = gameController.getGame();
+
+        List<CharacterState> gameCharacters= new ArrayList<>();
+        CharacterState c1 = new CharacterStateStudent(1, 1);
+        CharacterState c2 = new CharacterState(2, 1);
+        CharacterState c3 = new CharacterState(3, 10);
+        gameCharacters.add(c1);
+        gameCharacters.add(c2);
+        gameCharacters.add(c3);
+        g.setCharacterStates(gameCharacters);
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        p2.addCoins(5);
+        Player p3 = g.getPlayers().get(2);
+
+        HashMap<Player, Integer> maximumMovements = new HashMap<>();
+        List<Player> turnOrder = new ArrayList<>();
+
+        //results from pianificationPhase
+        turnOrder.add(p2);
+        turnOrder.add(p3);
+        turnOrder.add(p1);
+        actionPhase.setTurnOrder(turnOrder);
+
+        maximumMovements.put(p1, 3);
+        maximumMovements.put(p2, 2);
+        maximumMovements.put(p3, 2);
+        actionPhase.setMaximumMovements(maximumMovements);
+
+        //initialize entances of Schoolboards
+        PawnsMap entrance = new PawnsMap();
+        entrance.add(ColourPawn.Blue, 3);
+        entrance.add(ColourPawn.Green, 3);
+        entrance.add(ColourPawn.Pink, 1);
+        p2.getSchoolBoard().setEntrance(entrance);
+
+        actionPhase.setCurrPlayer(p2);
+
+        Map<String, PlayerManager> playerManagerMap = new HashMap<>();
+
+        PlayerManager pm2 = new PlayerManager(null, null);
+        LinkedBlockingQueue<Message> q2= new LinkedBlockingQueue<>();
+
+        //the player DID NOT WANT to play a charcater
+        Message m2 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q2.add(m2);
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+        assertEquals(true, gameController.isExpert());
+        actionPhase.askforCharacter();
+        assertEquals(g.getActiveEffect(), null);
+
+
+        //the player plays a character that doesn't exist and then a valid one
+        q2 = new LinkedBlockingQueue<>();
+        m2 = new GameMessage(TypeOfMove.CharacterCard, 13);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, 2);
+        q2.add(m2);
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+        assertEquals(5, p2.getCoins());
+        assertEquals(1, c2.getCost());
+        actionPhase.askforCharacter();
+        assertEquals(4, p2.getCoins());
+        assertEquals(c2, g.getActiveEffect());
+        assertEquals(true, c2.isIncremented());
+        assertEquals(2, c2.getCost());
+
+
+        //the player plays a character that is too expensive and then a valid one
+        q2 = new LinkedBlockingQueue<>();
+        m2 = new GameMessage(TypeOfMove.CharacterCard, 3);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, 2);
+        q2.add(m2);
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+        assertEquals(4, p2.getCoins());
+        assertEquals(2, c2.getCost());
+        actionPhase.askforCharacter();
+        assertEquals(2, p2.getCoins());
+        assertEquals(c2, g.getActiveEffect());
+        assertEquals(true, c2.isIncremented());
+        assertEquals(2, c2.getCost());
+
+    }
+
+    @Test
+    public void testHandle() {
 
     }
 
