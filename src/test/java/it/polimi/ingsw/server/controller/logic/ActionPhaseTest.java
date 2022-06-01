@@ -1,19 +1,18 @@
-/*package it.polimi.ingsw.server.controller.logic;
+package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
-import it.polimi.ingsw.common.messages.GameMessage;
-import it.polimi.ingsw.common.messages.Message;
-import it.polimi.ingsw.common.messages.TypeOfMessage;
-import it.polimi.ingsw.server.controller.characters.Card2;
+import it.polimi.ingsw.common.messages.*;
+import it.polimi.ingsw.server.controller.characters.Card2Effect;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.Character;
+import it.polimi.ingsw.server.model.CharacterState;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,9 +22,10 @@ class ActionPhaseTest {
     public void testMoveSingleStudent() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         ActionPhase a = new ActionPhase(gameController);
         Game g = gameController.getGame();
@@ -55,9 +55,10 @@ class ActionPhaseTest {
     public void testMoveStudent() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         ActionPhase actionPhase = new ActionPhase(gameController);
         Game g = gameController.getGame();
@@ -82,151 +83,118 @@ class ActionPhaseTest {
 
         //initialize entances of Schoolboards
         PawnsMap entrance = new PawnsMap();
-        entrance.add(ColourPawn.Blue, 2);
-        entrance.add(ColourPawn.Yellow, 3);
-        entrance.add(ColourPawn.Pink, 2);
-        p1.getSchoolBoard().setEntrance(entrance);
-
-        entrance = new PawnsMap();
         entrance.add(ColourPawn.Blue, 3);
         entrance.add(ColourPawn.Green, 3);
         entrance.add(ColourPawn.Pink, 1);
         p2.getSchoolBoard().setEntrance(entrance);
 
-        entrance = new PawnsMap();
-        entrance.add(ColourPawn.Blue, 2);
-        entrance.add(ColourPawn.Pink, 3);
-        entrance.add(ColourPawn.Yellow, 2);
-        p3.getSchoolBoard().setEntrance(entrance);
-
         actionPhase.setCurrPlayer(p2);
 
         Map<String, PlayerManager> playerManagerMap = new HashMap<>();
 
-        PlayerManager pm1 = new PlayerManager(p1.getNickname());
-        PlayerManager pm2 = new PlayerManager(p2.getNickname());
-        PlayerManager pm3 = new PlayerManager(p3.getNickname());
-        Queue<Message> q1 = new ArrayDeque<>();
-        Queue<Message> q2 = new ArrayDeque<>();
-        Queue<Message> q3 = new ArrayDeque<>();
+        PlayerManager pm2 = new PlayerManager(null, null);
+        LinkedBlockingQueue<Message> q2= new LinkedBlockingQueue<>();
 
-        //p1 moves Blue student to DiningRoom
-        Message m1 = new GameMessage(TypeOfMessage.StudentColour, 1);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q1.add(m1);
-        //p1 moves Blue student to Island1
-        m1 = new GameMessage(TypeOfMessage.StudentColour, 1);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMessage.StudentMovement, 1);
-        q1.add(m1);
-        //p1 moves Yellow student to Island3
-        m1 = new GameMessage(TypeOfMessage.StudentColour, 0);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMessage.StudentMovement, 3);
-        q1.add(m1);
-        //p1 moves incorrectly
-        m1 = new GameMessage(TypeOfMessage.StudentColour, 7);
-        q1.add(m1);
-        //p1 moves incorrectly
-        m1 = new GameMessage(TypeOfMessage.StudentColour, 3);
-        q1.add(m1);
-        //p1 moves Pink student to DiningRoom
-        m1 = new GameMessage(TypeOfMessage.StudentColour, 4);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q1.add(m1);
-
-        p2.getSchoolBoard().getDiningRoom().add(ColourPawn.Blue, 9);
         PawnsMap diningP2Pre = p2.getSchoolBoard().getDiningRoom().clone();
+        p2.getSchoolBoard().getDiningRoom().add(ColourPawn.Blue, 9);
 
         //p2 moves Blue student to DiningRoom
-        Message m2 = new GameMessage(TypeOfMessage.StudentColour, 1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q2.add(m2);
-        //p2 moves Blue student to DiningRoom, but it is full
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q2.add(m2);
-        //p2 moves Blue student to Island4
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMessage.StudentMovement, 4);
-        q2.add(m2);
-        //p2 moves Green student to Island7
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 2);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMessage.StudentMovement, 7);
-        q2.add(m2);
-        //p2 moves incorrectly
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 7);
-        q2.add(m2);
-        //p2 moves incorrectly
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 0);
-        q2.add(m2);
-        //p2 moves incorrectly
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 2);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMessage.StudentMovement, -5);
-        q2.add(m2);
-        //p2 moves Green student to DiningRoom
-        m2 = new GameMessage(TypeOfMessage.StudentColour, 2);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMessage.StudentMovement, -1);
+        Message m2 = new PawnMovementMessage(1, -1);
         q2.add(m2);
 
-        //p3 moves Yellow student to DiningRoom
-        Message m3 = new GameMessage(TypeOfMessage.StudentColour, 0);
-        q3.add(m3);
-        m3 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q3.add(m3);
-        //p3 moves Yellow student to DiningRoom
-        m3 = new GameMessage(TypeOfMessage.StudentColour, 0);
-        q3.add(m3);
-        m3 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q3.add(m3);
-        //p3 moves Pink student to DiningRoom
-        m3 = new GameMessage(TypeOfMessage.StudentColour, 4);
-        q3.add(m3);
-        m3 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q3.add(m3);
-        //p3 moves Pink student to DiningRoom
-        m3 = new GameMessage(TypeOfMessage.StudentColour, 4);
-        q3.add(m3);
-        m3 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q3.add(m3);
-        //p3 moves Pink student to DiningRoom
-        m3 = new GameMessage(TypeOfMessage.StudentColour, 4);
-        q3.add(m3);
-        m3 = new GameMessage(TypeOfMessage.StudentMovement, -1);
-        q3.add(m3);
-        //p3 moves Blue student to Island10
-        m3 = new GameMessage(TypeOfMessage.StudentColour, 1);
-        q3.add(m3);
-        m3 = new GameMessage(TypeOfMessage.StudentMovement, 10);
-        q3.add(m3);
-
-        pm1.setMessageQueue(q1);
         pm2.setMessageQueue(q2);
-        pm3.setMessageQueue(q3);
-        playerManagerMap.put(p1.getNickname(), pm1);
         playerManagerMap.put(p2.getNickname(), pm2);
-        playerManagerMap.put(p3.getNickname(), pm3);
-
         gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
 
         actionPhase.moveStudent();
 
         PawnsMap entranceP2Post = new PawnsMap();
+        entranceP2Post.add(ColourPawn.Blue, 2);
+        entranceP2Post.add(ColourPawn.Green, 3);
+        entranceP2Post.add(ColourPawn.Pink, 1);
+        assertEquals(entranceP2Post, p2.getSchoolBoard().getEntrance());
+
+        PawnsMap diningP2Post = new PawnsMap();
+        diningP2Post.add(ColourPawn.Blue, 10);
+        assertEquals(diningP2Post, p2.getSchoolBoard().getDiningRoom());
+
+
+        //p2 moves Blue student to DiningRoom, but it is full
+        m2 = new PawnMovementMessage(1, -1);
+        q2.add(m2);
+        //p2 moves Blue student to Island4
+        m2 = new PawnMovementMessage(1, 4);
+        q2.add(m2);
+
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+
+        actionPhase.moveStudent();
+
+        entranceP2Post = new PawnsMap();
+        entranceP2Post.add(ColourPawn.Blue, 1);
+        entranceP2Post.add(ColourPawn.Green, 3);
+        entranceP2Post.add(ColourPawn.Pink, 1);
+        assertEquals(entranceP2Post, p2.getSchoolBoard().getEntrance());
+
+        diningP2Post = diningP2Pre.clone();
+        diningP2Post.add(ColourPawn.Blue, 10);
+        assertEquals(diningP2Post, p2.getSchoolBoard().getDiningRoom());
+
+
+        //p2 moves Green student to Island7
+        m2 = new PawnMovementMessage(2, 7);
+        q2.add(m2);
+
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+
+        actionPhase.moveStudent();
+
+        entranceP2Post = new PawnsMap();
+        entranceP2Post.add(ColourPawn.Blue, 1);
+        entranceP2Post.add(ColourPawn.Green, 2);
+        entranceP2Post.add(ColourPawn.Pink, 1);
+        assertEquals(entranceP2Post, p2.getSchoolBoard().getEntrance());
+
+        diningP2Post = diningP2Pre.clone();
+        diningP2Post.add(ColourPawn.Blue, 10);
+
+        assertEquals(diningP2Post, p2.getSchoolBoard().getDiningRoom());
+
+        //p2 moves incorrectly
+        m2 = new PawnMovementMessage(7, 7);
+        q2.add(m2);
+        //p2 moves incorrectly
+        m2 = new PawnMovementMessage(0, 7);
+        q2.add(m2);
+        //p2 moves incorrectly
+        m2 = new PawnMovementMessage(2, -5);
+        q2.add(m2);
+        //p2 moves Green student to DiningRoom
+        m2 = new PawnMovementMessage(2, -1);
+        q2.add(m2);
+
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+
+
+        actionPhase.moveStudent();
+
+
+        entranceP2Post = new PawnsMap();
         entranceP2Post.add(ColourPawn.Blue, 1);
         entranceP2Post.add(ColourPawn.Green, 1);
         entranceP2Post.add(ColourPawn.Pink, 1);
         assertEquals(entranceP2Post, p2.getSchoolBoard().getEntrance());
 
-        PawnsMap diningP2Post = diningP2Pre.clone();
-        diningP2Post.add(ColourPawn.Blue, 1);
+        diningP2Post = diningP2Pre.clone();
+        diningP2Post.add(ColourPawn.Blue, 10);
         diningP2Post.add(ColourPawn.Green, 1);
 
         assertEquals(diningP2Post, p2.getSchoolBoard().getDiningRoom());
@@ -236,9 +204,10 @@ class ActionPhaseTest {
     public void testMoveMotherNature() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         ActionPhase actionPhase = new ActionPhase(gameController);
         Game g = gameController.getGame();
@@ -260,28 +229,27 @@ class ActionPhaseTest {
 
         Map<String, PlayerManager> playerManagerMap = new HashMap<>();
 
-        PlayerManager pm1 = new PlayerManager(p1.getNickname());
-        PlayerManager pm2 = new PlayerManager(p2.getNickname());
-        PlayerManager pm3 = new PlayerManager(p3.getNickname());
-        Queue<Message> q1 = new ArrayDeque<>();
-        Queue<Message> q2 = new ArrayDeque<>();
-        Queue<Message> q3 = new ArrayDeque<>();
+        PlayerManager pm1 = new PlayerManager(null, null);
+        PlayerManager pm2 = new PlayerManager(null, null);
+        PlayerManager pm3 = new PlayerManager(null, null);
+        LinkedBlockingQueue<Message> q1 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q2= new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q3 = new LinkedBlockingQueue<>();
 
-        Message m1 = new GameMessage(TypeOfMessage.StudentColour, 1);
+        Message m1 = new GameMessage(TypeOfMove.StudentColour, 1);
         q1.add(m1);
 
         //incorrect Move mothernature
-        Message m2 = new GameMessage(TypeOfMessage.MoveMotherNature, 0);
+        Message m2 = new GameMessage(TypeOfMove.MoveMotherNature, 0);
         q2.add(m2);
         //incorrect Move mothernature
-        m2 = new GameMessage(TypeOfMessage.MoveMotherNature, 3);
+        m2 = new GameMessage(TypeOfMove.MoveMotherNature, 3);
         q2.add(m2);
         //correct Move mothernature
-        m2 = new GameMessage(TypeOfMessage.MoveMotherNature, 1);
+        m2 = new GameMessage(TypeOfMove.MoveMotherNature, 1);
         q2.add(m2);
-
         //p3 moves Yellow student to DiningRoom
-        Message m3 = new GameMessage(TypeOfMessage.StudentColour, 0);
+        Message m3 = new GameMessage(TypeOfMove.StudentColour, 0);
         q3.add(m3);
 
         pm1.setMessageQueue(q1);
@@ -305,9 +273,10 @@ class ActionPhaseTest {
     public void testCheckEnd() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         ActionPhase actionPhase = new ActionPhase(gameController);
         Game g = gameController.getGame();
@@ -332,9 +301,10 @@ class ActionPhaseTest {
     public void testToString() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         ActionPhase actionPhase = new ActionPhase(gameController);
         Game g = gameController.getGame();
@@ -351,20 +321,21 @@ class ActionPhaseTest {
     public void testCalculateInfluence() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         Game g = gameController.getGame();
-        List<Character> gameCharacters= new ArrayList<>();
+        List<CharacterState> gameCharacters= new ArrayList<>();
 
-        Character c2 = new Character(2, 2);
-        Character c1 = new Character(1, 1);
-        Character c3 = new Character(3, 3);
+        CharacterState c1 = new CharacterStateStudent(1, 1);
+        CharacterState c2 = new CharacterState(2, 2);
+        CharacterState c3 = new CharacterState(3, 3);
         gameCharacters.add(c1);
         gameCharacters.add(c2);
         gameCharacters.add(c3);
-        g.setCharacters(gameCharacters);
+        g.setCharacterStates(gameCharacters);
         SetUpPhase s = new SetUpPhase(gameController);
         s.initializeCharactersEffects();
         ActionPhase a = new ActionPhase(gameController);
@@ -403,7 +374,7 @@ class ActionPhaseTest {
         g.getIslands().get(2).getStudents().add(ColourPawn.Blue, 2);
         g.getIslands().get(2).getStudents().add(ColourPawn.Yellow, 5);
 
-        Card2 effect = (Card2) gameController.getCharacterEffects().get(c2);
+        Card2Effect effect = (Card2Effect) gameController.getCharacterByID(c2.getCharacterId());
         effect.doEffect();
 
         influent = a.calcultateInfluence(g.getIslands().get(2));
@@ -414,9 +385,10 @@ class ActionPhaseTest {
     public void testPlaceTowerOfPlayer() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         Game g = gameController.getGame();
         List<Character> gameCharacters = new ArrayList<>();
@@ -452,9 +424,10 @@ class ActionPhaseTest {
     public void testVerifyUnion() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         Game g = gameController.getGame();
         List<Character> gameCharacters = new ArrayList<>();
@@ -497,9 +470,10 @@ class ActionPhaseTest {
     public void testChooseCloud() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
         GameController gameController = new GameController(lobby, false);
         Game g = gameController.getGame();
         List<Character> gameCharacters = new ArrayList<>();
@@ -513,12 +487,13 @@ class ActionPhaseTest {
 
         Map<String, PlayerManager> playerManagerMap = new HashMap<>();
 
-        PlayerManager pm1 = new PlayerManager(p1.getNickname());
-        PlayerManager pm2 = new PlayerManager(p2.getNickname());
-        PlayerManager pm3 = new PlayerManager(p3.getNickname());
-        Queue<Message> q1 = new ArrayDeque<>();
-        Queue<Message> q2 = new ArrayDeque<>();
-        Queue<Message> q3 = new ArrayDeque<>();
+        PlayerManager pm1 = new PlayerManager(null, null);
+        PlayerManager pm2 = new PlayerManager(null, null);
+        PlayerManager pm3 = new PlayerManager(null, null);
+
+        LinkedBlockingQueue<Message> q1 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q2= new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q3 = new LinkedBlockingQueue<>();
 
         g.getClouds().get(0).clearCloud();
         assertEquals(0, g.getClouds().get(0).getStudents().pawnsNumber());
@@ -529,15 +504,15 @@ class ActionPhaseTest {
         g.getClouds().get(1).getStudents().add(map);
 
         //incorrect move
-        Message m1 = new GameMessage(TypeOfMessage.CloudChoice, -1);
+        Message m1 = new GameMessage(TypeOfMove.CloudChoice, -1);
         q1.add(m1);
 
         //empty cloud
-        m1 = new GameMessage(TypeOfMessage.CloudChoice, 0);
+        m1 = new GameMessage(TypeOfMove.CloudChoice, 0);
         q1.add(m1);
 
         //valid choice
-        m1 = new GameMessage(TypeOfMessage.CloudChoice, 1);
+        m1 = new GameMessage(TypeOfMove.CloudChoice, 1);
         q1.add(m1);
 
         pm1.setMessageQueue(q1);
@@ -560,6 +535,3 @@ class ActionPhaseTest {
     }
 
 }
-
-
- */

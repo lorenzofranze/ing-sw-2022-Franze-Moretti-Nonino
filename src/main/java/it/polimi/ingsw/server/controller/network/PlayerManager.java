@@ -147,7 +147,10 @@ public class PlayerManager implements Runnable{
     }
 
     private String readFromBuffer(){
+
         String lastMessage = "";
+        //during tests
+        if (bufferedReaderIn==null){return lastMessage;}
 
         try{
             String line = bufferedReaderIn.readLine();
@@ -160,7 +163,7 @@ public class PlayerManager implements Runnable{
             if(toStop==false)
             {
                 toStop=true;
-                System.out.println("Player manage: close connection 1");
+                System.out.println("Player manager: close connection 1");
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
@@ -176,6 +179,7 @@ public class PlayerManager implements Runnable{
 
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
+        System.out.println(stringToSend);
 
         //null only in tests
         if (bufferedReaderOut == null){return;}

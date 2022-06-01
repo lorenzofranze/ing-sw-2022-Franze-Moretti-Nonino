@@ -90,6 +90,10 @@ public class Island {
         this.towerColour = towerColour;
     }
 
+    public void setTowerCount(int towerCount) {
+        this.towerCount = towerCount;
+    }
+
     public void addTower(int num){
         this.towerCount+=num;
     }

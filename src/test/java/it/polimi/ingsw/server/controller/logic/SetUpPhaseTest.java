@@ -1,4 +1,4 @@
-/*package it.polimi.ingsw.server.controller.logic;
+package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.server.controller.logic.GameController;
@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.logic.SetUpPhase;
 import it.polimi.ingsw.server.controller.logic.SetUpResult;
+import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -17,19 +18,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SetUpPhaseTest {
+
     @Test
     public void testDistributeCoins() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
 
         GameController gameController = new GameController(lobby, false);
         SetUpPhase setUpPhase = new SetUpPhase(gameController);
         setUpPhase.handle();
 
-        for(Player p: gameController.getGame().getPlayers()){
+        for (Player p : gameController.getGame().getPlayers()) {
             assertEquals(0, p.getCoins());
         }
 
@@ -39,15 +42,16 @@ public class SetUpPhaseTest {
     public void testDistributeCoinsComplexModeCoins() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_2);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
+
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
 
         GameController gameController = new GameController(lobby, true);
         SetUpPhase setUpPhase = new SetUpPhase(gameController);
         setUpPhase.handle();
 
-        for(Player p: gameController.getGame().getPlayers()){
-            assertEquals(1, p.getCoins());
+        for (Player p : gameController.getGame().getPlayers()) {
+            assertEquals(5, p.getCoins());
         }
     }
 
@@ -55,8 +59,8 @@ public class SetUpPhaseTest {
     public void testPlacePawnsIslands(){
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_2);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
 
         GameController gameController = new GameController(lobby, true);
 
@@ -94,8 +98,8 @@ public class SetUpPhaseTest {
     public void testFillSchoolBoard2Players(){
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_2);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
 
         GameController gameController = new GameController(lobby, true);
 
@@ -116,9 +120,9 @@ public class SetUpPhaseTest {
     public void testFillSchoolBoard3Players(){
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
 
         GameController gameController = new GameController(lobby, true);
 
@@ -139,9 +143,10 @@ public class SetUpPhaseTest {
     public void testChooseFirstPianificationPlayer(){
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, true);
 
@@ -155,9 +160,10 @@ public class SetUpPhaseTest {
     public void testToString(){
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Complex_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, true);
 
@@ -166,7 +172,4 @@ public class SetUpPhaseTest {
         assertEquals(true, s.equals("SetUpPhase"));
 
     }
-
 }
-
- */

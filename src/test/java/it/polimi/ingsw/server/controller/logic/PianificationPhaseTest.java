@@ -1,8 +1,9 @@
-/*package it.polimi.ingsw.server.controller.logic;
+package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.messages.GameMessage;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
+import it.polimi.ingsw.common.messages.TypeOfMove;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.AssistantCard;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,9 +24,10 @@ class PianificationPhaseTest {
     public void testToString() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, false);
         PianificationPhase p = new PianificationPhase(gameController);
@@ -37,9 +40,10 @@ class PianificationPhaseTest {
     public void testCheckPermit() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, false);
         PianificationPhase p = new PianificationPhase(gameController);
@@ -63,9 +67,9 @@ class PianificationPhaseTest {
 
         players = new ArrayList<>();
         lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
 
         gameController = new GameController(lobby, false);
         p = new PianificationPhase(gameController);
@@ -91,15 +95,17 @@ class PianificationPhaseTest {
         assertEquals(true, p.checkPermit(p3, played));
     }
 
+
     @Test
     public void testFillCloud() {
 
         //3 players - cannot fill all clouds
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, false);
         PianificationPhase p = new PianificationPhase(gameController);
@@ -116,8 +122,8 @@ class PianificationPhaseTest {
         //2 players - cannot fill all clouds
         players = new ArrayList<>();
         lobby = new Lobby(GameMode.Simple_2);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
 
         gameController = new GameController(lobby, false);
         p = new PianificationPhase(gameController);
@@ -136,9 +142,10 @@ class PianificationPhaseTest {
         //3 players - can fill all clouds
         players = new ArrayList<>();
         lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         gameController = new GameController(lobby, false);
         p = new PianificationPhase(gameController);
@@ -155,8 +162,8 @@ class PianificationPhaseTest {
         //2 players - can fill all clouds
         players = new ArrayList<>();
         lobby = new Lobby(GameMode.Simple_2);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
 
         gameController = new GameController(lobby, false);
         p = new PianificationPhase(gameController);
@@ -175,9 +182,10 @@ class PianificationPhaseTest {
     public void testPlayAssistantCard() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, false);
         PianificationPhase p = new PianificationPhase(gameController);
@@ -193,21 +201,21 @@ class PianificationPhaseTest {
         gameController.setCurrentPlayer(p1);
         Map<String, PlayerManager> playerManagerMap = new HashMap<>();
 
-        PlayerManager pm1 = new PlayerManager(p1.getNickname());
-        PlayerManager pm2 = new PlayerManager(p2.getNickname());
-        PlayerManager pm3 = new PlayerManager(p3.getNickname());
-        Queue<Message> q1 = new ArrayDeque<>();
-        Queue<Message> q2 = new ArrayDeque<>();
-        Queue<Message> q3 = new ArrayDeque<>();
-        Message m1 = new GameMessage(TypeOfMessage.AssistantCard, 20);
+        PlayerManager pm1 = new PlayerManager(null, null);
+        PlayerManager pm2 = new PlayerManager(null, null);
+        PlayerManager pm3 = new PlayerManager(null, null);
+        LinkedBlockingQueue<Message> q1 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q2= new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q3 = new LinkedBlockingQueue<>();
+        Message m1 = new GameMessage(TypeOfMove.AssistantCard, 20);
         q1.add(m1);
-        m1 = new GameMessage(TypeOfMessage.AssistantCard, 3);
+        m1 = new GameMessage(TypeOfMove.AssistantCard, 3);
         q1.add(m1);
-        m1 = new GameMessage(TypeOfMessage.AssistantCard, 6);
+        m1 = new GameMessage(TypeOfMove.AssistantCard, 6);
         q1.add(m1);
-        Message m2 = new GameMessage(TypeOfMessage.AssistantCard, 3);
+        Message m2 = new GameMessage(TypeOfMove.AssistantCard, 3);
         q2.add(m2);
-        Message m3 = new GameMessage(TypeOfMessage.AssistantCard, 3);
+        Message m3 = new GameMessage(TypeOfMove.AssistantCard, 3);
         q3.add(m3);
 
         AssistantCard a = new AssistantCard(3, 2);
@@ -228,15 +236,17 @@ class PianificationPhaseTest {
 
         p.playAssistantCard(p1, turnOrderMap, maximumMovements);
         assertEquals(true, p1.getPlayedAssistantCard().equals(c));
+
     }
 
     @Test
     public void testHandle() {
         ArrayList<String> players = new ArrayList<>();
         Lobby lobby = new Lobby(GameMode.Simple_3);
-        lobby.addUsersReadyToPlay("vale", new Socket());
-        lobby.addUsersReadyToPlay("lara", new Socket());
-        lobby.addUsersReadyToPlay("franzo", new Socket());
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
 
         GameController gameController = new GameController(lobby, false);
         PianificationPhase p = new PianificationPhase(gameController);
@@ -249,18 +259,18 @@ class PianificationPhaseTest {
         gameController.setCurrentPlayer(p1);
         Map<String, PlayerManager> playerManagerMap = new HashMap<>();
 
-        PlayerManager pm1 = new PlayerManager(p1.getNickname());
-        PlayerManager pm2 = new PlayerManager(p2.getNickname());
-        PlayerManager pm3 = new PlayerManager(p3.getNickname());
-        Queue<Message> q1 = new ArrayDeque<>();
-        Queue<Message> q2 = new ArrayDeque<>();
-        Queue<Message> q3 = new ArrayDeque<>();
+        PlayerManager pm1 = new PlayerManager(null, null);
+        PlayerManager pm2 = new PlayerManager(null, null);
+        PlayerManager pm3 = new PlayerManager(null, null);
+        LinkedBlockingQueue<Message> q1 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q2= new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Message> q3 = new LinkedBlockingQueue<>();
 
-        Message m1 = new GameMessage(TypeOfMessage.AssistantCard, 6);
+        Message m1 = new GameMessage(TypeOfMove.AssistantCard, 6);
         q1.add(m1);
-        Message m2 = new GameMessage(TypeOfMessage.AssistantCard, 3);
+        Message m2 = new GameMessage(TypeOfMove.AssistantCard, 3);
         q2.add(m2);
-        Message m3 = new GameMessage(TypeOfMessage.AssistantCard, 4);
+        Message m3 = new GameMessage(TypeOfMove.AssistantCard, 4);
         q3.add(m3);
 
         AssistantCard c = new AssistantCard(6, 3);
@@ -295,6 +305,3 @@ class PianificationPhaseTest {
 
     }
 }
-
-
- */

@@ -33,6 +33,9 @@ public class PingSender implements Runnable{
     @Override
     public void run() {
 
+        //ping not used in tests
+        if (playerManager.getBufferedReaderOut()==null){return;}
+
         while(playerManager.getConnected() && playerManager.getCloseConnectionBeenCalled()==false) {
             PingMessage message = new PingMessage();
             JsonConverter jsonConverter = new JsonConverter();

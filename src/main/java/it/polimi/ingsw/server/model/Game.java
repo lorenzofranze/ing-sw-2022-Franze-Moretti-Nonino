@@ -233,4 +233,8 @@ public class Game {
     public void setProfessorsLeft(PawnsMap professorsLeft) {this.professorsLeft = professorsLeft;}
 
     public void setCoinSupply(int coinSupply) {this.coinSupply = coinSupply;}
+
+    public void setCharacterStates(List<CharacterState> characterStates) {
+        this.characterStates = characterStates;
+    }
 }

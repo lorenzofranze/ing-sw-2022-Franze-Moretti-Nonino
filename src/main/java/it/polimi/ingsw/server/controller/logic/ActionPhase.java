@@ -191,8 +191,8 @@ public class ActionPhase extends GamePhase {
                     playerManager.sendMessage(errorGameMessage);
                 }
             }
-            if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
-                    get(ColourPawn.get(indexColour))>=10) {
+            if(valid && (gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
+                    get(ColourPawn.get(indexColour))>=10) && (where == -1)) {
                 valid = false;
                 errorGameMessage=new ErrorMessage(TypeOfError.FullDiningRoom); // out of row -> 10 students
                 playerManager.sendMessage(errorGameMessage);

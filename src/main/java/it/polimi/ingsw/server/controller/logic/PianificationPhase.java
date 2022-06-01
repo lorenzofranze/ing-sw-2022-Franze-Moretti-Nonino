@@ -100,7 +100,7 @@ public class PianificationPhase extends GamePhase {
                 gameMessage = (GameMessage) message;
                 played= gameMessage.getValue();
             }else{
-                System.out.println("ERROR");
+                System.out.println("pianification phase - playAssistantCard error");
                 return;
             }
 
