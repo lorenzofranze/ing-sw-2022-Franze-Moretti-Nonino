@@ -13,7 +13,7 @@
             <Image url="@images/imageStart/gameMode.png" />
          </image>
       </ImageView>
-      <TextField alignment="TOP_CENTER" editable="false" focusTraversable="false" layoutX="233.0" layoutY="631.0" prefHeight="102.0" prefWidth="1044.0" style="-fx-background-color: red; -fx-text-fill: yellow; -fx-border-color: black; -fx-border-width: 5;" text="WAITING FOR OTHER PLAYERS">
+      <TextField alignment="TOP_CENTER" editable="false" focusTraversable="false" layoutX="331.0" layoutY="588.0" prefHeight="85.0" prefWidth="874.0" style="-fx-background-color: red; -fx-text-fill: yellow; -fx-border-color: black; -fx-border-width: 5;" text="WAITING FOR OTHER PLAYERS">
          <font>
             <Font size="48.0" />
          </font>
