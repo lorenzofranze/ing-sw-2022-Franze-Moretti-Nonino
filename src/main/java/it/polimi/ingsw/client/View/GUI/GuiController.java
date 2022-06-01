@@ -29,12 +29,12 @@ public class GuiController extends Application {
     private Runnable runnable;
 
     public static void main(String[] args) {
-        Thread t = new Thread(()->launch(args));
+        Thread t = new Thread(() -> launch(args));
         t.start();
     }
 
 
-    public static GuiController getInstance(){
+    public static GuiController getInstance() {
         return guiController;
     }
 
@@ -43,12 +43,14 @@ public class GuiController extends Application {
         this.runnable = runnable;
     }
 
-    /** first method called: display gameModeFrame */
+    /**
+     * first method called: display gameModeFrame
+     */
     @Override
     public void start(Stage newStage) throws Exception {
         guiController = this;
-        Parent root=null;
-        this.currentStage=newStage;
+        Parent root = null;
+        this.currentStage = newStage;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("chooseGameModeFrame.fxml"));
         } catch (Exception e) {
@@ -59,7 +61,9 @@ public class GuiController extends Application {
         currentStage.setScene(scene);
         currentStage.setTitle("Login");
         currentStage.getIcons().add(new Image("/images/imageStart/logo.png"));
-        currentStage.sizeToScene();
+        currentStage.setFullScreen(true);
+        currentStage.setResizable(true);
+
         currentStage.show();
     }
 
@@ -80,11 +84,11 @@ public class GuiController extends Application {
         //questo metodo dopo show muore tuttavia qui passa una callback da chiamre se serve alla guiView
         Consumer<Boolean> consumer = (ok) -> {
             Platform.runLater(() -> {
-                        if (!ok) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Name already in use", ButtonType.OK);
-                            alert.showAndWait();
-                        }
-                    });
+                if (!ok) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Name already in use", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            });
         };
         ClientController.getInstance().getView().setNameCompleteObserver(consumer);
         Scene scene = new Scene(root);
@@ -128,7 +132,7 @@ public class GuiController extends Application {
 
     public void change() {
         Platform.runLater(runnable);
-        runnable=null;
+        runnable = null;
     }
 
     @FXML
@@ -152,17 +156,29 @@ public class GuiController extends Application {
     @FXML
     private ImageView AssistantCard10;
 
-    public void showGameUpdate(){
+    public void showGameUpdate() {
         ClientController clientController = ClientController.getInstance();
         PlayerPojo me = null;
-        for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()){
-            if (p.getNickname().equals(ClientController.getInstance().getNickname())){
+        for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()) {
+            if (p.getNickname().equals(ClientController.getInstance().getNickname())) {
                 me = p;
             }
         }
         // PIANIFICATION
-        if(clientController.getGameStatePojo().getCurrentPhase().equals(Phase.PIANIFICATION)){
+        if (clientController.getGameStatePojo().getCurrentPhase().equals(Phase.PIANIFICATION)) {
 
+            AssistantCard1.setDisable(false);
+            AssistantCard2.setDisable(false);
+            AssistantCard3.setDisable(false);
+            AssistantCard4.setDisable(false);
+            AssistantCard5.setDisable(false);
+            AssistantCard6.setDisable(false);
+            AssistantCard7.setDisable(false);
+            AssistantCard8.setDisable(false);
+            AssistantCard9.setDisable(false);
+            AssistantCard10.setDisable(false);
+
+            /*
             Set<AssistantCardPojo> assistantCardPojos= me.getDeck();
             for(AssistantCardPojo a: assistantCardPojos) {
                 if (a.getTurnOrder()== 1) {
@@ -196,8 +212,23 @@ public class GuiController extends Application {
                     AssistantCard10.setImage(AssistantCard10.getImage());
                 }
             }
+
+             */
+
         }
         //to continue...
+
+        if (clientController.getGameStatePojo().getCurrentPhase().equals(Phase.ACTION)) {
+            AssistantCard1.setDisable(true);
+            AssistantCard2.setDisable(true);
+            AssistantCard3.setDisable(true);
+            AssistantCard4.setDisable(true);
+            AssistantCard5.setDisable(true);
+            AssistantCard6.setDisable(true);
+            AssistantCard7.setDisable(true);
+            AssistantCard8.setDisable(true);
+            AssistantCard9.setDisable(true);
+            AssistantCard10.setDisable(true);
 
 
         /*
@@ -224,7 +255,8 @@ public class GuiController extends Application {
         }
 
 */
+        }
+
+
     }
-
-
 }
