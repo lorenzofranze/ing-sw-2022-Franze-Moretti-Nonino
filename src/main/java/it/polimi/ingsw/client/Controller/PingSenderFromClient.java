@@ -36,7 +36,7 @@ public class PingSenderFromClient implements Runnable {
             networkHandler.setPingConnected(false);
 
 
-            //invio il ping
+            //sending ping
             try {
                 networkHandler.sendToServer(new PingMessage());
             } catch (IOException e) {
@@ -46,7 +46,7 @@ public class PingSenderFromClient implements Runnable {
             try {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
-                System.out.println("Interrompo il timeout del ping");
+                System.out.println("ping timeout interrupt");
                 if(!ClientController.getInstance().isDisconnected()){
                     ClientController.getInstance().setDisconnected();
                 }
@@ -54,17 +54,17 @@ public class PingSenderFromClient implements Runnable {
             }
 
             if (networkHandler.isPingConnected() == false) {
-                System.out.println("Il ping del server non è più arrivato al client");
+                System.out.println("Ping form server not received");
                 break;
             }
         }
-        // se arriva il pong, player manager (o nel caso di resilienza, il lobby manager)
-        // setta isconnected a true e continua il while
+        /*if pong is received, player manager (or lobby manager in case of resilience) sets isconnected=true and
+        * the "while" continues*/
         if(!ClientController.getInstance().isDisconnected()){
             ClientController.getInstance().setDisconnected();
         }
 
-        //SE ARRIVO QUI è DISCONNESSO
+        //here the client is disconnected
 
     }
 }

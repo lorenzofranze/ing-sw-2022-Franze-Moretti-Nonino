@@ -120,13 +120,6 @@ class PlayerTest {
     }
 
     @Test
-    public void testIsConnected() {
-        Player p1 = new Player("pippo", ColourTower.Black, ColourWizard.Green);
-        p1.setConnected(true);
-        assertEquals(true, p1.isConnected());
-    }
-
-    @Test
     public void testToPojo() {
         Player p1 = new Player("pippo", ColourTower.Black, ColourWizard.Green);
         p1.playAssistantCard(1);

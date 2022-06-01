@@ -77,12 +77,13 @@ public class NetworkHandler implements Runnable{
 
         Message receivedMessage = jsonConverter.fromJsonToMessage(lastMessage);
 
+        //UNCOMMENT IF YOU WANT TO SEE MESSAGES RECEIVED PRINTED (CLIENT SIDE)
         /*
         if (receivedMessage.getMessageType()!=Update && receivedMessage.getMessageType()!=Ping && receivedMessage.getMessageType()!=Pong) {                             //DA CANCELLARE
-            System.out.println("\n\nreceived from server: "+lastMessage+"\n\n");    //DA CANCELLARE
-        }else if (receivedMessage.getMessageType()==Update){                        //DA CANCELLARE
-            System.out.println("\n\nreceived from server: \nupdate\n\n");           //DA CANCELLARE
-        }                                                                           //DA CANCELLARE
+            System.out.println("\n\nreceived from server: "+lastMessage+"\n\n");
+        }else if (receivedMessage.getMessageType()==Update){
+            System.out.println("\n\nreceived from server: \nupdate\n\n");
+        }
         */
 
         if(receivedMessage==null){
@@ -97,7 +98,7 @@ public class NetworkHandler implements Runnable{
         }
         switch(receivedMessage.getMessageType()){
             case Async:
-                System.out.println("Ti stai disconnettendo perchè hai ricevuto un async message");
+                System.out.println("Async message received: disconnecting");
                 ClientController.getInstance().setDisconnected();
                 AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
                 return;
@@ -107,7 +108,6 @@ public class NetworkHandler implements Runnable{
                 } catch (IOException e) {
                     if(!ClientController.getInstance().isDisconnected()) {
                         ClientController.getInstance().setDisconnected();
-                        System.out.println("ERROR-ClientMessageHandler-1");
                     }
                 }
                 break;

@@ -21,11 +21,6 @@ public class Cloud {
         return this.students;
     }
 
-    //MODIFICA 2
-    //public void addStudent(ColourPawn newStudent){students.add(newStudent);}
-
-    //MODIFICA 3
-
     /** removes all the students from the cloud
      * @return PawnsMap the students that were situated on the cloud
      */
@@ -35,6 +30,7 @@ public class Cloud {
         return oldStudents;
     }
 
+    /**returns the CloudPojo representing this*/
     public CloudPojo toPojo(){
         CloudPojo pojoCloudPojo = new CloudPojo();
         pojoCloudPojo.setCloudId(this.getCloudId());

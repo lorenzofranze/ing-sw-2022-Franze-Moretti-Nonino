@@ -36,6 +36,18 @@ class GameTest {
     }
 
     @Test
+    public void testGetCharacterStateByID(){
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        listPlayer.add("Franzo");
+        Game game=new Game(listPlayer, 2);
+
+        for(CharacterState characterState : game.getCharacters()) {
+            assertEquals(characterState, game.getCharacterStateByID(characterState.getCharacterId()));
+        }
+    }
+
+    @Test
     public void testSetGameId(){
         ArrayList<String> listPlayer= new ArrayList<>();
         listPlayer.add("Vale");

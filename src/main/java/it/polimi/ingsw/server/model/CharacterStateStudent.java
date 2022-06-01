@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 public class CharacterStateStudent extends CharacterState{
+
     private PawnsMap students;
 
     public CharacterStateStudent(int characterId, int actualCost){
@@ -20,6 +21,7 @@ public class CharacterStateStudent extends CharacterState{
         students.add(student);
     }
 
+    /**returns a copy of the PawnsMap containing the student placed on this card*/
     public PawnsMap getAllStudents(){
         PawnsMap tmp = new PawnsMap();
         tmp.add(students);
@@ -34,7 +36,6 @@ public class CharacterStateStudent extends CharacterState{
         characterStudentPojo.setIncremented(this.isIncremented());
         characterStudentPojo.setStudents(new PawnsMapPojo(this.students));
         characterStudentPojo.setNumNoEntry(null);
-
         return characterStudentPojo;
     }
 

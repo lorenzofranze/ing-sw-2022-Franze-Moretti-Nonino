@@ -7,14 +7,10 @@ import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 public class Island {
 
-    //SIMPLE GAME ATTRIBUTES
-
     private boolean hasMotherNature;
     private PawnsMap students;
     private ColourTower towerColour;
     private int towerCount;
-
-    //COMPLEX GAME ATTRIBUTES
     private int numNoEntryTile;
 
      public Island(){
@@ -22,63 +18,14 @@ public class Island {
          students=new PawnsMap();
          towerColour=null;
          towerCount=0;
-
          numNoEntryTile = 0;
      }
-
-    public void setHasMotherNature(boolean hasMotherNature) {
-         this.hasMotherNature = hasMotherNature;
-    }
-
-    //MODIFICA 5
-    public boolean getHasMotherNature(){
-         return hasMotherNature;
-    }
-
-    public int getTowerCount() {
-        return towerCount;
-    }
-
-    public ColourTower getTowerColour() {
-        return towerColour;
-    }
-
-    public void setTowerColor(ColourTower towerColour) {
-        if (towerColour.equals(null)){towerCount++;}
-        this.towerColour = towerColour;
-    }
-
-    public void addTower(int num){
-         this.towerCount+=num;
-    }
-
-    public PawnsMap getStudents() {
-         return this.students;
-     }
-
-    //MODIFICA 7: aggiunta del metodo:
-    public void addStudents(PawnsMap toAdd){
-        this.students.add(toAdd);
-    }
-
-    public void addStudents(ColourPawn colour, int num){
-        this.students.add(colour, num);
-    }
-
-    public int getNumNoEntryTile() {
-        return numNoEntryTile;
-    }
-
-    public void setNumNoEntryTile(int numNoEntryTile) {
-        this.numNoEntryTile = numNoEntryTile;
-    }
 
     /** calculates the most influent player on the island,
      * it works for 2/3-players game
      * @param game
      */
     public Player getInfluence(Game game){
-
          Player moreInfluent=null;
          int maxInfluence=0;
          int currScore;
@@ -97,10 +44,10 @@ public class Island {
                  moreInfluent = p;
              }
          }
-
          return moreInfluent;
     }
 
+    /**if a tower is placed on this island, getOwner returns the Player who owns that tower. Otherwise retruns null*/
     public Player getOwner(Game game){
         Player owner = null;
         for (Player p : game.getPlayers()){
@@ -111,6 +58,7 @@ public class Island {
         return owner;
     }
 
+    /**returns a IslandPojo representing this*/
     public IslandPojo toPojo(){
         IslandPojo pojoIslandPojo = new IslandPojo();
         pojoIslandPojo.setHasMotherNature(this.hasMotherNature);
@@ -121,7 +69,49 @@ public class Island {
         return pojoIslandPojo;
     }
 
-    public void setTowerCount(int towerCount) {
-        this.towerCount = towerCount;
+    public void setHasMotherNature(boolean hasMotherNature) {
+        this.hasMotherNature = hasMotherNature;
     }
+
+    public boolean getHasMotherNature(){
+        return hasMotherNature;
+    }
+
+    public int getTowerCount() {
+        return towerCount;
+    }
+
+    public ColourTower getTowerColour() {
+        return towerColour;
+    }
+
+    public void setTowerColor(ColourTower towerColour) {
+        if (towerColour.equals(null)){towerCount++;}
+        this.towerColour = towerColour;
+    }
+
+    public void addTower(int num){
+        this.towerCount+=num;
+    }
+
+    public PawnsMap getStudents() {
+        return this.students;
+    }
+
+    public void addStudents(PawnsMap toAdd){
+        this.students.add(toAdd);
+    }
+
+    public void addStudents(ColourPawn colour, int num){
+        this.students.add(colour, num);
+    }
+
+    public int getNumNoEntryTile() {
+        return numNoEntryTile;
+    }
+
+    public void setNumNoEntryTile(int numNoEntryTile) {
+        this.numNoEntryTile = numNoEntryTile;
+    }
+
 }

@@ -10,30 +10,22 @@ import java.util.stream.Collectors;
 
 public class Game {
 
-    //SIMPLE GAME ATTRIBUTES
     private Integer gameId;
     private List<Player> players;
     private List<Island> islands;
     private PawnsMap studentsBag;
     private List<Cloud> clouds;
     private PawnsMap professorsLeft;
+    private int coinSupply;
 
-
-
-
-    //EXPERT GAME ATTRIBUTES
     /**keeps track of the effect used by the current player. It represents the characterId
      * of the character used*/
     private CharacterState activeEffect;
-    private int coinSupply;
+
     /**I can place the three Character-Cards on the table also if the expert-mode is off: no one in a simple-play
      * will use them since they won't have any personal coin
      */
     private List<CharacterState> characterStates;
-
-
-
-    //SIMPLE GAME METHODS
 
     /**creates 12 islands; creates n clouds where n is the lenght of List<Player>;
      * fills studentBag with 130 students; fills professorsLeft with all 5 professors;
@@ -70,52 +62,36 @@ public class Game {
             this.professorsLeft.add(currColor);
         }
 
-            List<CharacterState>temp = new ArrayList<CharacterState>(12);
+        List<CharacterState> temp = new ArrayList<CharacterState>(12);
 
-            temp.add(new CharacterStateStudent(1, 1));
-            temp.add(new CharacterState(2, 2));
-            temp.add(new CharacterState(3, 3));
-            temp.add(new CharacterState(4, 1));
-            temp.add(new CharacterStateNoEntryTile(5, 2));
-            temp.add(new CharacterState(6, 3));
-            temp.add(new CharacterStateStudent(7, 1));
-            temp.add(new CharacterState(8, 2));
-            temp.add(new CharacterState(9, 3));
-            temp.add(new CharacterState(10, 1));
-            temp.add(new CharacterStateStudent(11, 2));
-            temp.add(new CharacterState(12, 3));
+        temp.add(new CharacterStateStudent(1, 1));
+        temp.add(new CharacterState(2, 2));
+        temp.add(new CharacterState(3, 3));
+        temp.add(new CharacterState(4, 1));
+        temp.add(new CharacterStateNoEntryTile(5, 2));
+        temp.add(new CharacterState(6, 3));
+        temp.add(new CharacterStateStudent(7, 1));
+        temp.add(new CharacterState(8, 2));
+        temp.add(new CharacterState(9, 3));
+        temp.add(new CharacterState(10, 1));
+        temp.add(new CharacterStateStudent(11, 2));
+        temp.add(new CharacterState(12, 3));
 
+        characterStates = new ArrayList<CharacterState>();
 
-            characterStates = new ArrayList<CharacterState>();
+        Collections.shuffle(temp);
+        characterStates.add(temp.get(0));
+        characterStates.add(temp.get(1));
+        characterStates.add(temp.get(2));
 
-
-            Collections.shuffle(temp);
-            characterStates.add(temp.get(0));
-            characterStates.add(temp.get(1));
-            characterStates.add(temp.get(2));
-
-
-            this.coinSupply = 20;
-
-            this.gameId=gameId;
-
+        this.coinSupply = 20;
+        this.gameId = gameId;
     }
 
-    public PawnsMap getStudentsBag() {
-        return studentsBag;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public List<Cloud> getClouds(){
-        return clouds;
-    }
-
+    /**receives a List of Islands to unify.
+     * Places mother nature, all the towers and the students on the first island and deletes the others.*/
     public void unifyIslands(List<Island> toUnify){
         toUnify.get(0).setHasMotherNature(true);
-
         for(int i = 1; i<toUnify.size(); i++){
             toUnify.get(0).addTower(toUnify.get(i).getTowerCount());
             toUnify.get(0).addStudents(toUnify.get(i).getStudents());
@@ -124,38 +100,7 @@ public class Game {
         }
     }
 
-    public Integer getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(Integer gameId) {
-        this.gameId = gameId;
-    }
-
-    //EXPERT GAME METHODS
-    public void addCoins(int num){
-        this.coinSupply = this.coinSupply + num;
-    }
-
-    public void removeCoins(int num){
-        this.coinSupply = this.coinSupply - num;
-    }
-
-    /**returns the set of all the possible characters**/
-    public List<CharacterState> getCharacters() {return characterStates;}
-
-    public CharacterState getActiveEffect() {return activeEffect;}
-
-    public void setActiveEffect(CharacterState activeEffect) {this.activeEffect = activeEffect;}
-
-    public List<Island> getIslands() {return islands;}
-
-    public int getCoinSupply(){return coinSupply;}
-
-    public PawnsMap getProfessorsLeft(){return professorsLeft;}
-
-    public void setProfessorsLeft(PawnsMap professorsLeft) {this.professorsLeft = professorsLeft;}
-
+    /**returns a string that describes all the islands (pawns, towers, motherNature)*/
     public String islandsToString(){
         String islandString = "";
         int j = 0;
@@ -185,6 +130,7 @@ public class Game {
         return foundAt;
     }
 
+    /**returns a string that describes all the clouds (pawns, empty or not)*/
     public String cloudsToString(){
         String cloudsString = "";
         int j = 0;
@@ -196,14 +142,13 @@ public class Game {
         return cloudsString;
     }
 
+    /**returns the Island object corresponding to the index insert as a parameter*/
     public Island getIslandOfIndex(int i){
         Island ris;
         if (i >= islands.size() || i < 0) return null;
         ris = islands.get(i);
         return ris;
     }
-
-    public void setCoinSupply(int coinSupply) {this.coinSupply = coinSupply;}
 
     /**checks that the players have the correct Professors according to their dining room. If not,
      * reassigns the professors correctly**/
@@ -234,12 +179,58 @@ public class Game {
         }
     }
 
+    /**returns the CaracterState of the character whose index is equal to the parameter**/
     public CharacterState getCharacterStateByID(int id){
-        for(CharacterState characterState : characterStates)
-            if(characterState.getCharacterId()==id)
-                return characterState;
-
-        return null;
-
+        CharacterState ris = null;
+        for(CharacterState characterState : characterStates) {
+            if (characterState.getCharacterId() == id)
+                ris = characterState;
+        }
+        return ris;
     }
+
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
+    }
+
+    public void addCoins(int num){
+        this.coinSupply = this.coinSupply + num;
+    }
+
+    public void removeCoins(int num){
+        this.coinSupply = this.coinSupply - num;
+    }
+
+    public PawnsMap getStudentsBag() {
+        return studentsBag;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public List<Cloud> getClouds(){
+        return clouds;
+    }
+
+    /**returns the set of all the possible characters**/
+    public List<CharacterState> getCharacters() {return characterStates;}
+
+    public CharacterState getActiveEffect() {return activeEffect;}
+
+    public void setActiveEffect(CharacterState activeEffect) {this.activeEffect = activeEffect;}
+
+    public List<Island> getIslands() {return islands;}
+
+    public int getCoinSupply(){return coinSupply;}
+
+    public PawnsMap getProfessorsLeft(){return professorsLeft;}
+
+    public void setProfessorsLeft(PawnsMap professorsLeft) {this.professorsLeft = professorsLeft;}
+
+    public void setCoinSupply(int coinSupply) {this.coinSupply = coinSupply;}
 }

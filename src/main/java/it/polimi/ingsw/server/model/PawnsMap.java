@@ -165,6 +165,7 @@ public class PawnsMap{
         return pawns;
     }
 
+    /** sets the number of pawns of a colour */
     public void setNumberForColour(ColourPawn c, int num){
         this.getPawns().put(c, num);
         return;

@@ -5,6 +5,10 @@ import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 public class CharacterStateNoEntryTile extends CharacterState{
     private int numNoEntry;
 
+    public CharacterStateNoEntryTile(int characterId, int actualCost){
+        super(characterId, actualCost);
+    }
+
     public int getNumNoEntry() {
         return numNoEntry;
     }
@@ -15,10 +19,6 @@ public class CharacterStateNoEntryTile extends CharacterState{
 
     public void removeNoEntryTile(){
         this.numNoEntry--;
-    }
-
-    public CharacterStateNoEntryTile(int characterId, int actualCost){
-        super(characterId, actualCost);
     }
 
     @Override

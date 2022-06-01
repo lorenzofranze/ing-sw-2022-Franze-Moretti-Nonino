@@ -25,6 +25,10 @@ public class CharacterState {
         return this.actualCost;
     }
 
+    public boolean isIncremented() {
+        return incremented;
+    }
+
     public void use() {
         if(!incremented) {
             this.actualCost++;
@@ -45,6 +49,7 @@ public class CharacterState {
         return Objects.hash(characterId);
     }
 
+    /**returns the CharacterPojo representing this CharacterState*/
     public CharacterPojo toPojo(){
         CharacterPojo characterStudentPojo = new CharacterPojo();
         characterStudentPojo.setCharacterId(this.getCharacterId());
@@ -52,11 +57,7 @@ public class CharacterState {
         characterStudentPojo.setIncremented(this.isIncremented());
         characterStudentPojo.setStudents(null);
         characterStudentPojo.setNumNoEntry(null);
-
         return characterStudentPojo;
     }
 
-    public boolean isIncremented() {
-        return incremented;
-    }
 }

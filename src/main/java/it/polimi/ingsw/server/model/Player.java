@@ -6,25 +6,17 @@ import java.util.*;
 
 /* tolti riferimenti a controller perchè
 * se è in modalità complex nella setup phase
-* inremento direttamente di 1 il numero di monete
+* incremento direttamente di 1 il numero di monete
 * di ogni player
  */
 public class Player {
-
-    //SIMPLE GAME ATTRIBUTES
     private final String nickname;
     private final SchoolBoard schoolBoard;
     private final ColourTower colourTower;
     private AssistantCard playedAssistantCard;
     private final Set<AssistantCard> deck;
     private final ColourWizard wizard;
-    private boolean connected;
-
-    //COMPLEX GAME ATTRIBUTES
     private int coins;
-
-
-    //SIMPLE GAME METHODS
 
     /** initializes attributes and instaces
      *  schoolboard, deck all its assistantCards. Gives 0 coins to the player**/
@@ -59,6 +51,50 @@ public class Player {
 
     }
 
+    /** select assistnt card with the card order in input */
+    public void playAssistantCard(int cardOrder){
+        for (AssistantCard ac: deck){
+            if (ac.getTurnOrder() == cardOrder){
+                deck.remove(ac);
+                this.playedAssistantCard = ac;
+                return;
+            }
+        }
+    }
+
+    /** get assistant card played */
+    public AssistantCard getPlayedAssistantCard() {
+        return playedAssistantCard;
+    }
+
+    /** reset assistant card attribute */
+    public void resetAssistantCard(){
+        this.playedAssistantCard = null;
+    }
+
+    public void setPlayedAssistantCard(AssistantCard playedAssistantCard) {
+        this.playedAssistantCard = playedAssistantCard;
+    }
+
+    /** return the number of coins */
+    public int getCoins() {
+        return coins;
+    }
+
+    /** add coins, can be used to set 1 coin in complex mode **/
+    public void addCoins(int coins) {
+        this.coins += coins;
+    }
+
+    /** decrement coins */
+    public void removeCoins(int coins) {
+        this.coins -= coins;
+    }
+
+    /** get colour tower of the player */
+    public ColourTower getColourTower() {
+        return colourTower;
+    }
 
     public String getNickname() {
         return nickname;
@@ -76,61 +112,6 @@ public class Player {
         return deck;
     }
 
-    /** select assistnt card with the card order in input */
-    public void playAssistantCard(int cardOrder){
-        for (AssistantCard ac: deck){
-            if (ac.getTurnOrder() == cardOrder){
-                deck.remove(ac);
-                this.playedAssistantCard = ac;
-                return;
-            }
-        }
-    }
-
-    public boolean isConnected() {
-        return connected;
-    }
-
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
-
-    /** get assistant card played */
-    public AssistantCard getPlayedAssistantCard() {
-        return playedAssistantCard;
-    }
-
-    /** reset assistant card attribute */
-    public void resetAssistantCard(){
-        this.playedAssistantCard = null;
-    }
-
-    public void setPlayedAssistantCard(AssistantCard playedAssistantCard) {
-        this.playedAssistantCard = playedAssistantCard;
-    }
-
-    //COMPLEX GAME METHODS
-
-    /** return the number of coins */
-    public int getCoins() {
-        return coins;
-    }
-
-    /** add coins, can be used to set 1 coin in complex mode   **/
-    public void addCoins(int coins) {
-        this.coins += coins;
-    }
-
-    /** decrement coins */
-    public void removeCoins(int coins) {
-        this.coins -= coins;
-    }
-
-    /** get colour tower of the player */
-    public ColourTower getColourTower() {
-        return colourTower;
-    }
-
     @Override
     public String toString(){
         return this.nickname;
@@ -143,12 +124,13 @@ public class Player {
         Player player = (Player) o;
         return nickname.equals(player.nickname);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(nickname);
     }
 
+
+    /**returns a PlayerPojo representing this player*/
     public PlayerPojo toPojo(){
         PlayerPojo pojoPlayerPojo = new PlayerPojo();
         pojoPlayerPojo.setNickname(this.getNickname());

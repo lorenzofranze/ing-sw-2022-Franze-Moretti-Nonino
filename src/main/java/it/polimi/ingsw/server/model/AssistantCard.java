@@ -23,8 +23,6 @@ public class AssistantCard implements java.io.Serializable{
         return this.movementsMotherNature;
     }
 
-
-    // TEST CLASSES :
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,8 +44,9 @@ public class AssistantCard implements java.io.Serializable{
                 '}';
     }
 
-    public it.polimi.ingsw.common.gamePojo.AssistantCardPojo toPojo(){
-        it.polimi.ingsw.common.gamePojo.AssistantCardPojo pojoAssistantCard = new AssistantCardPojo();
+    /**returns an AssistantCardPojo representing this AssistantCard*/
+    public AssistantCardPojo toPojo(){
+        AssistantCardPojo pojoAssistantCard = new AssistantCardPojo();
         pojoAssistantCard.setTurnOrder(this.getTurnOrder());
         pojoAssistantCard.setMovementsMotherNature(this.getMovementsMotherNature());
         return pojoAssistantCard;
