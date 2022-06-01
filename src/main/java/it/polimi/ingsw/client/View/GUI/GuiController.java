@@ -139,7 +139,6 @@ public class GuiController extends Application {
 
 
     public void showGameUpdate() {
-        ClientController clientController = ClientController.getInstance();
         switchGameScene();
 
 

@@ -255,7 +255,8 @@ public class GameHandlerScene {
         if(!visibleAssistantCards.contains(3)){
             AssistantCard3.setDisable(true);
             AssistantCard3.setImage(null);
-        }if(!visibleAssistantCards.contains(4)){
+        }
+        if(!visibleAssistantCards.contains(4)){
             AssistantCard4.setDisable(true);
             AssistantCard4.setImage(null);
         }
