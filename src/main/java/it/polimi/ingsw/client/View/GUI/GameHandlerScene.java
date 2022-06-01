@@ -12,7 +12,7 @@ import java.util.Set;
 /**class that responses to the click event on a character card, all the methods verify if the action is valid and unlock
  * the game if the choose is ok otherwise no action
  */
-public class AssistantCardChoose {
+public class GameHandlerScene {
 
     @FXML
     void setAssistantCardChosen1(MouseEvent event) {
