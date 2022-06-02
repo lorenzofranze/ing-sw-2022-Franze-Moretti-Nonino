@@ -344,11 +344,23 @@ public class GameController implements Runnable  {
         return pianificationResult;
     }
 
+    public void setActionPhase(ActionPhase actionPhase) {
+        this.actionPhase = actionPhase;
+    }
+
     public boolean isGameOver() {
         return gameOver;
     }
 
+    public boolean isForceStop() {
+        return forceStop;
+    }
+
     public Player getWinner() {
         return winner;
+    }
+
+    public void setCurrentPhase(GamePhase currentPhase) {
+        this.currentPhase = currentPhase;
     }
 }

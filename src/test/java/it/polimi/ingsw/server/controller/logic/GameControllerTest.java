@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.common.gamePojo.GameStatePojo;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.UpdateMessage;
 import it.polimi.ingsw.server.controller.network.Lobby;
@@ -28,6 +29,8 @@ class GameControllerTest {
         lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
 
         GameController gameController = new GameController(lobby, true);
+        ActionPhase actionPhase = new ActionPhase(gameController);
+        gameController.setCurrentPhase(actionPhase);
         PianificationResult pianificationResult = new PianificationResult();
         Game g = gameController.getGame();
 
@@ -54,6 +57,8 @@ class GameControllerTest {
         maximumMovements.put(p3, 2);
         pianificationResult.setMaximumMovements(maximumMovements);
         gameController.setPianificationResult(pianificationResult);
+
+        assertEquals(actionPhase, gameController.getCurrentPhase());
 
         assertEquals(2, gameController.getPianificationResult().getMaximumMovements().get(p2));
 
@@ -93,8 +98,10 @@ class GameControllerTest {
 
         gameController.calculateWinner();
 
+        Player winner = gameController.getWinner();
+
         assertEquals(true, gameController.isGameOver());
-        assertEquals(p2, gameController.getWinner());
+        assertEquals(p2, winner);
 
         //--------------------------------------------------COUNTING WHO PLACED MORE TOWERS--------------------
         players = new ArrayList<>();
@@ -256,6 +263,9 @@ class GameControllerTest {
 
         gameController.calculateWinner();
 
+        GameStatePojo gameStatePojo = gameController.getGameState();
+        assertEquals("?", gameStatePojo.getWinner());
+
         assertEquals(true, gameController.isGameOver());
         assertEquals("?", gameController.getWinner().getNickname());
     }
@@ -307,6 +317,41 @@ class GameControllerTest {
 
         gameController.setCurrentPlayer(p2);
         assertEquals("lara", gameController.getCurrentPlayer().getNickname());
+    }
+
+    @Test
+    public void testSetGameOver(){
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Simple_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+        GameController gameController = new GameController(lobby, false);
+        PianificationResult pianificationResult = new PianificationResult();
+        Game g = gameController.getGame();
+        gameController.setGameOver(true);
+        assertEquals(true, gameController.isGameOver());
+    }
+
+    @Test
+    public void testGetActionPhase(){
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Simple_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+        GameController gameController = new GameController(lobby, false);
+        assertEquals(lobby, gameController.getLobby());
+        PianificationResult pianificationResult = new PianificationResult();
+        Game g = gameController.getGame();
+        gameController.setGameOver(true);
+        ActionPhase actionPhase = new ActionPhase(gameController);
+        gameController.setActionPhase(actionPhase);
+        assertEquals(actionPhase, gameController.getActionPhase());
+        gameController.setForceStop(true);
+        assertEquals(true, gameController.isForceStop());
     }
 
 
