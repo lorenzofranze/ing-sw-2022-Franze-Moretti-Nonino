@@ -132,5 +132,10 @@ public class SchoolBoard {
 
     public void setDiningRoom(PawnsMap diningRoom) {this.diningRoom = diningRoom;}
     public void setEntrance(PawnsMap entrance) {this.entrance = entrance;}
+    public void setSpareTowers(int spareTowers) {this.spareTowers = spareTowers;}
+
+    public void setProfessors(PawnsMap professors) {
+        this.professors = professors;
+    }
 }
 

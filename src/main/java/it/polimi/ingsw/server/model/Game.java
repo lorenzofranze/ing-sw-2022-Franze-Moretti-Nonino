@@ -237,4 +237,12 @@ public class Game {
     public void setCharacterStates(List<CharacterState> characterStates) {
         this.characterStates = characterStates;
     }
+
+    public void setIslands(List<Island> islands) {
+        this.islands = islands;
+    }
+
+    public void setClouds(List<Cloud> clouds) {
+        this.clouds = clouds;
+    }
 }

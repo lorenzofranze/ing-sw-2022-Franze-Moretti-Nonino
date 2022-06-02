@@ -70,6 +70,7 @@ public class ActionPhase extends GamePhase {
                 }
 
                 gameController.update(); // update start move mother nature
+
                 //move mother nature
                 Island whereMotherNature = moveMotherNature(p);
                 Player moreInfluentPlayer = calcultateInfluence(whereMotherNature);
@@ -95,7 +96,6 @@ public class ActionPhase extends GamePhase {
                 gameController.update(); // update post madre natura
 
             }
-
 
             if (checkEnd() == true) {
                 return actionResult;
@@ -123,7 +123,6 @@ public class ActionPhase extends GamePhase {
             /*reset characterEffects activated*/
             gameController.getGame().setActiveEffect(null);
         }
-
 
         return actionResult;
     }
@@ -494,5 +493,7 @@ public class ActionPhase extends GamePhase {
         return "ActionPhase";
     }
 
-    
+    public Integer getStudentsMoved() {
+        return studentsMoved;
+    }
 }
