@@ -818,6 +818,14 @@ class ActionPhaseTest {
         gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
         actionPhase.handle(turnOrder, maximumMovements, false);
         assertEquals(4, actionPhase.getStudentsMoved());
+        assertEquals(false, actionPhase.getActionResult().isThreeOrLessIslands());
+        assertEquals(false, actionPhase.getActionResult().isFinishedTowers());
+        assertEquals(p2, actionPhase.getActionResult().getFirstPianificationPlayer());
+
+        ActionResult actionRes = new ActionResult();
+        assertEquals(null, actionRes.getFirstPianificationPlayer());
+        assertEquals(false, actionRes.isFinishedTowers());
+        assertEquals(false, actionRes.isThreeOrLessIslands());
     }
 
     @Test

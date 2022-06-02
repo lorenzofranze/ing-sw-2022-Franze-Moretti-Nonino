@@ -87,13 +87,9 @@ public class GameController implements Runnable  {
 
             //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
 
-            System.out.println("GAME CONTROLLER - INIZIO ACTION PHASE");
-
             actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
             isFinishedTowers = actionResult.isFinishedTowers();
             isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
-
-            System.out.println("GAME CONTROLLER - FINE ACTION PHASE");
 
         }
         while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards || gameOver));
@@ -102,6 +98,7 @@ public class GameController implements Runnable  {
         if(forceStop){
             return;
         }
+
         calculateWinner(); //se winner è "?", allora la partita è finita in pareggio
 
         update(); // last update: game ended and winner setted
@@ -124,14 +121,13 @@ public class GameController implements Runnable  {
         PlayerManager playerManager= messageHandler.getPlayerManager(nickname);
         UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
         playerManager.sendMessage(updateMessage);
-
         return;
     }
 
 
 
     /**sets the GameController.winner
-     * if it remains null, it means ther is no winner*/
+     * if winner.nikname == "?", it means ther is no winner*/
     public void calculateWinner(){
 
        /*devo controllare nello stesso ordine in cui si arresta il gioco:
@@ -206,6 +202,8 @@ public class GameController implements Runnable  {
             gameOver=true;
             return;
         }
+
+        gameOver = true;
         winner = new Player("?", null, null);
 
 
@@ -336,8 +334,21 @@ public class GameController implements Runnable  {
     public Lobby getLobby() {
         return lobby;
     }
-
     public void setForceStop(boolean forceStop) {
         this.forceStop = forceStop;
+    }
+    public void setPianificationResult(PianificationResult pianificationResult) {
+        this.pianificationResult = pianificationResult;
+    }
+    public PianificationResult getPianificationResult() {
+        return pianificationResult;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 }

@@ -32,7 +32,7 @@ public class ActionResult extends PhaseResult{
         this.threeOrLessIslands = threeOrLessIslands;
     }
 
-    public void ActionResult(){
+    public ActionResult(){
         firstPianificationPlayer = null;
         finishedTowers = false;
         threeOrLessIslands = false;
