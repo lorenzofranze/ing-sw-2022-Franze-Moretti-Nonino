@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.awt.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -29,12 +29,12 @@ public class GuiController extends Application {
     private Runnable runnable;
 
     public static void main(String[] args) {
-        Thread t = new Thread(()->launch(args));
+        Thread t = new Thread(() -> launch(args));
         t.start();
     }
 
 
-    public static GuiController getInstance(){
+    public static GuiController getInstance() {
         return guiController;
     }
 
@@ -43,12 +43,14 @@ public class GuiController extends Application {
         this.runnable = runnable;
     }
 
-    /** first method called: display gameModeFrame */
+    /**
+     * first method called: display gameModeFrame
+     */
     @Override
     public void start(Stage newStage) throws Exception {
         guiController = this;
-        Parent root=null;
-        this.currentStage=newStage;
+        Parent root = null;
+        this.currentStage = newStage;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("chooseGameModeFrame.fxml"));
         } catch (Exception e) {
@@ -59,7 +61,9 @@ public class GuiController extends Application {
         currentStage.setScene(scene);
         currentStage.setTitle("Login");
         currentStage.getIcons().add(new Image("/images/imageStart/logo.png"));
-        currentStage.sizeToScene();
+        currentStage.setFullScreen(false);
+        currentStage.setResizable(true);
+
         currentStage.show();
     }
 
@@ -80,16 +84,17 @@ public class GuiController extends Application {
         //questo metodo dopo show muore tuttavia qui passa una callback da chiamre se serve alla guiView
         Consumer<Boolean> consumer = (ok) -> {
             Platform.runLater(() -> {
-                        if (!ok) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Name already in use", ButtonType.OK);
-                            alert.showAndWait();
-                        }
-                    });
+                if (!ok) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Name already in use", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            });
         };
         ClientController.getInstance().getView().setNameCompleteObserver(consumer);
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.sizeToScene();
+        currentStage.setFullScreen(false);
+        currentStage.setResizable(true);
         currentStage.show();
     }
 
@@ -105,8 +110,8 @@ public class GuiController extends Application {
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
         currentStage.setTitle("ERIANTYS");
-        currentStage.sizeToScene();
-        currentStage.setMaximized(true);
+        currentStage.setFullScreen(false);
+        currentStage.setResizable(true);
         currentStage.show();
     }
 
@@ -121,83 +126,30 @@ public class GuiController extends Application {
         }
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.sizeToScene();
+        currentStage.setFullScreen(false);
+        currentStage.setResizable(true);
         currentStage.show();
     }
 
 
     public void change() {
         Platform.runLater(runnable);
-        runnable=null;
+        runnable = null;
     }
 
-    @FXML
-    private ImageView AssistantCard1;
-    @FXML
-    private ImageView AssistantCard2;
-    @FXML
-    private ImageView AssistantCard3;
-    @FXML
-    private ImageView AssistantCard4;
-    @FXML
-    private ImageView AssistantCard5;
-    @FXML
-    private ImageView AssistantCard6;
-    @FXML
-    private ImageView AssistantCard7;
-    @FXML
-    private ImageView AssistantCard8;
-    @FXML
-    private ImageView AssistantCard9;
-    @FXML
-    private ImageView AssistantCard10;
 
-    public void showGameUpdate(){
-        ClientController clientController = ClientController.getInstance();
-        PlayerPojo me = null;
-        for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()){
-            if (p.getNickname().equals(ClientController.getInstance().getNickname())){
-                me = p;
-            }
-        }
-        // PIANIFICATION
-        if(clientController.getGameStatePojo().getCurrentPhase().equals(Phase.PIANIFICATION)){
+    public void showGameUpdate() {
+        switchGameScene();
 
-            Set<AssistantCardPojo> assistantCardPojos= me.getDeck();
-            for(AssistantCardPojo a: assistantCardPojos) {
-                if (a.getTurnOrder()== 1) {
-                    AssistantCard1.setImage(AssistantCard1.getImage());
-                }
-                if (a.getTurnOrder()== 2) {
-                    AssistantCard2.setImage(AssistantCard2.getImage());
-                }
-                if (a.getTurnOrder()== 3) {
-                    AssistantCard3.setImage(AssistantCard3.getImage());
-                }
-                if (a.getTurnOrder()== 4) {
-                    AssistantCard4.setImage(AssistantCard4.getImage());
-                }
-                if (a.getTurnOrder()== 5) {
-                    AssistantCard5.setImage(AssistantCard5.getImage());
-                }
-                if (a.getTurnOrder()== 6) {
-                    AssistantCard7.setImage(AssistantCard6.getImage());
-                }
-                if (a.getTurnOrder()== 7) {
-                    AssistantCard8.setImage(AssistantCard7.getImage());
-                }
-                if (a.getTurnOrder()== 8) {
-                    AssistantCard9.setImage(AssistantCard8.getImage());
-                }
-                if (a.getTurnOrder()== 9) {
-                    AssistantCard10.setImage(AssistantCard9.getImage());
-                }
-                if (a.getTurnOrder()== 10) {
-                    AssistantCard10.setImage(AssistantCard10.getImage());
-                }
-            }
+
+            /*
+
+
+             */
+
         }
         //to continue...
+
 
 
         /*
@@ -224,7 +176,6 @@ public class GuiController extends Application {
         }
 
 */
-    }
+        }
 
 
-}
