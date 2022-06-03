@@ -112,8 +112,8 @@ public class GuiController extends Application {
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
         currentStage.setTitle("ERIANTYS");
-        currentStage.setFullScreen(true);
         currentStage.setResizable(true);
+        currentStage.centerOnScreen();
         currentStage.sizeToScene();
         currentStage.show();
     }
@@ -129,7 +129,7 @@ public class GuiController extends Application {
         }
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.setFullScreen(true);
+        currentStage.centerOnScreen();
         currentStage.setResizable(true);
         currentStage.sizeToScene();
         currentStage.show();
@@ -139,27 +139,6 @@ public class GuiController extends Application {
         Platform.runLater(runnable);
         runnable = null;
     }
-
-    @FXML
-    private ImageView AssistantCard1;
-    @FXML
-    private ImageView AssistantCard2;
-    @FXML
-    private ImageView AssistantCard3;
-    @FXML
-    private ImageView AssistantCard4;
-    @FXML
-    private ImageView AssistantCard5;
-    @FXML
-    private ImageView AssistantCard6;
-    @FXML
-    private ImageView AssistantCard7;
-    @FXML
-    private ImageView AssistantCard8;
-    @FXML
-    private ImageView AssistantCard9;
-    @FXML
-    private ImageView AssistantCard10;
 
 
     public void showGameUpdate() {
