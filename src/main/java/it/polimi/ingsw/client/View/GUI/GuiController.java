@@ -165,99 +165,92 @@ public class GuiController extends Application {
         }
 
         //------------- show boards:
-        List<ImageView> allProfessors = new ArrayList<>();
-
+        ImageView professorRed = new ImageView(new Image("/images/pawns/teacher_red.png"));
+        ImageView professorPink = new ImageView(new Image("/images/pawns/teacher_pink.png"));
+        ImageView professorYellow = new ImageView(new Image("/images/pawns/teacher_yellow.png"));
+        ImageView professorBlue = new ImageView(new Image("/images/pawns/teacher_blue.png"));
+        ImageView professorGreen = new ImageView(new Image("/images/pawns/teacher_green.png"));
 
         List<PlayerPojo> players= clientController.getGameStatePojo().getPlayers();
 
-
-        for (ImageView professor : allProfessors) {
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia1");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia1");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia1");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia1");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia1");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-        }
+        //__________ prima plancia
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
-        allProfessors = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList());
-        for (ImageView professor : allProfessors) {
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia2");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia2");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia2");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia2");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia2");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia1");
         }
 
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia1");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia1");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia1");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia1");
+        }
+
+        //--------- seconda plancia
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia2");
+            p.setStyle("-fx-opacity: 30%");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia2");
+            p.setStyle("-fx-opacity: 30%");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia2");
+            p.setStyle("-fx-opacity: 30%");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia2");
+            p.setStyle("-fx-opacity: 30%");
+        }
+
+        if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
+            ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia2");
+            p.setStyle("-fx-opacity: 30%");
+        }
+
+
+        //---------- terza plancia
         if(clientController.getGameStatePojo().getPlayers().size()==3) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia3");
-            allProfessors = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList());
-            for (ImageView professor : allProfessors) {
-                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
-                    ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia3");
-                    p.setStyle("-fx-opacity: 30%");
-                }
-
-                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
-                    ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia3");
-                    p.setStyle("-fx-opacity: 30%");
-                }
-
-                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
-                    ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia3");
-                    p.setStyle("-fx-opacity: 30%");
-                }
-
-                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
-                    ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia3");
-                    p.setStyle("-fx-opacity: 30%");
-                }
-
-                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
-                    ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia3");
-                    p.setStyle("-fx-opacity: 30%");
-                }
-
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
+                ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia3");
+                p.setStyle("-fx-opacity: 30%");
             }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
+                ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia3");
+                p.setStyle("-fx-opacity: 30%");
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
+                ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia3");
+                p.setStyle("-fx-opacity: 30%");
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
+                ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia3");
+                p.setStyle("-fx-opacity: 30%");
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
+                ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia3");
+                p.setStyle("-fx-opacity: 30%");
+            }
+
         }
 
     }
