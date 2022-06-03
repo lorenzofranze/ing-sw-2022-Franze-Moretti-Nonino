@@ -15,13 +15,16 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class GuiController extends Application {
     private Stage currentStage;
@@ -61,9 +64,8 @@ public class GuiController extends Application {
         currentStage.setScene(scene);
         currentStage.setTitle("Login");
         currentStage.getIcons().add(new Image("/images/imageStart/logo.png"));
-        currentStage.setFullScreen(false);
-        currentStage.setResizable(true);
-
+        currentStage.setResizable(false);
+        currentStage.sizeToScene();
         currentStage.show();
     }
 
@@ -93,8 +95,8 @@ public class GuiController extends Application {
         ClientController.getInstance().getView().setNameCompleteObserver(consumer);
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.setFullScreen(false);
-        currentStage.setResizable(true);
+        currentStage.setResizable(false);
+        currentStage.sizeToScene();
         currentStage.show();
     }
 
@@ -110,8 +112,9 @@ public class GuiController extends Application {
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
         currentStage.setTitle("ERIANTYS");
-        currentStage.setFullScreen(false);
+        currentStage.setFullScreen(true);
         currentStage.setResizable(true);
+        currentStage.sizeToScene();
         currentStage.show();
     }
 
@@ -119,36 +122,78 @@ public class GuiController extends Application {
     public void switchGameScene() {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/gamePianificationFrame.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/gameFrame.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.setFullScreen(false);
+        currentStage.setFullScreen(true);
         currentStage.setResizable(true);
+        currentStage.sizeToScene();
         currentStage.show();
     }
-
 
     public void change() {
         Platform.runLater(runnable);
         runnable = null;
     }
 
+    @FXML
+    private ImageView AssistantCard1;
+    @FXML
+    private ImageView AssistantCard2;
+    @FXML
+    private ImageView AssistantCard3;
+    @FXML
+    private ImageView AssistantCard4;
+    @FXML
+    private ImageView AssistantCard5;
+    @FXML
+    private ImageView AssistantCard6;
+    @FXML
+    private ImageView AssistantCard7;
+    @FXML
+    private ImageView AssistantCard8;
+    @FXML
+    private ImageView AssistantCard9;
+    @FXML
+    private ImageView AssistantCard10;
+
 
     public void showGameUpdate() {
-        switchGameScene();
-
-
-            /*
-
-
-             */
-
+        AnchorPane anchorPane;
+        ClientController clientController = ClientController.getInstance();
+        PlayerPojo me = null;
+        for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()) {
+            if (p.getNickname().equals(ClientController.getInstance().getNickname())) {
+                me = p;
+            }
         }
-        //to continue...
+        //-----------------show assistant cards:
+        List<ImageView> allCards = new ArrayList<>();
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#AssistantCards");
+        allCards= anchorPane.getChildren().stream().map(a-> (ImageView)a).collect(Collectors.toList());
+        //default: all card are visible and clickable, disable the used cards
+        for(ImageView card : allCards){
+            if(!me.getDeck().stream().map(a->a.getTurnOrder()).collect(Collectors.toList()).contains(Integer.parseInt(((Node)card).getId().substring(13)))) {
+                card.setStyle("-fx-opacity: 30");
+                card.setOnMouseClicked(null);
+            }
+        }
+        //------------- show boards
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -176,6 +221,7 @@ public class GuiController extends Application {
         }
 
 */
-        }
+    }
+}
 
 

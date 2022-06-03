@@ -17,7 +17,6 @@
             <Image url="@images/imageGamePianification/nuvolaViola.png" />
          </image>
       </ImageView>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="399.0" />
       <AnchorPane layoutX="200.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="990.0">
          <children>
             <ImageView fitHeight="617.0" fitWidth="990.0" layoutX="1.0" layoutY="-179.0" pickOnBounds="true">
@@ -85,17 +84,17 @@
                       <Image url="@images/imageGamePianification/reameB_1.png" />
                   </image>
               </ImageView>
-              <ImageView fx:id="Cloud1" fitHeight="55.0" fitWidth="71.0" layoutX="299.0" layoutY="176.0" onMouseClicked="#setCloudChosen1" pickOnBounds="true">
+              <ImageView fx:id="Cloud1" fitHeight="55.0" fitWidth="71.0" layoutX="299.0" layoutY="176.0"  pickOnBounds="true">
                   <image>
                       <Image url="@images/imageGamePianification/nuvola.png" />
                   </image>
               </ImageView>
-              <ImageView fx:id="Cloud2" fitHeight="55.0" fitWidth="71.0" layoutX="501.0" layoutY="172.0" onMouseClicked="#setCloudChosen2" pickOnBounds="true">
+              <ImageView fx:id="Cloud2" fitHeight="55.0" fitWidth="71.0" layoutX="501.0" layoutY="172.0"  pickOnBounds="true">
                   <image>
                       <Image url="@images/imageGamePianification/nuvola.png" />
                   </image>
               </ImageView>
-              <ImageView fx:id="Cloud3" fitHeight="55.0" fitWidth="71.0" layoutX="415.0" layoutY="179.0" onMouseClicked="#setCloudChosen3" pickOnBounds="true">
+              <ImageView fx:id="Cloud3" fitHeight="55.0" fitWidth="71.0" layoutX="415.0" layoutY="179.0"  pickOnBounds="true">
                   <image>
                       <Image url="@images/imageGamePianification/nuvola.png" />
                   </image>
@@ -207,13 +206,18 @@
                 </Tab>
             </tabs>
         </TabPane>
-        <ScrollPane hbarPolicy="NEVER" layoutX="126.0" layoutY="561.0" prefHeight="130.0" prefWidth="249.0" vbarPolicy="NEVER">
+        <ScrollPane hbarPolicy="NEVER" layoutX="159.0" layoutY="627.0" prefHeight="130.0" prefWidth="261.0" vbarPolicy="NEVER">
             <content>
-                <AnchorPane disable="true" minHeight="0.0" minWidth="0.0" prefHeight="125.0" prefWidth="797.0">
+                <AnchorPane fx:id="AssistantCards" disable="true" minHeight="0.0" minWidth="0.0" prefHeight="125.0" prefWidth="797.0">
                     <children>
                         <ImageView fx:id="AssistantCard1" fitHeight="119.0" fitWidth="123.0" layoutY="5.0" onMouseClicked="#setAssistantCardChosen1" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@images/imageGamePianification/Assistente%20(1).png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="AssistantCard2" fitHeight="119.0" fitWidth="123.0" layoutX="81.0" layoutY="5.0" onMouseClicked="#setAssistantCardChosen2" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/imageGamePianification/Assistente%20(2).png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="AssistantCard3" fitHeight="119.0" fitWidth="123.0" layoutX="162.0" layoutY="5.0" onMouseClicked="#setAssistantCardChosen3" pickOnBounds="true" preserveRatio="true">
@@ -254,11 +258,6 @@
                         <ImageView fx:id="AssistantCard10" fitHeight="119.0" fitWidth="123.0" layoutX="717.0" layoutY="4.0" onMouseClicked="#setAssistantCardChosen10" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@images/imageGamePianification/Assistente%20(10).png" />
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="AssistantCard2" fitHeight="119.0" fitWidth="123.0" layoutX="73.0" layoutY="11.0" onMouseClicked="#setAssistantCardChosen2" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/imageGamePianification/Assistente%20(2).png" />
                             </image>
                         </ImageView>
                     </children>
