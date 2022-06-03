@@ -132,11 +132,11 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                 </GridPane>
-                        <ImageView fx:id="professorRedPlancia1" fitHeight="110.0" fitWidth="49.0" layoutX="490.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/ImageProfessors/Immagine1.png" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="professorBluePlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="502.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorPinkPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="498.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorYellowPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="510.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorRedPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="492.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorGreenPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="499.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -171,7 +171,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                 </GridPane>
-                        <GridPane fx:id="professorsPlancia2" layoutX="494.0" layoutY="29.0" prefHeight="241.0" prefWidth="44.0">
+                        <ImageView fx:id="professorGreenPlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="491.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+                        <GridPane fx:id="professorsPlancia2" layoutX="606.0" layoutY="19.0" prefHeight="241.0" prefWidth="44.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            </columnConstraints>
@@ -183,6 +184,10 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
+                        <ImageView fx:id="professorRedPlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="486.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorYellowPlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="491.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorPinkPlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="499.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorBluePlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="496.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -217,7 +222,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                 </GridPane>
-                        <GridPane fx:id="professorsPlancia3" layoutX="490.0" layoutY="35.0" prefHeight="241.0" prefWidth="44.0">
+                        <GridPane fx:id="professorsPlancia3" layoutX="574.0" layoutY="51.0" prefHeight="242.0" prefWidth="48.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            </columnConstraints>
@@ -229,6 +234,11 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
+                        <ImageView fx:id="professorBluePlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="496.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorPinkPlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="503.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorYellowPlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="491.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorRedPlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="505.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="professorGreenPlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="486.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" />
                             </children>
                         </AnchorPane>
                     </content>

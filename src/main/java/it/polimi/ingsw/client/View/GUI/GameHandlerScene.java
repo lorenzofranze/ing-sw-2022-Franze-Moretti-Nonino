@@ -78,6 +78,48 @@ public class GameHandlerScene {
     @FXML
     private GridPane professorsPlancia3;
 
+    @FXML
+    private ImageView professorBluePlancia1;
+
+    @FXML
+    private ImageView professorBluePlancia2;
+
+    @FXML
+    private ImageView professorBluePlancia3;
+
+    @FXML
+    private ImageView professorGreenPlancia1;
+
+    @FXML
+    private ImageView professorGreenPlancia2;
+
+    @FXML
+    private ImageView professorGreenPlancia3;
+
+    @FXML
+    private ImageView professorPinkPlancia1;
+
+    @FXML
+    private ImageView professorPinkPlancia2;
+
+    @FXML
+    private ImageView professorPinkPlancia3;
+
+    @FXML
+    private ImageView professorRedPlancia2;
+
+    @FXML
+    private ImageView professorRedPlancia3;
+
+    @FXML
+    private ImageView professorYellowPlancia1;
+
+    @FXML
+    private ImageView professorYellowPlancia2;
+
+    @FXML
+    private ImageView professorYellowPlancia3;
+
 
     /*
 
