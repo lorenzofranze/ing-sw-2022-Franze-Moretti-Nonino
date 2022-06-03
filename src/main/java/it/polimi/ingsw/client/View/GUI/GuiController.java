@@ -31,6 +31,8 @@ public class GuiController extends Application {
     private static GuiController guiController;
     private Runnable runnable;
 
+
+
     public static void main(String[] args) {
         Thread t = new Thread(() -> launch(args));
         t.start();
@@ -163,6 +165,87 @@ public class GuiController extends Application {
         }
 
         //------------- show boards:
+        List<ImageView> allProfessors = new ArrayList<>();
+
+
+        List<PlayerPojo> players= clientController.getGameStatePojo().getPlayers();
+
+
+        for (ImageView professor : allProfessors) {
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
+                ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia1");
+                p.setStyle("-fx-opacity: 30%");
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
+
+            }
+
+        }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
+        allProfessors = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList());
+        for (ImageView professor : allProfessors) {
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
+
+            }
+
+            if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
+
+            }
+        }
+        if(clientController.getGameStatePojo().getPlayers().size()==3) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia3");
+            allProfessors = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList());
+            for (ImageView professor : allProfessors) {
+                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Red)){
+                    
+                }
+
+                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Blue)){
+
+                }
+
+                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Yellow)){
+
+                }
+
+                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Pink)){
+
+                }
+
+                if (players.get(0).getSchoolBoard().getProfessors().getPawns().keySet().contains(ColourPawn.Green)){
+
+                }
+            }
+        }
+
+    }
+
+
 
 
 
@@ -200,7 +283,5 @@ public class GuiController extends Application {
         }
 
 */
+
     }
-}
-
-

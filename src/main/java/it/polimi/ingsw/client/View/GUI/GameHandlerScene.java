@@ -7,11 +7,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**class that responses to the click event on a game object, all the methods verify if the action is valid and unlock
  * the game if the choose is ok otherwise no action
  */
 public class GameHandlerScene {
+
+    @FXML
+    private ImageView professorRedPlancia1;
+
 
     @FXML
     private ImageView Cloud1;
@@ -57,6 +68,15 @@ public class GameHandlerScene {
 
     @FXML
     private Button yellowOnCloud3;
+
+    @FXML
+    private GridPane professorsPlancia1;
+
+    @FXML
+    private GridPane professorsPlancia2;
+
+    @FXML
+    private GridPane professorsPlancia3;
 
 
     /*
@@ -231,4 +251,5 @@ public class GameHandlerScene {
             ClientController.getSemaphore().release();
         }
     }
+
 }
