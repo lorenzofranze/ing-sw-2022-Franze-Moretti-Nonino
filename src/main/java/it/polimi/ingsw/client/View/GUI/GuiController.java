@@ -171,19 +171,19 @@ public class GuiController extends Application {
                 me = p;
             }
         }
+
         //-----------------show assistant cards:
         List<ImageView> allCards = new ArrayList<>();
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#AssistantCards");
         allCards= anchorPane.getChildren().stream().map(a-> (ImageView)a).collect(Collectors.toList());
         //default: all card are visible and clickable, disable the used cards
         for(ImageView card : allCards){
-            if(!me.getDeck().stream().map(a->a.getTurnOrder()).collect(Collectors.toList()).contains(Integer.parseInt(((Node)card).getId().substring(13)))) {
-                card.setStyle("-fx-opacity: 30");
-                card.setOnMouseClicked(null);
+            if(!me.getDeck().stream().map(a->a.getTurnOrder()).collect(Collectors.toList()).contains(Integer.parseInt(card.getId().substring(13)))) {
+                card.setStyle("-fx-opacity: 30%");
             }
         }
-        //------------- show boards
 
+        //------------- show boards:
 
 
 

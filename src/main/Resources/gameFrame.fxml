@@ -84,17 +84,17 @@
                       <Image url="@images/imageGamePianification/reameB_1.png" />
                   </image>
               </ImageView>
-              <ImageView fx:id="Cloud1" fitHeight="55.0" fitWidth="71.0" layoutX="299.0" layoutY="176.0"  pickOnBounds="true">
+              <ImageView fx:id="Cloud1" fitHeight="55.0" fitWidth="71.0" layoutX="299.0" layoutY="176.0" pickOnBounds="true">
                   <image>
                       <Image url="@images/imageGamePianification/nuvola.png" />
                   </image>
               </ImageView>
-              <ImageView fx:id="Cloud2" fitHeight="55.0" fitWidth="71.0" layoutX="501.0" layoutY="172.0"  pickOnBounds="true">
+              <ImageView fx:id="Cloud2" fitHeight="55.0" fitWidth="71.0" layoutX="501.0" layoutY="172.0" pickOnBounds="true">
                   <image>
                       <Image url="@images/imageGamePianification/nuvola.png" />
                   </image>
               </ImageView>
-              <ImageView fx:id="Cloud3" fitHeight="55.0" fitWidth="71.0" layoutX="415.0" layoutY="179.0"  pickOnBounds="true">
+              <ImageView fx:id="Cloud3" fitHeight="55.0" fitWidth="71.0" layoutX="415.0" layoutY="179.0" pickOnBounds="true">
                   <image>
                       <Image url="@images/imageGamePianification/nuvola.png" />
                   </image>
@@ -206,9 +206,9 @@
                 </Tab>
             </tabs>
         </TabPane>
-        <ScrollPane hbarPolicy="NEVER" layoutX="159.0" layoutY="627.0" prefHeight="130.0" prefWidth="261.0" vbarPolicy="NEVER">
+        <ScrollPane hbarPolicy="ALWAYS" layoutX="240.0" layoutY="626.0" prefHeight="141.0" prefWidth="331.0" vbarPolicy="NEVER">
             <content>
-                <AnchorPane fx:id="AssistantCards" disable="true" minHeight="0.0" minWidth="0.0" prefHeight="125.0" prefWidth="797.0">
+                <AnchorPane fx:id="AssistantCards">
                     <children>
                         <ImageView fx:id="AssistantCard1" fitHeight="119.0" fitWidth="123.0" layoutY="5.0" onMouseClicked="#setAssistantCardChosen1" pickOnBounds="true" preserveRatio="true">
                             <image>

@@ -8,15 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.util.HashSet;
-import java.util.Set;
-
-/**class that responses to the click event on a character card, all the methods verify if the action is valid and unlock
+/**class that responses to the click event on a game object, all the methods verify if the action is valid and unlock
  * the game if the choose is ok otherwise no action
  */
 public class GameHandlerScene {
-
-    private HashSet<Integer> visibleAssistantCards;
 
     @FXML
     private ImageView Cloud1;
@@ -146,14 +141,13 @@ public class GameHandlerScene {
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(1);
             ClientController.getSemaphore().release();
-            System.out.println("cliccato su 1");
         }
+
 
     }
 
     @FXML
     void setAssistantCardChosen2(MouseEvent event) {
-
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(2);
@@ -163,7 +157,7 @@ public class GameHandlerScene {
 
     @FXML
     void setAssistantCardChosen3(MouseEvent event) {
-
+        System.out.println("click 3");
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(3);
