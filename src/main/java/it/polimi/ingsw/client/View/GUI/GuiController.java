@@ -174,7 +174,7 @@ public class GuiController extends Application {
         List<PlayerPojo> players= clientController.getGameStatePojo().getPlayers();
 
         //__________ prima plancia
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#Plancia1");
         if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Red)>0){
             ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia1");
         }
@@ -196,7 +196,7 @@ public class GuiController extends Application {
         }
 
         //--------- seconda plancia
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#Plancia2");
         if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Red)>0){
             ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia2");
             p.setStyle("-fx-opacity: 30%");
@@ -225,7 +225,7 @@ public class GuiController extends Application {
 
         //---------- terza plancia
         if(clientController.getGameStatePojo().getPlayers().size()==3) {
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia3");
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#Plancia3");
             if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Red)>0){
                 ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia3");
                 p.setStyle("-fx-opacity: 30%");

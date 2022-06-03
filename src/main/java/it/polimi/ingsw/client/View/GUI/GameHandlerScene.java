@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -119,6 +120,15 @@ public class GameHandlerScene {
 
     @FXML
     private ImageView professorYellowPlancia3;
+
+    @FXML
+    private Tab Plancia1;
+
+    @FXML
+    private Tab Plancia2;
+
+    @FXML
+    private Tab Plancia3;
 
 
     /*
