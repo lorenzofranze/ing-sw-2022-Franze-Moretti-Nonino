@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
@@ -212,14 +213,14 @@ public class GuiController extends Application {
 
         //--------- professors
         i=0;
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia1");
+        GridPane gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia1");
         for(ImageView image : getInstance().
                 PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
             i++;
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(image);
         }
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
+        gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia2");
         i=0;
         for(ImageView image : getInstance().
                 PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getEntrance())){
@@ -229,7 +230,7 @@ public class GuiController extends Application {
         }
         if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
 
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia3");
+            gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia3");
             i = 0;
             for (ImageView image : getInstance().
                     PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getEntrance())) {
