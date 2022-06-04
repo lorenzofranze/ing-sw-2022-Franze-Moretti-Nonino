@@ -134,6 +134,7 @@
                                 </GridPane>
                         <ImageView fx:id="professorBluePlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="502.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorPinkPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="498.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true" />
+
                         <ImageView fx:id="professorYellowPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="510.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorRedPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="492.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorGreenPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="499.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
