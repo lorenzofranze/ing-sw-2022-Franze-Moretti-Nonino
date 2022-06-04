@@ -179,95 +179,7 @@ public class GuiController extends Application {
             }
         }
 
-        /*
-        //------------- show boards:
-        ImageView professorRed = new ImageView(new Image("/images/pawns/teacher_red.png"));
-        ImageView professorPink = new ImageView(new Image("/images/pawns/teacher_pink.png"));
-        ImageView professorYellow = new ImageView(new Image("/images/pawns/teacher_yellow.png"));
-        ImageView professorBlue = new ImageView(new Image("/images/pawns/teacher_blue.png"));
-        ImageView professorGreen = new ImageView(new Image("/images/pawns/teacher_green.png"));
 
-        List<PlayerPojo> players= clientController.getGameStatePojo().getPlayers();
-
-        //__________ prima plancia
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#Plancia1");
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Red)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia1");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Blue)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia1");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Yellow)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia1");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Pink)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia1");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Green)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia1");
-        }
-
-        //--------- seconda plancia
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#Plancia2");
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Red)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia2");
-            p.setStyle("-fx-opacity: 30%");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Blue)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia2");
-            p.setStyle("-fx-opacity: 30%");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Yellow)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia2");
-            p.setStyle("-fx-opacity: 30%");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Pink)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia2");
-            p.setStyle("-fx-opacity: 30%");
-        }
-
-        if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Green)>0){
-            ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia2");
-            p.setStyle("-fx-opacity: 30%");
-        }
-
-
-        //---------- terza plancia
-        if(clientController.getGameStatePojo().getPlayers().size()==3) {
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#Plancia3");
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Red)>0){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorRedPlancia3");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Blue)>0){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorBluePlancia3");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Yellow)>0){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorYellowPlancia3");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Pink)>0){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorPinkPlancia3");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-            if (players.get(0).getSchoolBoard().getProfessors().getPawns().get(ColourPawn.Green)>0){
-                ImageView p = (ImageView) currentStage.getScene().lookup("#professorGreenPlancia3");
-                p.setStyle("-fx-opacity: 30%");
-            }
-
-        }*/
         //--------- entrance
         AnchorPane child;
         int i=0;
@@ -281,18 +193,50 @@ public class GuiController extends Application {
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance2");
         i=0;
         for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getEntrance())){
             i++;
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(image);
         }
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance3");
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
+
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance3");
+            i = 0;
+            for (ImageView image : getInstance().
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getEntrance())) {
+                i++;
+                child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
+                child.getChildren().add(image);
+            }
+        }
+
+        //--------- professors
         i=0;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia1");
         for(ImageView image : getInstance().
                 PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
             i++;
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(image);
+        }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia2");
+        i=0;
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getEntrance())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(image);
+        }
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
+
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#professorsPlancia3");
+            i = 0;
+            for (ImageView image : getInstance().
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getEntrance())) {
+                i++;
+                child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
+                child.getChildren().add(image);
+            }
         }
     }
 
@@ -313,6 +257,32 @@ public class GuiController extends Application {
                 path = prefix+"student_green.png";
             }else if(colourPawn == ColourPawn.Red){
                 path = prefix + "student_red.png";
+            }
+            toAdd = map.get(colourPawn);
+            for(int i =0; i<toAdd; i++){
+                list.add(new ImageView(new Image(path)));
+            }
+        }
+        return list;
+    }
+
+    /**receives in input a pawnsmap and returns the corrisponding  List of images */
+    private List<ImageView> PawnsToImageProfessor( PawnsMapPojo map){
+        List<ImageView> list = new ArrayList<>();
+        int toAdd;
+        String prefix = "/images/pawns/";
+        String path="";
+        for(ColourPawn colourPawn : ColourPawn.values()){
+            if(colourPawn==ColourPawn.Yellow){
+                path=prefix+"teacher_yellow.png";
+            }else if(colourPawn == ColourPawn.Blue){
+                path = prefix+"teacher_blue.png";
+            }else if(colourPawn == ColourPawn.Pink){
+                path = prefix+"teacher_pink.png";
+            }else if(colourPawn == ColourPawn.Green){
+                path = prefix+"teacher_green.png";
+            }else if(colourPawn == ColourPawn.Red){
+                path = prefix + "teacher_red.png";
             }
             toAdd = map.get(colourPawn);
             for(int i =0; i<toAdd; i++){
