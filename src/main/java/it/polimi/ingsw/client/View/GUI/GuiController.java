@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.View.GUI;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import it.polimi.ingsw.server.model.PawnsMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -144,7 +145,21 @@ public class GuiController extends Application {
 
 
     public void showGameUpdate() {
+
         AnchorPane anchorPane;
+        /*
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/gameFrame.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        root.lookup("#AssistantCards");
+        anchorPane = (AnchorPane)currentStage.getScene().lookup("#AssistantCards") ;
+        anchorPane =(AnchorPane) root.lookup("#AssistantCards");
+         */
+
         ClientController clientController = ClientController.getInstance();
         PlayerPojo me = null;
         for (PlayerPojo p : clientController.getGameStatePojo().getPlayers()) {
@@ -164,6 +179,7 @@ public class GuiController extends Application {
             }
         }
 
+        /*
         //------------- show boards:
         ImageView professorRed = new ImageView(new Image("/images/pawns/teacher_red.png"));
         ImageView professorPink = new ImageView(new Image("/images/pawns/teacher_pink.png"));
@@ -251,8 +267,59 @@ public class GuiController extends Application {
                 p.setStyle("-fx-opacity: 30%");
             }
 
+        }*/
+        //--------- entrance
+        AnchorPane child;
+        int i=0;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance1");
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(image);
         }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance2");
+        i=0;
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(image);
+        }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance3");
+        i=0;
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(image);
+        }
+    }
 
+    /**receives in input a pawnsmap and returns the corrisponding  List of images */
+    private List<ImageView> PawnsToImageStudents(PawnsMapPojo map){
+        List<ImageView> list = new ArrayList<>();
+        int toAdd;
+        String prefix = "/images/pawns/";
+        String path="";
+        for(ColourPawn colourPawn : ColourPawn.values()){
+            if(colourPawn==ColourPawn.Yellow){
+                path=prefix+"student_yellow.png";
+            }else if(colourPawn == ColourPawn.Blue){
+                path = prefix+"student_blue.png";
+            }else if(colourPawn == ColourPawn.Pink){
+                path = prefix+"student_pink.png";
+            }else if(colourPawn == ColourPawn.Green){
+                path = prefix+"student_green.png";
+            }else if(colourPawn == ColourPawn.Red){
+                path = prefix + "student_red.png";
+            }
+            toAdd = map.get(colourPawn);
+            for(int i =0; i<toAdd; i++){
+                list.add(new ImageView(new Image(path)));
+            }
+        }
+        return list;
     }
 
 

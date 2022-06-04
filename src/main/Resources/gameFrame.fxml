@@ -17,9 +17,9 @@
             <Image url="@images/imageGamePianification/nuvolaViola.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="56.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="1070.0">
+      <AnchorPane layoutX="56.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="1070.0">
          <children>
-            <ImageView fitHeight="881.0" fitWidth="1069.0" layoutX="1.0" layoutY="-179.0" pickOnBounds="true">
+            <ImageView fitHeight="849.0" fitWidth="1069.0" layoutX="1.0" layoutY="-179.0" pickOnBounds="true">
                <image>
                   <Image url="@images/imageGamePianification/sfondo_isole.png" />
                </image>
@@ -134,10 +134,24 @@
                                 </GridPane>
                         <ImageView fx:id="professorBluePlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="502.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorPinkPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="498.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true" />
-
                         <ImageView fx:id="professorYellowPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="510.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorRedPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="492.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorGreenPlancia1" fitHeight="38.0" fitWidth="31.0" layoutX="499.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
+                                <!-- school board entrance -->
+                                <AnchorPane fx:id="entrance1" layoutX="13.0" layoutY="8.0" prefHeight="302.0" prefWidth="112.0">
+                                    <children>
+                                        <AnchorPane layoutX="71.0" layoutY="42.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="72.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="67.0" layoutY="88.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="101.0" layoutY="72.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="70.0" layoutY="186.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="70.0" layoutY="234.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="32.0" layoutY="91.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="33.0" layoutY="236.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="31.0" layoutY="186.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="32.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" />
+                                    </children>
+                                </AnchorPane>
                             </children>
                         </AnchorPane>
                     </content>
@@ -189,6 +203,21 @@
                         <ImageView fx:id="professorYellowPlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="491.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorPinkPlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="499.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorBluePlancia2" fitHeight="38.0" fitWidth="31.0" layoutX="496.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                                <!-- school board entrance -->
+                                <AnchorPane fx:id="entrance2" layoutX="13.0" layoutY="8.0" prefHeight="302.0" prefWidth="112.0">
+                                    <children>
+                                        <AnchorPane layoutX="71.0" layoutY="42.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="72.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="67.0" layoutY="88.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="101.0" layoutY="72.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="70.0" layoutY="186.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="70.0" layoutY="234.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="32.0" layoutY="91.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="33.0" layoutY="236.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="31.0" layoutY="186.0" prefHeight="28.0" prefWidth="28.0" />
+                                        <AnchorPane layoutX="32.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" />
+                                    </children>
+                                </AnchorPane>
                             </children>
                         </AnchorPane>
                     </content>
@@ -234,6 +263,20 @@
                               <RowConstraints maxHeight="51.599951171875006" minHeight="10.0" prefHeight="49.999975585937506" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
+                            <AnchorPane  fx:id="entrance3" layoutX="13.0" layoutY="8.0" prefHeight="302.0" prefWidth="112.0">
+                                <children>
+                                    <AnchorPane layoutX="71.0" layoutY="42.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="72.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="67.0" layoutY="88.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="101.0" layoutY="72.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="70.0" layoutY="186.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="70.0" layoutY="234.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="32.0" layoutY="91.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="33.0" layoutY="236.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="31.0" layoutY="186.0" prefHeight="28.0" prefWidth="28.0" />
+                                    <AnchorPane layoutX="32.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" />
+                                </children>
+                            </AnchorPane>
                         </GridPane>
                         <ImageView fx:id="professorBluePlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="496.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="professorPinkPlancia3" fitHeight="38.0" fitWidth="31.0" layoutX="503.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />

@@ -53,4 +53,8 @@ public class PawnsMapPojo {
         }
         this.pawns = map;
     }
+
+    public int get(ColourPawn colour){
+        return pawns.get(colour);
+    }
 }
