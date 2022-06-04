@@ -215,7 +215,7 @@ public class GuiController extends Application {
         i=0;
         GridPane gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia1");
         for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getProfessors())){
             i++;
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(image);
@@ -223,7 +223,7 @@ public class GuiController extends Application {
         gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia2");
         i=0;
         for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getEntrance())){
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getProfessors())){
             i++;
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(image);
@@ -233,12 +233,87 @@ public class GuiController extends Application {
             gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia3");
             i = 0;
             for (ImageView image : getInstance().
-                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getEntrance())) {
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getProfessors())) {
                 i++;
                 child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
             }
         }
+
+        // ------ students
+        i=0;
+        gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia1");
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_green.png")){
+                child.getChildren().add(0, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_red.png")){
+                child.getChildren().add(1, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_yellow.png")){
+                child.getChildren().add(2, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_pink.png")){
+                child.getChildren().add(3, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_blue.png")){
+                child.getChildren().add(4, image);
+            }
+
+        }
+        gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia2");
+        i=0;
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_green.png")){
+                child.getChildren().add(0, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_red.png")){
+                child.getChildren().add(1, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_yellow.png")){
+                child.getChildren().add(2, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_pink.png")){
+                child.getChildren().add(3, image);
+            }
+            if(image.getImage().getUrl().equals("/images/pawns/teacher_blue.png")){
+                child.getChildren().add(4, image);
+            }
+
+        }
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
+
+            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia3");
+            i = 0;
+            for(ImageView image : getInstance().
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
+                i++;
+                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+                if(image.getImage().getUrl().equals("/images/pawns/teacher_green.png")){
+                    child.getChildren().add(0, image);
+                }
+                if(image.getImage().getUrl().equals("/images/pawns/teacher_red.png")){
+                    child.getChildren().add(1, image);
+                }
+                if(image.getImage().getUrl().equals("/images/pawns/teacher_yellow.png")){
+                    child.getChildren().add(2, image);
+                }
+                if(image.getImage().getUrl().equals("/images/pawns/teacher_pink.png")){
+                    child.getChildren().add(3, image);
+                }
+                if(image.getImage().getUrl().equals("/images/pawns/teacher_blue.png")){
+                    child.getChildren().add(4, image);
+                }
+
+            }
+        }
+
     }
 
     /**receives in input a pawnsmap and returns the corrisponding  List of images */

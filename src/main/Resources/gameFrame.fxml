@@ -111,7 +111,7 @@
                                         <Image url="@images/imageGameAction/PLANCIA%20GIOCO_2.png" />
                                     </image>
                                 </ImageView>
-                                <GridPane accessibleRole="BUTTON" layoutX="93.0" layoutY="26.0" prefHeight="140.0" prefWidth="182.0">
+                                <GridPane fx:id="studentsPlancia1" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="139.0" layoutY="40.0" prefHeight="234.0" prefWidth="331.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -125,11 +125,11 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
                                     <rowConstraints>
-                                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="greenColoumn" maxHeight="47.9999755859375" minHeight="10.0" prefHeight="47.9999755859375" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="redColoumn" maxHeight="56.79989471435547" minHeight="10.0" prefHeight="31.60002441406251" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="yellowColoumn" maxHeight="57.600073242187506" minHeight="10.0" prefHeight="52.800024414062506" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="pinkColoumn" maxHeight="47.999975585937506" minHeight="10.0" prefHeight="47.999975585937506" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="BlueColoumn" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                 </GridPane>
                                 <!-- school board entrance -->
@@ -179,7 +179,7 @@
                                         <Image url="@images/imageGameAction/PLANCIA%20GIOCO_2.png" />
                                     </image>
                                 </ImageView>
-                                <GridPane accessibleRole="BUTTON" layoutX="93.0" layoutY="23.0" prefHeight="130.0" prefWidth="182.0">
+                                <GridPane fx:id="studentsPlancia2" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="139.0" layoutY="40.0" prefHeight="234.0" prefWidth="331.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -193,11 +193,11 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
                                     <rowConstraints>
-                                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="greenColoumn" maxHeight="47.9999755859375" minHeight="10.0" prefHeight="47.9999755859375" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="redColoumn" maxHeight="56.79989471435547" minHeight="10.0" prefHeight="31.60002441406251" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="yellowColoumn" maxHeight="57.600073242187506" minHeight="10.0" prefHeight="52.800024414062506" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="pinkColoumn" maxHeight="47.999975585937506" minHeight="10.0" prefHeight="47.999975585937506" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="BlueColoumn" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                 </GridPane>
                         <GridPane fx:id="professorsPlancia2" layoutX="493.0" layoutY="37.0" prefHeight="241.0" prefWidth="44.0">
@@ -247,7 +247,7 @@
                                         <Image url="@images/imageGameAction/PLANCIA%20GIOCO_2.png" />
                                     </image>
                                 </ImageView>
-                                <GridPane accessibleRole="BUTTON" layoutX="90.0" layoutY="25.0" prefHeight="140.0" prefWidth="182.0">
+                                <GridPane fx:id="studentsPlancia3" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="139.0" layoutY="40.0" prefHeight="234.0" prefWidth="331.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -261,11 +261,11 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
                                     <rowConstraints>
-                                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="greenColoumn" maxHeight="47.9999755859375" minHeight="10.0" prefHeight="47.9999755859375" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="redColoumn" maxHeight="56.79989471435547" minHeight="10.0" prefHeight="31.60002441406251" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="yellowColoumn" maxHeight="57.600073242187506" minHeight="10.0" prefHeight="52.800024414062506" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="pinkColoumn" maxHeight="47.999975585937506" minHeight="10.0" prefHeight="47.999975585937506" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="BlueColoumn" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                 </GridPane>
                         <GridPane fx:id="professorsPlancia3" layoutX="489.0" layoutY="33.0" prefHeight="242.0" prefWidth="48.0">
