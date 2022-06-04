@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="400.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageChooseName/Personaggi_retro.jpg" />
+            <Image url="@images/imageStart/Personaggi_retro.jpg" />
          </image>
       </ImageView>
       <TextField fx:id="TextFieldNickname" layoutX="226.0" layoutY="217.0" onKeyTyped="#lengthCheck" style="-fx-background-color: pink;">

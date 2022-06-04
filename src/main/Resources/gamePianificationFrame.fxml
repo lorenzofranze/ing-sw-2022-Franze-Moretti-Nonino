@@ -9,77 +9,77 @@
    <children>
       <ImageView fx:id="Island5" fitHeight="63.0" fitWidth="63.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island4" fitHeight="63.0" fitWidth="63.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island3" fitHeight="63.0" fitWidth="63.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island2" fitHeight="63.0" fitWidth="63.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island1" fitHeight="63.0" fitWidth="63.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island6" fitHeight="63.0" fitWidth="63.0" layoutX="63.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island7" fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Cloud1" fitHeight="55.0" fitWidth="71.0" layoutX="59.0" layoutY="179.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvola.png" />
+            <Image url="@images/imageGameAction/nuvola.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island8" fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island9" fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island10" fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island11" fitHeight="63.0" fitWidth="63.0" layoutX="126.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Island12" fitHeight="63.0" fitWidth="63.0" layoutX="63.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Cloud3" fitHeight="55.0" fitWidth="71.0" layoutX="59.0" layoutY="289.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvola.png" />
+            <Image url="@images/imageGameAction/nuvola.png" />
          </image>
       </ImageView>
       <ImageView fx:id="Cloud2" fitHeight="55.0" fitWidth="71.0" layoutX="59.0" layoutY="234.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvola.png" />
+            <Image url="@images/imageGameAction/nuvola.png" />
          </image>
       </ImageView>
       <Button fx:id="redOnCloud1" layoutX="63.0" layoutY="178.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="23.0" style="-fx-background-color: red;" text="0" textFill="WHITE">

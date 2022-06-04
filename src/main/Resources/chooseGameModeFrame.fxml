@@ -50,11 +50,11 @@
         </Label>
             <ImageView fitHeight="184.0" fitWidth="103.0" layoutX="109.0" layoutY="14.0" onMouseReleased="#inputChoice1" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/imageChooseGameMode/carta1_gameMode.png" />
+                  <Image url="@images/imageStart/carta1_gameMode.png" />
                </image></ImageView>
             <ImageView fitHeight="156.0" fitWidth="117.0" layoutX="419.0" layoutY="14.0" onMouseReleased="#inputChoice2" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/imageChooseGameMode/carta2_gameMode.png" />
+                  <Image url="@images/imageStart/carta2_gameMode.png" />
                </image></ImageView>
             <Label alignment="CENTER" layoutX="382.0" layoutY="169.0" style="&#10;" text="COMPLEX MODE 2 PLAYERS" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
                <font>
@@ -63,11 +63,11 @@
             </Label>
             <ImageView fitHeight="156.0" fitWidth="103.0" layoutX="109.0" layoutY="198.0" onMouseReleased="#inputChoice3" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/imageChooseGameMode/carta3_gameMode.png" />
+                  <Image url="@images/imageStart/carta3_gameMode.png" />
                </image></ImageView>
             <ImageView fitHeight="156.0" fitWidth="103.0" layoutX="419.0" layoutY="198.0" onMouseReleased="#inputChoice4" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/imageChooseGameMode/carta4_gameMode.png" />
+                  <Image url="@images/imageStart/carta4_gameMode.png" />
                </image></ImageView>
             <Label alignment="CENTER" layoutX="374.0" layoutY="349.0" style="&#10;" text="COMPLEX MODE 3 PLAYERS" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
                <font>

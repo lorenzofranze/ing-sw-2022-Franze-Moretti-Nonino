@@ -9,72 +9,72 @@
    <children>
       <ImageView fitHeight="415.0" fitWidth="633.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvolaViola.png" />
+            <Image url="@images/imageGameAction/nuvolaViola.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="14.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="77.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="70.0" layoutY="114.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvola.png" />
+            <Image url="@images/imageGameAction/nuvola.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="140.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="77.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/imageGamePianification/reameB_1.png" />
+            <Image url="@images/imageGameAction/reameB_1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="125.0" fitWidth="314.0" layoutX="344.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
@@ -94,12 +94,12 @@
       </ImageView>
       <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="73.0" layoutY="224.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvola.png" />
+            <Image url="@images/imageGameAction/nuvola.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="55.0" fitWidth="71.0" layoutX="73.0" layoutY="169.0" pickOnBounds="true">
          <image>
-            <Image url="@images/imageGamePianification/nuvola.png" />
+            <Image url="@images/imageGameAction/nuvola.png" />
          </image>
       </ImageView>
    </children>
