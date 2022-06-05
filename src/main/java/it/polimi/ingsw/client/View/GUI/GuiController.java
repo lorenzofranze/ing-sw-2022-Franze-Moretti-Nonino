@@ -296,6 +296,7 @@ public class GuiController extends Application {
                     PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
                 i++;
                 child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+                //todo GUARDARE URL
                 if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_green.png")){
                     child.getChildren().add(0, image);
                 }
@@ -314,6 +315,63 @@ public class GuiController extends Application {
 
             }
         }
+
+        //------- towers
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia1");
+        for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(new ImageView(new Image("/images/pawns/black_tower.png")));
+        }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia2");
+        i=0;
+        for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(new ImageView(new Image("/images/pawns/white_tower.png")));
+        }
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
+
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia3");
+            i = 0;
+            for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
+                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+                child.getChildren().add(new ImageView(new Image("/images/pawns/grey_tower.png")));
+            }
+        }
+
+        //----- clouds
+        i=0;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud1");
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(0).getStudents())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(image);
+        }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud2");
+        i=0;
+        for(ImageView image : getInstance().
+                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getEntrance())){
+            i++;
+            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+            child.getChildren().add(image);
+        }
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
+
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud3");
+            i = 0;
+            for (ImageView image : getInstance().
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getEntrance())) {
+                i++;
+                child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
+                child.getChildren().add(image);
+            }
+        }
+        else{
+            //todo REMOVE ALL FUNZIONA?
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud3");
+            anchorPane.getChildren().removeAll();
+        }
+
 
     }
 
