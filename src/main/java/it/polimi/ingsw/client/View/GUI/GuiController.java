@@ -317,13 +317,13 @@ public class GuiController extends Application {
         }
 
         //------- towers
+        //todo fissare dimensione massima towers
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia1");
         for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(new ImageView(new Image("/images/pawns/black_tower.png")));
         }
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia2");
-        i=0;
         for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
             child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
             child.getChildren().add(new ImageView(new Image("/images/pawns/white_tower.png")));
@@ -331,7 +331,6 @@ public class GuiController extends Application {
         if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
 
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia3");
-            i = 0;
             for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
                 child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(new ImageView(new Image("/images/pawns/grey_tower.png")));
