@@ -33,7 +33,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                        <ImageView fitHeight="113.0" fitWidth="125.0" onMouseClicked="#setCloudChosen1" pickOnBounds="true">
                            <image>
                               <Image url="@images/imageGameAction/nuvola.png" />
                            </image>
@@ -50,7 +50,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                        <ImageView fx:id="setCloudChosen2" fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
                            <image>
                               <Image url="@images/imageGameAction/nuvola.png" />
                            </image>
@@ -67,7 +67,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                        <ImageView fx:id="setCloudChosen3" fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
                            <image>
                               <Image url="@images/imageGameAction/nuvola.png" />
                            </image>
