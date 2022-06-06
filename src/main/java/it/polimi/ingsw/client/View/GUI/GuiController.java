@@ -106,7 +106,7 @@ public class GuiController extends Application {
         System.out.println("sto aspettando altri giocatori");
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/waitingPlayersFrameBrutto.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/waitingPlayersFrame.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
             return;
