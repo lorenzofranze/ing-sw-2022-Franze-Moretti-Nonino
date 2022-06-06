@@ -2,29 +2,22 @@ package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
-import it.polimi.ingsw.server.controller.logic.GameMode;
-import it.polimi.ingsw.server.model.PawnsMap;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -109,7 +102,7 @@ public class GuiController extends Application {
         System.out.println("sto aspettando altri giocatori");
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/waitingPlayersFrame.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/waitingPlayersFrameBrutto.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -246,6 +239,9 @@ public class GuiController extends Application {
 
 
         }
+
+        //-----islands:
+        //student
 
         //----- clouds
         for (int j=1; j<numPlayers+1; j++) {
