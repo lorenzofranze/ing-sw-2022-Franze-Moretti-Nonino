@@ -30,7 +30,7 @@ public class SetUpPhase extends GamePhase {
         //todo: remove for dubug
         PawnsMap map = new PawnsMap();
         map.add(ColourPawn.Yellow, 3);
-        map.add(ColourPawn.Red, 8);
+        map.add(ColourPawn.Red, 6);
         gameController.getGame().getPlayers().get(0).getSchoolBoard().addToDiningRoom(map, gameController.getGame());
         //---
 

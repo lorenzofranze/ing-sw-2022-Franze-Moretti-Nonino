@@ -197,12 +197,13 @@ public class GuiController extends Application {
             i=0;
             posiz=0;
             gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia"+j);
-            List<ImageView> images = PawnsToImageProfessor(game.getPlayers().get(i).getSchoolBoard().getProfessors());
-            for(ColourPawn colour : ColourPawn.values()){
-                for (int k = 0; k < game.getPlayers().get(i).getSchoolBoard().getProfessors().get(colour); k++){
-                    gridPane.add(images.get(posiz), colour.getIndexColour(),k);
+            List<Image> images = PawnsToImageProfessor(game.getPlayers().get(j-1).getSchoolBoard().getProfessors());
+            for(ImageView imageView : gridPane.getChildren().stream().map(a->(ImageView)a).collect(Collectors.toList())){
+                if (game.getPlayers().get(j-1).getSchoolBoard().getProfessors().get(ColourPawn.values()[i])==1){
+                    imageView.setImage(images.get(posiz));
                     posiz++;
                 }
+                i++;
             }
         }
 
@@ -211,9 +212,9 @@ public class GuiController extends Application {
             i = 0;
             posiz=0;
             gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia"+j);
-            List<ImageView> images = PawnsToImageStudents(game.getPlayers().get(i).getSchoolBoard().getDiningRoom());
+            List<ImageView> images = PawnsToImageStudents(game.getPlayers().get(j-1).getSchoolBoard().getDiningRoom());
             for(ColourPawn colour : ColourPawn.values()){
-                for (int k = 0; k < game.getPlayers().get(i).getSchoolBoard().getDiningRoom().get(colour); k++){
+                for (int k = 0; k < game.getPlayers().get(j-1).getSchoolBoard().getDiningRoom().get(colour); k++){
                     gridPane.add(images.get(posiz),k, colour.getIndexColour());
                     posiz++;
                 }
@@ -374,8 +375,8 @@ public class GuiController extends Application {
     }
 
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
-    private List<ImageView> PawnsToImageProfessor( PawnsMapPojo map){
-        List<ImageView> list = new ArrayList<>();
+    private List<Image> PawnsToImageProfessor( PawnsMapPojo map){
+        List<Image> list = new ArrayList<>();
         int toAdd;
         String prefix = "/images/pawns/";
         String path="";
@@ -393,7 +394,7 @@ public class GuiController extends Application {
             }
             toAdd = map.get(colourPawn);
             for(int i =0; i<toAdd; i++){
-                list.add(new ImageView(new Image(path)));
+                list.add(new Image(path));
             }
         }
         return list;
