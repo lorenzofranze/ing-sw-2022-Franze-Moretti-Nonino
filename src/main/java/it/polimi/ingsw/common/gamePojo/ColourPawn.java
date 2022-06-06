@@ -1,7 +1,7 @@
 package it.polimi.ingsw.common.gamePojo;
 
 public enum ColourPawn {
-    Yellow(0), Blue(1), Green(2), Red(3), Pink(4);
+    Green(0), Red(1), Yellow(2), Pink(3), Blue(4);
 
     private final int indexColour;
 

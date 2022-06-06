@@ -12,8 +12,7 @@ public class PawnsMap{
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_PINK = "\u001B[35m";
 
-    private static final String[] ansi_colours = {ANSI_YELLOW, ANSI_BLUE, ANSI_GREEN, ANSI_RED, ANSI_PINK, ANSI_RESET};
-
+    private static final String[] ansi_colours = {ANSI_GREEN, ANSI_RED, ANSI_YELLOW, ANSI_PINK, ANSI_BLUE, ANSI_RESET};
     private HashMap<ColourPawn, Integer> pawns;
 
     public PawnsMap() {

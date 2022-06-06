@@ -28,8 +28,13 @@ public class SetUpPhase extends GamePhase {
             this.initializeCharactersEffects();
         }
         //todo: remove for dubug
-        gameController.getGame().getPlayers().get(0).getSchoolBoard().getDiningRoom().add(ColourPawn.Blue, 2);
-        gameController.getGame().getPlayers().get(0).getSchoolBoard().getDiningRoom().add(ColourPawn.Red, 4);
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 3);
+        map.add(ColourPawn.Red, 8);
+        gameController.getGame().getPlayers().get(0).getSchoolBoard().addToDiningRoom(map, gameController.getGame());
+        //---
+
+
         return ris;
 
     }

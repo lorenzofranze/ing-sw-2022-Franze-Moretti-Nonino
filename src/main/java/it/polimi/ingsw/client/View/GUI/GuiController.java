@@ -195,92 +195,32 @@ public class GuiController extends Application {
 
         //--------- professors
         GridPane gridPane;
+        int posiz;
 
         for (int j=1; j<numPlayers+1; j++){
             i=0;
+            posiz=0;
             gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia"+j);
-            for(ImageView image : getInstance().
-                    PawnsToImageProfessor(ClientController.getInstance().getGameStatePojo().getPlayers().get(j-1).getSchoolBoard().getProfessors())){
-
-                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-                child.getChildren().add(image);
-                i++;
+            List<ImageView> images = PawnsToImageProfessor(game.getPlayers().get(i).getSchoolBoard().getProfessors());
+            for(ColourPawn colour : ColourPawn.values()){
+                for (int k = 0; k < game.getPlayers().get(i).getSchoolBoard().getProfessors().get(colour); k++){
+                    gridPane.add(images.get(posiz), colour.getIndexColour(),k);
+                    posiz++;
+                }
             }
         }
 
         // ------ students in dining
-        i=0;
-        gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia1");
-        for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
-
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_green.png")){
-                child.getChildren().add(0, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_red.png")){
-                child.getChildren().add(1, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_yellow.png")){
-                child.getChildren().add(2, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_pink.png")){
-                child.getChildren().add(3, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_blue.png")){
-                child.getChildren().add(4, image);
-            }
-            i++;
-
-        }
-        gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia2");
-        i=0;
-        for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_green.png")){
-                child.getChildren().add(0, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_red.png")){
-                child.getChildren().add(1, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_yellow.png")){
-                child.getChildren().add(2, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_pink.png")){
-                child.getChildren().add(3, image);
-            }
-            if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_blue.png")){
-                child.getChildren().add(4, image);
-            }
-            i++;
-
-        }
-        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
-
-            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia3");
+        for (int j=1; j<numPlayers+1; j++) {
             i = 0;
-            for(ImageView image : getInstance().
-                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getDiningRoom())){
-                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-                //todo GUARDARE URL
-                if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_green.png")){
-                    child.getChildren().add(0, image);
+            posiz=0;
+            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia"+j);
+            List<ImageView> images = PawnsToImageStudents(game.getPlayers().get(i).getSchoolBoard().getDiningRoom());
+            for(ColourPawn colour : ColourPawn.values()){
+                for (int k = 0; k < game.getPlayers().get(i).getSchoolBoard().getDiningRoom().get(colour); k++){
+                    gridPane.add(images.get(posiz),k, colour.getIndexColour());
+                    posiz++;
                 }
-                if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_red.png")){
-                    child.getChildren().add(1, image);
-                }
-                if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_yellow.png")){
-                    child.getChildren().add(2, image);
-                }
-                if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_pink.png")){
-                    child.getChildren().add(3, image);
-                }
-                if(image.getImage().getUrl().equals("//idea/navigate/reference?project=Eryantis&path=images/pawns/student_blue.png")){
-                    child.getChildren().add(4, image);
-                }
-                i++;
-
             }
         }
 
@@ -309,9 +249,9 @@ public class GuiController extends Application {
 
         //----- clouds
         for (int j=1; j<numPlayers+1; j++) {
-            i = 0;
+            i = 1;
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud" + j);
-            for (ImageView image : getInstance().
+            for (ImageView image :
                     PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(j-1).getStudents())) {
                 child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
@@ -323,7 +263,7 @@ public class GuiController extends Application {
         if(game.isExpert()) {
             i = 0;
             SplitPane splitPane = (SplitPane) currentStage.getScene().lookup("#charactersPane");
-            for (Image image : getInstance().
+            for (Image image :
                     CharactersToImage(ClientController.getInstance().getGameStatePojo().getCharacters())) {
                 child = splitPane.getItems().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
                 ((ImageView)child.getChildren().get(0)).setImage(image);
