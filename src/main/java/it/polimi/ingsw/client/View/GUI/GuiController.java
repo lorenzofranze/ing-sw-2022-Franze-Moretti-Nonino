@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
+import it.polimi.ingsw.server.model.Island;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
@@ -217,31 +220,77 @@ public class GuiController extends Application {
             }
         }
 
-        //------- towers
+        //------- towers on boards:
         int k;
         String path="";
         ImageView imageView;
         for (int j=1; j<numPlayers+1; j++) {
             i = 0;
-            if (j == 1) {
-                path = "/images/pawns/black_tower.png";
-            } else if (j == 2) {
-                path = "/images/pawns/white_tower.png";
-            } else if (j == 3) {
-                path = "/images/pawns/grey_tower.png";
-            }
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia" + j);
             for (k = 0; k < ClientController.getInstance().getGameStatePojo().getPlayers().get(j - 1).getSchoolBoard().getSpareTowers(); k++) {
                 imageView = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList()).get(i);
-                imageView.setImage(new Image(path));
+                Image image = towerToImage(game.getPlayers().get(j-1).getColourTower());
+                imageView.setImage(image);
                 i++;
             }
 
 
         }
 
-        //-----islands:
-        //student
+        //-----islands
+        for(int j=1; j<13; j++){
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
+            anchorPane.setVisible(false);
+        }
+
+        //students on islands:
+        for(int j=1; j<game.getIslands().size()+1; j++){
+            //maybe to remove when function reset done
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
+            anchorPane.setVisible(true);
+            //--
+            i=0;
+            k=0;
+            GridPane studentPane = (GridPane) anchorPane.getChildren().get(1);
+            List<ImageView> students = PawnsToImageStudents(game.getIslands().get(j-1).getStudents());
+            for(ImageView image : students) {
+                studentPane.add(image, i, k);
+                k++;
+                if(k==5){
+                    i++;
+                    k=0;
+                }
+            }
+        }
+        //mother nature:
+        GridPane towersPane;
+        int positionMother=0;
+        k=0;
+        for(IslandPojo island : game.getIslands()){
+            if(island.isHasMotherNature()){
+                positionMother=k;
+            }
+            k++;
+        }
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+(positionMother+1));
+        towersPane = (GridPane) anchorPane.getChildren().get(2);
+        towersPane.add(new ImageView(new Image("/images/pawns/mother_nature.png")), 0, 0);
+
+        //towers on islands:
+        for(int j=1; j<game.getIslands().size()+1; j++){
+            if(game.getIslands().get(j-1).getTowerColour() !=null) {
+                anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
+                towersPane = (GridPane) anchorPane.getChildren().get(2);
+
+                Image image = towerToImage(game.getIslands().get(j - 1).getTowerColour());
+                towersPane.add(new ImageView(image), 1, 0);
+                Text text = new Text(game.getIslands().get(j - 1).getTowerCount() + "");
+                text.setTextAlignment(TextAlignment.CENTER);
+                towersPane.add(text, 2, 0);
+            }
+        }
+
+
 
         //----- clouds
         for (int j=1; j<numPlayers+1; j++) {
@@ -362,6 +411,18 @@ public class GuiController extends Application {
             list.add(new Image(path));
         }
         return list;
+    }
+
+    private Image towerToImage(ColourTower colour){
+        String path="";
+        if (colour == ColourTower.Black) {
+            path = "/images/pawns/black_tower.png";
+        } else if (colour == ColourTower.White) {
+            path = "/images/pawns/white_tower.png";
+        } else if (colour == ColourTower.Grey) {
+            path = "/images/pawns/grey_tower.png";
+        }
+        return (new Image(path));
     }
 
 
