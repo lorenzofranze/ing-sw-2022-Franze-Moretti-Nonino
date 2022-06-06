@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -254,6 +255,9 @@ public class GuiController extends Application {
             GridPane studentPane = (GridPane) anchorPane.getChildren().get(1);
             List<ImageView> students = PawnsToImageStudents(game.getIslands().get(j-1).getStudents());
             for(ImageView image : students) {
+                image.setFitHeight(117.0);
+                image.setFitWidth(22.0);
+                image.setPreserveRatio(true);
                 studentPane.add(image, i, k);
                 k++;
                 if(k==5){
@@ -274,18 +278,27 @@ public class GuiController extends Application {
         }
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+(positionMother+1));
         towersPane = (GridPane) anchorPane.getChildren().get(2);
-        towersPane.add(new ImageView(new Image("/images/pawns/mother_nature.png")), 0, 0);
+        imageView = new ImageView(new Image("/images/pawns/mother_nature.png"));
+        imageView.setFitHeight(48.0);
+        imageView.setFitWidth(58.0);
+        imageView.setPreserveRatio(true);
+        towersPane.add(imageView, 0, 0);
 
         //towers on islands:
         for(int j=1; j<game.getIslands().size()+1; j++){
-            if(game.getIslands().get(j-1).getTowerColour() !=null) {
+            if(game.getIslands().get(j-1).getTowerColour()!=null) {
                 anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
                 towersPane = (GridPane) anchorPane.getChildren().get(2);
 
                 Image image = towerToImage(game.getIslands().get(j - 1).getTowerColour());
+                imageView = new ImageView(image);
+                imageView.setFitHeight(47.0);
+                imageView.setFitWidth(58.0);
+                imageView.setPreserveRatio(true);
                 towersPane.add(new ImageView(image), 1, 0);
-                Text text = new Text(game.getIslands().get(j - 1).getTowerCount() + "");
+                Text text = new Text("   "+game.getIslands().get(j - 1).getTowerCount());
                 text.setTextAlignment(TextAlignment.CENTER);
+                text.setFont(Font.font(20.0));
                 towersPane.add(text, 2, 0);
             }
         }
@@ -403,7 +416,7 @@ public class GuiController extends Application {
         return list;
     }
 
-    //**todo dimensioni fissate
+
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
     private List<Image> CharactersToImage(List<CharacterPojo> charactersList){
         List<Image> list = new ArrayList<>();
@@ -443,40 +456,5 @@ public class GuiController extends Application {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        List<CloudPojo> cloudPojos=clientController.getGameStatePojo().getClouds();
-        for(CloudPojo c: cloudPojos){
-            if(c.getCloudId()==0){
-                redOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
-                yellowOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
-                blueOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
-                greenOnCloud1.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
-            }
-            if(c.getCloudId()==1){
-                redOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
-                yellowOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
-                blueOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
-                greenOnCloud2.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
-            }
-            if(c.getCloudId()==2){
-                redOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Red).toString());
-                yellowOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Yellow).toString());
-                blueOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Blue).toString());
-                greenOnCloud3.setId(c.getStudents().getPawns().get(ColourPawn.Green).toString());
-            }
-        }
-
-*/
 
     }

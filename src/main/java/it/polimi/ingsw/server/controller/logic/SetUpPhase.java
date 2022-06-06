@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.server.controller.characters.*;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.CharacterState;
@@ -33,6 +34,9 @@ public class SetUpPhase extends GamePhase {
         map.add(ColourPawn.Red, 6);
         gameController.getGame().getPlayers().get(0).getSchoolBoard().addToDiningRoom(map, gameController.getGame());
         gameController.getGame().getIslands().get(2).addStudents(map);
+
+        gameController.getGame().getIslands().get(2).setTowerCount(2);
+        gameController.getGame().getIslands().get(2).setTowerColor(ColourTower.Black);
         //---
 
 
