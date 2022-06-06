@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.View.GUI;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
-import it.polimi.ingsw.server.model.CharacterState;
 import it.polimi.ingsw.server.model.PawnsMap;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,9 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +32,7 @@ public class GuiController extends Application {
     private Stage currentStage;
     private static GuiController guiController;
     private Runnable runnable;
+    private boolean first = true;
 
 
 
@@ -149,20 +147,15 @@ public class GuiController extends Application {
 
 
     public void showGameUpdate() {
+        //executed only the first time: sets fixed elements (e.g. number of boards)
+        if(this.first){
+            this.first=false;
+            initializeTable();
+        }
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        int numPlayers = game.getPlayers().size();
 
         AnchorPane anchorPane;
-        /*
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/gameFrame.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        root.lookup("#AssistantCards");
-        anchorPane = (AnchorPane)currentStage.getScene().lookup("#AssistantCards") ;
-        anchorPane =(AnchorPane) root.lookup("#AssistantCards");
-         */
 
         ClientController clientController = ClientController.getInstance();
         PlayerPojo me = null;
@@ -184,71 +177,38 @@ public class GuiController extends Application {
         }
 
 
+
         //--------- entrance
         AnchorPane child;
         int i=0;
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance1");
-        for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getEntrance())){
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
-            i++;
-        }
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance2");
-        i=0;
-        for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getEntrance())){
 
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
-            i++;
-        }
-        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
-
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance3");
-            i = 0;
-            for (ImageView image : getInstance().
-                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getEntrance())) {
-
-                child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
-                child.getChildren().add(image);
+        for (int j=1; j<numPlayers+1; j++){
+             i=0;
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance"+j);
+            for(ImageView image : getInstance().
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(j-1).getSchoolBoard().getEntrance())){
                 i++;
+                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+                child.getChildren().add(image);
             }
         }
 
         //--------- professors
-        i=0;
-        GridPane gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia1");
-        for(ImageView image : getInstance().
-                PawnsToImageProfessor(ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getProfessors())){
+        GridPane gridPane;
 
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
-            i++;
-        }
-        gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia2");
-        i=0;
-        for(ImageView image : getInstance().
-                PawnsToImageProfessor(ClientController.getInstance().getGameStatePojo().getPlayers().get(1).getSchoolBoard().getProfessors())){
+        for (int j=1; j<numPlayers+1; j++){
+            i=0;
+            gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia"+j);
+            for(ImageView image : getInstance().
+                    PawnsToImageProfessor(ClientController.getInstance().getGameStatePojo().getPlayers().get(j-1).getSchoolBoard().getProfessors())){
 
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
-            i++;
-        }
-        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
-
-            gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia3");
-            i = 0;
-            for (ImageView image : getInstance().
-                    PawnsToImageProfessor(ClientController.getInstance().getGameStatePojo().getPlayers().get(2).getSchoolBoard().getProfessors())) {
-
-                child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
+                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
                 i++;
             }
         }
 
-        // ------ students
+        // ------ students in dining
         i=0;
         gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia1");
         for(ImageView image : getInstance().
@@ -325,80 +285,81 @@ public class GuiController extends Application {
         }
 
         //------- towers
-        //todo fissare dimensione massima towers
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia1");
-        for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(new ImageView(new Image("/images/pawns/black_tower.png")));
-        }
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia2");
-        for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(new ImageView(new Image("/images/pawns/white_tower.png")));
-        }
-        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
-
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia3");
-            for(int j=0; j<ClientController.getInstance().getGameStatePojo().getPlayers().get(0).getSchoolBoard().getSpareTowers(); j++){
-                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-                child.getChildren().add(new ImageView(new Image("/images/pawns/grey_tower.png")));
+        int k;
+        String path="";
+        ImageView imageView;
+        for (int j=1; j<numPlayers+1; j++) {
+            i = 0;
+            if (j == 1) {
+                path = "/images/pawns/black_tower.png";
+            } else if (j == 2) {
+                path = "/images/pawns/white_tower.png";
+            } else if (j == 3) {
+                path = "/images/pawns/grey_tower.png";
             }
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia" + j);
+            for (k = 0; k < ClientController.getInstance().getGameStatePojo().getPlayers().get(j - 1).getSchoolBoard().getSpareTowers(); k++) {
+                imageView = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList()).get(i);
+                imageView.setImage(new Image(path));
+                i++;
+            }
+
+
         }
 
         //----- clouds
-        i=0;
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud1");
-        for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(0).getStudents())){
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
-            i++;
-        }
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud2");
-        i=0;
-        for(ImageView image : getInstance().
-                PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(0).getStudents())){
-            child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
-            i++;
-        }
-        if(ClientController.getInstance().getGameStatePojo().getPlayers().size()==3) {
-
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud3");
+        for (int j=1; j<numPlayers+1; j++) {
             i = 0;
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud" + j);
             for (ImageView image : getInstance().
-                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(0).getStudents())) {
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(j-1).getStudents())) {
                 child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
                 i++;
             }
         }
-        else{
-            //todo REMOVE ALL FUNZIONA?
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud3");
-            anchorPane.getChildren().removeAll();
-        }
 
         //------- characters
-        i=0;
-        SplitPane splitPane = (SplitPane) currentStage.getScene().lookup("#charactersPane");
-        for(ImageView image : getInstance().
-                CharactersToImage(ClientController.getInstance().getGameStatePojo().getCharacters())){
-            child = splitPane.getItems().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
-            child.getChildren().add(image);
+        if(game.isExpert()) {
+            i = 0;
+            SplitPane splitPane = (SplitPane) currentStage.getScene().lookup("#charactersPane");
+            for (Image image : getInstance().
+                    CharactersToImage(ClientController.getInstance().getGameStatePojo().getCharacters())) {
+                child = splitPane.getItems().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
+                ((ImageView)child.getChildren().get(0)).setImage(image);
+                i++;
+            }
+        }
+
+
+    }
+    /**initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */
+    private void initializeTable(){
+        //tab of schoolBoards:
+        TabPane tabPane;
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        int numPlayers = game.getPlayers().size();
+        //hide board 3
+        tabPane = (TabPane) currentStage.getScene().lookup("#boards");
+        if(numPlayers ==2){
+            tabPane.getTabs().remove(2);
+        }
+        //set nicknames on boards
+        int i=0;
+        for(PlayerPojo player : game.getPlayers()){
+            tabPane.getTabs().get(i).setText(player.getNickname());
             i++;
         }
-        //**todo null pointer exception anchorpane
-        //------- characters costs
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("charactersCost");
-        i=0;
-        Integer costText;
-        for (Text costsField:  anchorPane.getChildren().stream().map(a->(Text)a).collect(Collectors.toList())){
-            costText=ClientController.getInstance().getGameStatePojo().getCharacters().get(i).getActualCost();
-            costsField.setText(costText.toString());
+        //clouds:
+        AnchorPane anchorPane;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud3");
+        if(numPlayers ==2){
+            anchorPane.setVisible(false);
         }
-
-
+        //hide character card if simple mode
+        if(game.isExpert()==false){
+            ((SplitPane) currentStage.getScene().lookup("#charactersPane")).setVisible(false);
+        }
     }
 
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
@@ -455,17 +416,18 @@ public class GuiController extends Application {
 
     //**todo dimensioni fissate
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
-    private List<ImageView> CharactersToImage(List<CharacterPojo> charactersList){
-        List<ImageView> list = new ArrayList<>();
+    private List<Image> CharactersToImage(List<CharacterPojo> charactersList){
+        List<Image> list = new ArrayList<>();
         int toAdd;
         String prefix = "/images/imageCharacters/CarteTOT_front";
         String path="";
         for(CharacterPojo c : charactersList){
-            path=prefix+(c.getCharacterId()+1)+".jpg";
-            list.add(new ImageView(new Image(path)));
+            path=prefix+(c.getCharacterId())+".jpg";
+            list.add(new Image(path));
         }
         return list;
     }
+
 
 
 

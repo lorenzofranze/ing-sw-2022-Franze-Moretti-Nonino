@@ -27,7 +27,9 @@ public class SetUpPhase extends GamePhase {
             this.distributeCoins();
             this.initializeCharactersEffects();
         }
-
+        //todo: remove for dubug
+        gameController.getGame().getPlayers().get(0).getSchoolBoard().getDiningRoom().add(ColourPawn.Blue, 2);
+        gameController.getGame().getPlayers().get(0).getSchoolBoard().getDiningRoom().add(ColourPawn.Red, 4);
         return ris;
 
     }
