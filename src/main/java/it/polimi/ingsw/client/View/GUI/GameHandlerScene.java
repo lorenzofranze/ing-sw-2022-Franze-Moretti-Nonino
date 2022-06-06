@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class GameHandlerScene {
     //** todo scelta di mettere studenti su isola, scelta spostamento madre natura, scelta carte personaggio
     //** todo impedire mosse sbagliate aggiungendo negli if(ACTION && ...)
+    //** todo update consecutivi si sovrappongono? o creano ritardo?
 
     //set to true after mother nature step choice, set to false during the pianification
     private boolean isCloudTurn=false;
