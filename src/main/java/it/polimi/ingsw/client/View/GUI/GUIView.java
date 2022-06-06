@@ -202,11 +202,11 @@ public class GUIView implements View {
             case CorrectConnection:
                 //name ok -> change view
                 GuiController.getInstance().setRunnable(()->GuiController.getInstance().switchWaitScene());
-                GuiController.getInstance().change();
+                GuiController.getInstance().runMethod();
                 break;
             case CompleteLobby:
                 GuiController.getInstance().setRunnable(()->GuiController.getInstance().switchGameScene());
-                GuiController.getInstance().change();
+                GuiController.getInstance().runMethod();
                 break;
             default:
                 System.out.println("Unknown ack message");
@@ -244,7 +244,7 @@ public class GUIView implements View {
     @Override
     public synchronized void showGameState(GameStatePojo gameStatePojo) {
         GuiController.getInstance().setRunnable(()->GuiController.getInstance().showGameUpdate());
-        GuiController.getInstance().change();
+        GuiController.getInstance().runMethod();
     }
 
 

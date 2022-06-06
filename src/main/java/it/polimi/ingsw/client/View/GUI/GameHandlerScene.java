@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.View.GUI;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -21,114 +22,6 @@ import java.util.stream.Collectors;
  */
 public class GameHandlerScene {
 
-    @FXML
-    private ImageView professorRedPlancia1;
-
-
-    @FXML
-    private ImageView Cloud1;
-
-    @FXML
-    private ImageView Cloud2;
-
-    @FXML
-    private ImageView Cloud3;
-
-    @FXML
-    private Button blueOnCloud1;
-
-    @FXML
-    private Button blueOnCloud2;
-
-    @FXML
-    private Button blueOnCloud3;
-
-    @FXML
-    private Button greenOnCloud1;
-
-    @FXML
-    private Button greenOnCloud2;
-
-    @FXML
-    private Button greenOnCloud3;
-
-    @FXML
-    private Button redOnCloud1;
-
-    @FXML
-    private Button redOnCloud2;
-
-    @FXML
-    private Button redOnCloud3;
-
-    @FXML
-    private Button yellowOnCloud1;
-
-    @FXML
-    private Button yellowOnCloud2;
-
-    @FXML
-    private Button yellowOnCloud3;
-
-    @FXML
-    private GridPane professorsPlancia1;
-
-    @FXML
-    private GridPane professorsPlancia2;
-
-    @FXML
-    private GridPane professorsPlancia3;
-
-    @FXML
-    private ImageView professorBluePlancia1;
-
-    @FXML
-    private ImageView professorBluePlancia2;
-
-    @FXML
-    private ImageView professorBluePlancia3;
-
-    @FXML
-    private ImageView professorGreenPlancia1;
-
-    @FXML
-    private ImageView professorGreenPlancia2;
-
-    @FXML
-    private ImageView professorGreenPlancia3;
-
-    @FXML
-    private ImageView professorPinkPlancia1;
-
-    @FXML
-    private ImageView professorPinkPlancia2;
-
-    @FXML
-    private ImageView professorPinkPlancia3;
-
-    @FXML
-    private ImageView professorRedPlancia2;
-
-    @FXML
-    private ImageView professorRedPlancia3;
-
-    @FXML
-    private ImageView professorYellowPlancia1;
-
-    @FXML
-    private ImageView professorYellowPlancia2;
-
-    @FXML
-    private ImageView professorYellowPlancia3;
-
-    @FXML
-    private Tab Plancia1;
-
-    @FXML
-    private Tab Plancia2;
-
-    @FXML
-    private Tab Plancia3;
 
 
     /*
@@ -205,6 +98,24 @@ public class GameHandlerScene {
 
     }
     */
+
+    /**changes view of player's coins tab if in complex mode when tab button clickd*/
+    @FXML
+    public void showCoinsPlancia(Event event) {
+        if(ClientController.getInstance().getGameStatePojo().isExpert()){
+            Tab tab = (Tab )event.getTarget();
+            if(tab.getId().equals("Plancia1")){
+                GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeCoins(1));
+                GuiController.getInstance().runMethod();
+            }else if(tab.getId().equals("Plancia2")){
+                GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeCoins(2));
+                GuiController.getInstance().runMethod();
+            }else if(tab.getId().equals("Plancia3")){
+                GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeCoins(3));
+                GuiController.getInstance().runMethod();
+            }
+        }
+    }
 
 
     @FXML
@@ -303,5 +214,6 @@ public class GameHandlerScene {
             ClientController.getSemaphore().release();
         }
     }
+
 
 }

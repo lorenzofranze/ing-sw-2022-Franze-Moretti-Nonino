@@ -136,7 +136,7 @@ public class GuiController extends Application {
         currentStage.show();
     }
 
-    public void change() {
+    public void runMethod() {
         Platform.runLater(runnable);
         runnable = null;
     }
@@ -183,9 +183,9 @@ public class GuiController extends Application {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance"+j);
             for(ImageView image : getInstance().
                     PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(j-1).getSchoolBoard().getEntrance())){
-                i++;
                 child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
+                i++;
             }
         }
 
@@ -209,7 +209,6 @@ public class GuiController extends Application {
 
         // ------ students in dining
         for (int j=1; j<numPlayers+1; j++) {
-            i = 0;
             posiz=0;
             gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia"+j);
             List<ImageView> images = PawnsToImageStudents(game.getPlayers().get(j-1).getSchoolBoard().getDiningRoom());
@@ -346,6 +345,10 @@ public class GuiController extends Application {
         if(game.isExpert()==false){
             ((SplitPane) currentStage.getScene().lookup("#charactersPane")).setVisible(false);
         }
+        //hide coins element if simple mode
+        if(game.isExpert()==false){
+            ( currentStage.getScene().lookup("#coinsPlayer")).setVisible(false);
+        }
     }
 
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
@@ -424,6 +427,16 @@ public class GuiController extends Application {
             path = "/images/pawns/grey_tower.png";
         }
         return (new Image(path));
+    }
+
+    /**sets the coins pane visible with right coins for the player choosen */
+    public void activeCoins(int index) {
+        AnchorPane anchorPane;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#coinsPlayer");
+        //set text to player's coins
+        Text text = (Text)anchorPane.getChildren().get(1);
+        text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index-1).getCoins()+"");
+        //set drag event handeler on imageView: ...
     }
 
 
