@@ -150,6 +150,8 @@ public class GuiController extends Application {
         if(this.first){
             this.first=false;
             initializeTable();
+            //sets utility attributes in GameHandlerScene
+            GameHandlerScene.setMyOrderInPlayers();
         }
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         int numPlayers = game.getPlayers().size();
@@ -192,7 +194,6 @@ public class GuiController extends Application {
                 //set drag event
                 image.setOnDragDetected(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
-                        System.out.println("inizio drag");
                         GameHandlerScene.setStudentChosen(event);
                     }
                 });

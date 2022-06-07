@@ -87,6 +87,7 @@ public class GUIView implements View {
     @Override
     public void askForCharacter() {
         if(ClientController.getInstance().getGameStatePojo().isExpert()==true) {
+            GameHandlerScene.setCharacterCardPlayable();
             try {
                 ClientController.getSemaphore().acquire();
             } catch (InterruptedException e) {

@@ -10,10 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -28,18 +25,19 @@ import java.util.stream.Collectors;
 public class GameHandlerScene {
     //** todo scelta di mettere studenti su isola, scelta spostamento madre natura, scelta carte personaggio
     //** todo impedire mosse sbagliate aggiungendo negli if(ACTION && ...)
-    //** todo update consecutivi si sovrappongono? o creano ritardo?
+    //** todo update consecutivi si sovrappongono? o creano ritardo?  SI :(
     //** todo booleani o disable per impedire ordine sbagliato?
 
     //set to true after mother nature step choice, set to false during the pianification
-    private boolean isCloudTurn=false;
-
+    private boolean isCloudTurn=false; //da togliere se funziona usando i bookmark della console
     //set to true after assistantcard choice, set to false during the choice of the clouds
-    private boolean isStudentTurn=true;
+    private boolean isStudentTurn=true; // da togliere se funziona usando i bookmark della console
 
     private static ColourPawn colourStudent;
 
     private static int myOrderInPlayers;
+    //setted by ask for character to notify the user doesn't want to play a character card
+    private static boolean yetRefused;
 
 
 
@@ -78,14 +76,14 @@ public class GameHandlerScene {
     /** method that detecst that the player has dragged a student from entry and set the color of the student on the console**/
     public static void  setStudentChosen(MouseEvent event) {
 
-        myOrderInPlayers= myOrderInPlayers()+1;
         // if isn't my turn and not in moveStudents Phase: no action
         if(correctAction(Console.ActionBookMark.moveStudents)) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
+                yetRefused=true;
             }
             //drag
             ImageView imageView = (ImageView)event.getTarget();
@@ -93,6 +91,11 @@ public class GameHandlerScene {
             if(((AnchorPane)imageView.getParent().getParent()).getId().equals("entrance"+myOrderInPlayers)) {
                 colourStudent = (ColourPawn) imageView.getUserData(); // save value and return
                 System.out.println("hai mosso " +colourStudent + " da entrance " + myOrderInPlayers);
+                //show student shadow in movement
+                Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                db.setContent(content);
             }
         }
         event.consume();
@@ -101,7 +104,6 @@ public class GameHandlerScene {
 
     @FXML
     void acceptDrop(DragEvent event){
-        System.out.println("drag over");
         event.acceptTransferModes(TransferMode.MOVE);
     }
 
@@ -113,27 +115,32 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setPawnWhere(-1);
             ClientController.getSemaphore().release();
         }
-
+        event.setDropCompleted(true);
+        event.consume();
     }
 
-    //** todo, se funziona getSource ok, senò dobbiamo fare 12 funzioni come per le tre nuvole
     @FXML
     void setStudentOnIsland(DragEvent event) {
+
         if(correctAction(Console.ActionBookMark.moveStudents)) {
+            System.out.println("drop su isola");
             AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
             String islandIdString;
             int islandId;
             //non dovrebbe servire il controllo if perchè con o visible o disable posso fare che un isola che
             // non esiste non risponde agli eventi
-            if(anchorPaneClicked.getChildren().get(0)==null) return;
-            else{
-                islandIdString= anchorPaneClicked.getId().substring(7);
-                islandId= Integer.parseInt(islandIdString);
-            }
+            //if(anchorPaneClicked.getChildren().get(0)==null) return;
+            //se non funziona aggiunge studenti su isole vuote...vedremo
+
+            islandIdString= anchorPaneClicked.getId().substring(6);
+            islandId= Integer.parseInt(islandIdString);
+            System.out.println(islandId);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
-            ClientController.getInstance().getConsole().setPawnWhere(islandId);
+            ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
             ClientController.getSemaphore().release();
         }
+        event.setDropCompleted(true);
+        event.consume();
     }
 
 
@@ -178,7 +185,8 @@ public class GameHandlerScene {
                 ClientController.getInstance().getConsole().getCurrActionBookMark() == actionBookMark;
     }
 
-    private static int myOrderInPlayers(){
+    /**sets the player's order from player list: used for detecting the school board when an event is fired */
+    public static void setMyOrderInPlayers(){
         int i=0;
         for(PlayerPojo player: ClientController.getInstance().getGameStatePojo().getPlayers()){
             if (ClientController.getInstance().getNickname().equals(player.getNickname())){
@@ -186,7 +194,7 @@ public class GameHandlerScene {
             }
             i++;
         }
-        return i;
+        myOrderInPlayers = i+1;
     }
 
 
@@ -206,6 +214,10 @@ public class GameHandlerScene {
                 GuiController.getInstance().runMethod();
             }
         }
+    }
+
+    public static void setCharacterCardPlayable(){
+        yetRefused=false;
     }
 
 
@@ -233,7 +245,6 @@ public class GameHandlerScene {
 
     @FXML
     void setAssistantCardChosen3(MouseEvent event) {
-        System.out.println("click 3");
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(3);

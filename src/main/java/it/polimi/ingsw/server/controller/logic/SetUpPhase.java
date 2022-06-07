@@ -32,7 +32,6 @@ public class SetUpPhase extends GamePhase {
         PawnsMap map = new PawnsMap();
         map.add(ColourPawn.Yellow, 3);
         map.add(ColourPawn.Red, 6);
-        gameController.getGame().getPlayers().get(0).getSchoolBoard().addToDiningRoom(map, gameController.getGame());
         gameController.getGame().getIslands().get(2).addStudents(map);
 
         gameController.getGame().getIslands().get(2).setTowerCount(2);
