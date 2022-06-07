@@ -121,10 +121,10 @@ public class GameHandlerScene {
 
     @FXML
     void setStudentOnIsland(DragEvent event) {
-
+        System.out.println("drop su isola");
         if(correctAction(Console.ActionBookMark.moveStudents)) {
-            System.out.println("drop su isola");
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
+
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
             //non dovrebbe servire il controllo if perchè con o visible o disable posso fare che un isola che
