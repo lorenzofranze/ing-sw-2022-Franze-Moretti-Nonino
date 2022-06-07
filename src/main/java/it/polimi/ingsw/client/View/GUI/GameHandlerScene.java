@@ -25,6 +25,7 @@ public class GameHandlerScene {
     //** todo scelta di mettere studenti su isola, scelta spostamento madre natura, scelta carte personaggio
     //** todo impedire mosse sbagliate aggiungendo negli if(ACTION && ...)
     //** todo update consecutivi si sovrappongono? o creano ritardo?
+    //** todo booleani o disable per impedire ordine sbagliato?
 
     //set to true after mother nature step choice, set to false during the pianification
     private boolean isCloudTurn=false;
@@ -39,6 +40,7 @@ public class GameHandlerScene {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION){
             ClientController.getInstance().getConsole().setCloudChosen(0);
+            ClientController.getSemaphore().release();
         }
 
     }
@@ -48,6 +50,7 @@ public class GameHandlerScene {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION){
             ClientController.getInstance().getConsole().setCloudChosen(1);
+            ClientController.getSemaphore().release();
         }
 
     }
@@ -58,6 +61,7 @@ public class GameHandlerScene {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION){
             ClientController.getInstance().getConsole().setCloudChosen(2);
+            ClientController.getSemaphore().release();
         }
 
     }
@@ -91,6 +95,8 @@ public class GameHandlerScene {
                 }
                 ClientController.getInstance().getConsole().setPawnColour(result);
             }
+            ClientController.getSemaphore().release();
+
         }
 
     }
@@ -100,9 +106,62 @@ public class GameHandlerScene {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
             ClientController.getInstance().getConsole().setPawnWhere(-1);
+            ClientController.getSemaphore().release();
         }
-
     }
+
+    //** todo, se funziona getSource ok, senò dobbiamo fare 12 funzioni come per le tre nuvole
+    @FXML
+    void setStudentOnIsland(DragEvent event) {
+        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
+                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+            if(anchorPaneClicked.getChildren().get(0)==null) return;
+            else{
+                ImageView imageView= (ImageView) anchorPaneClicked.getChildren().get(1);
+                islandIdString= imageView.getId().substring(7);
+                islandId= Integer.parseInt(islandIdString);
+            }
+            ClientController.getInstance().getConsole().setPawnWhere(islandId);
+            ClientController.getSemaphore().release();
+        }
+    }
+
+
+    @FXML
+    void setMotherNatureToIsalnd(DragEvent event) {
+        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
+                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+            if(anchorPaneClicked.getChildren().get(0)==null) return;
+            else{
+                ImageView imageView= (ImageView) anchorPaneClicked.getChildren().get(1);
+                islandIdString= imageView.getId().substring(7);
+                islandId= Integer.parseInt(islandIdString);
+            }
+            int result;
+            int posMotherNature=0;
+            //find mother nature
+            for(int pos=0; pos<ClientController.getInstance().getGameStatePojo().getIslands().size(); pos++){
+                if(ClientController.getInstance().getGameStatePojo().getIslands().get(pos).isHasMotherNature()){
+                    posMotherNature=pos;
+                }
+            }
+            if(posMotherNature<= islandId){
+                result= islandId-posMotherNature;
+            }
+            else{
+                result= ClientController.getInstance().getGameStatePojo().getIslands().size()+ posMotherNature-islandId;
+            }
+            ClientController.getInstance().getConsole().setStepsMotherNature(result);
+            ClientController.getSemaphore().release();
+        }
+    }
+
 
 
     /**changes view of player's coins tab if in complex mode when tab button clickd*/

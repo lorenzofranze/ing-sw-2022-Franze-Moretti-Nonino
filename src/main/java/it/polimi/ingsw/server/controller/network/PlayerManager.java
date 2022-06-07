@@ -96,6 +96,7 @@ public class PlayerManager implements Runnable{
                             characterReceived=true;
                         }*/
                         messageQueue.add(receivedMessage);
+                        System.out.println(receivedMessage);
                         //notifyAll();
                     }
                     break;
@@ -179,7 +180,7 @@ public class PlayerManager implements Runnable{
 
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
-        System.out.println(stringToSend);
+        //System.out.println(stringToSend);
 
         //null only in tests
         if (bufferedReaderOut == null){return;}
@@ -207,8 +208,8 @@ public class PlayerManager implements Runnable{
 
         //da cancellare fino a (fine cancella*)
         if (message.getMessageType().equals(TypeOfMessage.Update)) {
-            System.out.println("Message sent to: " + this.getPlayerNickname());
-            System.out.println("update");
+            System.out.println("Update sent to: " + this.getPlayerNickname());
+            //System.out.println("update");
         }else{
             if (!(message.getMessageType().equals(TypeOfMessage.Ping)) && !(message.getMessageType().equals(TypeOfMessage.Pong))) {
                 System.out.println("Message sent to: " + this.getPlayerNickname());
