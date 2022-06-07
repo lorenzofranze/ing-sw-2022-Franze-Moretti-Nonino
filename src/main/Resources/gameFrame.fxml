@@ -541,7 +541,7 @@
                                     </image>
                                 </ImageView>
                                 <!-- board dining room 1 -->
-                                <GridPane fx:id="studentsPlancia1" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" prefHeight="270.0" prefWidth="391.0">
+                                <GridPane fx:id="studentsPlancia1" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0"  onDragOver="#acceptDrop"  onDragDropped="#setStudentOnGameBoard" prefHeight="270.0" prefWidth="391.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -659,7 +659,7 @@
                                     </image>
                                 </ImageView>
                                 <!-- board dining room 2 -->
-                                <GridPane fx:id="studentsPlancia2" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" prefHeight="270.0" prefWidth="391.0">
+                                <GridPane fx:id="studentsPlancia2" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" prefHeight="270.0" prefWidth="391.0" onDragOver="#acceptDrop"  onDragDropped="#setStudentOnGameBoard">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

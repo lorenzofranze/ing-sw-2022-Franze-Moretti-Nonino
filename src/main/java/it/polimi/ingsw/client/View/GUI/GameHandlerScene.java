@@ -11,7 +11,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -75,7 +77,7 @@ public class GameHandlerScene {
 
     /** method that detecst that the player has dragged a student from entry and set the color of the student on the console**/
     public static void  setStudentChosen(MouseEvent event) {
-        System.out.println("drag in setStudentChosen");
+
         myOrderInPlayers= myOrderInPlayers()+1;
         // if isn't my turn and not in moveStudents Phase: no action
         if(correctAction(Console.ActionBookMark.moveStudents)) {
@@ -87,17 +89,25 @@ public class GameHandlerScene {
             }
             //drag
             ImageView imageView = (ImageView)event.getTarget();
-            System.out.println("drag valutaz");
             //control if the drag starts from correct player's schoolBoard (maybe a player drag the student of an other player)
             if(((AnchorPane)imageView.getParent().getParent()).getId().equals("entrance"+myOrderInPlayers)) {
                 colourStudent = (ColourPawn) imageView.getUserData(); // save value and return
+                System.out.println("hai mosso " +colourStudent + " da entrance " + myOrderInPlayers);
             }
         }
+        event.consume();
 
     }
 
     @FXML
+    void acceptDrop(DragEvent event){
+        System.out.println("drag over");
+        event.acceptTransferModes(TransferMode.MOVE);
+    }
+
+    @FXML
     void setStudentOnGameBoard(DragEvent event) {
+        System.out.println("drop su board");
         if(correctAction(Console.ActionBookMark.moveStudents)) {
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(-1);
@@ -124,7 +134,6 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setPawnWhere(islandId);
             ClientController.getSemaphore().release();
         }
-        System.out.println("drop su island fatto");
     }
 
 
