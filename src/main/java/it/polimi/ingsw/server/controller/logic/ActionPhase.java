@@ -430,29 +430,35 @@ public class ActionPhase extends GamePhase {
                 }
 
                 if (cardExists) {
-                    if (gameController.getCurrentPlayer().getCoins() < characterStatePlayed.getCost()) {
-                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
-                        playerManager.sendMessage(errorMessage);
-                    } else {
-                        gameController.getGame().setActiveEffect(characterStatePlayed);
-                        gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
-                        gameController.getGame().addCoins(characterStatePlayed.getCost());
-                        characterStatePlayed.use(); //incremento il costo se è da incrementare
+                    if (gameController.getGame().getActiveEffect() == null){
+                        if (gameController.getCurrentPlayer().getCoins() < characterStatePlayed.getCost()) {
+                            ErrorMessage errorMessage = new ErrorMessage(TypeOfError.NoMoney);
+                            playerManager.sendMessage(errorMessage);
+                        } else {
+                            gameController.getGame().setActiveEffect(characterStatePlayed);
+                            gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
+                            gameController.getGame().addCoins(characterStatePlayed.getCost());
+                            characterStatePlayed.use(); //incremento il costo se è da incrementare
 
-                        AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
-                        playerManager.sendMessage(ackMessage);
-                        gameController.update(); // coins update
+                            AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
+                            playerManager.sendMessage(ackMessage);
+                            gameController.update(); // coins update
 
-                        CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
+                            CharacterEffect currentCharacterEffect = gameController.getCharacterByID(characterStatePlayed.getCharacterId());
 
-                        //if playerManager.getBufferedReaderOut() is null, I am running a test and I shouldn't call doEffect
-                        if (playerManager.getBufferedReaderOut() != null){
-                            currentCharacterEffect.doEffect();
+                            //if playerManager.getBufferedReaderOut() is null, I am running a test and I shouldn't call doEffect
+                            if (playerManager.getBufferedReaderOut() != null){
+                                currentCharacterEffect.doEffect();
+                            }
+
+                            ackMessage = new AckMessage(TypeOfAck.CorrectMove, "end of effect");
+                            playerManager.sendMessage(ackMessage);
+                            validChoice = true;
                         }
-
-                        ackMessage = new AckMessage(TypeOfAck.CorrectMove, "end of effect");
-                        playerManager.sendMessage(ackMessage);
-                        validChoice = true;
+                    }else{
+                        System.out.println("Character card already used");
+                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
+                        playerManager.sendMessage(errorMessage);
                     }
                 } else {
                     System.out.println("The card doesn't exist");
