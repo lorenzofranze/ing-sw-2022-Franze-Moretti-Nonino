@@ -5,12 +5,14 @@ import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.model.Island;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -187,6 +189,14 @@ public class GuiController extends Application {
                 child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
                 i++;
+                //set drag event
+                image.setOnDragDetected(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        System.out.println("inizio drag");
+                        GameHandlerScene.setStudentChosen(event);
+                    }
+                });
+
             }
         }
 
@@ -384,7 +394,9 @@ public class GuiController extends Application {
             }
             toAdd = map.get(colourPawn);
             for(int i =0; i<toAdd; i++){
-                list.add(new ImageView(new Image(path)));
+                ImageView imageView = new ImageView(new Image(path));
+                imageView.setUserData(colourPawn);
+                list.add(imageView);
             }
         }
         return list;

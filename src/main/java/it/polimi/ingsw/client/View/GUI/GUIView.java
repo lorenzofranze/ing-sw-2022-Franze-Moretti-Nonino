@@ -86,10 +86,12 @@ public class GUIView implements View {
 
     @Override
     public void askForCharacter() {
-        try {
-            ClientController.getSemaphore().acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(ClientController.getInstance().getGameStatePojo().isExpert()==true) {
+            try {
+                ClientController.getSemaphore().acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -11,9 +11,10 @@ import java.io.IOException;
 
 public class Console{
 
-    private enum ActionBookMark{moveStudents, placeMotherNature, chooseCloud}
+    public enum ActionBookMark{moveStudents, placeMotherNature, chooseCloud}
 
     private Phase currentPhase = null;
+
     private ActionBookMark currActionBookMark = ActionBookMark.moveStudents;
 
     private int assistantCardPlayed = -1;
@@ -424,5 +425,9 @@ public class Console{
 
     public void setCharacterPlayed(Integer characterPlayed) {
         this.characterPlayed = characterPlayed;
+    }
+
+    public ActionBookMark getCurrActionBookMark() {
+        return currActionBookMark;
     }
 }

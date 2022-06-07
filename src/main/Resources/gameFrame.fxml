@@ -565,15 +565,15 @@
                                 <!-- school board entrance 1-->
                                 <AnchorPane fx:id="entrance1" layoutX="18.0" layoutY="8.0" prefHeight="358.0" prefWidth="125.0">
                                     <children>
-                              <AnchorPane layoutX="31.0" layoutY="282.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="79.0" layoutY="282.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
-                              <AnchorPane layoutX="74.0" layoutY="224.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" translateX="3.0" />
-                              <AnchorPane layoutX="68.0" layoutY="165.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
-                              <AnchorPane layoutX="35.0" layoutY="221.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="28.0" />
-                              <AnchorPane layoutX="31.0" layoutY="164.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
-                              <AnchorPane layoutX="80.0" layoutY="109.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
-                              <AnchorPane layoutX="31.0" layoutY="108.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
-                              <AnchorPane layoutX="78.0" layoutY="50.0" onDragDetected="#setStudentChosen" prefHeight="28.0" prefWidth="33.0" />
+                              <AnchorPane layoutX="31.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
+                              <AnchorPane layoutX="79.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
+                              <AnchorPane layoutX="78.0" layoutY="223.0" prefHeight="33.0" prefWidth="34.0" />
+                              <AnchorPane layoutX="30.0" layoutY="224.0" prefHeight="32.0" prefWidth="33.0" />
+                              <AnchorPane layoutX="78.0" layoutY="165.0" prefHeight="32.0" prefWidth="34.0" />
+                              <AnchorPane layoutX="31.0" layoutY="164.0" prefHeight="35.0" prefWidth="34.0" />
+                              <AnchorPane layoutX="80.0" layoutY="109.0" prefHeight="32.0" prefWidth="34.0" />
+                              <AnchorPane layoutX="31.0" layoutY="108.0" prefHeight="32.0" prefWidth="34.0" />
+                              <AnchorPane layoutX="78.0" layoutY="50.0" prefHeight="33.0" prefWidth="34.0" />
                                     </children>
                                 </AnchorPane>
                                 <!-- professors plancia 1-->
@@ -683,15 +683,15 @@
                                 <!-- school board entrance 2-->
                                 <AnchorPane fx:id="entrance2" layoutX="18.0" layoutY="8.0" prefHeight="358.0" prefWidth="125.0">
                                     <children>
-                                        <AnchorPane layoutX="31.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="79.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="74.0" layoutY="224.0" prefHeight="28.0" prefWidth="33.0" translateX="3.0" />
-                                        <AnchorPane layoutX="30.0" layoutY="226.0" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="79.0" layoutY="164.0" />
-                                        <AnchorPane layoutX="31.0" layoutY="164.0" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="80.0" layoutY="109.0" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="31.0" layoutY="108.0" prefHeight="28.0" prefWidth="33.0" />
-                                        <AnchorPane layoutX="78.0" layoutY="50.0" prefHeight="28.0" prefWidth="33.0" />
+                                       <AnchorPane layoutX="31.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
+                                       <AnchorPane layoutX="79.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
+                                       <AnchorPane layoutX="78.0" layoutY="223.0" prefHeight="33.0" prefWidth="34.0" />
+                                       <AnchorPane layoutX="30.0" layoutY="224.0" prefHeight="32.0" prefWidth="33.0" />
+                                       <AnchorPane layoutX="78.0" layoutY="165.0" prefHeight="32.0" prefWidth="34.0" />
+                                       <AnchorPane layoutX="31.0" layoutY="164.0" prefHeight="35.0" prefWidth="34.0" />
+                                       <AnchorPane layoutX="80.0" layoutY="109.0" prefHeight="32.0" prefWidth="34.0" />
+                                       <AnchorPane layoutX="31.0" layoutY="108.0" prefHeight="32.0" prefWidth="34.0" />
+                                       <AnchorPane layoutX="78.0" layoutY="50.0" prefHeight="33.0" prefWidth="34.0" />
                                     </children>
                                 </AnchorPane>
                                 <!-- professors plancia 2-->
@@ -803,13 +803,13 @@
                               <children>
                                  <AnchorPane layoutX="31.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
                                  <AnchorPane layoutX="79.0" layoutY="282.0" prefHeight="28.0" prefWidth="33.0" />
-                                 <AnchorPane layoutX="74.0" layoutY="224.0" prefHeight="28.0" prefWidth="33.0" translateX="3.0" />
-                                 <AnchorPane layoutX="30.0" layoutY="226.0" prefHeight="28.0" prefWidth="33.0" />
-                                 <AnchorPane layoutX="79.0" layoutY="164.0" />
-                                 <AnchorPane layoutX="31.0" layoutY="164.0" prefHeight="28.0" prefWidth="33.0" />
-                                 <AnchorPane layoutX="80.0" layoutY="109.0" prefHeight="28.0" prefWidth="33.0" />
-                                 <AnchorPane layoutX="31.0" layoutY="108.0" prefHeight="28.0" prefWidth="33.0" />
-                                 <AnchorPane layoutX="78.0" layoutY="50.0" prefHeight="28.0" prefWidth="33.0" />
+                                 <AnchorPane layoutX="78.0" layoutY="223.0" prefHeight="33.0" prefWidth="34.0" />
+                                 <AnchorPane layoutX="30.0" layoutY="224.0" prefHeight="32.0" prefWidth="33.0" />
+                                 <AnchorPane layoutX="78.0" layoutY="165.0" prefHeight="32.0" prefWidth="34.0" />
+                                 <AnchorPane layoutX="31.0" layoutY="164.0" prefHeight="35.0" prefWidth="34.0" />
+                                 <AnchorPane layoutX="80.0" layoutY="109.0" prefHeight="32.0" prefWidth="34.0" />
+                                 <AnchorPane layoutX="31.0" layoutY="108.0" prefHeight="32.0" prefWidth="34.0" />
+                                 <AnchorPane layoutX="78.0" layoutY="50.0" prefHeight="33.0" prefWidth="34.0" />
                               </children>
                            </AnchorPane>
                             <!-- professors plancia 3-->
@@ -947,7 +947,7 @@
                   <Image url="@images/imageCharacters/Moneta_base.png" />
                </image>
             </ImageView>
-            <Text layoutX="18.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="example" textAlignment="CENTER" wrappingWidth="63.200048828124864">
+            <Text layoutX="18.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="63.200048828124864">
                <font>
                   <Font size="18.0" />
                </font></Text>

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +34,10 @@ public class GameHandlerScene {
 
     //set to true after assistantcard choice, set to false during the choice of the clouds
     private boolean isStudentTurn=true;
+
+    private static ColourPawn colourStudent;
+
+    private static int myOrderInPlayers;
 
 
 
@@ -68,65 +74,57 @@ public class GameHandlerScene {
 
 
     /** method that detecst that the player has dragged a student from entry and set the color of the student on the console**/
-    @FXML
-    void setStudentChosen(MouseEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
-            AnchorPane anchorPaneClicked = (AnchorPane)event.getSource();
-            if(anchorPaneClicked.getChildren().get(0)==null) return;
-            else{
-                ImageView imageView= (ImageView) anchorPaneClicked.getChildren().get(0);
-                String url= imageView.getImage().getUrl();
-                int result;
-                if(url.equals("jetbrains://idea/navigate/reference?project=Eryantis&path=images/pawns/student_green.png")){
-                    result=0;
-                }
-                else if(url.equals("jetbrains://idea/navigate/reference?project=Eryantis&path=images/pawns/student_red.png")){
-                    result=1;
-                }
-                else if(url.equals("jetbrains://idea/navigate/reference?project=Eryantis&path=images/pawns/student_yellow.png")){
-                    result=2;
-                }
-                else if(url.equals("jetbrains://idea/navigate/reference?project=Eryantis&path=images/pawns/student_pink.png")){
-                    result=3;
-                }
-                else{
-                    result=4;
-                }
-                ClientController.getInstance().getConsole().setPawnColour(result);
+    public static void  setStudentChosen(MouseEvent event) {
+        System.out.println("drag in setStudentChosen");
+        myOrderInPlayers= myOrderInPlayers()+1;
+        // if isn't my turn and not in moveStudents Phase: no action
+        if(correctAction(Console.ActionBookMark.moveStudents)) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
             }
-            ClientController.getSemaphore().release();
-
+            //drag
+            ImageView imageView = (ImageView)event.getTarget();
+            System.out.println("drag valutaz");
+            //control if the drag starts from correct player's schoolBoard (maybe a player drag the student of an other player)
+            if(((AnchorPane)imageView.getParent().getParent()).getId().equals("entrance"+myOrderInPlayers)) {
+                colourStudent = (ColourPawn) imageView.getUserData(); // save value and return
+            }
         }
 
     }
 
     @FXML
     void setStudentOnGameBoard(DragEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
+        if(correctAction(Console.ActionBookMark.moveStudents)) {
+            ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(-1);
             ClientController.getSemaphore().release();
         }
+
     }
 
     //** todo, se funziona getSource ok, senò dobbiamo fare 12 funzioni come per le tre nuvole
     @FXML
     void setStudentOnIsland(DragEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+        if(correctAction(Console.ActionBookMark.moveStudents)) {
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
             String islandIdString;
             int islandId;
+            //non dovrebbe servire il controllo if perchè con o visible o disable posso fare che un isola che
+            // non esiste non risponde agli eventi
             if(anchorPaneClicked.getChildren().get(0)==null) return;
             else{
-                ImageView imageView= (ImageView) anchorPaneClicked.getChildren().get(1);
-                islandIdString= imageView.getId().substring(7);
+                islandIdString= anchorPaneClicked.getId().substring(7);
                 islandId= Integer.parseInt(islandIdString);
             }
+            ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId);
             ClientController.getSemaphore().release();
         }
+        System.out.println("drop su island fatto");
     }
 
 
@@ -162,11 +160,30 @@ public class GameHandlerScene {
         }
     }
 
+    /**receives in input an action bookmark (in Console class) and return true if is my turn, the game is in action phase
+     * and the action phase is in right action bookmark in input
+     */
+    private static boolean correctAction(Console.ActionBookMark actionBookMark){
+        return ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
+                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION &&
+                ClientController.getInstance().getConsole().getCurrActionBookMark() == actionBookMark;
+    }
+
+    private static int myOrderInPlayers(){
+        int i=0;
+        for(PlayerPojo player: ClientController.getInstance().getGameStatePojo().getPlayers()){
+            if (ClientController.getInstance().getNickname().equals(player.getNickname())){
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
 
 
     /**changes view of player's coins tab if in complex mode when tab button clickd*/
     @FXML
-    public void showCoinsPlancia(Event event) {
+    void showCoinsPlancia(Event event) {
         if(ClientController.getInstance().getGameStatePojo().isExpert()){
             Tab tab = (Tab )event.getTarget();
             if(tab.getId().equals("Plancia1")){
