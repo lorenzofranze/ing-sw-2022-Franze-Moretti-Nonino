@@ -290,6 +290,7 @@ public class GuiController extends Application {
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+(positionMother+1));
         towersPane = (GridPane) anchorPane.getChildren().get(2);
         imageView = new ImageView(new Image("/images/pawns/mother_nature.png"));
+        imageView.setId("motherNaturePawn");
         imageView.setFitHeight(48.0);
         imageView.setFitWidth(58.0);
         imageView.setPreserveRatio(true);

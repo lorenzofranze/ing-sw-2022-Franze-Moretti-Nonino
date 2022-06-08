@@ -28,10 +28,6 @@ public class GameHandlerScene {
     //** todo update consecutivi si sovrappongono? o creano ritardo?  SI :(
     //** todo booleani o disable per impedire ordine sbagliato?
 
-    //set to true after mother nature step choice, set to false during the pianification
-    private boolean isCloudTurn=false; //da togliere se funziona usando i bookmark della console
-    //set to true after assistantcard choice, set to false during the choice of the clouds
-    private boolean isStudentTurn=true; // da togliere se funziona usando i bookmark della console
 
     private static ColourPawn colourStudent;
 
@@ -43,35 +39,61 @@ public class GameHandlerScene {
 
     @FXML
     void setCloudChosen1(MouseEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION){
+        if (correctAction(Console.ActionBookMark.chooseCloud)) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
+                yetRefused = true;
+            }
+
+            //todo  PER TOGLIERE NUVOLE MA EXCEPTION
+            AnchorPane anchorPane = (AnchorPane) ((AnchorPane) event.getSource()).getScene().lookup("#cloud1");
+            anchorPane.getChildren().removeAll();
+            System.gc();
             ClientController.getInstance().getConsole().setCloudChosen(0);
             ClientController.getSemaphore().release();
         }
-
     }
+
 
     @FXML
     void setCloudChosen2(MouseEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION){
+        if (correctAction(Console.ActionBookMark.chooseCloud)) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
+                yetRefused = true;
+            }
+            AnchorPane anchorPane = (AnchorPane) ((AnchorPane) event.getSource()).getScene().lookup("#cloud2");
+            anchorPane.getChildren().removeAll();
+            System.gc();
             ClientController.getInstance().getConsole().setCloudChosen(1);
             ClientController.getSemaphore().release();
         }
-
     }
 
 
     @FXML
     void setCloudChosen3(MouseEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION){
-            ClientController.getInstance().getConsole().setCloudChosen(2);
+        if (correctAction(Console.ActionBookMark.chooseCloud)) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
+                yetRefused = true;
+            }
+            AnchorPane anchorPane = (AnchorPane) ((AnchorPane) event.getSource()).getScene().lookup("#cloud3");
+            anchorPane.getChildren().removeAll();
+            System.gc();
+            ClientController.getInstance().getConsole().setCloudChosen(1);
             ClientController.getSemaphore().release();
         }
-
     }
-
 
     /** method that detecst that the player has dragged a student from entry and set the color of the student on the console**/
     public static void  setStudentChosen(MouseEvent event) {
@@ -145,35 +167,47 @@ public class GameHandlerScene {
 
 
     @FXML
-    void setMotherNatureToIsalnd(DragEvent event) {
-        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
-                ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION) {
+    void setMotherNatureToIsalnd(MouseEvent event) {
+        if (correctAction(Console.ActionBookMark.placeMotherNature)) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
+                yetRefused = true;
+            }
+
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
-            if(anchorPaneClicked.getChildren().get(0)==null) return;
-            else{
-                ImageView imageView= (ImageView) anchorPaneClicked.getChildren().get(1);
-                islandIdString= imageView.getId().substring(7);
-                islandId= Integer.parseInt(islandIdString);
-            }
+
+            islandIdString = anchorPaneClicked.getId().substring(6, 7);
+            islandId = Integer.parseInt(islandIdString);
+
             int result;
-            int posMotherNature=0;
+            int posMotherNature = 0;
             //find mother nature
-            for(int pos=0; pos<ClientController.getInstance().getGameStatePojo().getIslands().size(); pos++){
-                if(ClientController.getInstance().getGameStatePojo().getIslands().get(pos).isHasMotherNature()){
-                    posMotherNature=pos;
+            for (int pos = 0; pos < ClientController.getInstance().getGameStatePojo().getIslands().size(); pos++) {
+                if (ClientController.getInstance().getGameStatePojo().getIslands().get(pos).isHasMotherNature()) {
+                    posMotherNature = pos + 1;
                 }
             }
-            if(posMotherNature<= islandId){
-                result= islandId-posMotherNature;
+            if (posMotherNature <= islandId) {
+                result = islandId - posMotherNature;
+            } else {
+                result = ClientController.getInstance().getGameStatePojo().getIslands().size() - posMotherNature + islandId;
             }
-            else{
-                result= ClientController.getInstance().getGameStatePojo().getIslands().size()+ posMotherNature-islandId;
-            }
+            System.out.println("posMotherNature: "+ posMotherNature + " IslandId: "+ islandId+ " Steps: " + result);
+
+            //todo  PER TOGLIERE MADRE NATURA MA EXCEPTION
+            ImageView image= (ImageView) ((ImageView) event.getSource()).getScene().lookup("#motherNaturePawn");
+            image.setImage(null);
+            System.gc();
             ClientController.getInstance().getConsole().setStepsMotherNature(result);
-            ClientController.getSemaphore().release();
+
         }
+            ClientController.getSemaphore().release();
+
     }
 
     /**receives in input an action bookmark (in Console class) and return true if is my turn, the game is in action phase
@@ -226,7 +260,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(1);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
 
@@ -238,7 +271,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(2);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -248,7 +280,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(3);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -258,7 +289,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(4);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -269,7 +299,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(5);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -279,7 +308,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(6);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -290,7 +318,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(7);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -300,7 +327,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(8);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -311,7 +337,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(9);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
@@ -322,7 +347,6 @@ public class GameHandlerScene {
         if (ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname()) &&
                 ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.PIANIFICATION){
             ClientController.getInstance().getConsole().setAssistantCardPlayed(10);
-            isCloudTurn=false;
             ClientController.getSemaphore().release();
         }
     }
