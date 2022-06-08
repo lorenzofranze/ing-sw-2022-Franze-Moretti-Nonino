@@ -341,6 +341,19 @@ public class GuiController extends Application {
             }
         }
 
+        //------ coins
+        if(game.isExpert()){
+            Label label = (Label) currentStage.getScene().lookup("#coinsLeftLabel");
+            Integer coinsLeft= ClientController.getInstance().getGameStatePojo().getCoinSupply();
+            label.setText(coinsLeft.toString());
+        }
+
+
+        //------ turn order
+        Label label = (Label) currentStage.getScene().lookup("#turnLabel");
+        String turnPlayer = ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname();
+        label.setText(turnPlayer);
+
 
     }
     /**initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */

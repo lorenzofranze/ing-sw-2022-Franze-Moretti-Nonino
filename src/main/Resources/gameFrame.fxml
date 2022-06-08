@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -31,15 +32,6 @@
 
             <AnchorPane fx:id="cloud3" layoutX="343.0" layoutY="230.0" onMouseClicked="#setCloudChosen3" prefHeight="106.0" prefWidth="114.0">
                <children>
-                  <AnchorPane>
-                     <children>
-                        <ImageView fitHeight="113.0" fitWidth="125.0" onMouseClicked="#setCloudChosen1" pickOnBounds="true">
-                           <image>
-                              <Image url="@images/imageGameAction/nuvola.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
                   <AnchorPane layoutX="63.0" layoutY="24.0" prefHeight="35.0" prefWidth="38.0" />
                   <AnchorPane layoutX="24.0" layoutY="59.0" prefHeight="35.0" prefWidth="38.0" />
                   <AnchorPane layoutX="73.0" layoutY="64.0" prefHeight="35.0" prefWidth="38.0" />
@@ -50,7 +42,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fx:id="setCloudChosen2" fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                        <ImageView fx:id="cloud1" fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
                            <image>
                               <Image url="@images/imageGameAction/nuvola.png" />
                            </image>
@@ -953,5 +945,15 @@
                </font></Text>
          </children>
       </AnchorPane>
+      <Label fx:id="turnLabel" layoutX="1180.0" layoutY="834.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="TURN">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="coinsLeftLabel" layoutX="839.0" layoutY="834.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="COINS">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
