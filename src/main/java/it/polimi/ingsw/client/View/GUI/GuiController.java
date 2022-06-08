@@ -346,6 +346,15 @@ public class GuiController extends Application {
             Label label = (Label) currentStage.getScene().lookup("#coinsLeftLabel");
             Integer coinsLeft= ClientController.getInstance().getGameStatePojo().getCoinSupply();
             label.setText(coinsLeft.toString());
+
+            i=1;
+            for(CharacterPojo characterPojo: ClientController.getInstance().getGameStatePojo().getCharacters()) {
+                label = (Label) currentStage.getScene().lookup("#priceLabel"+i);
+                Integer price = characterPojo.getActualCost();
+                label.setText(price.toString());
+                i++;
+            }
+
         }
 
 
@@ -353,6 +362,8 @@ public class GuiController extends Application {
         Label label = (Label) currentStage.getScene().lookup("#turnLabel");
         String turnPlayer = ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname();
         label.setText(turnPlayer);
+
+
 
 
     }

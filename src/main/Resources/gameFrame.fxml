@@ -950,7 +950,22 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="coinsLeftLabel" layoutX="839.0" layoutY="834.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="COINS">
+      <Label fx:id="coinsLeftLabel" layoutX="56.0" layoutY="832.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="COINS">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceLabel1" layoutX="425.0" layoutY="829.0" prefHeight="20.0" prefWidth="78.0" style="-fx-background-color: white;" text="PRICE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceLabel2" layoutX="631.0" layoutY="829.0" prefHeight="20.0" prefWidth="78.0" style="-fx-background-color: white;" text="PRICE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceLabel3" layoutX="842.0" layoutY="829.0" prefHeight="20.0" prefWidth="78.0" style="-fx-background-color: white;" text="PRICE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
