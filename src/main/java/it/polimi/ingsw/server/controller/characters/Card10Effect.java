@@ -10,11 +10,9 @@ import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
 public class Card10Effect extends CharacterEffect{
-    private GameController gameController;
 
     public Card10Effect(GameController gameController, CharacterState characterState) {
         super(gameController, characterState);
-        this.gameController = gameController;
     }
 
     public void doEffect() {

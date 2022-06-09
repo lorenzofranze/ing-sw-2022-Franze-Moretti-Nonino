@@ -20,6 +20,8 @@ public abstract class CharacterEffect {
     public CharacterEffect(GameController gameController, CharacterState characterState){
         this.gameController = gameController;
         this.characterState = characterState;
+        System.out.println("super-gc: " + gameController);
+        System.out.println("super-this.gc: " + this.gameController);
     }
 
     public int getID(){
