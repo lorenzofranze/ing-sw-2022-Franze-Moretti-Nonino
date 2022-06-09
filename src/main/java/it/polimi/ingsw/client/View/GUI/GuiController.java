@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,7 +34,7 @@ public class GuiController extends Application {
     private static GuiController guiController;
     private Runnable runnable;
     private boolean first = true;
-
+    private Scene currentScene;
 
 
     public static void main(String[] args) {
@@ -115,7 +117,7 @@ public class GuiController extends Application {
         }
         Scene scene = new Scene(root);
         currentStage.setScene(scene);
-        currentStage.setTitle("ERIANTYS");
+        currentStage.setTitle("ERIANTYS ["+ClientController.getInstance().getNickname()+"]");
         currentStage.setResizable(true);
         currentStage.centerOnScreen();
         currentStage.sizeToScene();
@@ -132,6 +134,7 @@ public class GuiController extends Application {
             return;
         }
         Scene scene = new Scene(root);
+        currentScene = scene;
         currentStage.setScene(scene);
         currentStage.centerOnScreen();
         currentStage.setResizable(true);
@@ -147,12 +150,15 @@ public class GuiController extends Application {
 
     public void showGameUpdate() {
         //executed only the first time: sets fixed elements (e.g. number of boards)
-        if(this.first){
-            this.first=false;
+        if (this.first) {
+            this.first = false;
             initializeTable();
             //sets utility attributes in GameHandlerScene
             GameHandlerScene.setMyOrderInPlayers();
         }
+
+        reset();
+
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         int numPlayers = game.getPlayers().size();
 
@@ -169,26 +175,25 @@ public class GuiController extends Application {
         //-----------------show assistant cards:
         List<ImageView> allCards = new ArrayList<>();
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#AssistantCards");
-        allCards= anchorPane.getChildren().stream().map(a-> (ImageView)a).collect(Collectors.toList());
+        allCards = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList());
         //default: all card are visible and clickable, disable the used cards
-        for(ImageView card : allCards){
-            if(!me.getDeck().stream().map(a->a.getTurnOrder()).collect(Collectors.toList()).contains(Integer.parseInt(card.getId().substring(13)))) {
+        for (ImageView card : allCards) {
+            if (!me.getDeck().stream().map(a -> a.getTurnOrder()).collect(Collectors.toList()).contains(Integer.parseInt(card.getId().substring(13)))) {
                 card.setStyle("-fx-opacity: 30%");
             }
         }
 
 
-
         //--------- entrance
         AnchorPane child;
-        int i=0;
+        int i = 0;
 
-        for (int j=1; j<numPlayers+1; j++){
-             i=0;
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance"+j);
-            for(ImageView image : getInstance().
-                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(j-1).getSchoolBoard().getEntrance())){
-                child = anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList()).get(i);
+        for (int j = 1; j < numPlayers + 1; j++) {
+            i = 0;
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance" + j);
+            for (ImageView image : getInstance().
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getPlayers().get(j - 1).getSchoolBoard().getEntrance())) {
+                child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
                 i++;
                 //set drag event
@@ -205,13 +210,13 @@ public class GuiController extends Application {
         GridPane gridPane;
         int posiz;
 
-        for (int j=1; j<numPlayers+1; j++){
-            i=0;
-            posiz=0;
-            gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia"+j);
-            List<Image> images = PawnsToImageProfessor(game.getPlayers().get(j-1).getSchoolBoard().getProfessors());
-            for(ImageView imageView : gridPane.getChildren().stream().map(a->(ImageView)a).collect(Collectors.toList())){
-                if (game.getPlayers().get(j-1).getSchoolBoard().getProfessors().get(ColourPawn.values()[i])==1){
+        for (int j = 1; j < numPlayers + 1; j++) {
+            i = 0;
+            posiz = 0;
+            gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia" + j);
+            List<Image> images = PawnsToImageProfessor(game.getPlayers().get(j - 1).getSchoolBoard().getProfessors());
+            for (ImageView imageView : gridPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList())) {
+                if (game.getPlayers().get(j - 1).getSchoolBoard().getProfessors().get(ColourPawn.values()[i]) == 1) {
                     imageView.setImage(images.get(posiz));
                     posiz++;
                 }
@@ -220,13 +225,13 @@ public class GuiController extends Application {
         }
 
         // ------ students in dining
-        for (int j=1; j<numPlayers+1; j++) {
-            posiz=0;
-            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia"+j);
-            List<ImageView> images = PawnsToImageStudents(game.getPlayers().get(j-1).getSchoolBoard().getDiningRoom());
-            for(ColourPawn colour : ColourPawn.values()){
-                for (int k = 0; k < game.getPlayers().get(j-1).getSchoolBoard().getDiningRoom().get(colour); k++){
-                    gridPane.add(images.get(posiz),k, colour.getIndexColour());
+        for (int j = 1; j < numPlayers + 1; j++) {
+            posiz = 0;
+            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia" + j);
+            List<ImageView> images = PawnsToImageStudents(game.getPlayers().get(j - 1).getSchoolBoard().getDiningRoom());
+            for (ColourPawn colour : ColourPawn.values()) {
+                for (int k = 0; k < game.getPlayers().get(j - 1).getSchoolBoard().getDiningRoom().get(colour); k++) {
+                    gridPane.add(images.get(posiz), k, colour.getIndexColour());
                     posiz++;
                 }
             }
@@ -234,60 +239,47 @@ public class GuiController extends Application {
 
         //------- towers on boards:
         int k;
-        String path="";
+        String path = "";
         ImageView imageView;
-        for (int j=1; j<numPlayers+1; j++) {
+        for (int j = 1; j < numPlayers + 1; j++) {
             i = 0;
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia" + j);
             for (k = 0; k < ClientController.getInstance().getGameStatePojo().getPlayers().get(j - 1).getSchoolBoard().getSpareTowers(); k++) {
-                imageView = anchorPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList()).get(i);
-                Image image = towerToImage(game.getPlayers().get(j-1).getColourTower());
+                imageView =(ImageView) anchorPane.getChildren().get(i);
+                Image image = towerToImage(game.getPlayers().get(j - 1).getColourTower());
                 imageView.setImage(image);
                 i++;
             }
-
-
         }
-
-        //-----islands
-        for(int j=1; j<13; j++){
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
-            anchorPane.setVisible(false);
-        }
-
         //students on islands:
-        for(int j=1; j<game.getIslands().size()+1; j++){
-            //maybe to remove when function reset done
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
-            anchorPane.setVisible(true);
-            //--
-            i=0;
-            k=0;
+        for (int j = 1; j < game.getIslands().size() + 1; j++) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
+            i = 0;
+            k = 0;
             GridPane studentPane = (GridPane) anchorPane.getChildren().get(1);
-            List<ImageView> students = PawnsToImageStudents(game.getIslands().get(j-1).getStudents());
-            for(ImageView image : students) {
-                image.setFitHeight(117.0);
-                image.setFitWidth(22.0);
+            List<ImageView> students = PawnsToImageStudents(game.getIslands().get(j - 1).getStudents());
+            for (ImageView image : students) {
+                image.setFitWidth(19.0);
                 image.setPreserveRatio(true);
                 studentPane.add(image, i, k);
                 k++;
-                if(k==5){
+                if (k == 6) {
                     i++;
-                    k=0;
+                    k = 0;
                 }
             }
         }
         //mother nature:
         GridPane towersPane;
-        int positionMother=0;
-        k=0;
-        for(IslandPojo island : game.getIslands()){
-            if(island.isHasMotherNature()){
-                positionMother=k;
+        int positionMother = 0;
+        k = 0;
+        for (IslandPojo island : game.getIslands()) {
+            if (island.isHasMotherNature()) {
+                positionMother = k;
             }
             k++;
         }
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+(positionMother+1));
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + (positionMother + 1));
         towersPane = (GridPane) anchorPane.getChildren().get(2);
         imageView = new ImageView(new Image("/images/pawns/mother_nature.png"));
         imageView.setId("motherNaturePawn");
@@ -297,76 +289,131 @@ public class GuiController extends Application {
         towersPane.add(imageView, 0, 0);
 
         //towers on islands:
-        for(int j=1; j<game.getIslands().size()+1; j++){
-            if(game.getIslands().get(j-1).getTowerColour()!=null) {
+        for (int j = 1; j < game.getIslands().size() + 1; j++) {
+            if (game.getIslands().get(j - 1).getTowerColour() != null) {
                 anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
                 towersPane = (GridPane) anchorPane.getChildren().get(2);
 
                 Image image = towerToImage(game.getIslands().get(j - 1).getTowerColour());
                 imageView = new ImageView(image);
-                imageView.setFitHeight(47.0);
+                imageView.setRotate(-90.0);
+                imageView.setFitHeight(48.0);
                 imageView.setFitWidth(58.0);
                 imageView.setPreserveRatio(true);
-                towersPane.add(new ImageView(image), 1, 0);
-                Text text = new Text("   "+game.getIslands().get(j - 1).getTowerCount());
+                towersPane.add(imageView, 0,1);
+
+                Text text = new Text("   " + game.getIslands().get(j - 1).getTowerCount());
                 text.setTextAlignment(TextAlignment.CENTER);
                 text.setFont(Font.font(20.0));
-                towersPane.add(text, 2, 0);
+                towersPane.add(text, 0,2);
             }
         }
 
 
-
         //----- clouds
-        for (int j=1; j<numPlayers+1; j++) {
+        for (int j = 1; j < numPlayers + 1; j++) {
             i = 1;
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud" + j);
             for (ImageView image :
-                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(j-1).getStudents())) {
+                    PawnsToImageStudents(ClientController.getInstance().getGameStatePojo().getClouds().get(j - 1).getStudents())) {
                 child = anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
                 child.getChildren().add(image);
                 i++;
             }
         }
 
-        //------- characters
-        if(game.isExpert()) {
-            i = 0;
-            SplitPane splitPane = (SplitPane) currentStage.getScene().lookup("#charactersPane");
-            for (Image image :
-                    CharactersToImage(ClientController.getInstance().getGameStatePojo().getCharacters())) {
-                child = splitPane.getItems().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
-                ((ImageView)child.getChildren().get(0)).setImage(image);
-                i++;
-            }
+        //------ coins left
+        if (game.isExpert()) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#coinsTable");
+            //set text to player's coins
+            Text text = (Text) anchorPane.getChildren().get(1);
+            text.setText(ClientController.getInstance().getGameStatePojo().getCoinSupply() + "");
         }
-
-        //------ coins
-        if(game.isExpert()){
-            Label label = (Label) currentStage.getScene().lookup("#coinsLeftLabel");
-            Integer coinsLeft= ClientController.getInstance().getGameStatePojo().getCoinSupply();
-            label.setText(coinsLeft.toString());
-
-            i=1;
-            for(CharacterPojo characterPojo: ClientController.getInstance().getGameStatePojo().getCharacters()) {
-                label = (Label) currentStage.getScene().lookup("#priceLabel"+i);
-                Integer price = characterPojo.getActualCost();
-                label.setText(price.toString());
-                i++;
-            }
-
-        }
-
 
         //------ turn order
         Label label = (Label) currentStage.getScene().lookup("#turnLabel");
         String turnPlayer = ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname();
-        label.setText(turnPlayer);
+        label.setText("TURN: " + turnPlayer);
 
-
-
-
+        //update assistant card played
+        int index =  ((TabPane)currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex()+1;
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().get(index-1).getPlayedAssistantCard()!=null) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
+            int card = ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getPlayedAssistantCard().getTurnOrder();
+            path = "/images/imageGamePianification/Assistente (" + card + ").png";
+            ((ImageView) anchorPane.getChildren().get(2)).setImage(new Image(path));
+        }
     }
+
+    /**reste the view to initial condition: done before each update event */
+    private void reset(){
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        int numPlayers = game.getPlayers().size();
+        AnchorPane anchorPane;
+        AnchorPane child;
+        int i=0;
+        int j;
+        GridPane gridPane;
+        int posiz;
+        //--------- entrance
+        for (j=1; j<numPlayers+1; j++){
+            i=0;
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance"+j);
+            for(AnchorPane position : anchorPane.getChildren().stream().map(a->(AnchorPane)a).collect(Collectors.toList())){
+                position.getChildren().clear();
+            }
+        }
+        //--------- professors
+        for (j=1; j<numPlayers+1; j++){
+            i=0;
+            posiz=0;
+            gridPane = (GridPane) currentStage.getScene().lookup("#professorsPlancia"+j);
+            for(ImageView imageView : gridPane.getChildren().stream().map(a->(ImageView)a).collect(Collectors.toList())){
+                imageView.setImage(null);
+            }
+        }
+        // ------ students in dining
+        for (j=1; j<numPlayers+1; j++) {
+            posiz=0;
+            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia"+j);
+            gridPane.getChildren().clear();
+        }
+
+        //------- towers on boards:
+        int k;
+        String path="";
+        ImageView imageView;
+        for (j=1; j<numPlayers+1; j++) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#towersPlancia" + j);
+            anchorPane.getChildren().stream().map(a->(ImageView)a).forEach(a->a.setImage(null));
+        }
+        //-----islands
+        for(j=game.getIslands().size()+1; j<13; j++){
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
+            anchorPane.setVisible(false);
+        }
+        //students, towers and mother nature on islands
+        for(j=1; j<game.getIslands().size()+1; j++){
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
+            GridPane studentPane = (GridPane) anchorPane.getChildren().get(1);
+            studentPane.getChildren().clear();GridPane towersPane;
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
+            towersPane = (GridPane) anchorPane.getChildren().get(2);
+            towersPane.getChildren().clear();
+        }
+        //----- clouds
+        for (j=1; j<numPlayers+1; j++) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#cloud" + j);
+            for (i=1; i<5; i++) {
+                child = (AnchorPane) anchorPane.getChildren().get(i);
+                child.getChildren().clear();
+            }
+        }
+        //reset assistant card view
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
+        ((ImageView)anchorPane.getChildren().get(2)).setImage(null);
+    }
+
     /**initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */
     private void initializeTable(){
         //tab of schoolBoards:
@@ -394,9 +441,29 @@ public class GuiController extends Application {
         if(game.isExpert()==false){
             ((SplitPane) currentStage.getScene().lookup("#charactersPane")).setVisible(false);
         }
-        //hide coins element if simple mode
+        //set character images
+        AnchorPane child;
+        if(game.isExpert()) {
+            i = 0;
+            SplitPane splitPane = (SplitPane) currentStage.getScene().lookup("#charactersPane");
+            for (Image image :
+                    CharactersToImage(ClientController.getInstance().getGameStatePojo().getCharacters())) {
+                child = splitPane.getItems().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
+                ((ImageView)child.getChildren().get(0)).setImage(image);
+                i++;
+            }
+        }
+        //hide coins left if simple
         if(game.isExpert()==false){
-            ( currentStage.getScene().lookup("#coinsPlayer")).setVisible(false);
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#coinsTable");
+            anchorPane.setVisible(false);
+        }
+
+        //hide coins of player if simple mode
+        if(game.isExpert()==false){
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
+            anchorPane.getChildren().get(0).setVisible(false);
+            anchorPane.getChildren().get(1).setVisible(false);
         }
     }
 
@@ -481,13 +548,31 @@ public class GuiController extends Application {
     }
 
     /**sets the coins pane visible with right coins for the player choosen */
-    public void activeCoins(int index) {
+    public void activeDetails(int index) {
         AnchorPane anchorPane;
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#coinsPlayer");
-        //set text to player's coins
-        Text text = (Text)anchorPane.getChildren().get(1);
-        text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index-1).getCoins()+"");
-        //set drag event handeler on imageView: ...
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
+        //set card played
+        if(ClientController.getInstance().getGameStatePojo().getPlayers().get(index-1).getPlayedAssistantCard()==null) {
+            ((ImageView)anchorPane.getChildren().get(2)).setImage(null);
+        }else {
+            int card = ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getPlayedAssistantCard().getTurnOrder();
+            String path = "/images/imageGamePianification/Assistente (" + card + ").png";
+            ((ImageView) anchorPane.getChildren().get(2)).setImage(new Image(path));
+        }
+        if(ClientController.getInstance().getGameStatePojo().isExpert()) {
+            //set text to player's coins
+            Text text = (Text) anchorPane.getChildren().get(1);
+            text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getCoins() + "");
+            //set drag event handeler on imageView: ...
+        }
+    }
+
+    public void changeCursor(int val){
+        if(val==0){
+            currentScene.setCursor(Cursor.DEFAULT);
+        }else if(val==1) {
+            currentScene.setCursor(new ImageCursor(new Image("/images/pawns/mother_nature.png")));
+        }
     }
 
 
@@ -495,4 +580,4 @@ public class GuiController extends Application {
 
 
 
-    }
+}

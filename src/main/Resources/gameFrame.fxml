@@ -28,23 +28,30 @@
                   <Image url="@images/imageGameAction/sfondo_isole.png" />
                </image>
             </ImageView>
-             <!-- clouds-->
-
-            <AnchorPane fx:id="cloud3" layoutX="343.0" layoutY="230.0" onMouseClicked="#setCloudChosen3" prefHeight="106.0" prefWidth="114.0">
+            <AnchorPane fx:id="cloud3" layoutX="509.0" layoutY="333.0" onMouseClicked="#setCloudChosen3" prefHeight="106.0" prefWidth="114.0">
                <children>
-                  <AnchorPane layoutX="63.0" layoutY="24.0" prefHeight="35.0" prefWidth="38.0" />
+                  <AnchorPane>
+                     <children>
+                        <ImageView fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/imageGameAction/cloud_card.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                   <AnchorPane layoutX="24.0" layoutY="59.0" prefHeight="35.0" prefWidth="38.0" />
                   <AnchorPane layoutX="73.0" layoutY="64.0" prefHeight="35.0" prefWidth="38.0" />
-                  <AnchorPane layoutX="24.0" layoutY="24.0" prefHeight="35.0" prefWidth="38.0" />
+                  <AnchorPane layoutX="73.0" layoutY="14.0" prefHeight="35.0" prefWidth="38.0" />
+                  <AnchorPane layoutX="19.0" layoutY="28.0" prefHeight="35.0" prefWidth="38.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="cloud1" layoutX="580.0" layoutY="219.0" onMouseClicked="#setCloudChosen1" prefHeight="106.0" prefWidth="114.0">
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fx:id="cloud1" fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                        <ImageView fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
                            <image>
-                              <Image url="@images/imageGameAction/nuvola.png" />
+                              <Image url="@images/imageGameAction/cloud_card.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -55,13 +62,13 @@
                   <AnchorPane layoutX="24.0" layoutY="24.0" prefHeight="35.0" prefWidth="38.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="cloud2" layoutX="462.0" layoutY="310.0" onMouseClicked="#setCloudChosen2" prefHeight="106.0" prefWidth="114.0">
+            <AnchorPane fx:id="cloud2" layoutX="409.0" layoutY="229.0" onMouseClicked="#setCloudChosen2" prefHeight="106.0" prefWidth="114.0">
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fx:id="setCloudChosen3" fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
+                        <ImageView fitHeight="113.0" fitWidth="125.0" pickOnBounds="true">
                            <image>
-                              <Image url="@images/imageGameAction/nuvola.png" />
+                              <Image url="@images/imageGameAction/cloud_card.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -88,8 +95,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -125,8 +134,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -162,8 +173,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -199,8 +212,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -236,8 +251,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -273,8 +290,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -310,8 +329,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -347,8 +368,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -384,8 +407,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -421,8 +446,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -450,8 +477,9 @@
                         <Image url="@images/imageGameAction/island2.png" />
                      </image>
                   </ImageView>
-                  <GridPane layoutX="33.0" layoutY="51.0" prefHeight="120.0" prefWidth="120.0">
+                  <GridPane layoutX="14.0" layoutY="51.0" prefHeight="120.0" prefWidth="120.0">
                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -466,9 +494,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <GridPane layoutX="153.0" layoutY="44.0" prefHeight="134.0" prefWidth="28.0">
+                  <GridPane layoutX="143.0" layoutY="44.0" prefHeight="134.0" prefWidth="28.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
@@ -495,8 +524,10 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -517,13 +548,32 @@
                   </GridPane>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="coinsTable" layoutX="309.0" layoutY="296.0" prefHeight="150.0" prefWidth="100.0">
+               <children>
+                  <ImageView fitHeight="98.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/imageCharacters/Moneta_base.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="18.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="63.200048828124864">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <Label fx:id="turnLabel" layoutX="434.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="TURN">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
 
         <!-- 3 school boards  -->
 
         <TabPane fx:id="boards" layoutX="902.0" layoutY="219.0" prefHeight="400.0" prefWidth="846.0" rotate="270.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab fx:id="Plancia1" onSelectionChanged="#showCoinsPlancia" text="Plancia1">
+                <Tab fx:id="Plancia1" onSelectionChanged="#showDetailsPlancia" text="Plancia1">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -641,7 +691,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab fx:id="Plancia2" onSelectionChanged="#showCoinsPlancia" text="Plancia2">
+                <Tab fx:id="Plancia2" onSelectionChanged="#showDetailsPlancia" text="Plancia2">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -759,7 +809,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-            <Tab fx:id="Plancia3" onSelectionChanged="#showCoinsPlancia" text="Plancia3">
+            <Tab fx:id="Plancia3" onSelectionChanged="#showDetailsPlancia" text="Plancia3">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -932,43 +982,21 @@
                </children></AnchorPane>
          </items>
       </SplitPane>
-      <AnchorPane fx:id="coinsPlayer" layoutX="1025.0" layoutY="689.0" prefHeight="150.0" prefWidth="100.0">
+      <AnchorPane fx:id="detailsPlancia" layoutX="984.0" layoutY="689.0" prefHeight="152.0" prefWidth="142.0">
          <children>
             <ImageView fitHeight="98.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/imageCharacters/Moneta_base.png" />
                </image>
             </ImageView>
-            <Text layoutX="18.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="63.200048828124864">
+            <Text layoutX="14.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="63.200048828124864">
                <font>
                   <Font size="18.0" />
                </font></Text>
+            <ImageView fitHeight="79.0" fitWidth="50.0" layoutX="86.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" >
+
+            </ImageView>
          </children>
       </AnchorPane>
-      <Label fx:id="turnLabel" layoutX="1180.0" layoutY="834.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="TURN">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="coinsLeftLabel" layoutX="56.0" layoutY="832.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="COINS">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="priceLabel1" layoutX="425.0" layoutY="829.0" prefHeight="20.0" prefWidth="78.0" style="-fx-background-color: white;" text="PRICE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="priceLabel2" layoutX="631.0" layoutY="829.0" prefHeight="20.0" prefWidth="78.0" style="-fx-background-color: white;" text="PRICE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="priceLabel3" layoutX="842.0" layoutY="829.0" prefHeight="20.0" prefWidth="78.0" style="-fx-background-color: white;" text="PRICE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
     </children>
 </AnchorPane>

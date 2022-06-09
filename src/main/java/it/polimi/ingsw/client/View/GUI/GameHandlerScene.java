@@ -23,35 +23,24 @@ import java.util.stream.Collectors;
  * the game if the choose is ok otherwise no action
  */
 public class GameHandlerScene {
-    //** todo scelta di mettere studenti su isola, scelta spostamento madre natura, scelta carte personaggio
-    //** todo impedire mosse sbagliate aggiungendo negli if(ACTION && ...)
-    //** todo update consecutivi si sovrappongono? o creano ritardo?  SI :(
-    //** todo booleani o disable per impedire ordine sbagliato?
-
 
     private static ColourPawn colourStudent;
 
     private static int myOrderInPlayers;
-    //setted by ask for character to notify the user doesn't want to play a character card
-    private static boolean yetRefused;
+    //setted by ask for character to notify the user has already decided to use or not to use a character card
+    private static boolean yetDecided;
 
 
 
     @FXML
     void setCloudChosen1(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud)) {
-            //if complex mode before moving the student the server watnts to know if the player wants to use
-            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetRefused = true;
+                yetDecided = true;
             }
 
-            //todo  PER TOGLIERE NUVOLE MA EXCEPTION
-            AnchorPane anchorPane = (AnchorPane) ((AnchorPane) event.getSource()).getScene().lookup("#cloud1");
-            anchorPane.getChildren().removeAll();
-            System.gc();
             ClientController.getInstance().getConsole().setCloudChosen(0);
             ClientController.getSemaphore().release();
         }
@@ -61,16 +50,12 @@ public class GameHandlerScene {
     @FXML
     void setCloudChosen2(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud)) {
-            //if complex mode before moving the student the server watnts to know if the player wants to use
-            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetRefused = true;
+                yetDecided = true;
             }
-            AnchorPane anchorPane = (AnchorPane) ((AnchorPane) event.getSource()).getScene().lookup("#cloud2");
-            anchorPane.getChildren().removeAll();
-            System.gc();
+
             ClientController.getInstance().getConsole().setCloudChosen(1);
             ClientController.getSemaphore().release();
         }
@@ -80,16 +65,12 @@ public class GameHandlerScene {
     @FXML
     void setCloudChosen3(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud)) {
-            //if complex mode before moving the student the server watnts to know if the player wants to use
-            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetRefused = true;
+                yetDecided = true;
             }
-            AnchorPane anchorPane = (AnchorPane) ((AnchorPane) event.getSource()).getScene().lookup("#cloud3");
-            anchorPane.getChildren().removeAll();
-            System.gc();
             ClientController.getInstance().getConsole().setCloudChosen(1);
             ClientController.getSemaphore().release();
         }
@@ -102,17 +83,16 @@ public class GameHandlerScene {
         if(correctAction(Console.ActionBookMark.moveStudents)) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetRefused=true;
+                yetDecided=true;
             }
             //drag
             ImageView imageView = (ImageView)event.getTarget();
             //control if the drag starts from correct player's schoolBoard (maybe a player drag the student of an other player)
             if(((AnchorPane)imageView.getParent().getParent()).getId().equals("entrance"+myOrderInPlayers)) {
                 colourStudent = (ColourPawn) imageView.getUserData(); // save value and return
-                System.out.println("hai mosso " +colourStudent + " da entrance " + myOrderInPlayers);
                 //show student shadow in movement
                 Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();
@@ -131,7 +111,6 @@ public class GameHandlerScene {
 
     @FXML
     void setStudentOnGameBoard(DragEvent event) {
-        System.out.println("drop su board");
         if(correctAction(Console.ActionBookMark.moveStudents)) {
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(-1);
@@ -143,7 +122,6 @@ public class GameHandlerScene {
 
     @FXML
     void setStudentOnIsland(DragEvent event) {
-        System.out.println("drop su isola");
         if(correctAction(Console.ActionBookMark.moveStudents)) {
 
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
@@ -156,7 +134,6 @@ public class GameHandlerScene {
 
             islandIdString= anchorPaneClicked.getId().substring(6);
             islandId= Integer.parseInt(islandIdString);
-            System.out.println(islandId);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
             ClientController.getSemaphore().release();
@@ -171,17 +148,17 @@ public class GameHandlerScene {
         if (correctAction(Console.ActionBookMark.placeMotherNature)) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetRefused) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetRefused = true;
+                yetDecided = true;
             }
 
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
 
-            islandIdString = anchorPaneClicked.getId().substring(6, 7);
+            islandIdString = anchorPaneClicked.getId().substring(6);
             islandId = Integer.parseInt(islandIdString);
 
             int result;
@@ -197,17 +174,9 @@ public class GameHandlerScene {
             } else {
                 result = ClientController.getInstance().getGameStatePojo().getIslands().size() - posMotherNature + islandId;
             }
-            System.out.println("posMotherNature: "+ posMotherNature + " IslandId: "+ islandId+ " Steps: " + result);
-
-            //todo  PER TOGLIERE MADRE NATURA MA EXCEPTION
-            ImageView image= (ImageView) ((ImageView) event.getSource()).getScene().lookup("#motherNaturePawn");
-            image.setImage(null);
-            System.gc();
             ClientController.getInstance().getConsole().setStepsMotherNature(result);
-
-        }
             ClientController.getSemaphore().release();
-
+        }
     }
 
     /**receives in input an action bookmark (in Console class) and return true if is my turn, the game is in action phase
@@ -234,24 +203,22 @@ public class GameHandlerScene {
 
     /**changes view of player's coins tab if in complex mode when tab button clickd*/
     @FXML
-    void showCoinsPlancia(Event event) {
-        if(ClientController.getInstance().getGameStatePojo().isExpert()){
-            Tab tab = (Tab )event.getTarget();
-            if(tab.getId().equals("Plancia1")){
-                GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeCoins(1));
-                GuiController.getInstance().runMethod();
-            }else if(tab.getId().equals("Plancia2")){
-                GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeCoins(2));
-                GuiController.getInstance().runMethod();
-            }else if(tab.getId().equals("Plancia3")){
-                GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeCoins(3));
-                GuiController.getInstance().runMethod();
-            }
+    void showDetailsPlancia(Event event) {
+        Tab tab = (Tab )event.getTarget();
+        if(tab.getId().equals("Plancia1")){
+            GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeDetails(1));
+            GuiController.getInstance().runMethod();
+        }else if(tab.getId().equals("Plancia2")){
+            GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeDetails(2));
+            GuiController.getInstance().runMethod();
+        }else if(tab.getId().equals("Plancia3")){
+            GuiController.getInstance().setRunnable(()-> GuiController.getInstance().activeDetails(3));
+            GuiController.getInstance().runMethod();
         }
     }
 
     public static void setCharacterCardPlayable(){
-        yetRefused=false;
+        yetDecided=false;
     }
 
 

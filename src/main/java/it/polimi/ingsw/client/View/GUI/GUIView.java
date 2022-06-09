@@ -107,11 +107,15 @@ public class GUIView implements View {
 
     @Override
     public void placeMotherNature() {
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
+        GuiController.getInstance().runMethod();
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
+        GuiController.getInstance().runMethod();
     }
 
     @Override

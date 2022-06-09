@@ -28,15 +28,6 @@ public class SetUpPhase extends GamePhase {
             this.distributeCoins();
             this.initializeCharactersEffects();
         }
-        //todo: remove for dubug
-        PawnsMap map = new PawnsMap();
-        map.add(ColourPawn.Yellow, 3);
-        map.add(ColourPawn.Red, 6);
-        gameController.getGame().getIslands().get(2).addStudents(map);
-
-        gameController.getGame().getIslands().get(2).setTowerCount(2);
-        gameController.getGame().getIslands().get(2).setTowerColor(ColourTower.Black);
-        //---
 
 
         return ris;
