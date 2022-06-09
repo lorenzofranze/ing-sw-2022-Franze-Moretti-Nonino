@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.View.GUI;
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.model.Island;
@@ -73,6 +74,17 @@ public class GuiController extends Application {
         currentStage.setResizable(false);
         currentStage.sizeToScene();
         currentStage.show();
+        //close button
+        currentStage.setOnCloseRequest(event ->{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to leave the game?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.CANCEL) {
+                    event.consume();
+                }else{
+                    System.exit(0);
+                }
+            });
+        });
     }
 
 
