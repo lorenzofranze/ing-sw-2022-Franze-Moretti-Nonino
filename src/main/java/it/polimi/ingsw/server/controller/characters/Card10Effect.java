@@ -14,6 +14,7 @@ public class Card10Effect extends CharacterEffect{
 
     public Card10Effect(GameController gameController, CharacterState characterState) {
         super(gameController, characterState);
+        this.gameController = gameController;
     }
 
     public void doEffect() {

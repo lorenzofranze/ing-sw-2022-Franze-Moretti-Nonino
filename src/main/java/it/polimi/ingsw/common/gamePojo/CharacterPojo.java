@@ -9,6 +9,7 @@ public class CharacterPojo {
     private boolean incremented;
     private PawnsMapPojo students;
     private Integer numNoEntry;
+    private String description;
 
     public void setNumNoEntry(Integer numNoEntry){
         this.numNoEntry = numNoEntry;
@@ -50,6 +51,14 @@ public class CharacterPojo {
         this.incremented = incremented;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString(){
         String ris = "Character " + characterId + " price: " + this.getActualCost();
@@ -59,6 +68,7 @@ public class CharacterPojo {
         if(this.numNoEntry != null){
             ris = ris + "  -- num no entry tiles: " + this.numNoEntry;
         }
+        ris = ris + "\n" + description;
         return  ris;
     }
 }

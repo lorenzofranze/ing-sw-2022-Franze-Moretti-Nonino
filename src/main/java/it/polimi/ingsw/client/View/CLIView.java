@@ -423,7 +423,6 @@ public class CLIView implements View {
             for (CharacterPojo c : gameStatePojo.getCharacters()){
                 System.out.println(c.toString());
             }
-            //System.out.println() ogg. sulla carta
         }
 
         System.out.print("\n"+"\033[01m" + "TURN: " + "\033[0m");

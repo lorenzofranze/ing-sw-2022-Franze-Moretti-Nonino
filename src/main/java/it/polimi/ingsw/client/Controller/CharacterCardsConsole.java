@@ -193,13 +193,14 @@ public class CharacterCardsConsole {
                 //messaggio imprevisto
                 view.showMessage(receivedMessage);
             }
-        }
-        receivedMessage = networkHandler.getReceivedMessage();
-        if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
-            //ok
-        }else{
-            //messaggio imprevisto
-            view.showMessage(receivedMessage);
+
+            receivedMessage = networkHandler.getReceivedMessage();
+            if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                //ok
+            }else{
+                //messaggio imprevisto
+                view.showMessage(receivedMessage);
+            }
         }
     }
 
