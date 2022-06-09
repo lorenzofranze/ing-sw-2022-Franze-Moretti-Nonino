@@ -10,7 +10,7 @@ public class CharacterState {
     private int characterId;
     private int actualCost;
     private boolean incremented;
-    private String description = "";
+    protected String description = "";
 
     public CharacterState(int characterId, int actualCost) {
         this.characterId = characterId;
@@ -61,7 +61,7 @@ public class CharacterState {
                 break;
             case 12:
                 description = "Choose a type of Student: every player (including yourself) must return 3 Students of " +
-                        "that type from their Dining Room to the bag. If any player has fewer than 3 Studnets of that " +
+                        "that type from their Dining Room to the bag. If any player has fewer than 3 Students of that " +
                         "type, return as many Students as they have.";
                 break;
         }
@@ -105,9 +105,9 @@ public class CharacterState {
         characterStudentPojo.setCharacterId(this.getCharacterId());
         characterStudentPojo.setActualCost(this.getCost());
         characterStudentPojo.setIncremented(this.isIncremented());
+        characterStudentPojo.setDescription(description);
         characterStudentPojo.setStudents(null);
         characterStudentPojo.setNumNoEntry(null);
-        characterStudentPojo.setDescription(description);
         return characterStudentPojo;
     }
 

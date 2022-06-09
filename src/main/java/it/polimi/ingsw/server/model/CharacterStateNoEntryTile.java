@@ -27,6 +27,7 @@ public class CharacterStateNoEntryTile extends CharacterState{
         characterStudentPojo.setCharacterId(this.getCharacterId());
         characterStudentPojo.setActualCost(this.getCost());
         characterStudentPojo.setIncremented(this.isIncremented());
+        characterStudentPojo.setDescription(super.description);
         characterStudentPojo.setStudents(null);
         characterStudentPojo.setNumNoEntry(this.numNoEntry);
 

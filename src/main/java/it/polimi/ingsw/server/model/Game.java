@@ -79,11 +79,10 @@ public class Game {
 
         characterStates = new ArrayList<CharacterState>();
 
-        //Collections.shuffle(temp);         SCOMMENTA
-        characterStates.add(temp.get(8));
+        Collections.shuffle(temp);
+        characterStates.add(temp.get(0));
         characterStates.add(temp.get(1));
-        //characterStates.add(temp.get(2));   SCOMMENTA
-        characterStates.add(temp.get(9));      //CANCELLA
+        characterStates.add(temp.get(2));
 
         this.coinSupply = 20;
         this.gameId = gameId;

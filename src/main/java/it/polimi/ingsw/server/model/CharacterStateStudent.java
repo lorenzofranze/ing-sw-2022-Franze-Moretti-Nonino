@@ -34,6 +34,7 @@ public class CharacterStateStudent extends CharacterState{
         characterStudentPojo.setCharacterId(this.getCharacterId());
         characterStudentPojo.setActualCost(this.getCost());
         characterStudentPojo.setIncremented(this.isIncremented());
+        characterStudentPojo.setDescription(super.description);
         characterStudentPojo.setStudents(new PawnsMapPojo(this.students));
         characterStudentPojo.setNumNoEntry(null);
         return characterStudentPojo;
