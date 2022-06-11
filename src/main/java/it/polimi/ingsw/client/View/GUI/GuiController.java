@@ -610,6 +610,8 @@ public class GuiController extends Application {
     }
 
     private void updateCharacterCards(){
+        //note: each anchorPane has an ID : "card"+(num. card): once you have the anchorPane do anchorPane.getChildren().get(1)
+        // to get the gridPane with students or no entry tiles
 
 
     }
