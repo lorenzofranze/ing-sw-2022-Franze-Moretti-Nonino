@@ -296,7 +296,7 @@ public class GUIView implements View {
     }
 
     /**
-     * method used by card 3
+     * method used by card 3 and card 5
      */
     @Override
     public synchronized void chooseIsland(){
@@ -307,6 +307,12 @@ public class GUIView implements View {
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 3");
+        }
+
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==5){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard5());
+            GuiController.getInstance().runMethod();
+            System.out.println("arrivato in 5");
         }
 
         //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
