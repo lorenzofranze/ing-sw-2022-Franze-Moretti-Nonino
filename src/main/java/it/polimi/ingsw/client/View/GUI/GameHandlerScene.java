@@ -319,8 +319,16 @@ public class GameHandlerScene {
         currentStage= stage;
     }
 
+
+
     //COMPLEX MODE EVENT HANDLER FUNCTIONS
 
+    /**
+     * Sets the consumers setNoEnoughCoinsObserver and setNoEnoughCoinsObserver in the guiView.
+     * In case a NoMoney or a InvalidChoice message is received (after the player's attempt to use a character-effect),
+     * the GuiView consumes them.
+     * They show an alert message on the screen.
+     */
     private static void setObserversErrors(){
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
@@ -342,24 +350,13 @@ public class GameHandlerScene {
         ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
     }
 
-    @FXML
-    public void tryUseCard(DragEvent event){
-        //todo: verificare che oggetto di drop sono le monete
-        if(true) {
-            ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane) event.getSource()).getId()));
-            ClientController.getSemaphore().release();
-            setObserversErrors();
-            System.out.println("drop rilevato");
-            event.setDropCompleted(true);
-            event.consume();
-        }
 
-    }
-    @FXML
-    public void acceptDropUseCoins(DragEvent event){
-        event.acceptTransferModes(TransferMode.MOVE);
-    }
 
+    /**
+     * When the player clicks the coin,
+     * if it it a coin of his own and not an other player's coin,
+     * the Drag and Drop begins
+     */
     @FXML
     public void useCoins(MouseEvent mouseEvent) {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname())
@@ -378,6 +375,34 @@ public class GameHandlerScene {
     }
 
 
+    /**
+     * the Drag and Drop started by useCoins-method ends
+     * @param event
+     */
+    @FXML
+    public void acceptDropUseCoins(DragEvent event){
+        event.acceptTransferModes(TransferMode.MOVE);
+    }
 
+
+    /**
+     * Waits that the ClientController reads the message sent by the server. If it is an error messsage, an alert will
+     * be shown (thanks to setObserversErrors method)
+     * @param event
+     */
+    @FXML
+    public void tryUseCard(DragEvent event){
+        //todo: verificare che oggetto di drop sono le monete
+        ImageView imageView = (ImageView) event.getTarget();
+        if(imageView.getId().equals("coins")) {
+            ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane) event.getSource()).getId()));
+            ClientController.getSemaphore().release();
+            setObserversErrors();
+            System.out.println("drop rilevato");
+            event.setDropCompleted(true);
+            event.consume();
+        }
+
+    }
 
 }

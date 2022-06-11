@@ -413,7 +413,8 @@ public class GuiController extends Application {
         for(j=1; j<game.getIslands().size()+1; j++){
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
             GridPane studentPane = (GridPane) anchorPane.getChildren().get(1);
-            studentPane.getChildren().clear();GridPane towersPane;
+            studentPane.getChildren().clear();
+            GridPane towersPane;
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
             towersPane = (GridPane) anchorPane.getChildren().get(2);
             towersPane.getChildren().clear();
@@ -593,11 +594,15 @@ public class GuiController extends Application {
             currentScene.setCursor(new ImageCursor(new Image("/images/pawns/mother_nature.png")));
         }
     }
+
+
+
+
     //////////------------------------/////////////--------------//////////
     //                  COMPLEX MODE METHODS:                            //
     //////////------------------------/////////////--------------//////////
 
-    /** update character cards view (elements on the card)*/
+    /** Update character cards view (elements on the card)*/
     private void updateCharacterCards(){
         //note: each anchorPane has an ID : "card"+(num. card): once you have the anchorPane do anchorPane.getChildren().get(1)
         // to get the gridPane with students or no entry tiles
@@ -617,12 +622,33 @@ public class GuiController extends Application {
 
 
     }
-    /** reset character cards view (elements on the card) in order to show the right elemnts after
-     * updateCharacterCards()
-     * */
-    private void resetCharacterCards(){
 
+    /** reset character cards view (elements on the card) in order to show the right elemnts after
+     * updateCharacterCards().
+     * It clears the grids on the card.
+     * */
+    private void resetCharacterCards() {
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        AnchorPane anchorPane;
+        GridPane gridPane;
+        ImageView imageView;
+
+        for (CharacterPojo card : game.getCharacters()) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
+            gridPane = (GridPane) anchorPane.getChildren().get(1);
+            gridPane.getChildren().clear();
+        }
     }
+
+    public void activeGuiCard3() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //Setting the title
+        alert.setTitle("CARD 3");
+        //Setting the content of the dialog
+        alert.setContentText("With this card you get the magic power! Choose an island and the influences on that island" +
+                " will be calculated... remember mother nature will continue her steps as usual");
+    }
+
 
     //CHARCATER CARDS METHODS 1 FOR EACH CARD
     public void activeGuiCard9(){

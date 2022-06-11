@@ -294,8 +294,21 @@ public class GUIView implements View {
         }
     }
 
+    /**
+     * method used by card 3
+     */
     @Override
     public synchronized void chooseIsland(){
+        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
+        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
+        //qui sbloccare condizioni su GameHandlerScene se serve
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
+            GuiController.getInstance().runMethod();
+            System.out.println("arrivato in 3");
+        }
+
+        //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
