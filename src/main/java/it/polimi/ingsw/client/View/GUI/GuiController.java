@@ -357,7 +357,9 @@ public class GuiController extends Application {
             path = "/images/imageGamePianification/Assistente (" + card + ").png";
             ((ImageView) anchorPane.getChildren().get(2)).setImage(new Image(path));
         }
-        updateCharacterCards();
+        if(game.isExpert()) {
+            updateCharacterCards();
+        }
     }
 
     /**reste the view to initial condition: done before each update event */
@@ -427,8 +429,9 @@ public class GuiController extends Application {
         //reset assistant card view
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
         ((ImageView)anchorPane.getChildren().get(2)).setImage(null);
-
-        resetCharacterCards();
+        if(game.isExpert()) {
+            resetCharacterCards();
+        }
     }
 
     /**initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */
@@ -607,6 +610,7 @@ public class GuiController extends Application {
     }
 
     private void updateCharacterCards(){
+
 
     }
 
