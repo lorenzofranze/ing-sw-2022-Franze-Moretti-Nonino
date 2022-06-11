@@ -26,7 +26,6 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -87,6 +86,7 @@ public class GuiController extends Application {
                 }
             });
         });
+        GameHandlerScene.setStage(currentStage);
     }
 
 
@@ -612,6 +612,19 @@ public class GuiController extends Application {
     private void updateCharacterCards(){
         //note: each anchorPane has an ID : "card"+(num. card): once you have the anchorPane do anchorPane.getChildren().get(1)
         // to get the gridPane with students or no entry tiles
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        AnchorPane anchorPane;
+        GridPane gridPane;
+        ImageView imageView;
+
+        //show coin on card if is incremented
+        for(CharacterPojo card : game.getCharacters()){
+            if(card.isIncremented()){
+                anchorPane = (AnchorPane) currentStage.getScene().lookup("#card"+card.getCharacterId());
+                ((ImageView)anchorPane.getChildren().get(2)).setVisible(true);
+            }
+        }
+
 
 
     }

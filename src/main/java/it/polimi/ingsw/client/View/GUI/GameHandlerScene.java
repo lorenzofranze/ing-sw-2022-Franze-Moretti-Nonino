@@ -30,7 +30,7 @@ public class GameHandlerScene {
     //setted by ask for character to notify the user has already decided to use or not to use a character card
     private static boolean cardToUse = false;
 
-    private static String coinsId;
+    private static Stage currentStage;
 
 
     @FXML
@@ -315,6 +315,10 @@ public class GameHandlerScene {
         }
     }
 
+    public static void setStage(Stage stage){
+        currentStage= stage;
+    }
+
     //COMPLEX MODE EVENT HANDLER FUNCTIONS
 
     private static void setObserversErrors(){
@@ -340,13 +344,16 @@ public class GameHandlerScene {
 
     @FXML
     public void tryUseCard(DragEvent event){
-        ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane)event.getSource()).getId()));
-        ClientController.getSemaphore().release();
+        if(((ImageView)event.getSource()).getId()=="coins") {
+            ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane) event.getSource()).getId()));
+            ClientController.getSemaphore().release();
+            System.out.println("drop rilevato");
 
-        setObserversErrors();
+            setObserversErrors();
 
-        event.setDropCompleted(true);
-        event.consume();
+            event.setDropCompleted(true);
+            event.consume();
+        }
 
     }
     @FXML
@@ -356,13 +363,16 @@ public class GameHandlerScene {
 
     @FXML
     public void useCoins(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getTarget();
-        //coinsId = ((AnchorPane)imageView.getParent()).getId();
-        Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
-        ClipboardContent content = new ClipboardContent();
-        content.putImage(imageView.getImage());
-        db.setContent(content);
-        mouseEvent.consume();
+        //if drag starts from correct players's school board
+        int index =  ((TabPane)currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex()+1;
+        if(index==myOrderInPlayers){
+            ImageView imageView = (ImageView)mouseEvent.getTarget();
+            Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            db.setContent(content);
+            mouseEvent.consume();
+        }
     }
 
 

@@ -1032,7 +1032,7 @@
       </SplitPane>
       <AnchorPane fx:id="detailsPlancia" layoutX="984.0" layoutY="689.0" prefHeight="152.0" prefWidth="142.0">
          <children>
-            <ImageView fitHeight="98.0" fitWidth="86.0" onDragDetected="#useCoins" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="coins" fitHeight="98.0" fitWidth="86.0" onDragDetected="#useCoins" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/imageCharacters/Moneta_base.png" />
                </image>
