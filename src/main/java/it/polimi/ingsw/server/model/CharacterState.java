@@ -79,11 +79,16 @@ public class CharacterState {
         return incremented;
     }
 
-    public void use() {
+    /**sets character card used: increments cost and set true if first increment-> one coin doesn't return
+     * in central reserve but remains on the card
+     */
+    public boolean use() {
         if(!incremented) {
             this.actualCost++;
             this.incremented = true;
+            return true;
         }
+        return false;
     }
 
     @Override

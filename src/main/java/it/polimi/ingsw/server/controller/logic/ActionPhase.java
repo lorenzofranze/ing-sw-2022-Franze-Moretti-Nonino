@@ -437,8 +437,9 @@ public class ActionPhase extends GamePhase {
                         } else {
                             gameController.getGame().setActiveEffect(characterStatePlayed);
                             gameController.getCurrentPlayer().removeCoins(characterStatePlayed.getCost());
-                            gameController.getGame().addCoins(characterStatePlayed.getCost());
-                            characterStatePlayed.use(); //incremento il costo se è da incrementare
+                            boolean oneLess = characterStatePlayed.use(); //increments cost if first time
+                            gameController.getGame().addCoins(oneLess ? characterStatePlayed.getCost()-1 : characterStatePlayed.getCost());
+
 
                             AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove, "valid card number and enough money");
                             playerManager.sendMessage(ackMessage);

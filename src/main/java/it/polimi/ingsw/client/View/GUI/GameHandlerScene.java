@@ -96,7 +96,7 @@ public class GameHandlerScene {
     }
 
     @FXML
-    void acceptDrop(DragEvent event){
+    void acceptDropMoveStudent(DragEvent event){
         event.acceptTransferModes(TransferMode.MOVE);
     }
 
@@ -315,6 +315,8 @@ public class GameHandlerScene {
         }
     }
 
+    //COMPLEX MODE EVENT HANDLER FUNCTIONS
+
     private static void setObserversErrors(){
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
@@ -336,8 +338,9 @@ public class GameHandlerScene {
         ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
     }
 
-    public static void tryUseCard9(DragEvent event){
-        ClientController.getInstance().getConsole().setCharacterPlayed(9);
+    @FXML
+    public void tryUseCard(DragEvent event){
+        ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane)event.getSource()).getId()));
         ClientController.getSemaphore().release();
 
         setObserversErrors();
@@ -346,17 +349,23 @@ public class GameHandlerScene {
         event.consume();
 
     }
+    @FXML
+    public void acceptDropUseCoins(DragEvent event){
+        event.acceptTransferModes(TransferMode.MOVE);
+    }
 
-
+    @FXML
     public void useCoins(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getTarget();
-        coinsId = ((AnchorPane)imageView.getParent()).getId();
+        //coinsId = ((AnchorPane)imageView.getParent()).getId();
         Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
         content.putImage(imageView.getImage());
         db.setContent(content);
         mouseEvent.consume();
     }
+
+
 
 
 }

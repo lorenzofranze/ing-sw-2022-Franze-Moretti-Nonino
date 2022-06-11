@@ -357,6 +357,7 @@ public class GuiController extends Application {
             path = "/images/imageGamePianification/Assistente (" + card + ").png";
             ((ImageView) anchorPane.getChildren().get(2)).setImage(new Image(path));
         }
+        updateCharacterCards();
     }
 
     /**reste the view to initial condition: done before each update event */
@@ -426,6 +427,8 @@ public class GuiController extends Application {
         //reset assistant card view
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
         ((ImageView)anchorPane.getChildren().get(2)).setImage(null);
+
+        resetCharacterCards();
     }
 
     /**initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */
@@ -464,16 +467,11 @@ public class GuiController extends Application {
                 child = (AnchorPane) splitPane.getItems().get(i);
                 //set image
                 ((ImageView)child.getChildren().get(0)).setImage(charactersToImage(characterPojo));
-                //add event listener
-                if(characterPojo.getCharacterId()==1){
-                    //....
-                }else if(characterPojo.getCharacterId()==2){
-
-                }else if(characterPojo.getCharacterId()==9){
-                    child.setId("character9");
-                    child.setOnDragDropped((event)->GameHandlerScene.tryUseCard9(event));
-                }
-
+                //set id
+                child.setId("card"+characterPojo.getCharacterId());
+                i++;
+                //hide coin incremented
+                ((ImageView)child.getChildren().get(2)).setVisible(false);
             }
         }
         //hide coins left if simple
@@ -606,6 +604,14 @@ public class GuiController extends Application {
         alert.getDialogPane().getButtonTypes().add(red);
         alert.getDialogPane().getButtonTypes().add(yellow);
         alert.getDialogPane().getButtonTypes().add(green);
+    }
+
+    private void updateCharacterCards(){
+
+    }
+
+    private void resetCharacterCards(){
+
     }
 
 

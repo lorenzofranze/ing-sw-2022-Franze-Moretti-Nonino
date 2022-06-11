@@ -80,7 +80,7 @@
                </children>
             </AnchorPane>
             <!---   ****  islands  **** -->
-            <AnchorPane fx:id="island1" layoutX="14.0" layoutY="175.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island1" layoutX="14.0" layoutY="175.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -119,7 +119,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island2" layoutX="1.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island2" layoutX="1.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -158,7 +158,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island3" layoutX="194.0" layoutY="14.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island3" layoutX="194.0" layoutY="14.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -197,7 +197,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island4" layoutX="398.0" layoutY="14.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island4" layoutX="398.0" layoutY="14.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -236,7 +236,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island5" layoutX="604.0" layoutY="23.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island5" layoutX="604.0" layoutY="23.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -275,7 +275,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island6" layoutX="813.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island6" layoutX="813.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -314,7 +314,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island7" layoutX="847.0" layoutY="211.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="222.0" prefWidth="222.0">
+            <AnchorPane fx:id="island7" layoutX="847.0" layoutY="211.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="222.0" prefWidth="222.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -353,7 +353,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island8" layoutX="846.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island8" layoutX="846.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -392,7 +392,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island9" layoutX="643.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island9" layoutX="643.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -431,7 +431,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island10" layoutX="434.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island10" layoutX="434.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -470,7 +470,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island11" layoutX="246.0" layoutY="451.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island11" layoutX="246.0" layoutY="451.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" layoutX="-26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -509,7 +509,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="island12" layoutX="1.0" layoutY="408.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDrop" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
+            <AnchorPane fx:id="island12" layoutX="1.0" layoutY="408.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
                   <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -583,7 +583,7 @@
                                     </image>
                                 </ImageView>
                                 <!-- board dining room 1 -->
-                                <GridPane fx:id="studentsPlancia1" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" onDragOver="#acceptDrop" prefHeight="270.0" prefWidth="391.0">
+                                <GridPane fx:id="studentsPlancia1" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" onDragOver="#acceptDropMoveStudent" prefHeight="270.0" prefWidth="391.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -701,7 +701,7 @@
                                     </image>
                                 </ImageView>
                                 <!-- board dining room 2 -->
-                                <GridPane fx:id="studentsPlancia2" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" onDragOver="#acceptDrop" prefHeight="270.0" prefWidth="391.0">
+                                <GridPane fx:id="studentsPlancia2" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" onDragOver="#acceptDropMoveStudent" prefHeight="270.0" prefWidth="391.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -819,7 +819,7 @@
                                 </image>
                             </ImageView>
                             <!-- board dining room 3 -->
-                            <GridPane fx:id="studentsPlancia3" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" onDragOver="#acceptDrop" prefHeight="270.0" prefWidth="391.0">
+                            <GridPane fx:id="studentsPlancia3" accessibleRole="BUTTON" alignment="CENTER_LEFT" layoutX="169.0" layoutY="56.0" onDragDropped="#setStudentOnGameBoard" onDragOver="#acceptDropMoveStudent" prefHeight="270.0" prefWidth="391.0">
                                 <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -962,22 +962,70 @@
         </ScrollPane>
       <SplitPane fx:id="charactersPane" dividerPositions="0.29629629629629634, 0.6030092592592593" layoutX="425.0" layoutY="675.0" prefHeight="153.0" prefWidth="302.0">
          <items>
-            <AnchorPane prefHeight="141.0" prefWidth="170.0">
+            <AnchorPane prefHeight="141.0" prefWidth="170.0" onDragOver="#acceptDropUseCoins" onDragDropped="#tryUseCard">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
 
                   </ImageView>
+                  <GridPane layoutX="38.0" layoutY="94.0" prefHeight="44.0" prefWidth="63.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/imageCharacters/Moneta_base.png" />
+                     </image>
+                  </ImageView>
                </children></AnchorPane>
-            <AnchorPane prefHeight="141.0" prefWidth="133.0">
+            <AnchorPane prefHeight="141.0" prefWidth="133.0" onDragOver="#acceptDropUseCoins" onDragDropped="#tryUseCard">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
 
                   </ImageView>
+                  <GridPane layoutX="38.0" layoutY="94.0" prefHeight="44.0" prefWidth="63.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/imageCharacters/Moneta_base.png" />
+                     </image>
+                  </ImageView>
                </children></AnchorPane>
-            <AnchorPane prefHeight="151.0" prefWidth="122.0">
+            <AnchorPane prefHeight="151.0" prefWidth="122.0" onDragOver="#acceptDropUseCoins" onDragDropped="#tryUseCard">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
 
+                  </ImageView>
+                  <GridPane layoutX="38.0" layoutY="94.0" prefHeight="44.0" prefWidth="63.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="64.0"  pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/imageCharacters/Moneta_base.png" />
+                     </image>
                   </ImageView>
                </children></AnchorPane>
          </items>
