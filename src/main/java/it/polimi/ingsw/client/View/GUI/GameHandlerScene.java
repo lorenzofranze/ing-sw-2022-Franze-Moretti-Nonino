@@ -320,7 +320,6 @@ public class GameHandlerScene {
     }
 
 
-
     //COMPLEX MODE EVENT HANDLER FUNCTIONS
 
     /**

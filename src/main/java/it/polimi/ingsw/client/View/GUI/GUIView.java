@@ -287,6 +287,7 @@ public class GUIView implements View {
 
     @Override
     public synchronized void moveStudentToIsland(){
+        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
@@ -319,6 +320,7 @@ public class GUIView implements View {
     /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
     @Override
     public synchronized void chooseNumOfMove() {
+        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {

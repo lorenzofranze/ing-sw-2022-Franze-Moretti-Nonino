@@ -645,9 +645,38 @@ public class GuiController extends Application {
         //Setting the title
         alert.setTitle("CARD 3");
         //Setting the content of the dialog
-        alert.setContentText("With this card you get the magic power! Choose an island and the influences on that island" +
+        alert.setContentText("With this card you get a magic power! Choose an island and the influences on that island" +
                 " will be calculated... remember mother nature will continue her steps as usual");
     }
+
+    public void activeGuiCard5() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //Setting the title
+        alert.setTitle("CARD 5");
+        //Setting the content of the dialog
+        alert.setContentText("With this cards you get a magic power! Choose an island" +
+                " and the next time mother nature will stops on it, she will forget to calculate the influence on the" +
+                "island");
+    }
+
+    public void activeGuiCard1() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //Setting the title
+        alert.setTitle("CARD 1");
+        //Setting the content of the dialog
+        alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
+                "and place him on the island that you like the most " );
+    }
+
+    public void activeGuiCard11() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //Setting the title
+        alert.setTitle("CARD 11");
+        //Setting the content of the dialog
+        alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
+                "  and he will be moved in your entry ");
+    }
+
 
 
     //CHARCATER CARDS METHODS 1 FOR EACH CARD
