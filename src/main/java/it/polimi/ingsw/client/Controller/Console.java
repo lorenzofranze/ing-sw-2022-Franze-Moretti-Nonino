@@ -116,8 +116,8 @@ public class Console{
                     }
                     moveStudent();
                 }
-                askForCharacter();
                 currActionBookMark = ActionBookMark.placeMotherNature;
+                askForCharacter();
                 break;
             case placeMotherNature:
                 placeMotherNature();
@@ -125,9 +125,9 @@ public class Console{
                     view.showGameState(ClientController.getInstance().getGameStatePojo());
                     return;
                 }else{
+                    currActionBookMark = ActionBookMark.chooseCloud;
                     askForCharacter();
                 }
-                currActionBookMark = ActionBookMark.chooseCloud;
                 break;
             case chooseCloud:
                 int studentLimit  = gameStatePojo.getPlayers().size() == 2 ? 3 : 4;

@@ -36,6 +36,10 @@ public class GUIView implements View {
 
     private Consumer<Boolean> nameCompleteObserver;
 
+    private Consumer<Boolean> noEnoughCoinsObserver;
+
+    private Consumer<Boolean> invalidChoiseObserver;
+
     /**
      * when the client controller calls chooseGameMode, the client controller's attribute "gameMode" is
      * set with the value chosen in ChooseGameModeScene.
@@ -107,24 +111,33 @@ public class GUIView implements View {
 
     @Override
     public void placeMotherNature() {
-        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
-        GuiController.getInstance().runMethod();
+        //GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
+        //GuiController.getInstance().runMethod();
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
-        GuiController.getInstance().runMethod();
+        //getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
+        //GuiController.getInstance().runMethod();
     }
 
     @Override
     public synchronized void chooseColour() {
+        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
+        //qui sbloccare condizioni su GameHandlerScene se serve
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
+            GuiController.getInstance().runMethod();
+        }else if(true){
+            //-.....
+        }
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
     }
 
     /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
@@ -191,6 +204,7 @@ public class GUIView implements View {
                     // accept calls the consumer in nameCompleteObserver with argument false
                     //so a message of allert will be shown
                     nameCompleteObserver.accept(false);
+                    nameCompleteObserver=null;
                 }
                 break;
             case UnmatchedMessages:
@@ -203,7 +217,10 @@ public class GUIView implements View {
                 System.out.println("The diningroom is full. Place the student in another place.\n");
                 break;
             case InvalidChoice:
-                System.out.println("The choice you made is invalid.\n");
+                if(invalidChoiseObserver!=null){
+                    invalidChoiseObserver.accept(false);
+                    invalidChoiseObserver=null;
+                }
                 break;
             case AlreadyPlayed:
                 System.out.println("Another player has already played this card.\n");
@@ -212,7 +229,12 @@ public class GUIView implements View {
                 System.out.println("You cannot play. Wait for your turn.\n");
                 break;
             case NoMoney:
-                System.out.println("You don't have enough money.\n");
+                if(noEnoughCoinsObserver!=null){
+                    // accept calls the consumer in nameCompleteObserver with argument false
+                    //so a message of allert will be shown
+                    noEnoughCoinsObserver.accept(false);
+                    noEnoughCoinsObserver=null;
+                }
                 break;
             case FailedConnection:
                 System.out.println("Failed connection to the server.\n");
@@ -299,6 +321,14 @@ public class GUIView implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setNoEnoughCoinsObserver(Consumer<Boolean> noEnoughCoinsObserver) {
+        this.noEnoughCoinsObserver = noEnoughCoinsObserver;
+    }
+
+    public void setInvalidChoiseObserver(Consumer<Boolean> invalidChoiseObserver) {
+        this.invalidChoiseObserver = invalidChoiseObserver;
     }
 
 

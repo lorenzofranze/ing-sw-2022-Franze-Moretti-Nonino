@@ -4,11 +4,10 @@ import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**class that responses to the click event on a game object, all the methods verify if the action is valid and unlock
@@ -28,17 +28,17 @@ public class GameHandlerScene {
 
     private static int myOrderInPlayers;
     //setted by ask for character to notify the user has already decided to use or not to use a character card
-    private static boolean yetDecided;
+    private static boolean cardToUse = false;
 
+    private static String coinsId;
 
 
     @FXML
     void setCloudChosen1(MouseEvent event) {
-        if (correctAction(Console.ActionBookMark.chooseCloud)) {
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
+        if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetDecided = true;
             }
 
             ClientController.getInstance().getConsole().setCloudChosen(0);
@@ -49,11 +49,10 @@ public class GameHandlerScene {
 
     @FXML
     void setCloudChosen2(MouseEvent event) {
-        if (correctAction(Console.ActionBookMark.chooseCloud)) {
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
+        if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetDecided = true;
             }
 
             ClientController.getInstance().getConsole().setCloudChosen(1);
@@ -64,12 +63,11 @@ public class GameHandlerScene {
 
     @FXML
     void setCloudChosen3(MouseEvent event) {
-        if (correctAction(Console.ActionBookMark.chooseCloud)) {
+        if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
 
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetDecided = true;
             }
             ClientController.getInstance().getConsole().setCloudChosen(1);
             ClientController.getSemaphore().release();
@@ -80,14 +78,7 @@ public class GameHandlerScene {
     public static void  setStudentChosen(MouseEvent event) {
 
         // if isn't my turn and not in moveStudents Phase: no action
-        if(correctAction(Console.ActionBookMark.moveStudents)) {
-            //if complex mode before moving the student the server watnts to know if the player wants to use
-            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
-                ClientController.getInstance().getConsole().setCharacterPlayed(null);
-                ClientController.getSemaphore().release();
-                yetDecided=true;
-            }
+        if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
             //drag
             ImageView imageView = (ImageView)event.getTarget();
             //control if the drag starts from correct player's schoolBoard (maybe a player drag the student of an other player)
@@ -111,7 +102,13 @@ public class GameHandlerScene {
 
     @FXML
     void setStudentOnGameBoard(DragEvent event) {
-        if(correctAction(Console.ActionBookMark.moveStudents)) {
+        if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
+            }
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(-1);
             ClientController.getSemaphore().release();
@@ -122,16 +119,17 @@ public class GameHandlerScene {
 
     @FXML
     void setStudentOnIsland(DragEvent event) {
-        if(correctAction(Console.ActionBookMark.moveStudents)) {
+        if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
+            //if complex mode before moving the student the server watnts to know if the player wants to use
+            // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+                ClientController.getInstance().getConsole().setCharacterPlayed(null);
+                ClientController.getSemaphore().release();
+            }
 
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
-            //non dovrebbe servire il controllo if perchè con o visible o disable posso fare che un isola che
-            // non esiste non risponde agli eventi
-            //if(anchorPaneClicked.getChildren().get(0)==null) return;
-            //se non funziona aggiunge studenti su isole vuote...vedremo
-
             islandIdString= anchorPaneClicked.getId().substring(6);
             islandId= Integer.parseInt(islandIdString);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
@@ -145,13 +143,12 @@ public class GameHandlerScene {
 
     @FXML
     void setMotherNatureToIsalnd(MouseEvent event) {
-        if (correctAction(Console.ActionBookMark.placeMotherNature)) {
+        if (correctAction(Console.ActionBookMark.placeMotherNature) && !cardToUse) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !yetDecided) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
-                yetDecided = true;
             }
 
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
@@ -218,7 +215,7 @@ public class GameHandlerScene {
     }
 
     public static void setCharacterCardPlayable(){
-        yetDecided=false;
+        cardToUse=false;
     }
 
 
@@ -316,6 +313,49 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setAssistantCardPlayed(10);
             ClientController.getSemaphore().release();
         }
+    }
+
+    private static void setObserversErrors(){
+        Consumer<Boolean> consumerCoins = (ok) -> {
+            Platform.runLater(() -> {
+                if (!ok) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No enough coins", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            });
+        };
+        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
+        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
+            Platform.runLater(() -> {
+                if (!ok) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Card already used", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            });
+        };
+        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
+    }
+
+    public static void tryUseCard9(DragEvent event){
+        ClientController.getInstance().getConsole().setCharacterPlayed(9);
+        ClientController.getSemaphore().release();
+
+        setObserversErrors();
+
+        event.setDropCompleted(true);
+        event.consume();
+
+    }
+
+
+    public void useCoins(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getTarget();
+        coinsId = ((AnchorPane)imageView.getParent()).getId();
+        Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+        content.putImage(imageView.getImage());
+        db.setContent(content);
+        mouseEvent.consume();
     }
 
 

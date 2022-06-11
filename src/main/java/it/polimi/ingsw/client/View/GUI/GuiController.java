@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -458,11 +460,20 @@ public class GuiController extends Application {
         if(game.isExpert()) {
             i = 0;
             SplitPane splitPane = (SplitPane) currentStage.getScene().lookup("#charactersPane");
-            for (Image image :
-                    CharactersToImage(ClientController.getInstance().getGameStatePojo().getCharacters())) {
-                child = splitPane.getItems().stream().map(a -> (AnchorPane) a).collect(Collectors.toList()).get(i);
-                ((ImageView)child.getChildren().get(0)).setImage(image);
-                i++;
+            for(CharacterPojo characterPojo : ClientController.getInstance().getGameStatePojo().getCharacters()){
+                child = (AnchorPane) splitPane.getItems().get(i);
+                //set image
+                ((ImageView)child.getChildren().get(0)).setImage(charactersToImage(characterPojo));
+                //add event listener
+                if(characterPojo.getCharacterId()==1){
+                    //....
+                }else if(characterPojo.getCharacterId()==2){
+
+                }else if(characterPojo.getCharacterId()==9){
+                    child.setId("character9");
+                    child.setOnDragDropped((event)->GameHandlerScene.tryUseCard9(event));
+                }
+
             }
         }
         //hide coins left if simple
@@ -535,16 +546,11 @@ public class GuiController extends Application {
 
 
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
-    private List<Image> CharactersToImage(List<CharacterPojo> charactersList){
-        List<Image> list = new ArrayList<>();
-        int toAdd;
+    private Image charactersToImage(CharacterPojo character){
         String prefix = "/images/imageCharacters/CarteTOT_front";
         String path="";
-        for(CharacterPojo c : charactersList){
-            path=prefix+(c.getCharacterId())+".jpg";
-            list.add(new Image(path));
-        }
-        return list;
+        path=prefix+(character.getCharacterId())+".jpg";
+        return new Image(path);
     }
 
     private Image towerToImage(ColourTower colour){
@@ -585,6 +591,21 @@ public class GuiController extends Application {
         }else if(val==1) {
             currentScene.setCursor(new ImageCursor(new Image("/images/pawns/mother_nature.png")));
         }
+    }
+
+    public void activeGuiCard9(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //Setting the title
+        alert.setTitle("CARD 9");
+        ButtonType red = new ButtonType("red", ButtonBar.ButtonData.OK_DONE);
+        ButtonType yellow = new ButtonType("yellow", ButtonBar.ButtonData.OK_DONE);
+        ButtonType green = new ButtonType("green", ButtonBar.ButtonData.OK_DONE);
+        //Setting the content of the dialog
+        alert.setContentText("la carta 9 fa... scegli un colore");
+        //Adding buttons to the dialog pane
+        alert.getDialogPane().getButtonTypes().add(red);
+        alert.getDialogPane().getButtonTypes().add(yellow);
+        alert.getDialogPane().getButtonTypes().add(green);
     }
 
 
