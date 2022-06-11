@@ -593,22 +593,11 @@ public class GuiController extends Application {
             currentScene.setCursor(new ImageCursor(new Image("/images/pawns/mother_nature.png")));
         }
     }
+    //////////------------------------/////////////--------------//////////
+    //                  COMPLEX MODE METHODS:                            //
+    //////////------------------------/////////////--------------//////////
 
-    public void activeGuiCard9(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //Setting the title
-        alert.setTitle("CARD 9");
-        ButtonType red = new ButtonType("red", ButtonBar.ButtonData.OK_DONE);
-        ButtonType yellow = new ButtonType("yellow", ButtonBar.ButtonData.OK_DONE);
-        ButtonType green = new ButtonType("green", ButtonBar.ButtonData.OK_DONE);
-        //Setting the content of the dialog
-        alert.setContentText("la carta 9 fa... scegli un colore");
-        //Adding buttons to the dialog pane
-        alert.getDialogPane().getButtonTypes().add(red);
-        alert.getDialogPane().getButtonTypes().add(yellow);
-        alert.getDialogPane().getButtonTypes().add(green);
-    }
-
+    /** update character cards view (elements on the card)*/
     private void updateCharacterCards(){
         //note: each anchorPane has an ID : "card"+(num. card): once you have the anchorPane do anchorPane.getChildren().get(1)
         // to get the gridPane with students or no entry tiles
@@ -628,10 +617,29 @@ public class GuiController extends Application {
 
 
     }
-
+    /** reset character cards view (elements on the card) in order to show the right elemnts after
+     * updateCharacterCards()
+     * */
     private void resetCharacterCards(){
 
     }
+
+    //CHARCATER CARDS METHODS 1 FOR EACH CARD
+    public void activeGuiCard9(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //Setting the title
+        alert.setTitle("CARD 9");
+        ButtonType red = new ButtonType("red", ButtonBar.ButtonData.OK_DONE);
+        ButtonType yellow = new ButtonType("yellow", ButtonBar.ButtonData.OK_DONE);
+        ButtonType green = new ButtonType("green", ButtonBar.ButtonData.OK_DONE);
+        //Setting the content of the dialog
+        alert.setContentText("la carta 9 fa... scegli un colore");
+        //Adding buttons to the dialog pane
+        alert.getDialogPane().getButtonTypes().add(red);
+        alert.getDialogPane().getButtonTypes().add(yellow);
+        alert.getDialogPane().getButtonTypes().add(green);
+    }
+
 
 
 

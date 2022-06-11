@@ -9,6 +9,7 @@ import it.polimi.ingsw.common.messages.*;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.server.model.AssistantCard;
+import it.polimi.ingsw.server.model.Game;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,11 +74,6 @@ public class GUIView implements View {
 
     }
 
-    synchronized public void setNameCompleteObserver(Consumer<Boolean> nameCompleteObserver)
-    {
-        this.nameCompleteObserver = nameCompleteObserver;
-    }
-
 
     @Override
     public void chooseAssistantCard() {
@@ -88,17 +84,6 @@ public class GUIView implements View {
         }
     }
 
-    @Override
-    public void askForCharacter() {
-        if(ClientController.getInstance().getGameStatePojo().isExpert()==true) {
-            GameHandlerScene.setCharacterCardPlayable();
-            try {
-                ClientController.getSemaphore().acquire();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public void moveStudent() {
@@ -122,33 +107,7 @@ public class GUIView implements View {
         //GuiController.getInstance().runMethod();
     }
 
-    @Override
-    public synchronized void chooseColour() {
-        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
-        //qui sbloccare condizioni su GameHandlerScene se serve
-        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9){
-            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
-            GuiController.getInstance().runMethod();
-        }else if(true){
-            //-.....
-        }
-        try {
-            ClientController.getSemaphore().acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
-    }
 
-    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
-    @Override
-    public synchronized void chooseNumOfMove() {
-        try {
-            ClientController.getSemaphore().acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 
@@ -230,8 +189,6 @@ public class GUIView implements View {
                 break;
             case NoMoney:
                 if(noEnoughCoinsObserver!=null){
-                    // accept calls the consumer in nameCompleteObserver with argument false
-                    //so a message of allert will be shown
                     noEnoughCoinsObserver.accept(false);
                     noEnoughCoinsObserver=null;
                 }
@@ -302,9 +259,32 @@ public class GUIView implements View {
         GuiController.getInstance().setRunnable(()->GuiController.getInstance().showGameUpdate());
         GuiController.getInstance().runMethod();
     }
+    synchronized public void setNameCompleteObserver(Consumer<Boolean> nameCompleteObserver) {
+        this.nameCompleteObserver = nameCompleteObserver;
+    }
+
+    public void setNoEnoughCoinsObserver(Consumer<Boolean> noEnoughCoinsObserver) {
+        this.noEnoughCoinsObserver = noEnoughCoinsObserver;
+    }
+
+    public void setInvalidChoiseObserver(Consumer<Boolean> invalidChoiseObserver) {
+        this.invalidChoiseObserver = invalidChoiseObserver;
+    }
 
 
     //METHODS FOR COMPLEX MODE:
+
+    @Override
+    public void askForCharacter() {
+        if(ClientController.getInstance().getGameStatePojo().isExpert()==true) {
+            try {
+                ClientController.getSemaphore().acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public synchronized void moveStudentToIsland(){
         try {
@@ -323,13 +303,39 @@ public class GUIView implements View {
         }
     }
 
-    public void setNoEnoughCoinsObserver(Consumer<Boolean> noEnoughCoinsObserver) {
-        this.noEnoughCoinsObserver = noEnoughCoinsObserver;
+    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
+    @Override
+    public synchronized void chooseNumOfMove() {
+        try {
+            ClientController.getSemaphore().acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setInvalidChoiseObserver(Consumer<Boolean> invalidChoiseObserver) {
-        this.invalidChoiseObserver = invalidChoiseObserver;
+    @Override
+    public synchronized void chooseColour() {
+        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
+        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
+        //qui sbloccare condizioni su GameHandlerScene se serve
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
+            GuiController.getInstance().runMethod();
+            System.out.println("arrivato in 9");
+        }else if(1 > 2 ){
+            //-.....
+        }
+        try {
+            ClientController.getSemaphore().acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
     }
+
+
+
+
 
 
 }

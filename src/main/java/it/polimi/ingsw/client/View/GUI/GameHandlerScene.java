@@ -214,8 +214,8 @@ public class GameHandlerScene {
         }
     }
 
-    public static void setCharacterCardPlayable(){
-        cardToUse=false;
+    public static void setCharacterCardToUse(){
+        cardToUse=true;
     }
 
 
