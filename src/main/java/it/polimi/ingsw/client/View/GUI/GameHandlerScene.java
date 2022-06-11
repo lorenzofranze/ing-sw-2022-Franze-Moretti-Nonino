@@ -344,13 +344,12 @@ public class GameHandlerScene {
 
     @FXML
     public void tryUseCard(DragEvent event){
-        if(((ImageView)event.getSource()).getId()=="coins") {
+        //todo: verificare che oggetto di drop sono le monete
+        if(true) {
             ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane) event.getSource()).getId()));
             ClientController.getSemaphore().release();
-            System.out.println("drop rilevato");
-
             setObserversErrors();
-
+            System.out.println("drop rilevato");
             event.setDropCompleted(true);
             event.consume();
         }
@@ -363,14 +362,17 @@ public class GameHandlerScene {
 
     @FXML
     public void useCoins(MouseEvent mouseEvent) {
-        //if drag starts from correct players's school board
-        int index =  ((TabPane)currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex()+1;
-        if(index==myOrderInPlayers){
-            ImageView imageView = (ImageView)mouseEvent.getTarget();
-            Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.putImage(imageView.getImage());
-            db.setContent(content);
+        if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname())
+                && ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION && !cardToUse) {
+            //verify if drag starts from correct players's school board
+            int index = ((TabPane) currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex() + 1;
+            if (index == myOrderInPlayers) {
+                ImageView imageView = (ImageView) mouseEvent.getTarget();
+                Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                db.setContent(content);
+            }
             mouseEvent.consume();
         }
     }
