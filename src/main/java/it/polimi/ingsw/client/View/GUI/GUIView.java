@@ -334,6 +334,10 @@ public class GUIView implements View {
         }
     }
 
+    /**
+     * this method is used by card 9, 11 and 12,
+     * The player chooses the pawn on the card
+     */
     @Override
     public synchronized void chooseColour() {
         GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
@@ -343,8 +347,10 @@ public class GUIView implements View {
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 9");
-        }else if(1 > 2 ){
-            //-.....
+        }else if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==11){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard11());
+            GuiController.getInstance().runMethod();
+            System.out.println("arrivato in 11");
         }
         try {
             ClientController.getSemaphore().acquire();

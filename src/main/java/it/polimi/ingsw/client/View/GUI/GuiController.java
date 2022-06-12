@@ -8,10 +8,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -643,10 +640,21 @@ public class GuiController extends Application {
                         gridPane.add(pawnsList.get(i), rig, col);
                         col++;
                     }
-
                 }
             }
 
+        }
+
+        //puts no entry tiles on islands
+        for(CharacterPojo characterPojo: game.getCharacters()){
+            if(characterPojo.getCharacterId()==5){
+                for(int j=game.getIslands().size()+1; j<13; j++){
+                    anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
+                    gridPane=(GridPane) anchorPane.getChildren();
+                    imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon_png"));
+                    gridPane.add(imageView,6,6);
+                }
+            }
         }
 
 
@@ -698,6 +706,16 @@ public class GuiController extends Application {
         alert.setContentText("With this cards you get a magic power! Choose an island" +
                 " and the next time mother nature will stops on it, she will forget to calculate the influence on the" +
                 "island");
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        AnchorPane anchorPane;
+        for(int j=game.getIslands().size()+1; j<13; j++) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
+            anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    GameHandlerScene.setIslandChosen(event);
+                }
+            });
+        }
     }
 
     public void activeGuiCard1() {
@@ -716,6 +734,22 @@ public class GuiController extends Application {
         //Setting the content of the dialog
         alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
                 "  and he will be moved in your entry ");
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        AnchorPane anchorPane;
+        GridPane gridPane;
+        ImageView imageView;
+        for (int j = game.getIslands().size() + 1; j < 13; j++) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
+            gridPane = (GridPane) anchorPane.getChildren();
+            for (Node node : gridPane.getChildren()) {
+                imageView = (ImageView) node;
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        GameHandlerScene.setColurChosen(event);
+                    }
+                });
+            }
+        }
     }
 
 

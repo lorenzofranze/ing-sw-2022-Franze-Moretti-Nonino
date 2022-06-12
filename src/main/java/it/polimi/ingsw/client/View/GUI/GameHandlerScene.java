@@ -392,8 +392,8 @@ public class GameHandlerScene {
     @FXML
     public void tryUseCard(DragEvent event){
         //todo: verificare che oggetto di drop sono le monete
-        ImageView imageView = (ImageView) event.getTarget();
-        if(imageView.getId().equals("coins")) {
+
+        if(true) {
             ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane) event.getSource()).getId()));
             ClientController.getSemaphore().release();
             setObserversErrors();
@@ -414,8 +414,8 @@ public class GameHandlerScene {
      * activeGuiCard3 activates on the islands a eventHandler to handle this method.
      */
     @FXML
-    public static void setIslandChosen(MouseEvent event){
-        if (cardToUse==true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3) {
+    public static void setIslandChosen(MouseEvent event) {
+        if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 3) {
 
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
@@ -427,7 +427,35 @@ public class GameHandlerScene {
             ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
             ClientController.getSemaphore().release();
         }
+        else if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 3) {
 
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+
+            islandIdString = anchorPaneClicked.getId().substring(6);
+            islandId = Integer.parseInt(islandIdString);
+
+            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
+            ClientController.getSemaphore().release();
+        }
+    }
+
+
+    /**
+     * Card 11 uses this whan the payer has to choose a pawn on the card
+     */
+    @FXML
+    public static void setColurChosen(MouseEvent event){
+        if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 11) {
+
+            ImageView imageView = (ImageView) event.getSource();
+            ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
+
+
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
+            ClientController.getSemaphore().release();
+        }
     }
 
 }
