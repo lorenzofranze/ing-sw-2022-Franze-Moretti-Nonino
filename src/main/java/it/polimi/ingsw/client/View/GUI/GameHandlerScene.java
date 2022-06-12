@@ -417,7 +417,7 @@ public class GameHandlerScene {
     public static void setIslandChosen(MouseEvent event) {
         if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 3) {
 
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
             String islandIdString;
             int islandId;
 
@@ -429,7 +429,7 @@ public class GameHandlerScene {
         }
         else if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 3) {
 
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
             String islandIdString;
             int islandId;
 
@@ -449,7 +449,7 @@ public class GameHandlerScene {
     public static void setColurChosen(MouseEvent event){
         if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 11) {
 
-            ImageView imageView = (ImageView) event.getSource();
+            ImageView imageView = (ImageView) event.getTarget();
             ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
 
 
@@ -458,4 +458,44 @@ public class GameHandlerScene {
         }
     }
 
+    /**
+     * Card 1 uses this whan the payer has to drags a pawn from the card
+     */
+    @FXML
+    public static void startDragStudentFromCard(MouseEvent event){
+        if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 1) {
+
+            ImageView imageView = (ImageView)event.getTarget();
+            colourStudent = (ColourPawn) imageView.getUserData();
+            Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            db.setContent(content);
+
+        }
+        event.consume();
+    }
+
+    /**
+     * Card 1 uses this whan the payer has to drop a pawn on the island
+     */
+    @FXML
+    void setStudentOnIslandCard1(DragEvent event) {
+        if(cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 1) {
+
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+            islandIdString= anchorPaneClicked.getId().substring(6);
+            islandId= Integer.parseInt(islandIdString);
+            ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
+            ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
+            ClientController.getSemaphore().release();
+        }
+        event.setDropCompleted(true);
+        event.consume();
+    }
+
+
 }
+

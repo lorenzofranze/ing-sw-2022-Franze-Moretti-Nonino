@@ -724,7 +724,20 @@ public class GuiController extends Application {
         alert.setTitle("CARD 1");
         //Setting the content of the dialog
         alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
-                "and place him on the island that you like the most " );
+                "and place him on the island that you like the most ");
+
+        AnchorPane anchorPane;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
+        GridPane gridPane = (GridPane) anchorPane.getChildren();
+        ImageView imageView;
+        for (int i = 0; i < gridPane.getChildren().size(); i++) {
+            imageView = (ImageView) gridPane.getChildren().get(i);
+            imageView.setOnDragDetected(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    GameHandlerScene.setStudentChosen(event);
+                }
+            });
+        }
     }
 
     public void activeGuiCard11() {
@@ -741,8 +754,8 @@ public class GuiController extends Application {
         for (int j = game.getIslands().size() + 1; j < 13; j++) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
             gridPane = (GridPane) anchorPane.getChildren();
-            for (Node node : gridPane.getChildren()) {
-                imageView = (ImageView) node;
+            for (int i = 0; i < gridPane.getChildren().size(); i++) {
+                imageView = (ImageView) gridPane.getChildren().get(i);
                 imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
                         GameHandlerScene.setColurChosen(event);

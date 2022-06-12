@@ -285,9 +285,19 @@ public class GUIView implements View {
         }
     }
 
+    /**
+     * method used by card 1
+     */
     @Override
     public synchronized void moveStudentToIsland(){
         GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
+        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
+        //qui sbloccare condizioni su GameHandlerScene se serve
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
+            GuiController.getInstance().runMethod();
+            System.out.println("arrivato in 1");
+        }
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
