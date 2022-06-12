@@ -404,4 +404,30 @@ public class GameHandlerScene {
 
     }
 
+
+
+    ///////////////////////////////////      COMPLEX MODE METHODS       /////////////////////////////////////////////
+
+    /**
+     * Card3 uses this event: the player choose an island and cliks on it.
+     * The methos chooseIsland of the GUIview calls activeGuiCard3 in the GUIController and
+     * activeGuiCard3 activates on the islands a eventHandler to handle this method.
+     */
+    @FXML
+    public static void setIslandChosen(MouseEvent event){
+        if (cardToUse==true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3) {
+
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+
+            islandIdString = anchorPaneClicked.getId().substring(6);
+            islandId = Integer.parseInt(islandIdString);
+
+            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
+            ClientController.getSemaphore().release();
+        }
+
+    }
+
 }

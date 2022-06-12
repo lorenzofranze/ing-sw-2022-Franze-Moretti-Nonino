@@ -677,6 +677,17 @@ public class GuiController extends Application {
         //Setting the content of the dialog
         alert.setContentText("With this card you get a magic power! Choose an island and the influences on that island" +
                 " will be calculated... remember mother nature will continue her steps as usual");
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        AnchorPane anchorPane;
+        for(int j=game.getIslands().size()+1; j<13; j++) {
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
+            anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    GameHandlerScene.setIslandChosen(event);
+                }
+            });
+        }
+
     }
 
     public void activeGuiCard5() {
