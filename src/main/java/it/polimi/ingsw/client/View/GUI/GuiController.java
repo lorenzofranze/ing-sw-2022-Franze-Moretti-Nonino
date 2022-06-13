@@ -614,56 +614,56 @@ public class GuiController extends Application {
 
         //show coin on card if is incremented
         for(CharacterPojo card : game.getCharacters()){
-            if(card.isIncremented()){
-                anchorPane = (AnchorPane) currentStage.getScene().lookup("#card"+card.getCharacterId());
-                ((ImageView)anchorPane.getChildren().get(2)).setVisible(true);
-                if(card.getCharacterId()==5){
-                    int rig=0;
-                    int col=0;
-                    gridPane= (GridPane) anchorPane.getChildren();
-                    imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon_png"));
-                    for(int i=0; i<card.getNumNoEntry(); i++){
-                        if(col==3) {
-                            col=0;
-                            rig=1;
-                        }
-                        gridPane.add(imageView, rig, col);
-                        col++;
+            if(card.isIncremented()) {
+                anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
+                ((ImageView) anchorPane.getChildren().get(2)).setVisible(true);
+            }
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
+
+            if(card.getCharacterId()==5){
+                int rig=0;
+                int col=0;
+                gridPane= (GridPane) anchorPane.getChildren().get(1);
+                imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
+                for(int i=0; i<card.getNumNoEntry(); i++){
+                    if(col==3) {
+                        col=0;
+                        rig=1;
                     }
+                    gridPane.add(imageView, rig, col);
+                    col++;
                 }
-                if(card.getCharacterId()==1 || card.getCharacterId()==11){
-                    gridPane= (GridPane) anchorPane.getChildren();
-                    List<ImageView> pawnsList= PawnsToImageStudents(card.getStudents());
-                    int rig=0;
-                    int col=0;
-                    for(int i=0; i<card.getStudents().pawnsNumber(); i++){
-                        if(col==3) {
-                            col=0;
-                            rig=1;
-                        }
-                        gridPane.add(pawnsList.get(i), rig, col);
-                        col++;
+                //puts no entry tiles on islands
+                int j=0;
+                for(IslandPojo island : game.getIslands()){
+                    for(int i=0; i< island.getNumNoEntryTile(); i++) {
+                        anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + (j + 1));
+                        gridPane = (GridPane) anchorPane.getChildren();
+                        imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
+                        gridPane.add(imageView, 6, 6-i);
                     }
+                    j++;
                 }
             }
 
-        }
-
-        //puts no entry tiles on islands
-        for(CharacterPojo characterPojo: game.getCharacters()){
-            if(characterPojo.getCharacterId()==5){
-                for(int j=game.getIslands().size()+1; j<13; j++){
-                    anchorPane = (AnchorPane) currentStage.getScene().lookup("#island"+j);
-                    gridPane=(GridPane) anchorPane.getChildren();
-                    imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon_png"));
-                    gridPane.add(imageView,6,6);
+            if(card.getCharacterId()==1 || card.getCharacterId()==11){
+                gridPane= (GridPane) anchorPane.getChildren().get(1);
+                List<ImageView> pawnsList= PawnsToImageStudents(card.getStudents());
+                int rig=0;
+                int col=0;
+                for(int i=0; i<card.getStudents().pawnsNumber(); i++){
+                    if(col==3) {
+                        col=0;
+                        rig=1;
+                    }
+                    gridPane.add(pawnsList.get(i), rig, col);
+                    col++;
                 }
             }
         }
-
-
 
     }
+
 
     /** reset character cards view (elements on the card) in order to show the right elemnts after
      * updateCharacterCards().
