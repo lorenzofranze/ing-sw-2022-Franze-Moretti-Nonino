@@ -37,6 +37,7 @@ public class GameHandlerScene {
     private static boolean moveStudentCard;
 
     private static boolean chooseIsland;
+    private static boolean setPawnColour;
 
 
     @FXML
@@ -334,6 +335,12 @@ public class GameHandlerScene {
     //////////------------------------/////////////--------------//////////
 
 
+    /**
+     * Sets the consumers setNoEnoughCoinsObserver and setNoEnoughCoinsObserver in the guiView.
+     * In case a NoMoney or a InvalidChoice message is received (after the player's attempt to use a character-effect),
+     * the GuiView consumes them.
+     * They show an alert message on the screen.
+     */
     private static void setObserversErrors(){
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
@@ -355,14 +362,13 @@ public class GameHandlerScene {
         ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
     }
 
-    public static void setMoveStudentCard(boolean moveStudentCard) {
-        GameHandlerScene.moveStudentCard = moveStudentCard;
-    }
 
-    public static void setChooseIsland(boolean chooseIsland) {
-        GameHandlerScene.chooseIsland = chooseIsland;
-    }
 
+    /**
+     * Waits that the ClientController reads the message sent by the server. If it is an error messsage, an alert will
+     * be shown (thanks to setObserversErrors method)
+     * @param event
+     */
     @FXML
     public void tryUseCard(DragEvent event){
 
@@ -375,6 +381,11 @@ public class GameHandlerScene {
         event.consume();
 
     }
+
+    /**
+     * the Drag and Drop started by useCoins-method ends
+     * @param event
+     */
     @FXML
     public void acceptDropUseCoins(DragEvent event){
         if(dragged.equals("coins")) {
@@ -382,6 +393,11 @@ public class GameHandlerScene {
         }
     }
 
+    /**
+     * When the player clicks the coin,
+     * if it it a coin of his own and not an other player's coin,
+     * the Drag and Drop begins
+     */
     @FXML
     public void useCoins(MouseEvent mouseEvent) {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname())
@@ -402,33 +418,117 @@ public class GameHandlerScene {
         }
     }
 
-    /** this method is used by cards 3 and 5 for clicking an island and set the chosen island,
-     * as done for CLI, this method is enabled by chooseIsland() in GUIView and set the chosen value in
-     * CharacterCardsConsole's attribute : pawnWhere
-      */
-    public static void setIslandChosenForCard(MouseEvent event){
-        if(chooseIsland){
 
-        }
 
+    /////////////////////////    ///////////////////     CARD 1    ///////////////////     /////////////////////////
+
+    public static void setMoveStudentCard(boolean moveStudentCard) {
+        GameHandlerScene.moveStudentCard = moveStudentCard;
     }
 
-    /** this method is used by cards 1 to start the drag event,
+
+
+    /**
+     * Card 1 uses this whan the payer has to drags a pawn from the card:
+     * this method is used by cards 1 to start the drag event,
      * as done for CLI, this method is enabled by moveStudentToIsland in GUIView
      */
     public static void dragStudentForCard(MouseEvent event){
         if(moveStudentCard) {
             dragged = "studentCard"; //avoid user can put the element in other areas that accept drop (e.g. schoolBoard)
+            ImageView imageView = (ImageView)event.getTarget();
+            colourStudent = (ColourPawn) imageView.getUserData();
+            Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            db.setContent(content);
         }
+        event.consume();
 
     }
 
+    /**
+     * Card 1 uses this whan the payer has to drop a pawn on the island
+     */
     @FXML
     void acceptDropStudentForCard(DragEvent event){
         if(dragged.equals("studentCard")) {
             event.acceptTransferModes(TransferMode.MOVE);
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+            islandIdString= anchorPaneClicked.getId().substring(6);
+            islandId= Integer.parseInt(islandIdString);
+            ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
+            ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
+            ClientController.getSemaphore().release();
+        }
+        event.setDropCompleted(true);
+        event.consume();
+
+    }
+
+
+    /////////////////////////    ///////////////////     CARD 3 and 5    ///////////////////     /////////////////////////
+
+
+
+    public static void setChooseIsland(boolean chooseIsland) {
+        GameHandlerScene.chooseIsland = chooseIsland;
+    }
+
+
+    /**
+     * this method is used by cards 3 and 5 for clicking an island and set the chosen island,
+     * as done for CLI, this method is enabled by chooseIsland() in GUIView and set the chosen value in
+     * CharacterCardsConsole's attribute : pawnWhere
+     * The player choose an island and cliks on it.
+     * (The methos chooseIsland of the GUIview calls activeGuiCard3/5 in the GUIController and
+     * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
+     */
+    @FXML
+    public static void setIslandChosenForCard(MouseEvent event){
+        if(chooseIsland){
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
+            String islandIdString;
+            int islandId;
+
+            islandIdString = anchorPaneClicked.getId().substring(6);
+            islandId = Integer.parseInt(islandIdString);
+
+            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
+            ClientController.getSemaphore().release();
+        }
+
+    }
+
+
+    /////////////////////////    ///////////////////     CARD 11    ///////////////////     /////////////////////////
+
+    public static void setPawnColour(boolean chooseIsland) {
+        GameHandlerScene.setPawnColour = setPawnColour;
+    }
+
+
+
+    /**
+     * Card 11 uses this whan the payer has to choose a pawn on the card
+     */
+    @FXML
+    public static void setColurChosen(MouseEvent event){
+        if (setPawnColour) {
+
+            ImageView imageView = (ImageView) event.getTarget();
+            ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
+
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
+            ClientController.getSemaphore().release();
         }
     }
+
+
+
+    /////////////////////////    ///////////////////     CARD    ///////////////////     /////////////////////////
 
     /**set the chosen value in
      * CharacterCardsConsole's attribute : pawnWhere and studentColour, see moveStudentToIsland() in CLIView
@@ -438,8 +538,8 @@ public class GameHandlerScene {
 
     }
 
-
-
-
-
 }
+
+
+
+
