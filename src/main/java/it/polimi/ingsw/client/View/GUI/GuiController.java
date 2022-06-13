@@ -487,6 +487,10 @@ public class GuiController extends Application {
             anchorPane.getChildren().get(0).setVisible(false);
             anchorPane.getChildren().get(1).setVisible(false);
         }
+        //set coins property
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
+        ImageView image = (ImageView) (anchorPane.getChildren().get(0));
+        image.setUserData("coins");
     }
 
     /**receives in input a pawnsmap and returns the corrisponding  List of images */
@@ -687,11 +691,12 @@ public class GuiController extends Application {
                 " will be calculated... remember mother nature will continue her steps as usual");
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         AnchorPane anchorPane;
+        //todo: vedere se quando viene eseguito 2 volte non crea problemi perchè si aggiungono più listener allo stesso elemento
         for(int j=game.getIslands().size()+1; j<13; j++) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
             anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    GameHandlerScene.setIslandChosen(event);
+                    GameHandlerScene.setIslandChosenForCard(event);
                 }
             });
         }
@@ -712,7 +717,7 @@ public class GuiController extends Application {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
             anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    GameHandlerScene.setIslandChosen(event);
+                    GameHandlerScene.setIslandChosenForCard(event);
                 }
             });
         }
@@ -734,7 +739,7 @@ public class GuiController extends Application {
             imageView = (ImageView) gridPane.getChildren().get(i);
             imageView.setOnDragDetected(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    GameHandlerScene.setStudentChosen(event);
+                    GameHandlerScene.dragStudentForCard(event);
                 }
             });
         }
@@ -758,7 +763,7 @@ public class GuiController extends Application {
                 imageView = (ImageView) gridPane.getChildren().get(i);
                 imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
-                        GameHandlerScene.setColurChosen(event);
+                        //GameHandlerScene.setColurChosen(event);
                     }
                 });
             }

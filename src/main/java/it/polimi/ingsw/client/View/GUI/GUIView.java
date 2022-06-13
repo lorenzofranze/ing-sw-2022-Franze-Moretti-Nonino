@@ -290,19 +290,20 @@ public class GUIView implements View {
      */
     @Override
     public synchronized void moveStudentToIsland(){
-        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
-        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
-        //qui sbloccare condizioni su GameHandlerScene se serve
-        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3){
-            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
-            GuiController.getInstance().runMethod();
-            System.out.println("arrivato in 1");
-        }
+        GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
+        GuiController.getInstance().runMethod();
+        System.out.println("arrivato in 1");
+        GameHandlerScene.setMoveStudentCard(true);
+
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        GameHandlerScene.setCharacterCardToUse(false);
+        GameHandlerScene.setChooseIsland(false);
     }
 
     /**
@@ -310,33 +311,38 @@ public class GUIView implements View {
      */
     @Override
     public synchronized void chooseIsland(){
-        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
-        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
-        //qui sbloccare condizioni su GameHandlerScene se serve
+        GameHandlerScene.setCharacterCardToUse(true);
+
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 3");
+            GameHandlerScene.setChooseIsland(true); // enables click on island for card's effect
         }
 
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==5){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard5());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 5");
+            GameHandlerScene.setChooseIsland(true);
         }
 
-        //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        //back to initial conditions
+        GameHandlerScene.setCharacterCardToUse(false);
+        GameHandlerScene.setChooseIsland(false);
+
     }
 
     /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
     @Override
     public synchronized void chooseNumOfMove() {
-        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
+        GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
@@ -350,7 +356,7 @@ public class GUIView implements View {
      */
     @Override
     public synchronized void chooseColour() {
-        GameHandlerScene.setCharacterCardToUse(); // block all simple mode methods
+        GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
         //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
         //qui sbloccare condizioni su GameHandlerScene se serve
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9){

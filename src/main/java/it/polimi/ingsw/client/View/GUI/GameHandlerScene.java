@@ -24,13 +24,19 @@ import java.util.stream.Collectors;
  */
 public class GameHandlerScene {
 
-    private static ColourPawn colourStudent;
+    private static ColourPawn colourStudent=null;
 
     private static int myOrderInPlayers;
     //setted by ask for character to notify the user has already decided to use or not to use a character card
     private static boolean cardToUse = false;
 
     private static Stage currentStage;
+
+    private static String dragged;
+
+    private static boolean moveStudentCard;
+
+    private static boolean chooseIsland;
 
 
     @FXML
@@ -89,6 +95,7 @@ public class GameHandlerScene {
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(imageView.getImage());
                 db.setContent(content);
+                dragged="student";
             }
         }
         event.consume();
@@ -97,7 +104,9 @@ public class GameHandlerScene {
 
     @FXML
     void acceptDropMoveStudent(DragEvent event){
-        event.acceptTransferModes(TransferMode.MOVE);
+        if(dragged.equals("student")) {
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
     }
 
     @FXML
@@ -194,7 +203,7 @@ public class GameHandlerScene {
             }
             i++;
         }
-        myOrderInPlayers = i+1;
+        myOrderInPlayers = (i+1);
     }
 
 
@@ -214,9 +223,10 @@ public class GameHandlerScene {
         }
     }
 
-    public static void setCharacterCardToUse(){
-        cardToUse=true;
+    public static void setCharacterCardToUse(boolean use){
+        cardToUse=use;
     }
+
 
 
     @FXML
@@ -319,15 +329,11 @@ public class GameHandlerScene {
         currentStage= stage;
     }
 
+    //////////------------------------/////////////--------------//////////
+    //                  COMPLEX MODE METHODS:                            //
+    //////////------------------------/////////////--------------//////////
 
-    //COMPLEX MODE EVENT HANDLER FUNCTIONS
 
-    /**
-     * Sets the consumers setNoEnoughCoinsObserver and setNoEnoughCoinsObserver in the guiView.
-     * In case a NoMoney or a InvalidChoice message is received (after the player's attempt to use a character-effect),
-     * the GuiView consumes them.
-     * They show an alert message on the screen.
-     */
     private static void setObserversErrors(){
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
@@ -349,153 +355,92 @@ public class GameHandlerScene {
         ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
     }
 
+    public static void setMoveStudentCard(boolean moveStudentCard) {
+        GameHandlerScene.moveStudentCard = moveStudentCard;
+    }
 
+    public static void setChooseIsland(boolean chooseIsland) {
+        GameHandlerScene.chooseIsland = chooseIsland;
+    }
 
-    /**
-     * When the player clicks the coin,
-     * if it it a coin of his own and not an other player's coin,
-     * the Drag and Drop begins
-     */
+    @FXML
+    public void tryUseCard(DragEvent event){
+
+        String id = ((AnchorPane) event.getSource()).getId().substring(4);
+
+        ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
+        ClientController.getSemaphore().release();
+        setObserversErrors();
+        System.out.println("drop rilevato");
+        event.setDropCompleted(true);
+        event.consume();
+
+    }
+    @FXML
+    public void acceptDropUseCoins(DragEvent event){
+        if(dragged.equals("coins")) {
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+    }
+
     @FXML
     public void useCoins(MouseEvent mouseEvent) {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname())
                 && ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION && !cardToUse) {
             //verify if drag starts from correct players's school board
-            int index = ((TabPane) currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex() + 1;
+            int index = ((TabPane) currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex() +1 ;
+
             if (index == myOrderInPlayers) {
+                System.out.println("dopo verifica index");
+                //set image
                 ImageView imageView = (ImageView) mouseEvent.getTarget();
                 Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(imageView.getImage());
-                db.setContent(content);
+                dragged="coins";
             }
             mouseEvent.consume();
         }
     }
 
+    /** this method is used by cards 3 and 5 for clicking an island and set the chosen island,
+     * as done for CLI, this method is enabled by chooseIsland() in GUIView and set the chosen value in
+     * CharacterCardsConsole's attribute : pawnWhere
+      */
+    public static void setIslandChosenForCard(MouseEvent event){
+        if(chooseIsland){
 
-    /**
-     * the Drag and Drop started by useCoins-method ends
-     * @param event
-     */
-    @FXML
-    public void acceptDropUseCoins(DragEvent event){
-        event.acceptTransferModes(TransferMode.MOVE);
-    }
-
-
-    /**
-     * Waits that the ClientController reads the message sent by the server. If it is an error messsage, an alert will
-     * be shown (thanks to setObserversErrors method)
-     * @param event
-     */
-    @FXML
-    public void tryUseCard(DragEvent event){
-        //todo: verificare che oggetto di drop sono le monete
-
-        if(true) {
-            ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(((AnchorPane) event.getSource()).getId()));
-            ClientController.getSemaphore().release();
-            setObserversErrors();
-            System.out.println("drop rilevato");
-            event.setDropCompleted(true);
-            event.consume();
         }
 
     }
 
-
-
-    ///////////////////////////////////      COMPLEX MODE METHODS       /////////////////////////////////////////////
-
-    /**
-     * Card3 uses this event: the player choose an island and cliks on it.
-     * The methos chooseIsland of the GUIview calls activeGuiCard3 in the GUIController and
-     * activeGuiCard3 activates on the islands a eventHandler to handle this method.
+    /** this method is used by cards 1 to start the drag event,
+     * as done for CLI, this method is enabled by moveStudentToIsland in GUIView
      */
-    @FXML
-    public static void setIslandChosen(MouseEvent event) {
-        if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 3) {
-
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
-            String islandIdString;
-            int islandId;
-
-            islandIdString = anchorPaneClicked.getId().substring(6);
-            islandId = Integer.parseInt(islandIdString);
-
-            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
-            ClientController.getSemaphore().release();
+    public static void dragStudentForCard(MouseEvent event){
+        if(moveStudentCard) {
+            dragged = "studentCard"; //avoid user can put the element in other areas that accept drop (e.g. schoolBoard)
         }
-        else if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 3) {
 
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
-            String islandIdString;
-            int islandId;
+    }
 
-            islandIdString = anchorPaneClicked.getId().substring(6);
-            islandId = Integer.parseInt(islandIdString);
-
-            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
-            ClientController.getSemaphore().release();
+    @FXML
+    void acceptDropStudentForCard(DragEvent event){
+        if(dragged.equals("studentCard")) {
+            event.acceptTransferModes(TransferMode.MOVE);
         }
     }
 
-
-    /**
-     * Card 11 uses this whan the payer has to choose a pawn on the card
+    /**set the chosen value in
+     * CharacterCardsConsole's attribute : pawnWhere and studentColour, see moveStudentToIsland() in CLIView
      */
     @FXML
-    public static void setColurChosen(MouseEvent event){
-        if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 11) {
+    void setStudentMovementForCard(DragEvent event){
 
-            ImageView imageView = (ImageView) event.getTarget();
-            ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
-
-
-            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
-            ClientController.getSemaphore().release();
-        }
     }
 
-    /**
-     * Card 1 uses this whan the payer has to drags a pawn from the card
-     */
-    @FXML
-    public static void startDragStudentFromCard(MouseEvent event){
-        if (cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 1) {
 
-            ImageView imageView = (ImageView)event.getTarget();
-            colourStudent = (ColourPawn) imageView.getUserData();
-            Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.putImage(imageView.getImage());
-            db.setContent(content);
 
-        }
-        event.consume();
-    }
-
-    /**
-     * Card 1 uses this whan the payer has to drop a pawn on the island
-     */
-    @FXML
-    void setStudentOnIslandCard1(DragEvent event) {
-        if(cardToUse == true && ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId() == 1) {
-
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
-            String islandIdString;
-            int islandId;
-            islandIdString= anchorPaneClicked.getId().substring(6);
-            islandId= Integer.parseInt(islandIdString);
-            ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
-            ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
-            ClientController.getSemaphore().release();
-        }
-        event.setDropCompleted(true);
-        event.consume();
-    }
 
 
 }
-
