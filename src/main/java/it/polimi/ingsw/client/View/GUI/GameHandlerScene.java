@@ -367,7 +367,7 @@ public class GameHandlerScene {
     public void tryUseCard(DragEvent event){
 
         String id = ((AnchorPane) event.getSource()).getId().substring(4);
-
+        System.out.println(id);
         ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
         ClientController.getSemaphore().release();
         setObserversErrors();
@@ -391,12 +391,12 @@ public class GameHandlerScene {
             int index = ((TabPane) currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex() +1 ;
 
             if (index == myOrderInPlayers) {
-                System.out.println("dopo verifica index");
                 //set image
                 ImageView imageView = (ImageView) mouseEvent.getTarget();
                 Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(imageView.getImage());
+                db.setContent(content);
                 dragged="coins";
             }
             mouseEvent.consume();

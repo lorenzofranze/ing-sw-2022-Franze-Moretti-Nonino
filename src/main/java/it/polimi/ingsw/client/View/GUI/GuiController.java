@@ -467,12 +467,12 @@ public class GuiController extends Application {
             for(CharacterPojo characterPojo : ClientController.getInstance().getGameStatePojo().getCharacters()){
                 child = (AnchorPane) splitPane.getItems().get(i);
                 //set image
-                ((ImageView)child.getChildren().get(0)).setImage(charactersToImage(characterPojo));
+                ((ImageView)(child.getChildren().get(0))).setImage(charactersToImage(characterPojo));
                 //set id
                 child.setId("card"+characterPojo.getCharacterId());
-                i++;
                 //hide coin incremented
                 ((ImageView)child.getChildren().get(2)).setVisible(false);
+                i++;
             }
         }
         //hide coins left if simple
