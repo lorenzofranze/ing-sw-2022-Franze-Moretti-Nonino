@@ -623,14 +623,16 @@ public class GuiController extends Application {
             if(card.getCharacterId()==5){
                 int rig=0;
                 int col=0;
+
                 gridPane= (GridPane) anchorPane.getChildren().get(1);
-                imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
+
+
                 for(int i=0; i<card.getNumNoEntry(); i++){
+                    imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
                     if(col==3) {
                         col=0;
                         rig=1;
                     }
-                    imageView.setUserData("deny_card_"+ i);
                     gridPane.add(imageView, rig, col);
                     col++;
                 }
