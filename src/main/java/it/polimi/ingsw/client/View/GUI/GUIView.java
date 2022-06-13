@@ -291,7 +291,7 @@ public class GUIView implements View {
     @Override
     public synchronized void moveStudentToIsland(){
         GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
-        GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard1());
         GuiController.getInstance().runMethod();
         System.out.println("arrivato in 1");
         GameHandlerScene.setMoveStudentCard(true);

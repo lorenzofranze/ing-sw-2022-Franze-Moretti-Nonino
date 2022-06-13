@@ -364,34 +364,7 @@ public class GameHandlerScene {
 
 
 
-    /**
-     * Waits that the ClientController reads the message sent by the server. If it is an error messsage, an alert will
-     * be shown (thanks to setObserversErrors method)
-     * @param event
-     */
-    @FXML
-    public void tryUseCard(DragEvent event){
 
-        String id = ((AnchorPane) event.getSource()).getId().substring(4);
-        ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
-        ClientController.getSemaphore().release();
-        setObserversErrors();
-        System.out.println("drop rilevato");
-        event.setDropCompleted(true);
-        event.consume();
-
-    }
-
-    /**
-     * the Drag and Drop started by useCoins-method ends
-     * @param event
-     */
-    @FXML
-    public void acceptDropUseCoins(DragEvent event){
-        if(dragged.equals("coins")) {
-            event.acceptTransferModes(TransferMode.MOVE);
-        }
-    }
 
     /**
      * When the player clicks the coin,
@@ -417,6 +390,38 @@ public class GameHandlerScene {
             mouseEvent.consume();
         }
     }
+
+    /**
+     * the Drag and Drop started by useCoins-method ends
+     * The drop is accepted only if the item dropped is a coin
+     * @param event
+     */
+    @FXML
+    public void acceptDropUseCoins(DragEvent event){
+        if(dragged.equals("coins")) {
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+    }
+
+
+    /**
+     * Waits that the ClientController reads the message sent by the server. If it is an error messsage, an alert will
+     * be shown (thanks to setObserversErrors method)
+     * @param event
+     */
+    @FXML
+    public void tryUseCard(DragEvent event){
+
+        String id = ((AnchorPane) event.getSource()).getId().substring(4);
+        ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
+        ClientController.getSemaphore().release();
+        setObserversErrors();
+        System.out.println("drop rilevato");
+        event.setDropCompleted(true);
+        event.consume();
+
+    }
+
 
 
 

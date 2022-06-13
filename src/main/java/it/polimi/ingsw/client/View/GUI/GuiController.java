@@ -604,7 +604,7 @@ public class GuiController extends Application {
     //////////------------------------/////////////--------------//////////
 
     /** Update character cards view (elements on the card)*/
-    private void updateCharacterCards(){
+    private void updateCharacterCards() {
         //note: each anchorPane has an ID : "card"+(num. card): once you have the anchorPane do anchorPane.getChildren().get(1)
         // to get the gridPane with students or no entry tiles
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
@@ -613,58 +613,68 @@ public class GuiController extends Application {
         ImageView imageView;
 
         //show coin on card if is incremented
-        for(CharacterPojo card : game.getCharacters()){
-            if(card.isIncremented()) {
+        for (CharacterPojo card : game.getCharacters()) {
+            if (card.isIncremented()) {
                 anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
                 ((ImageView) anchorPane.getChildren().get(2)).setVisible(true);
             }
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
 
-            if(card.getCharacterId()==5){
-                int rig=0;
-                int col=0;
+            if (card.getCharacterId() == 5) {
+                System.out.println("update card 5");
+                int rig = 0;
+                int col = 0;
 
-                gridPane= (GridPane) anchorPane.getChildren().get(1);
+                gridPane = (GridPane) anchorPane.getChildren().get(1);
 
-
-                for(int i=0; i<card.getNumNoEntry(); i++){
+                //puts no entry tiles on card
+                for (int i = 0; i < card.getNumNoEntry(); i++) {
                     imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
-                    if(col==3) {
-                        col=0;
-                        rig=1;
+                    if (col == 3) {
+                        col = 0;
+                        rig = 1;
                     }
+                    imageView.setFitWidth(19.0);
+                    imageView.setPreserveRatio(true);
                     gridPane.add(imageView, rig, col);
                     col++;
                 }
                 //puts no entry tiles on islands
-                int j=0;
-                for(IslandPojo island : game.getIslands()){
-                    for(int i=0; i< island.getNumNoEntryTile(); i++) {
+                int j = 0;
+                for (IslandPojo island : game.getIslands()) {
+                    for (int i = 0; i < island.getNumNoEntryTile(); i++) {
                         anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + (j + 1));
-                        gridPane = (GridPane) anchorPane.getChildren();
+                        gridPane = (GridPane) anchorPane.getChildren().get(1);
                         imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
-                        gridPane.add(imageView, 6, 6-i);
+                        imageView.setFitWidth(19.0);
+                        imageView.setPreserveRatio(true);
+                        gridPane.add(imageView, 6, 6 - i);
                     }
                     j++;
                 }
-            }
 
-            if(card.getCharacterId()==1 || card.getCharacterId()==11){
-                gridPane= (GridPane) anchorPane.getChildren().get(1);
-                List<ImageView> pawnsList= PawnsToImageStudents(card.getStudents());
-                int rig=0;
-                int col=0;
-                for(int i=0; i<pawnsList.size(); i++){
-                    if(col==3) {
-                        col=0;
-                        rig=1;
+
+                anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
+                if (card.getCharacterId() == 1 || card.getCharacterId() == 11) {
+                    gridPane = (GridPane) anchorPane.getChildren().get(1);
+                    List<ImageView> pawnsList = PawnsToImageStudents(card.getStudents());
+                    rig = 0;
+                    col = 0;
+                    for (int i = 0; i < pawnsList.size(); i++) {
+                        if (col == 3) {
+                            col = 0;
+                            rig = 1;
+                        }
+                        imageView= pawnsList.get(i);
+                        imageView.setFitWidth(19.0);
+                        imageView.setPreserveRatio(true);
+                        gridPane.add(imageView, rig, col);
+                        col++;
                     }
-                    gridPane.add(pawnsList.get(i), rig, col);
-                    col++;
                 }
             }
-        }
 
+        }
     }
 
 
@@ -692,8 +702,10 @@ public class GuiController extends Application {
         //Setting the content of the dialog
         alert.setContentText("With this card you get a magic power! Choose an island and the influences on that island" +
                 " will be calculated... remember mother nature will continue her steps as usual");
+        alert.showAndWait();
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         AnchorPane anchorPane;
+
         //todo: vedere se quando viene eseguito 2 volte non crea problemi perchè si aggiungono più listener allo stesso elemento
         for(int j=game.getIslands().size()+1; j<13; j++) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
@@ -714,6 +726,7 @@ public class GuiController extends Application {
         alert.setContentText("With this cards you get a magic power! Choose an island" +
                 " and the next time mother nature will stops on it, she will forget to calculate the influence on the" +
                 "island");
+        alert.showAndWait();
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         AnchorPane anchorPane;
         for(int j=game.getIslands().size()+1; j<13; j++) {
@@ -733,7 +746,7 @@ public class GuiController extends Application {
         //Setting the content of the dialog
         alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
                 "and place him on the island that you like the most ");
-
+        alert.showAndWait();
         AnchorPane anchorPane;
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
         GridPane gridPane = (GridPane) anchorPane.getChildren();
@@ -755,10 +768,12 @@ public class GuiController extends Application {
         //Setting the content of the dialog
         alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
                 "  and he will be moved in your entry ");
+        alert.showAndWait();
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         AnchorPane anchorPane;
         GridPane gridPane;
         ImageView imageView;
+
         for (int j = game.getIslands().size() + 1; j < 13; j++) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
             gridPane = (GridPane) anchorPane.getChildren();
@@ -766,7 +781,7 @@ public class GuiController extends Application {
                 imageView = (ImageView) gridPane.getChildren().get(i);
                 imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
-                        //GameHandlerScene.setColurChosen(event);
+                        GameHandlerScene.setColurChosen(event);
                     }
                 });
             }
@@ -789,6 +804,7 @@ public class GuiController extends Application {
         alert.getDialogPane().getButtonTypes().add(red);
         alert.getDialogPane().getButtonTypes().add(yellow);
         alert.getDialogPane().getButtonTypes().add(green);
+        alert.showAndWait();
     }
 
 
