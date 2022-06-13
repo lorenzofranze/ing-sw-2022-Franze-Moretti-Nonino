@@ -630,6 +630,7 @@ public class GuiController extends Application {
                         col=0;
                         rig=1;
                     }
+                    imageView.setUserData("deny_card_"+ i);
                     gridPane.add(imageView, rig, col);
                     col++;
                 }
@@ -651,7 +652,7 @@ public class GuiController extends Application {
                 List<ImageView> pawnsList= PawnsToImageStudents(card.getStudents());
                 int rig=0;
                 int col=0;
-                for(int i=0; i<card.getStudents().pawnsNumber(); i++){
+                for(int i=0; i<pawnsList.size(); i++){
                     if(col==3) {
                         col=0;
                         rig=1;
