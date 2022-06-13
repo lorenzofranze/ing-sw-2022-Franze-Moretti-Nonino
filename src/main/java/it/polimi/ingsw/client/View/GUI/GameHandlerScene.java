@@ -338,7 +338,7 @@ public class GameHandlerScene {
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
                 if (!ok) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "No enough coins", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Card already used", ButtonType.OK);
                     alert.showAndWait();
                 }
             });
@@ -347,7 +347,7 @@ public class GameHandlerScene {
         Consumer<Boolean> consumerInvalidChoise = (ok) -> {
             Platform.runLater(() -> {
                 if (!ok) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Card already used", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No enough coins", ButtonType.OK);
                     alert.showAndWait();
                 }
             });
@@ -367,7 +367,6 @@ public class GameHandlerScene {
     public void tryUseCard(DragEvent event){
 
         String id = ((AnchorPane) event.getSource()).getId().substring(4);
-        System.out.println(id);
         ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
         ClientController.getSemaphore().release();
         setObserversErrors();
