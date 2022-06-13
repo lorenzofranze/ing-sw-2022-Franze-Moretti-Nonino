@@ -304,6 +304,7 @@ public class GUIView implements View {
 
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setChooseIsland(false);
+        GameHandlerScene.setPawnColour(false);
     }
 
     /**
@@ -336,6 +337,7 @@ public class GUIView implements View {
         //back to initial conditions
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setChooseIsland(false);
+        GameHandlerScene.setPawnColour(false);
 
     }
 
@@ -363,10 +365,12 @@ public class GUIView implements View {
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 9");
+            GameHandlerScene.setPawnColour(true);
         }else if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==11){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard11());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 11");
+            GameHandlerScene.setPawnColour(true);
         }
         try {
             ClientController.getSemaphore().acquire();
@@ -374,6 +378,9 @@ public class GUIView implements View {
             e.printStackTrace();
         }
         //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
+        GameHandlerScene.setCharacterCardToUse(false);
+        GameHandlerScene.setChooseIsland(false);
+        GameHandlerScene.setPawnColour(false);
     }
 
 

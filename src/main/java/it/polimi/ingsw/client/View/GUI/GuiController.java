@@ -749,7 +749,7 @@ public class GuiController extends Application {
         alert.showAndWait();
         AnchorPane anchorPane;
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
-        GridPane gridPane = (GridPane) anchorPane.getChildren();
+        GridPane gridPane = (GridPane) anchorPane.getChildren().get(1);
         ImageView imageView;
         for (int i = 0; i < gridPane.getChildren().size(); i++) {
             imageView = (ImageView) gridPane.getChildren().get(i);
@@ -776,7 +776,7 @@ public class GuiController extends Application {
 
         for (int j = game.getIslands().size() + 1; j < 13; j++) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
-            gridPane = (GridPane) anchorPane.getChildren();
+            gridPane = (GridPane) anchorPane.getChildren().get(1);
             for (int i = 0; i < gridPane.getChildren().size(); i++) {
                 imageView = (ImageView) gridPane.getChildren().get(i);
                 imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
