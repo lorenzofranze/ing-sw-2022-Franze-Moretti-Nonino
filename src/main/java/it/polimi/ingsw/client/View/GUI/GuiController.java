@@ -827,7 +827,7 @@ public class GuiController extends Application {
             image.setUserData(i);
             image.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((Integer) ((ImageView) event.getTarget()).getUserData()));
+                    ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((Integer)((ImageView) event.getTarget()).getUserData()));
                     ClientController.getSemaphore().release();
                     alert.close();
                 }
