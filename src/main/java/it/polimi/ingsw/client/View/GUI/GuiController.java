@@ -643,10 +643,10 @@ public class GuiController extends Application {
                     col++;
                 }
                 //puts no entry tiles on islands
-                int j = 0;
+                int j = 1;
                 for (IslandPojo island : game.getIslands()) {
                     for (int i = 0; i < island.getNumNoEntryTile(); i++) {
-                        anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + (j + 1));
+                        anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + (j));
                         gridPane = (GridPane) anchorPane.getChildren().get(1);
                         imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
                         imageView.setFitWidth(19.0);
@@ -713,17 +713,6 @@ public class GuiController extends Application {
 
         alert.showAndWait();
 
-        //todo: vedere se quando viene eseguito 2 volte non crea problemi perchè si aggiungono più listener allo stesso elemento
-        for(int j=game.getIslands().size()+1; j<13; j++) {
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
-
-            anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    GameHandlerScene.setIslandChosenForCard(event);
-                }
-            });
-        }
-
     }
 
     public void activeGuiCard5() {
@@ -735,16 +724,7 @@ public class GuiController extends Application {
                 " and the next time mother nature will stops on it, she will forget to calculate the influence on the" +
                 "island");
         alert.showAndWait();
-        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
-        AnchorPane anchorPane;
-        for(int j=game.getIslands().size()+1; j<13; j++) {
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
-            anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    GameHandlerScene.setIslandChosenForCard(event);
-                }
-            });
-        }
+
     }
 
     public void activeGuiCard1() {

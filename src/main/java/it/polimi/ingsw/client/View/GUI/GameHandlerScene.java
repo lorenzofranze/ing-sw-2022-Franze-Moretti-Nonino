@@ -140,7 +140,7 @@ public class GameHandlerScene {
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
-            islandIdString= anchorPaneClicked.getId().substring(6);
+            islandIdString= anchorPaneClicked.getId().substring(6,7);
             islandId= Integer.parseInt(islandIdString);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
@@ -184,6 +184,22 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setStepsMotherNature(result);
             ClientController.getSemaphore().release();
         }
+
+        //** this method is used by card 3 and 5 **//
+        else if(chooseIsland){
+            System.out.println("cliccato l'isola");
+            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+            String islandIdString;
+            int islandId;
+
+            islandIdString = anchorPaneClicked.getId().substring(6);
+            islandId = Integer.parseInt(islandIdString);
+            System.out.println("cliccato l'isola numero "+islandIdString);
+
+            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
+            ClientController.getSemaphore().release();
+        }
+
     }
 
     /**receives in input an action bookmark (in Console class) and return true if is my turn, the game is in action phase
@@ -494,20 +510,8 @@ public class GameHandlerScene {
      * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
      */
     @FXML
-    public static void setIslandChosenForCard(MouseEvent event){
-        if(chooseIsland){
-            System.out.println("cliccato l'isola");
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
-            String islandIdString;
-            int islandId;
+    public void setIslandChosenForCard(MouseEvent event){
 
-            islandIdString = anchorPaneClicked.getId().substring(6);
-            islandId = Integer.parseInt(islandIdString);
-            System.out.println("cliccato l'isola numero "+islandIdString);
-
-            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
-            ClientController.getSemaphore().release();
-        }
 
     }
 
