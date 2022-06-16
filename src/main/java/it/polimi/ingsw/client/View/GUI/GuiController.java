@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.View.GUI;
 import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
+import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.Island;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -611,6 +612,8 @@ public class GuiController extends Application {
         AnchorPane anchorPane;
         GridPane gridPane;
         ImageView imageView;
+        int rig;
+        int col;
 
         //show coin on card if is incremented
         for (CharacterPojo card : game.getCharacters()) {
@@ -621,9 +624,9 @@ public class GuiController extends Application {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
 
             if (card.getCharacterId() == 5) {
-                System.out.println("update card 5");
-                int rig = 0;
-                int col = 0;
+
+                rig = 0;
+                col = 0;
 
                 gridPane = (GridPane) anchorPane.getChildren().get(1);
 
@@ -652,27 +655,29 @@ public class GuiController extends Application {
                     }
                     j++;
                 }
+            }
 
 
-                anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
-                if (card.getCharacterId() == 1 || card.getCharacterId() == 11) {
-                    gridPane = (GridPane) anchorPane.getChildren().get(1);
-                    List<ImageView> pawnsList = PawnsToImageStudents(card.getStudents());
-                    rig = 0;
-                    col = 0;
-                    for (int i = 0; i < pawnsList.size(); i++) {
-                        if (col == 3) {
-                            col = 0;
-                            rig = 1;
-                        }
-                        imageView= pawnsList.get(i);
-                        imageView.setFitWidth(19.0);
-                        imageView.setPreserveRatio(true);
-                        gridPane.add(imageView, rig, col);
-                        col++;
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
+
+            if (card.getCharacterId() == 1 || card.getCharacterId() == 11) {
+                gridPane = (GridPane) anchorPane.getChildren().get(1);
+                List<ImageView> pawnsList = PawnsToImageStudents(card.getStudents());
+                rig = 0;
+                col = 0;
+                for (int i = 0; i < pawnsList.size(); i++) {
+                    if (col == 3) {
+                        col = 0;
+                        rig = 1;
                     }
+                    imageView= pawnsList.get(i);
+                    imageView.setFitWidth(19.0);
+                    imageView.setPreserveRatio(true);
+                    gridPane.add(imageView, rig, col);
+                    col++;
                 }
             }
+
 
         }
     }
@@ -702,13 +707,16 @@ public class GuiController extends Application {
         //Setting the content of the dialog
         alert.setContentText("With this card you get a magic power! Choose an island and the influences on that island" +
                 " will be calculated... remember mother nature will continue her steps as usual");
-        alert.showAndWait();
+
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         AnchorPane anchorPane;
+
+        alert.showAndWait();
 
         //todo: vedere se quando viene eseguito 2 volte non crea problemi perchè si aggiungono più listener allo stesso elemento
         for(int j=game.getIslands().size()+1; j<13; j++) {
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
+
             anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     GameHandlerScene.setIslandChosenForCard(event);
@@ -747,8 +755,10 @@ public class GuiController extends Application {
         alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
                 "and place him on the island that you like the most ");
         alert.showAndWait();
+        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         AnchorPane anchorPane;
-        anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#card1");
+
         GridPane gridPane = (GridPane) anchorPane.getChildren().get(1);
         ImageView imageView;
         for (int i = 0; i < gridPane.getChildren().size(); i++) {
@@ -759,6 +769,20 @@ public class GuiController extends Application {
                 }
             });
         }
+        /*
+        for (int j = 1; j < game.getIslands().size() + 1; j++) {
+
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
+            anchorPane.setOnDragDetected(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    GameHandlerScene.dragStudentForCard(event);
+                }
+            });
+        }
+        */
+
+
+
     }
 
     public void activeGuiCard11() {

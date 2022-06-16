@@ -414,6 +414,7 @@ public class GameHandlerScene {
 
         String id = ((AnchorPane) event.getSource()).getId().substring(4);
         ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
+        System.out.println("GameHandlerScene: using coin for character "+ id);
         ClientController.getSemaphore().release();
         setObserversErrors();
         System.out.println("drop rilevato");
@@ -471,6 +472,7 @@ public class GameHandlerScene {
         event.setDropCompleted(true);
         event.consume();
 
+
     }
 
 
@@ -494,12 +496,14 @@ public class GameHandlerScene {
     @FXML
     public static void setIslandChosenForCard(MouseEvent event){
         if(chooseIsland){
+            System.out.println("cliccato l'isola");
             AnchorPane anchorPaneClicked = (AnchorPane) event.getTarget();
             String islandIdString;
             int islandId;
 
             islandIdString = anchorPaneClicked.getId().substring(6);
             islandId = Integer.parseInt(islandIdString);
+            System.out.println("cliccato l'isola numero "+islandIdString);
 
             ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId);
             ClientController.getSemaphore().release();
