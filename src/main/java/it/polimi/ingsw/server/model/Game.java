@@ -86,8 +86,8 @@ public class Game {
         characterStates.add(temp.get(1));
         characterStates.add(temp.get(2));
         */
-        characterStates.add(new CharacterStateStudent(1, 1));
-        characterStates.add(new CharacterState(3, 3));
+        characterStates.add(new CharacterState(9, 1));
+        characterStates.add(new CharacterState(12, 1));
         characterStates.add(new CharacterStateNoEntryTile(5, 2));
 
         this.coinSupply = 20;

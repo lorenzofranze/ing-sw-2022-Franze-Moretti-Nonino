@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 import java.io.IOException;
@@ -355,6 +356,14 @@ public class GuiController extends Application {
             path = "/images/imageGamePianification/Assistente (" + card + ").png";
             ((ImageView) anchorPane.getChildren().get(2)).setImage(new Image(path));
         }
+
+        //set text to player's coins
+        if(game.isExpert()) {
+            Text text = (Text) anchorPane.getChildren().get(1);
+            text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getCoins() + "");
+        }
+
+        //update
         if(game.isExpert()) {
             updateCharacterCards();
         }
@@ -428,6 +437,7 @@ public class GuiController extends Application {
         //reset assistant card view
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
         ((ImageView)anchorPane.getChildren().get(2)).setImage(null);
+
         if(game.isExpert()) {
             resetCharacterCards();
         }
@@ -585,7 +595,6 @@ public class GuiController extends Application {
             //set text to player's coins
             Text text = (Text) anchorPane.getChildren().get(1);
             text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getCoins() + "");
-            //set drag event handeler on imageView: ...
         }
     }
 
@@ -656,9 +665,6 @@ public class GuiController extends Application {
                     j++;
                 }
             }
-
-
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
 
             if (card.getCharacterId() == 1 || card.getCharacterId() == 11) {
                 gridPane = (GridPane) anchorPane.getChildren().get(1);
@@ -793,22 +799,43 @@ public class GuiController extends Application {
     }
 
 
+    /** method used by cards 9 and 12: alert with selection */
+    public void activeGuiCard9_12(int num){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("cardsDialogColour.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage alert = new Stage();
+        Scene scene = new Scene(root);
+        alert.setScene(scene);
+        alert.setResizable(false);
+        alert.sizeToScene();
+        alert.setOnCloseRequest(event -> event.consume() );
+        alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
 
-    //CHARCATER CARDS METHODS 1 FOR EACH CARD
-    public void activeGuiCard9(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //Setting the title
-        alert.setTitle("CARD 9");
-        ButtonType red = new ButtonType("red", ButtonBar.ButtonData.OK_DONE);
-        ButtonType yellow = new ButtonType("yellow", ButtonBar.ButtonData.OK_DONE);
-        ButtonType green = new ButtonType("green", ButtonBar.ButtonData.OK_DONE);
-        //Setting the content of the dialog
-        alert.setContentText("la carta 9 fa... scegli un colore");
-        //Adding buttons to the dialog pane
-        alert.getDialogPane().getButtonTypes().add(red);
-        alert.getDialogPane().getButtonTypes().add(yellow);
-        alert.getDialogPane().getButtonTypes().add(green);
-        alert.showAndWait();
+        CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
+                .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
+        DialogPane dialogPane = (DialogPane)root;
+
+        ((Text)dialogPane.getHeader()).setText("CARD "+num);
+        ((Text) alert.getScene().lookup("#description")).setText(characterPojo.getDescription());
+        int i =0;
+        for(ImageView image : ( ((AnchorPane) alert.getScene().lookup("#colours")).getChildren()).stream().map(a->(ImageView)a).collect(Collectors.toList())){
+            image.setUserData(i);
+            image.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((Integer) ((ImageView) event.getTarget()).getUserData()));
+                    ClientController.getSemaphore().release();
+                    alert.close();
+                }
+            });
+            i++;
+        }
+
+        alert.show();
     }
 
 

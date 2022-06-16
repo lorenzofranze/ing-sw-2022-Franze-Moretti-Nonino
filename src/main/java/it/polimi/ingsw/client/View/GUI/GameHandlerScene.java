@@ -360,21 +360,22 @@ public class GameHandlerScene {
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
                 if (!ok) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Card already used", ButtonType.OK);
-                    alert.showAndWait();
-                }
-            });
-        };
-        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
-        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
-            Platform.runLater(() -> {
-                if (!ok) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "No enough coins", ButtonType.OK);
                     alert.showAndWait();
                 }
             });
         };
-        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
+        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
+
+        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
+            Platform.runLater(() -> {
+                if (!ok) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"Card already used" , ButtonType.OK);
+                    alert.showAndWait();
+                }
+            });
+        };
+        ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
     }
 
 
@@ -509,7 +510,7 @@ public class GameHandlerScene {
      * (The methos chooseIsland of the GUIview calls activeGuiCard3/5 in the GUIController and
      * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
      */
-
+    @FXML
      private void setIslandChosenForCard(MouseEvent event){
 
          System.out.println("cliccato l'isola");
