@@ -82,7 +82,7 @@
             <!---   ****  islands  **** -->
             <AnchorPane fx:id="island1" layoutX="14.0" layoutY="175.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island1.png" />
                      </image>
@@ -121,7 +121,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island2" layoutX="1.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island2.png" />
                      </image>
@@ -160,7 +160,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island3" layoutX="194.0" layoutY="14.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island3.png" />
                      </image>
@@ -199,7 +199,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island4" layoutX="398.0" layoutY="14.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island1.png" />
                      </image>
@@ -238,7 +238,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island5" layoutX="604.0" layoutY="23.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island2.png" />
                      </image>
@@ -277,7 +277,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island6" layoutX="813.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island3.png" />
                      </image>
@@ -316,7 +316,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island7" layoutX="847.0" layoutY="211.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="222.0" prefWidth="222.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="222.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="222.0"  pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island1.png" />
                      </image>
@@ -355,7 +355,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island8" layoutX="846.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="222.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island2.png" />
                      </image>
@@ -394,7 +394,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island9" layoutX="643.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island3.png" />
                      </image>
@@ -433,7 +433,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island10" layoutX="434.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0"  pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island1.png" />
                      </image>
@@ -472,7 +472,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island11" layoutX="246.0" layoutY="451.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" layoutX="-26.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" layoutX="-26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island2.png" />
                      </image>
@@ -511,7 +511,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island12" layoutX="1.0" layoutY="408.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0" onDragOver="#acceptDropStudentForCard" onMouseClicked="#setIslandChosenForCard" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island3.png" />
                      </image>

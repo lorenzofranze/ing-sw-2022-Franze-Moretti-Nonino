@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.View.GUI;
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.common.gamePojo.*;
-import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -11,13 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**class that responses to the click event on a game object, all the methods verify if the action is valid and unlock
  * the game if the choose is ok otherwise no action
@@ -37,11 +32,12 @@ public class GameHandlerScene {
     private static boolean moveStudentCard;
 
     private static boolean chooseIsland;
-    private static boolean setPawnColour;
+    private static boolean pawnColourBoolean;
 
 
     @FXML
     void setCloudChosen1(MouseEvent event) {
+
         if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
             if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
@@ -99,6 +95,7 @@ public class GameHandlerScene {
                 dragged="student";
             }
         }
+
         event.consume();
 
     }
@@ -107,6 +104,15 @@ public class GameHandlerScene {
     void acceptDropMoveStudent(DragEvent event){
         if(dragged.equals("student")) {
             event.acceptTransferModes(TransferMode.MOVE);
+        }
+        else if(dragged.equals("studentCard")) {
+            System.out.println("flag1 gamehandlerscene");
+            AnchorPane anchorPane = (AnchorPane) event.getSource();
+            String id= anchorPane.getId();
+            if(id.substring(0,5).equals("island")){
+                event.acceptTransferModes(TransferMode.MOVE);
+                System.out.println("flag2 gamehandlerscene");
+            }
         }
     }
 
@@ -145,6 +151,9 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
             ClientController.getSemaphore().release();
+        }
+        else if(pawnColourBoolean){
+            acceptDropStudentForCard(event);
         }
         event.setDropCompleted(true);
         event.consume();
@@ -187,17 +196,7 @@ public class GameHandlerScene {
 
         //** this method is used by card 3 and 5 **//
         else if(chooseIsland){
-            System.out.println("cliccato l'isola");
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
-            String islandIdString;
-            int islandId;
-
-            islandIdString = anchorPaneClicked.getId().substring(6);
-            islandId = Integer.parseInt(islandIdString);
-            System.out.println("cliccato l'isola numero "+islandIdString);
-
-            ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
-            ClientController.getSemaphore().release();
+            setIslandChosenForCard(event);
         }
 
     }
@@ -469,11 +468,12 @@ public class GameHandlerScene {
 
     }
 
+
     /**
      * Card 1 uses this whan the payer has to drop a pawn on the island
      */
-    @FXML
-    void acceptDropStudentForCard(DragEvent event){
+
+    private void acceptDropStudentForCard(DragEvent event){
         if(dragged.equals("studentCard")) {
             event.acceptTransferModes(TransferMode.MOVE);
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
@@ -509,8 +509,20 @@ public class GameHandlerScene {
      * (The methos chooseIsland of the GUIview calls activeGuiCard3/5 in the GUIController and
      * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
      */
-    @FXML
-    public void setIslandChosenForCard(MouseEvent event){
+
+     private void setIslandChosenForCard(MouseEvent event){
+
+         System.out.println("cliccato l'isola");
+         AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
+         String islandIdString;
+         int islandId;
+
+         islandIdString = anchorPaneClicked.getId().substring(6);
+         islandId = Integer.parseInt(islandIdString);
+         System.out.println("cliccato l'isola numero "+islandIdString);
+
+         ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
+         ClientController.getSemaphore().release();
 
 
     }
@@ -518,8 +530,8 @@ public class GameHandlerScene {
 
     /////////////////////////    ///////////////////     CARD 11    ///////////////////     /////////////////////////
 
-    public static void setPawnColour(boolean chooseIsland) {
-        GameHandlerScene.setPawnColour = setPawnColour;
+    public static void setPawnColourBoolean(boolean chooseIsland) {
+        GameHandlerScene.pawnColourBoolean = pawnColourBoolean;
     }
 
 
@@ -529,7 +541,7 @@ public class GameHandlerScene {
      */
     @FXML
     public static void setColurChosen(MouseEvent event){
-        if (setPawnColour) {
+        if (pawnColourBoolean) {
 
             ImageView imageView = (ImageView) event.getTarget();
             ColourPawn colourStudent = (ColourPawn) imageView.getUserData();

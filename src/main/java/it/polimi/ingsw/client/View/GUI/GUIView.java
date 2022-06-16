@@ -1,35 +1,10 @@
 package it.polimi.ingsw.client.View.GUI;
 
-import it.polimi.ingsw.client.Controller.CharacterCardsConsole;
 import it.polimi.ingsw.client.Controller.ClientController;
-import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.client.View.View;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
 
-import it.polimi.ingsw.server.controller.logic.GameMode;
-import it.polimi.ingsw.server.model.AssistantCard;
-import it.polimi.ingsw.server.model.Game;
-import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Lock;
 import java.util.function.Consumer;
 
 
@@ -304,7 +279,7 @@ public class GUIView implements View {
 
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setChooseIsland(false);
-        GameHandlerScene.setPawnColour(false);
+        GameHandlerScene.setPawnColourBoolean(false);
     }
 
     /**
@@ -337,7 +312,7 @@ public class GUIView implements View {
         //back to initial conditions
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setChooseIsland(false);
-        GameHandlerScene.setPawnColour(false);
+        GameHandlerScene.setPawnColourBoolean(false);
 
     }
 
@@ -365,12 +340,12 @@ public class GUIView implements View {
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 9");
-            GameHandlerScene.setPawnColour(true);
+            GameHandlerScene.setPawnColourBoolean(true);
         }else if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==11){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard11());
             GuiController.getInstance().runMethod();
             System.out.println("arrivato in 11");
-            GameHandlerScene.setPawnColour(true);
+            GameHandlerScene.setPawnColourBoolean(true);
         }
         try {
             ClientController.getSemaphore().acquire();
@@ -380,7 +355,7 @@ public class GUIView implements View {
         //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setChooseIsland(false);
-        GameHandlerScene.setPawnColour(false);
+        GameHandlerScene.setPawnColourBoolean(false);
     }
 
 
