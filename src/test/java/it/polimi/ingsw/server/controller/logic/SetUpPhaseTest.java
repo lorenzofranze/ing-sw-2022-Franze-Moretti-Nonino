@@ -51,7 +51,7 @@ public class SetUpPhaseTest {
         setUpPhase.handle();
 
         for (Player p : gameController.getGame().getPlayers()) {
-            assertEquals(5, p.getCoins());
+            assertEquals(1, p.getCoins());
         }
     }
 

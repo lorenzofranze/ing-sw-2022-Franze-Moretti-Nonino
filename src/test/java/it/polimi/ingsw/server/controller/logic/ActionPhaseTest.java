@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ActionPhaseTest {
 
+
+
     @Test
     public void testMoveSingleStudent() {
         ArrayList<String> players = new ArrayList<>();
@@ -99,7 +101,7 @@ class ActionPhaseTest {
         p2.getSchoolBoard().getDiningRoom().add(ColourPawn.Blue, 9);
 
         //p2 moves Blue student to DiningRoom
-        Message m2 = new PawnMovementMessage(1, -1);
+        Message m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q2.add(m2);
 
         pm2.setMessageQueue(q2);
@@ -120,10 +122,10 @@ class ActionPhaseTest {
 
 
         //p2 moves Blue student to DiningRoom, but it is full
-        m2 = new PawnMovementMessage(1, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q2.add(m2);
         //p2 moves Blue student to Island4
-        m2 = new PawnMovementMessage(1, 4);
+        m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), 4);
         q2.add(m2);
 
         pm2.setMessageQueue(q2);
@@ -144,7 +146,7 @@ class ActionPhaseTest {
 
 
         //p2 moves Green student to Island7
-        m2 = new PawnMovementMessage(2, 7);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), 7);
         q2.add(m2);
 
         pm2.setMessageQueue(q2);
@@ -169,13 +171,13 @@ class ActionPhaseTest {
         m2 = new PawnMovementMessage(7, 7);
         q2.add(m2);
         //p2 moves incorrectly
-        m2 = new PawnMovementMessage(0, 7);
+        m2 = new PawnMovementMessage(ColourPawn.Yellow.getIndexColour(), 7);
         q2.add(m2);
         //p2 moves incorrectly
-        m2 = new PawnMovementMessage(2, -5);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -5);
         q2.add(m2);
         //p2 moves Green student to DiningRoom
-        m2 = new PawnMovementMessage(2, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
 
         pm2.setMessageQueue(q2);
@@ -611,6 +613,7 @@ class ActionPhaseTest {
         assertEquals(true, c2.isIncremented());
         assertEquals(2, c2.getCost());
 
+        gameController.getGame().setActiveEffect(null);
 
         //the player plays a character that is too expensive and then a valid one
         q2 = new LinkedBlockingQueue<>();
@@ -625,6 +628,20 @@ class ActionPhaseTest {
         assertEquals(2, c2.getCost());
         actionPhase.askforCharacter();
         assertEquals(2, p2.getCoins());
+        assertEquals(c2, g.getActiveEffect());
+        assertEquals(true, c2.isIncremented());
+        assertEquals(2, c2.getCost());
+
+        //the player plays more than one character card in one round
+        q2 = new LinkedBlockingQueue<>();
+        m2 = new GameMessage(TypeOfMove.CharacterCard, 2);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q2.add(m2);
+        pm2.setMessageQueue(q2);
+        playerManagerMap.put(p2.getNickname(), pm2);
+        gameController.getMessageHandler().setPlayerManagerMap(playerManagerMap);
+        actionPhase.askforCharacter();
         assertEquals(c2, g.getActiveEffect());
         assertEquals(true, c2.isIncremented());
         assertEquals(2, c2.getCost());
@@ -722,21 +739,21 @@ class ActionPhaseTest {
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(3, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Yellow.getIndexColour(), -1);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(4, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
+        q1.add(m1);
+        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q1.add(m1);
+        m1 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
@@ -757,21 +774,21 @@ class ActionPhaseTest {
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(3, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, 5);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(2, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), 2);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q2.add(m2);
+        m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
@@ -788,19 +805,19 @@ class ActionPhaseTest {
 
         Message m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(0, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(3, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
@@ -920,21 +937,21 @@ class ActionPhaseTest {
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(3, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Yellow.getIndexColour(), -1);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(4, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
+        q1.add(m1);
+        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q1.add(m1);
+        m1 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
@@ -955,21 +972,21 @@ class ActionPhaseTest {
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(3, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, 5);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(2, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), 2);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q2.add(m2);
+        m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
@@ -987,19 +1004,19 @@ class ActionPhaseTest {
 
         Message m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(0, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(3, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
@@ -1116,21 +1133,21 @@ class ActionPhaseTest {
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(3, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Yellow.getIndexColour(), -1);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(4, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
+        q1.add(m1);
+        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q1.add(m1);
+        m1 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
@@ -1151,21 +1168,21 @@ class ActionPhaseTest {
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(3, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, 5);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(2, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), 2);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q2.add(m2);
+        m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
@@ -1186,21 +1203,22 @@ class ActionPhaseTest {
         pm2.setMessageQueue(q2);
         playerManagerMap.put(p2.getNickname(), pm2);
 
+
         Message m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(0, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(3, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
@@ -1331,21 +1349,21 @@ class ActionPhaseTest {
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(3, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Yellow.getIndexColour(), -1);
         q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
-        q1.add(m1);
-        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q1.add(m1);
-        m1 = new PawnMovementMessage(2, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
-        m1 = new PawnMovementMessage(4, -1);
+        m1 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
+        q1.add(m1);
+        m1 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q1.add(m1);
+        m1 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q1.add(m1);
         m1 = new GameMessage(TypeOfMove.CharacterCard, null);
         q1.add(m1);
@@ -1366,21 +1384,21 @@ class ActionPhaseTest {
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(3, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Pink.getIndexColour(), -1);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
-        q2.add(m2);
-        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
-        q2.add(m2);
-        m2 = new PawnMovementMessage(1, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(1, 2);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
-        m2 = new PawnMovementMessage(2, -1);
+        m2 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), 2);
+        q2.add(m2);
+        m2 = new GameMessage(TypeOfMove.CharacterCard, null);
+        q2.add(m2);
+        m2 = new PawnMovementMessage(ColourPawn.Blue.getIndexColour(), -1);
         q2.add(m2);
         m2 = new GameMessage(TypeOfMove.CharacterCard, null);
         q2.add(m2);
@@ -1397,19 +1415,19 @@ class ActionPhaseTest {
 
         Message m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(0, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(3, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Green.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);
-        m3 = new PawnMovementMessage(2, -1);
+        m3 = new PawnMovementMessage(ColourPawn.Red.getIndexColour(), -1);
         q3.add(m3);
         m3 = new GameMessage(TypeOfMove.CharacterCard, null);
         q3.add(m3);

@@ -458,12 +458,12 @@ public class ActionPhase extends GamePhase {
                         }
                     }else{
                         System.out.println("Character card already used");
-                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
+                        ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice, "Character card already used");
                         playerManager.sendMessage(errorMessage);
                     }
                 } else {
                     System.out.println("The card doesn't exist");
-                    ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice);
+                    ErrorMessage errorMessage = new ErrorMessage(TypeOfError.InvalidChoice,"The card doesn't exist");
                     playerManager.sendMessage(errorMessage);
                 }
             } while (validChoice == false);

@@ -169,7 +169,7 @@ class PawnsMapTest {
         String ANSI_BLUE = "\u001B[34m";
         String ANSI_PINK = "\u001B[35m";
 
-         String[] ansi_colours = {ANSI_YELLOW, ANSI_BLUE, ANSI_GREEN, ANSI_RED, ANSI_PINK, ANSI_RESET};
+        String[] ansi_colours = {ANSI_GREEN, ANSI_RED, ANSI_YELLOW, ANSI_PINK, ANSI_BLUE, ANSI_RESET};
 
         String ris = new String();
         int i = 0;

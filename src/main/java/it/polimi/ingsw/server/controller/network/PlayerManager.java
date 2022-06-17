@@ -180,7 +180,12 @@ public class PlayerManager implements Runnable{
 
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
-        //System.out.println(stringToSend);
+        if (message.getMessageType()!=TypeOfMessage.Update){
+            System.out.println("MESSAGE SENT:\n" + stringToSend);
+        }
+        else{
+            System.out.println("MESSAGE SENT:\nupdate");
+        }
 
         //null only in tests
         if (bufferedReaderOut == null){return;}
