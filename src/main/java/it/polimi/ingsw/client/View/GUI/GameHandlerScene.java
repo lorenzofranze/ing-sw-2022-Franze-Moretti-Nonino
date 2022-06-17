@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.util.function.Consumer;
@@ -33,6 +34,8 @@ public class GameHandlerScene {
 
     private static boolean chooseIsland;
     private static boolean pawnColourBoolean;
+    private static boolean clickEntrance;
+    private static boolean clickDining;
 
 
     @FXML
@@ -106,10 +109,12 @@ public class GameHandlerScene {
             event.acceptTransferModes(TransferMode.MOVE);
         }
         else if(dragged.equals("studentCard")) {
+            System.out.println("flag1 gamehandlerscene");
             AnchorPane anchorPane = (AnchorPane) event.getSource();
             String id= anchorPane.getId();
             if(id.substring(0,6).equals("island")){
                 event.acceptTransferModes(TransferMode.MOVE);
+                System.out.println("flag2 gamehandlerscene");
             }
         }
     }
@@ -151,11 +156,7 @@ public class GameHandlerScene {
             ClientController.getSemaphore().release();
         }
         else if(pawnColourBoolean){
-
-            System.out.println("flag2 gamehandlerscene");
             acceptDropStudentForCard(event);
-
-            System.out.println("flag gamehandlerscene");
         }
         event.setDropCompleted(true);
         event.consume();
@@ -222,6 +223,10 @@ public class GameHandlerScene {
             i++;
         }
         myOrderInPlayers = (i+1);
+    }
+
+    public static int getMyOrderInPlayers(){
+        return myOrderInPlayers;
     }
 
 
@@ -362,21 +367,22 @@ public class GameHandlerScene {
         Consumer<Boolean> consumerCoins = (ok) -> {
             Platform.runLater(() -> {
                 if (!ok) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Card already used", ButtonType.OK);
-                    alert.showAndWait();
-                }
-            });
-        };
-        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
-        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
-            Platform.runLater(() -> {
-                if (!ok) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "No enough coins", ButtonType.OK);
                     alert.showAndWait();
                 }
             });
         };
-        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerInvalidChoise);
+        ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
+
+        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
+            Platform.runLater(() -> {
+                if (!ok) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"Card already used" , ButtonType.OK);
+                    alert.showAndWait();
+                }
+            });
+        };
+        ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
     }
 
 
@@ -511,6 +517,7 @@ public class GameHandlerScene {
      * (The methos chooseIsland of the GUIview calls activeGuiCard3/5 in the GUIController and
      * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
      */
+
      private void setIslandChosenForCard(MouseEvent event){
 
          System.out.println("cliccato l'isola");
@@ -545,9 +552,8 @@ public class GameHandlerScene {
         System.out.println("flag2");
         if (pawnColourBoolean) {
 
-            System.out.println("flag1");
-            ImageView imageView = (ImageView)event.getTarget();
-            colourStudent = (ColourPawn) imageView.getUserData();
+            ImageView imageView = (ImageView) event.getTarget();
+            ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
 
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getSemaphore().release();
@@ -556,14 +562,32 @@ public class GameHandlerScene {
 
 
 
-    /////////////////////////    ///////////////////     CARD    ///////////////////     /////////////////////////
+    /////////////////////////    ///////////////////     CARD 10   ///////////////////     /////////////////////////
 
-    /**set the chosen value in
-     * CharacterCardsConsole's attribute : pawnWhere and studentColour, see moveStudentToIsland() in CLIView
-     */
-    @FXML
-    void setStudentMovementForCard(DragEvent event){
+    /** enables click on student in entrance */
+    public static void enableClickStudentEntranceForCard(boolean enable){
+        clickEntrance = enable;
+    }
 
+
+    public static void clickStudentEntrance(MouseEvent event) {
+        if (clickEntrance) {
+            ImageView image = (ImageView) event.getTarget();
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((ColourPawn) image.getUserData()).getIndexColour());
+            ClientController.getSemaphore().release();
+            clickEntrance = false;
+            clickDining = true;
+        }
+    }
+
+    public static void clickStudentDining(MouseEvent event) {
+        if (clickDining) {
+            ImageView image = (ImageView) event.getTarget();
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(GridPane.getColumnIndex(image));
+            ClientController.getSemaphore().release();
+            clickDining = false;
+            System.out.println(GridPane.getColumnIndex(image));
+        }
     }
 
 }

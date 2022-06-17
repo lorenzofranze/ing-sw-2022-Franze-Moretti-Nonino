@@ -320,11 +320,22 @@ public class GUIView implements View {
     @Override
     public synchronized void chooseNumOfMove() {
         GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==7){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard7_10(7));
+            GuiController.getInstance().runMethod();
+
+        }
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard7_10(10));
+            GuiController.getInstance().runMethod();
+        }
+
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -333,20 +344,27 @@ public class GUIView implements View {
      */
     @Override
     public synchronized void chooseColour() {
-        GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
-        //guardare nella interfaccia View da chi è chiamato questo metodo e fare controllo opportuni
-        //qui sbloccare condizioni su GameHandlerScene se serve
-        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9){
-            GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9());
+        GameHandlerScene.setCharacterCardToUse(true);
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9) {
+            GuiController.getInstance().setRunnable(() -> GuiController.getInstance().activeGuiCard9_12(9));
             GuiController.getInstance().runMethod();
-            System.out.println("arrivato in 9");
-            GameHandlerScene.setPawnColourBoolean(true);
-        }else if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==11){
+        }
+
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==11){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard11());
             GuiController.getInstance().runMethod();
-            System.out.println("arrivato in 11");
             GameHandlerScene.setPawnColourBoolean(true);
         }
+
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==12){
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard9_12(12));
+        GuiController.getInstance().runMethod();
+        }
+
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
+            GameHandlerScene.enableClickStudentEntranceForCard(true);
+        }
+
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
@@ -354,7 +372,6 @@ public class GUIView implements View {
         }
         //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
         GameHandlerScene.setCharacterCardToUse(false);
-        GameHandlerScene.setChooseIsland(false);
         GameHandlerScene.setPawnColourBoolean(false);
     }
 

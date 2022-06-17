@@ -53,8 +53,11 @@ public class CharacterState {
                         "adds no influence.";
                 break;
             case 10:
-                description = "You may exchange up to 2 Students between your Entrance and your Dining Room.";
+                description = "You may exchange up to 2 Students between your Entrance and your Dining Room." +
+                        "First choose how many students you want to move, then select first the student on your" +
+                        "entrance, then the student on your dining room";
                 break;
+
             case 11:
                 description = "Take 1 Student form this card and place it in your Dining Room. " +
                         "Then, draw a new Student from the Bag and place it on this card.";

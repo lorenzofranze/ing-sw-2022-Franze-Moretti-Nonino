@@ -316,7 +316,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island7" layoutX="847.0" layoutY="211.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="222.0" prefWidth="222.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="222.0"  pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island1.png" />
                      </image>
@@ -433,7 +433,7 @@
             </AnchorPane>
             <AnchorPane fx:id="island10" layoutX="434.0" layoutY="441.0" onDragDropped="#setStudentOnIsland" onDragOver="#acceptDropMoveStudent" onMouseClicked="#setMotherNatureToIsalnd" prefHeight="176.0" prefWidth="186.0">
                <children>
-                  <ImageView fitHeight="222.0" fitWidth="223.0"  pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="222.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageGameAction/island1.png" />
                      </image>
@@ -978,7 +978,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
-                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageCharacters/Moneta_base.png" />
                      </image>
@@ -1000,7 +1000,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageCharacters/Moneta_base.png" />
                      </image>
@@ -1022,7 +1022,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="51.0" fitWidth="38.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/imageCharacters/Moneta_base.png" />
                      </image>
