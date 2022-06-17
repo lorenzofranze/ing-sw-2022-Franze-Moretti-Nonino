@@ -109,8 +109,12 @@ public class GameHandlerScene {
             event.acceptTransferModes(TransferMode.MOVE);
         }
         //** this method is used by card 1 for the drop
-        else if(dragged.equals("studentCard")) {
-            acceptDropStudentForCard(event);
+        else if(moveStudentCard && dragged.equals("studentCard")) {
+            AnchorPane anchorPane = (AnchorPane) event.getSource();
+            String id= anchorPane.getId();
+            if(id.substring(0,6).equals("island")) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
         }
     }
 
@@ -150,7 +154,8 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
             ClientController.getSemaphore().release();
         }
-        else if(pawnColourBoolean){
+        //** used by card 1 **//
+        else if(moveStudentCard){
             acceptDropStudentForCard(event);
         }
         event.setDropCompleted(true);
@@ -477,19 +482,20 @@ public class GameHandlerScene {
      */
 
     private void acceptDropStudentForCard(DragEvent event){
-
         String islandIdString;
         int islandId;
         AnchorPane anchorPane = (AnchorPane) event.getSource();
-        String id= anchorPane.getId();
-        if(id.substring(0,6).equals("island")){
-            event.acceptTransferModes(TransferMode.MOVE);
-            islandIdString= anchorPane.getId().substring(6);
-            islandId= Integer.parseInt(islandIdString);
-            ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
-            ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
-            ClientController.getSemaphore().release();
-        }
+        islandIdString= anchorPane.getId().substring(6,7);
+
+
+        islandId= Integer.parseInt(islandIdString);
+        ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
+        System.out.println(colourStudent);
+        System.out.println(colourStudent.getIndexColour());
+        ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
+        System.out.println(islandId-1);
+        ClientController.getSemaphore().release();
+
     }
 
 
