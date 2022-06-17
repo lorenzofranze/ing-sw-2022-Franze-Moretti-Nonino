@@ -108,14 +108,9 @@ public class GameHandlerScene {
         if(dragged.equals("student")) {
             event.acceptTransferModes(TransferMode.MOVE);
         }
+        //** this method is used by card 1 for the drop
         else if(dragged.equals("studentCard")) {
-            System.out.println("flag1 gamehandlerscene");
-            AnchorPane anchorPane = (AnchorPane) event.getSource();
-            String id= anchorPane.getId();
-            if(id.substring(0,6).equals("island")){
-                event.acceptTransferModes(TransferMode.MOVE);
-                System.out.println("flag2 gamehandlerscene");
-            }
+            acceptDropStudentForCard(event);
         }
     }
 
@@ -482,21 +477,19 @@ public class GameHandlerScene {
      */
 
     private void acceptDropStudentForCard(DragEvent event){
-        if(dragged.equals("studentCard")) {
+
+        String islandIdString;
+        int islandId;
+        AnchorPane anchorPane = (AnchorPane) event.getSource();
+        String id= anchorPane.getId();
+        if(id.substring(0,6).equals("island")){
             event.acceptTransferModes(TransferMode.MOVE);
-            AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
-            String islandIdString;
-            int islandId;
-            islandIdString= anchorPaneClicked.getId().substring(6);
+            islandIdString= anchorPane.getId().substring(6);
             islandId= Integer.parseInt(islandIdString);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
             ClientController.getSemaphore().release();
         }
-        event.setDropCompleted(true);
-        event.consume();
-
-
     }
 
 
@@ -538,7 +531,7 @@ public class GameHandlerScene {
 
     /////////////////////////    ///////////////////     CARD 11    ///////////////////     /////////////////////////
 
-    public static void setPawnColourBoolean(boolean chooseIsland) {
+    public static void setPawnColourBoolean(boolean pawnColourBoolean) {
         GameHandlerScene.pawnColourBoolean = pawnColourBoolean;
     }
 
@@ -549,10 +542,9 @@ public class GameHandlerScene {
      */
     @FXML
     public static void setColourChosen(MouseEvent event){
-        System.out.println("flag2");
-        if (pawnColourBoolean) {
 
-            ImageView imageView = (ImageView) event.getTarget();
+        if (pawnColourBoolean) {
+            ImageView imageView = (ImageView) event.getSource();
             ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
 
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());

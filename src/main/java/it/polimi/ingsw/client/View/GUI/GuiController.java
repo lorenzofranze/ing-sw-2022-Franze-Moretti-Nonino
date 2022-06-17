@@ -786,18 +786,18 @@ public class GuiController extends Application {
         GridPane gridPane;
         ImageView imageView;
 
-        for (int j = game.getIslands().size() + 1; j < 13; j++) {
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
-            gridPane = (GridPane) anchorPane.getChildren().get(1);
-            for (int i = 0; i < gridPane.getChildren().size(); i++) {
-                imageView = (ImageView) gridPane.getChildren().get(i);
-                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent event) {
-                        GameHandlerScene.setColourChosen(event);
-                    }
-                });
-            }
+
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#card11");
+        gridPane = (GridPane) anchorPane.getChildren().get(1);
+        for (int i = 0; i < gridPane.getChildren().size(); i++) {
+            imageView = (ImageView) gridPane.getChildren().get(i);
+            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    GameHandlerScene.setColourChosen(event);
+                }
+            });
         }
+
     }
 
 
