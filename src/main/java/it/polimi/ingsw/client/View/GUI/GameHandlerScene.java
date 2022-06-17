@@ -106,12 +106,10 @@ public class GameHandlerScene {
             event.acceptTransferModes(TransferMode.MOVE);
         }
         else if(dragged.equals("studentCard")) {
-            System.out.println("flag1 gamehandlerscene");
             AnchorPane anchorPane = (AnchorPane) event.getSource();
             String id= anchorPane.getId();
-            if(id.substring(0,5).equals("island")){
+            if(id.substring(0,6).equals("island")){
                 event.acceptTransferModes(TransferMode.MOVE);
-                System.out.println("flag2 gamehandlerscene");
             }
         }
     }
@@ -153,7 +151,11 @@ public class GameHandlerScene {
             ClientController.getSemaphore().release();
         }
         else if(pawnColourBoolean){
+
+            System.out.println("flag2 gamehandlerscene");
             acceptDropStudentForCard(event);
+
+            System.out.println("flag gamehandlerscene");
         }
         event.setDropCompleted(true);
         event.consume();
@@ -509,7 +511,6 @@ public class GameHandlerScene {
      * (The methos chooseIsland of the GUIview calls activeGuiCard3/5 in the GUIController and
      * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
      */
-
      private void setIslandChosenForCard(MouseEvent event){
 
          System.out.println("cliccato l'isola");
@@ -540,11 +541,13 @@ public class GameHandlerScene {
      * Card 11 uses this whan the payer has to choose a pawn on the card
      */
     @FXML
-    public static void setColurChosen(MouseEvent event){
+    public static void setColourChosen(MouseEvent event){
+        System.out.println("flag2");
         if (pawnColourBoolean) {
 
-            ImageView imageView = (ImageView) event.getTarget();
-            ColourPawn colourStudent = (ColourPawn) imageView.getUserData();
+            System.out.println("flag1");
+            ImageView imageView = (ImageView)event.getTarget();
+            colourStudent = (ColourPawn) imageView.getUserData();
 
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getSemaphore().release();

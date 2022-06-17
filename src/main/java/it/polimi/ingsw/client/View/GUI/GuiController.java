@@ -785,7 +785,7 @@ public class GuiController extends Application {
                 imageView = (ImageView) gridPane.getChildren().get(i);
                 imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
-                        GameHandlerScene.setColurChosen(event);
+                        GameHandlerScene.setColourChosen(event);
                     }
                 });
             }
