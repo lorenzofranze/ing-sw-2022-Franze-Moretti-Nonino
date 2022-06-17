@@ -28,6 +28,9 @@ public class CharacterCardsConsole {
         }
     }
 
+    /**
+     * the player chooses a pawn among those on the card and the island wherw he wants to place the pawn
+     */
     private void playEffectCard_1(){
         Message receivedMessage = null;
         boolean valid = false;
@@ -61,6 +64,11 @@ public class CharacterCardsConsole {
 
     }
 
+    /**
+     * the player chooses an island:
+     * ---> card3: mother nature won't calculate the influence once it stops on that island
+     * ---> card5: puts a noentrytile on that island
+     */
     public void playEffectCard_3_5(){
         Message receivedMessage = null;
         boolean valid = false;
@@ -93,6 +101,10 @@ public class CharacterCardsConsole {
         }while(valid == false);
     }
 
+    /**
+     * ---> card7: swap up to 3 pawns on the card with the player's entry
+     * ---> card10: swap up to 2 pawns on the player's entry and board
+     */
     private void playEffectCard_7_10() {
         Message receivedMessage = null;
         boolean valid = false;
@@ -204,6 +216,12 @@ public class CharacterCardsConsole {
         }
     }
 
+    /**
+     * the player chooses a pawn among those on the card
+     * ---> card9: the colour do not influence the influence-scores in this turn
+     * ---> card11: the pawn goes on the player board
+     * ---> card12: all players put three pawns of that color on the current player's board
+     */
     private void playEffectCard_9_11_12() {
         Message receivedMessage = null;
         boolean valid = false;

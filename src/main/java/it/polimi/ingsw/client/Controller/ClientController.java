@@ -294,7 +294,6 @@ public class ClientController implements Runnable {
     public void setDisconnected() {
         networkHandler.getPingSenderFromClientThread().interrupt();
         networkHandlerThread.interrupt();
-
         disconnected = true;
         synchronized (lock) {
             try {
