@@ -382,6 +382,13 @@ public class GUIView implements View {
                 GameHandlerScene.setClickDining(true);
             }
         }
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
+            if(GameHandlerScene.isSecondPart()==false) {
+                GameHandlerScene.setClickStudentEntrance(true);
+            }else{
+                GameHandlerScene.setPawnColourBoolean(true);
+            }
+        }
 
         try {
             ClientController.getSemaphore().acquire();

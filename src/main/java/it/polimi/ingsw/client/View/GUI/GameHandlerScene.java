@@ -577,6 +577,8 @@ public class GameHandlerScene {
 
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getSemaphore().release();
+
+            secondPart=false;
         }
     }
 
@@ -620,6 +622,7 @@ public class GameHandlerScene {
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(GridPane.getRowIndex(image));
             ClientController.getSemaphore().release();
             clickDining = false;
+            secondPart=false;
         }
     }
 

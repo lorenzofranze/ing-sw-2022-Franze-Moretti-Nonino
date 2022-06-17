@@ -960,7 +960,7 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-      <SplitPane fx:id="charactersPane" dividerPositions="0.29629629629629634, 0.6030092592592593" layoutX="460.0" layoutY="675.0" prefHeight="153.0" prefWidth="302.0">
+      <SplitPane fx:id="charactersPane" dividerPositions="0.29629629629629634, 0.6030092592592593" layoutX="525.0" layoutY="675.0" prefHeight="153.0" prefWidth="302.0">
          <items>
             <AnchorPane onDragDropped="#tryUseCard" onDragOver="#acceptDropUseCoins" prefHeight="141.0" prefWidth="170.0">
                <children>
