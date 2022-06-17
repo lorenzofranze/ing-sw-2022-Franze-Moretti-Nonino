@@ -30,8 +30,8 @@ class GameControllerTest {
 
         GameController gameController = new GameController(lobby, true);
         ActionPhase actionPhase = new ActionPhase(gameController);
+        gameController.setActionPhase(actionPhase);
         gameController.setCurrentPhase(actionPhase);
-        PianificationResult pianificationResult = new PianificationResult();
         Game g = gameController.getGame();
 
         Player p1 = g.getPlayers().get(0);
@@ -55,15 +55,14 @@ class GameControllerTest {
         maximumMovements.put(p1, 3);
         maximumMovements.put(p2, 2);
         maximumMovements.put(p3, 2);
-        pianificationResult.setMaximumMovements(maximumMovements);
-        gameController.setPianificationResult(pianificationResult);
+        actionPhase.setMaximumMovements(maximumMovements);
 
         assertEquals(actionPhase, gameController.getCurrentPhase());
 
-        assertEquals(2, gameController.getPianificationResult().getMaximumMovements().get(p2));
+        assertEquals(2, actionPhase.getMaximumMovements().get(p2));
 
         gameController.addTwoMovements(p2);
-        assertEquals(4, gameController.getPianificationResult().getMaximumMovements().get(p2));
+        assertEquals(4, actionPhase.getMaximumMovements().get(p2));
     }
 
     @Test

@@ -255,10 +255,10 @@ public class GameController implements Runnable  {
      * @param player
      */
     public void addTwoMovements(Player player){
-        Integer numMax= pianificationResult.getMaximumMovements().get(player)+2;
-        HashMap<Player,Integer> newMaxMovements= pianificationResult.getMaximumMovements();
+        Integer numMax = actionPhase.getMaximumMovements().get(player)+2;
+        HashMap<Player,Integer> newMaxMovements= actionPhase.getMaximumMovements();
         newMaxMovements.put(player,numMax);
-        pianificationResult.setMaximumMovements(newMaxMovements);
+        actionPhase.setMaximumMovements(newMaxMovements);
     }
 
     public ActionPhase getActionPhase() {
@@ -362,5 +362,9 @@ public class GameController implements Runnable  {
 
     public void setCurrentPhase(GamePhase currentPhase) {
         this.currentPhase = currentPhase;
+    }
+
+    public void setCharacterEffects(List<CharacterEffect> characterEffects) {
+        this.characterEffects = characterEffects;
     }
 }

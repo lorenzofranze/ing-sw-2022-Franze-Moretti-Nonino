@@ -29,10 +29,6 @@ public class Card11Effect extends CharacterEffect{
         do{
             valid=true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-            if(receivedMessage==null){
-                System.out.println("ERROR-Card11-1");
-                return;
-            }
             gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
 

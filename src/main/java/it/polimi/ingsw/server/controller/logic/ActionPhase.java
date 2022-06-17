@@ -503,4 +503,8 @@ public class ActionPhase extends GamePhase {
     public Integer getStudentsMoved() {
         return studentsMoved;
     }
+
+    public HashMap<Player, Integer> getMaximumMovements() {
+        return maximumMovements;
+    }
 }

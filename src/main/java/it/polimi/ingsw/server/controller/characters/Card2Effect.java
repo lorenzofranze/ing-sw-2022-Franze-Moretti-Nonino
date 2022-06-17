@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.PawnsMap;
 import it.polimi.ingsw.server.model.Player;
 
 public class Card2Effect extends CharacterEffect{
-    private PawnsMap stolenProfessors;
+    protected PawnsMap stolenProfessors;
 
     public Card2Effect(GameController gameController, CharacterState characterState){
         super(gameController, characterState);

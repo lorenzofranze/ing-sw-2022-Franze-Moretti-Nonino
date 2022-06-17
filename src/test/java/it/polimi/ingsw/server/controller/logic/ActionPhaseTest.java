@@ -725,7 +725,6 @@ class ActionPhaseTest {
         p3.getSchoolBoard().setEntrance(entrance);
 
         Map<String, PlayerManager> playerManagerMap = new HashMap<>();
-
         PlayerManager pm1 = new PlayerManager(null, null);
         LinkedBlockingQueue<Message> q1= new LinkedBlockingQueue<>();
         PlayerManager pm2 = new PlayerManager(null, null);

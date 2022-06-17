@@ -55,11 +55,6 @@ public class Card7Effect extends CharacterEffect{
             do {
                 valid = true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-
-                if (receivedMessage == null) {
-                    System.out.println("ERROR-Card7-1");
-                    return;
-                }
                 gameMessage = (GameMessage) receivedMessage;
                 pawnCard = gameMessage.getValue();
 
@@ -82,11 +77,6 @@ public class Card7Effect extends CharacterEffect{
             do {
                 valid = true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-
-                if (receivedMessage == null) {
-                    System.out.println("ERROR-Card7-1");
-                    return;
-                }
                 gameMessage = (GameMessage) receivedMessage;
                 pawnBoard = gameMessage.getValue();
 

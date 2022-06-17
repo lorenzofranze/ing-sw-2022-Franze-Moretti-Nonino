@@ -38,10 +38,6 @@ public class Card5Effect extends CharacterEffect{
         do{
             valid = true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.IslandChoice);
-            if(receivedMessage == null){
-                System.out.println("ERROR-Card5-1");
-                return;
-            }
             gameMessage = (GameMessage) receivedMessage;
             chosenIslandIndex = gameMessage.getValue();
             chosenIsland = gameController.getGame().getIslandOfIndex(chosenIslandIndex);

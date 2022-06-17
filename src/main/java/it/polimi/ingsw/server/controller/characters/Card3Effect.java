@@ -1,28 +1,27 @@
 package it.polimi.ingsw.server.controller.characters;
 
+import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.ActionPhase;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.model.CharacterState;
+import it.polimi.ingsw.server.model.CharacterStateStudent;
 import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
 public class Card3Effect extends CharacterEffect{
-    private Island island;
-    boolean finishedTowers;
-    boolean threeOrLessIslands;
-
-
+    protected Island island;
+    protected Boolean finishedTowers;
+    protected Boolean threeOrLessIslands;
 
     public Card3Effect(GameController gameController, CharacterState characterState){
         super(gameController, characterState );
+        island = new Island();
         finishedTowers = false;
         threeOrLessIslands = false;
     }
-
-
 
     /** calculates the influence on the chosen island and, if some tower have to be added or removed from the island,
      * the method move correctly the towers from the players' schoolboard to the island and viceversa. If there should
@@ -40,21 +39,20 @@ public class Card3Effect extends CharacterEffect{
 
         int islandIndex = -1;
 
+        boolean valid;
+        do{
+            valid = true;
+            receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.IslandChoice);
 
-        receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.IslandChoice);
-        if (receivedMessage==null){
-            System.out.println("ERROR-Card3-1");
-            return;
-        }
+            gameMessage = (GameMessage) receivedMessage;
+            islandIndex = gameMessage.getValue();
 
-        gameMessage = (GameMessage) receivedMessage;
-        islandIndex = gameMessage.getValue();
-
-        if(islandIndex<0 || islandIndex>gameController.getGame().getIslands().size()-1){
-            errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
-            playerManager.sendMessage(errorGameMessage);
-            return;
-        }
+            if(islandIndex<0 || islandIndex>gameController.getGame().getIslands().size()-1){
+                errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
+                playerManager.sendMessage(errorGameMessage);
+                valid = false;
+            }
+        }while(!valid);
 
         island = gameController.getGame().getIslandOfIndex(islandIndex);
         ActionPhase actionPhase = gameController.getActionPhase();
@@ -68,20 +66,16 @@ public class Card3Effect extends CharacterEffect{
             finishedTowers = actionPhase.placeTowerOfPlayer(moreInfluentPlayer, island);
             if (finishedTowers) {
                 actionPhase.getActionResult().setFinishedTowers(true);
-            }
                 return;
             }
 
             boolean union = actionPhase.verifyUnion();
-
-
             int numIslands= this.gameController.getGame().getIslands().size();
-
             if(numIslands<4){
                 actionPhase.getActionResult().setThreeOrLessIslands(true);
-                return;
             }
         }
+    }
 
     @Override
     public Player effectInfluence(Island island) {
