@@ -97,8 +97,11 @@ public class GUIView implements View {
 
 
 
+    /**
+     * shows the messages received by the server according to its time
+     * @param message
+     */
     @Override
-
     public synchronized void showMessage(Message message) {
         if(message==null) return;
 

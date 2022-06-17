@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.model.Island;
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -17,12 +20,14 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 
 import java.io.IOException;
@@ -137,6 +142,15 @@ public class GuiController extends Application {
         currentStage.centerOnScreen();
         currentStage.sizeToScene();
         currentStage.show();
+        ImageView imageView= (ImageView) currentStage.getScene().lookup("#catHead");
+        System.out.println(imageView.getId());
+        RotateTransition rotateTransition= new RotateTransition(Duration.millis(3500), imageView);
+        rotateTransition.setByAngle(0);
+        rotateTransition.setToAngle(360);
+        rotateTransition.setCycleCount(Timeline.INDEFINITE);
+
+
+        rotateTransition.play();
     }
 
 

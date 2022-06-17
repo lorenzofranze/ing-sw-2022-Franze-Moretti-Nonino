@@ -15,6 +15,10 @@ public class CLIView implements View {
     private Stage currentStage=null;
     private Scanner scanner = new Scanner(System.in);
 
+    /**
+     * reads the game mode the player wants to play
+     * and set the result in the console
+     */
     @Override
     public synchronized void chooseGameMode() {
         ClientController clientController = ClientController.getInstance();
@@ -47,6 +51,10 @@ public class CLIView implements View {
         clientController.setGameMode(GameMode.values()[result-1]);
     }
 
+    /**
+     * reads the player nickname
+     * and set the result in the console
+     */
     @Override
     public synchronized void beginReadUsername() {
         ClientController clientController = ClientController.getInstance();
@@ -65,6 +73,10 @@ public class CLIView implements View {
         clientController.setNickname(result);
     }
 
+    /**
+     * asks if the player to choose an assistany card
+     * and set the result in the console
+     */
     @Override
     public synchronized void chooseAssistantCard() {
         ClientController clientController = ClientController.getInstance();
@@ -102,6 +114,10 @@ public class CLIView implements View {
         clientController.getConsole().setAssistantCardPlayed(result);
     }
 
+    /**
+     * asks if the player wants to play a character card and which one
+     * and set the result in the console
+     */
     @Override
     public synchronized void askForCharacter() {
         ClientController clientController = ClientController.getInstance();
@@ -145,6 +161,10 @@ public class CLIView implements View {
         console.setCharacterPlayed(result);
     }
 
+    /**
+     * asks the player to choose the pawn to move and where he wants to place it
+     * and set the result in the console
+     */
     @Override
     public synchronized void moveStudent() {
         ClientController clientController = ClientController.getInstance();
@@ -198,6 +218,10 @@ public class CLIView implements View {
         console.setPawnWhere(result);
     }
 
+    /**
+     * asks the player to choose the number of mother nature's steps
+     * and set the result chosen in the console
+     */
     @Override
     public synchronized void placeMotherNature() {
         ClientController clientController = ClientController.getInstance();
@@ -228,6 +252,9 @@ public class CLIView implements View {
         console.setStepsMotherNature(result);
     }
 
+    /**
+     * asks the player to choose the cloud and set the cloud chosen in the console
+     */
     @Override
     public synchronized void chooseCloud() {
         ClientController clientController = ClientController.getInstance();
@@ -255,6 +282,10 @@ public class CLIView implements View {
         console.setCloudChosen(result);
     }
 
+    /**
+     * shows the messages received by the server according to its time
+     * @param message
+     */
     @Override
     public synchronized void showMessage(Message message) {
         if(message==null) return;
@@ -375,6 +406,10 @@ public class CLIView implements View {
         System.out.println(stringPing);
     }
 
+    /**
+     * show the game in the CLI mode
+     * @param gameStatePojo
+     */
     @Override
     public synchronized void showGameState(GameStatePojo gameStatePojo) {
         ClientController clientController = ClientController.getInstance();
@@ -450,7 +485,9 @@ public class CLIView implements View {
         System.out.println("\n");
     }
 
-    //METHODS FOR COMPLEX MODE:
+    ////////////////////////////////////////////////// METHODS FOR COMPLEX MODE: //////////////////////////////////////////////////
+    /** this method is used by card 1
+     * invocaed by playEffectCard_1 in Character card console */
     @Override
     public synchronized void moveStudentToIsland(){
         ClientController clientController = ClientController.getInstance();
@@ -500,6 +537,8 @@ public class CLIView implements View {
         characterCardsConsole.setPawnWhere(result);
     }
 
+    /** this method is used by card 3 and 5
+     * invocaed by playEffectCard_3_5 in Character card console */
     @Override
     public synchronized void chooseIsland(){
         ClientController clientController = ClientController.getInstance();
@@ -529,6 +568,8 @@ public class CLIView implements View {
         characterCardsConsole.setPawnWhere(result);
     }
 
+    /** this method is used by card 7 and 10
+     * invocaed by playEffectCard_7_10 in Character card console */
     @Override
     public synchronized void chooseColour() {
         ClientController clientController = ClientController.getInstance();
@@ -561,7 +602,8 @@ public class CLIView implements View {
         characterCardsConsole.setPawnColour(result);
     }
 
-    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
+    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move
+     * invocaed by playEffectCard_7_10 in Character card console */
     @Override
     public synchronized void chooseNumOfMove() {
         ClientController clientController = ClientController.getInstance();

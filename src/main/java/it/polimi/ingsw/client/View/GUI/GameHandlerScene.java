@@ -103,6 +103,10 @@ public class GameHandlerScene {
 
     }
 
+    /**
+     * to accept the drop according to the dragged element while moving the element on the board
+     * @param event
+     */
     @FXML
     void acceptDropMoveStudent(DragEvent event){
         if(dragged.equals("student")) {
@@ -118,6 +122,10 @@ public class GameHandlerScene {
         }
     }
 
+    /**
+     * to drop the student on the game board
+     * @param event
+     */
     @FXML
     void setStudentOnGameBoard(DragEvent event) {
         if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
@@ -135,6 +143,12 @@ public class GameHandlerScene {
         event.consume();
     }
 
+    /**
+     * the player drop a pawn on an island. It is used:
+     * ---> in the basic game mode
+     * ---> in complex mode, if moveStudentCard == true: card 1 use this to choose an island
+     * @param event
+     */
     @FXML
     void setStudentOnIsland(DragEvent event) {
         if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
@@ -163,6 +177,12 @@ public class GameHandlerScene {
     }
 
 
+    /**
+     * the player clicks on an island:
+     * ---> in the basic game mode it is interpreted as the place where to put mother nature
+     * ---> in complex mode, if chooseIsland == true: card 3 and 5 use this to choose an island
+     * @param event
+     */
     @FXML
     void setMotherNatureToIsalnd(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.placeMotherNature) && !cardToUse) {
@@ -249,7 +269,6 @@ public class GameHandlerScene {
     public static void setCharacterCardToUse(boolean use){
         cardToUse=use;
     }
-
 
 
     @FXML
