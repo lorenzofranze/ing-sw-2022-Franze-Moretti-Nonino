@@ -56,11 +56,9 @@ public class Card12Effect extends CharacterEffect{
                 gameController.getGame().getStudentsBag().add(colourPawn,3);
             }
             else{
-                for(ColourPawn c: ColourPawn.values()){
-                    int num=p.getSchoolBoard().getDiningRoom().get(c);
-                    p.getSchoolBoard().getDiningRoom().remove(colourPawn, num);
-                    gameController.getGame().getStudentsBag().add(colourPawn,num);
-                }
+                int num=p.getSchoolBoard().getDiningRoom().get(colourPawn);
+                p.getSchoolBoard().getDiningRoom().remove(colourPawn, num);
+                gameController.getGame().getStudentsBag().add(colourPawn,num);
             }
         }
         AckMessage ackMessage = new AckMessage(TypeOfAck.CorrectMove);

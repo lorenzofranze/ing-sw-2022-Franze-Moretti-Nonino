@@ -88,7 +88,7 @@ public class Game {
         */
         characterStates.add(new CharacterState(9, 1));
         characterStates.add(new CharacterState(12, 1));
-        characterStates.add(new CharacterStateNoEntryTile(5, 2));
+        characterStates.add(new CharacterState(10, 1));
 
         this.coinSupply = 20;
         this.gameId = gameId;

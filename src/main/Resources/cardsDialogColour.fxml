@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<DialogPane prefHeight="263.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane prefHeight="251.0" prefWidth="595.0" style="-fx-background-color: LightCyan;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <AnchorPane prefHeight="291.0" prefWidth="540.0">
+      <AnchorPane prefHeight="200.0" prefWidth="524.0">
          <children>
             <Text fx:id="description" layoutX="17.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="484.5367202758789" />
-            <AnchorPane fx:id="colours"  layoutX="15.0" layoutY="147.0" prefHeight="60.0" prefWidth="560.0">
+            <AnchorPane fx:id="colours" layoutX="15.0" layoutY="147.0" prefHeight="60.0" prefWidth="560.0">
                <children>
                   <ImageView fitHeight="64.0" fitWidth="67.0" layoutX="36.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>

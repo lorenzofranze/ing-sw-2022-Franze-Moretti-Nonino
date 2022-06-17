@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.util.function.Consumer;
@@ -33,6 +34,8 @@ public class GameHandlerScene {
 
     private static boolean chooseIsland;
     private static boolean pawnColourBoolean;
+    private static boolean clickEntrance;
+    private static boolean clickDining;
 
 
     @FXML
@@ -220,6 +223,10 @@ public class GameHandlerScene {
             i++;
         }
         myOrderInPlayers = (i+1);
+    }
+
+    public static int getMyOrderInPlayers(){
+        return myOrderInPlayers;
     }
 
 
@@ -554,14 +561,32 @@ public class GameHandlerScene {
 
 
 
-    /////////////////////////    ///////////////////     CARD    ///////////////////     /////////////////////////
+    /////////////////////////    ///////////////////     CARD 10   ///////////////////     /////////////////////////
 
-    /**set the chosen value in
-     * CharacterCardsConsole's attribute : pawnWhere and studentColour, see moveStudentToIsland() in CLIView
-     */
-    @FXML
-    void setStudentMovementForCard(DragEvent event){
+    /** enables click on student in entrance */
+    public static void enableClickStudentEntranceForCard(boolean enable){
+        clickEntrance = enable;
+    }
 
+
+    public static void clickStudentEntrance(MouseEvent event) {
+        if (clickEntrance) {
+            ImageView image = (ImageView) event.getTarget();
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((ColourPawn) image.getUserData()).getIndexColour());
+            ClientController.getSemaphore().release();
+            clickEntrance = false;
+            clickDining = true;
+        }
+    }
+
+    public static void clickStudentDining(MouseEvent event) {
+        if (clickDining) {
+            ImageView image = (ImageView) event.getTarget();
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(GridPane.getColumnIndex(image));
+            ClientController.getSemaphore().release();
+            clickDining = false;
+            System.out.println(GridPane.getColumnIndex(image));
+        }
     }
 
 }

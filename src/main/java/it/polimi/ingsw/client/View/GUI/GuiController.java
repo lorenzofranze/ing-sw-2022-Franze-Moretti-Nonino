@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -27,6 +28,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -815,6 +817,7 @@ public class GuiController extends Application {
         alert.sizeToScene();
         alert.setOnCloseRequest(event -> event.consume() );
         alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
+        //alert.initModality(Modality.WINDOW_MODAL);
 
         CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
                 .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
@@ -834,9 +837,72 @@ public class GuiController extends Application {
             });
             i++;
         }
-
-        alert.show();
+        alert.showAndWait();
     }
+
+    public void activeGuiCard7_10(int num){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("cardsDialogNumber.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage alert = new Stage();
+        Scene scene = new Scene(root);
+        alert.setScene(scene);
+        alert.setResizable(false);
+        alert.sizeToScene();
+        alert.setOnCloseRequest(event -> event.consume() );
+        alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
+        //alert.initModality(Modality.WINDOW_MODAL);
+
+        CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
+                .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
+        DialogPane dialogPane = (DialogPane)root;
+
+        ((Text)dialogPane.getHeader()).setText("CARD "+num);
+        ((Text) alert.getScene().lookup("#description")).setText(characterPojo.getDescription());
+
+        Button button = (Button) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(2);
+        Spinner spinner = (Spinner) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, num==7 ? 3 : 2));
+
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                AnchorPane father = (AnchorPane) button.getParent();
+                int val = (Integer) ((Spinner) father.getChildren().get(1)).getValue();
+                ClientController.getInstance().getCharacterCardsConsole().setPawnsToMove(val);
+                ClientController.getSemaphore().release();
+                alert.close();
+                System.out.println(val);
+            }
+        });
+        //add click on students in entrance
+        int numPlayers = ClientController.getInstance().getGameStatePojo().getPlayers().size();
+        int i;
+        AnchorPane anchorPane;
+        ImageView image;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance" + GameHandlerScene.getMyOrderInPlayers());
+        for (AnchorPane child : anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList())) {
+            if(child.getChildren().size()>0) {
+                image = (ImageView) child.getChildren().get(0);
+                image.setOnMouseClicked((event) -> GameHandlerScene.clickStudentEntrance(event));
+            }
+        }
+
+        //if card 10 - > add click in dining
+        GridPane gridPane;
+        if(num == 10){
+            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia" + GameHandlerScene.getMyOrderInPlayers());
+            for(ImageView student : gridPane.getChildren().stream().map(a->(ImageView)a).collect(Collectors.toList())){
+                student.setOnMouseClicked((event)->GameHandlerScene.clickStudentDining(event));
+            }
+        }
+
+        alert.showAndWait();
+    }
+
 
 
 
