@@ -43,6 +43,7 @@ public class GuiController extends Application {
     private Runnable runnable;
     private boolean first = true;
     private Scene currentScene;
+    private static boolean noErrors = false;
 
 
     public static void main(String[] args) {
@@ -385,7 +386,7 @@ public class GuiController extends Application {
         }
     }
 
-    /**reste the view to initial condition: done before each update event */
+    /**reset the view to initial condition: done before each update event */
     private void reset(){
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         int numPlayers = game.getPlayers().size();
@@ -682,7 +683,7 @@ public class GuiController extends Application {
                 }
             }
 
-            if (card.getCharacterId() == 1 || card.getCharacterId() == 11) {
+            if (card.getCharacterId() == 1 || card.getCharacterId() == 11  || card.getCharacterId() == 7) {
                 gridPane = (GridPane) anchorPane.getChildren().get(1);
                 List<ImageView> pawnsList = PawnsToImageStudents(card.getStudents());
                 rig = 0;
@@ -699,6 +700,7 @@ public class GuiController extends Application {
                     col++;
                 }
             }
+
 
 
         }
@@ -851,7 +853,8 @@ public class GuiController extends Application {
             });
             i++;
         }
-        alert.showAndWait();
+
+        alert.show();
     }
 
     public void activeGuiCard7_10(int num){
@@ -882,16 +885,36 @@ public class GuiController extends Application {
         Spinner spinner = (Spinner) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, num==7 ? 3 : 2));
 
+        Consumer<Boolean> correctMoveConsumer = (ok)->{
+            Platform.runLater(() -> {
+                if (ok) {
+                    alert.close();
+                }
+            });
+
+        };
+        ClientController.getInstance().getView().setCorrectMoveObserver(correctMoveConsumer);
+
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 AnchorPane father = (AnchorPane) button.getParent();
                 int val = (Integer) ((Spinner) father.getChildren().get(1)).getValue();
                 ClientController.getInstance().getCharacterCardsConsole().setPawnsToMove(val);
                 ClientController.getSemaphore().release();
-                alert.close();
-                System.out.println(val);
             }
         });
+
+        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
+            Platform.runLater(() -> {
+                if (!ok) {
+                    Alert error = new Alert(Alert.AlertType.ERROR,"not enough students in your dining room" , ButtonType.OK);
+                    error.show();
+                    alert.close();
+                }
+            });
+        };
+        ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
+
         //add click on students in entrance
         int numPlayers = ClientController.getInstance().getGameStatePojo().getPlayers().size();
         int i;
@@ -899,25 +922,38 @@ public class GuiController extends Application {
         ImageView image;
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance" + GameHandlerScene.getMyOrderInPlayers());
         for (AnchorPane child : anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList())) {
-            if(child.getChildren().size()>0) {
+            if (child.getChildren().size() > 0) {
                 image = (ImageView) child.getChildren().get(0);
                 image.setOnMouseClicked((event) -> GameHandlerScene.clickStudentEntrance(event));
             }
         }
 
-        //if card 10 - > add click in dining
+
+        alert.show();
         GridPane gridPane;
-        if(num == 10){
-            gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia" + GameHandlerScene.getMyOrderInPlayers());
-            for(ImageView student : gridPane.getChildren().stream().map(a->(ImageView)a).collect(Collectors.toList())){
-                student.setOnMouseClicked((event)->GameHandlerScene.clickStudentDining(event));
+        if(num==10) {
+            //if card 10 - > add click in dining
+            if (num == 10) {
+                gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia" + GameHandlerScene.getMyOrderInPlayers());
+                for (ImageView student : gridPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList())) {
+                    student.setOnMouseClicked((event) -> GameHandlerScene.clickStudentDining(event));
+                }
+            }
+        }else if(num == 7){
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card7");
+            gridPane = (GridPane) anchorPane.getChildren().get(1);
+            for (i = 0; i < gridPane.getChildren().size(); i++) {
+                image = (ImageView) gridPane.getChildren().get(i);
+                image.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        GameHandlerScene.setColourChosen(event);
+                    }
+                });
             }
         }
 
-        alert.showAndWait();
+
     }
-
-
 
 
 

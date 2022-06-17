@@ -960,7 +960,7 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-      <SplitPane fx:id="charactersPane" dividerPositions="0.29629629629629634, 0.6030092592592593" layoutX="425.0" layoutY="675.0" prefHeight="153.0" prefWidth="302.0">
+      <SplitPane fx:id="charactersPane" dividerPositions="0.29629629629629634, 0.6030092592592593" layoutX="460.0" layoutY="675.0" prefHeight="153.0" prefWidth="302.0">
          <items>
             <AnchorPane onDragDropped="#tryUseCard" onDragOver="#acceptDropUseCoins" prefHeight="141.0" prefWidth="170.0">
                <children>
@@ -983,7 +983,8 @@
                         <Image url="@images/imageCharacters/Moneta_base.png" />
                      </image>
                   </ImageView>
-               </children></AnchorPane>
+               </children>
+            </AnchorPane>
             <AnchorPane onDragDropped="#tryUseCard" onDragOver="#acceptDropUseCoins" prefHeight="141.0" prefWidth="133.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -1005,7 +1006,8 @@
                         <Image url="@images/imageCharacters/Moneta_base.png" />
                      </image>
                   </ImageView>
-               </children></AnchorPane>
+               </children>
+            </AnchorPane>
             <AnchorPane onDragDropped="#tryUseCard" onDragOver="#acceptDropUseCoins" prefHeight="151.0" prefWidth="122.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -1027,7 +1029,8 @@
                         <Image url="@images/imageCharacters/Moneta_base.png" />
                      </image>
                   </ImageView>
-               </children></AnchorPane>
+               </children>
+            </AnchorPane>
          </items>
       </SplitPane>
       <AnchorPane fx:id="detailsPlancia" layoutX="984.0" layoutY="689.0" prefHeight="152.0" prefWidth="142.0">

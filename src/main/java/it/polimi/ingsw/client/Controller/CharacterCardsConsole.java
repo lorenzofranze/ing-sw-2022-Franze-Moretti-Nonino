@@ -120,6 +120,7 @@ public class CharacterCardsConsole {
 
             receivedMessage = networkHandler.getReceivedMessage();
             if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)){
+                view.showMessage(receivedMessage);
                 AckMessage ackMessage = (AckMessage) receivedMessage;
                 if (ackMessage.getTypeOfAck().equals(TypeOfAck.CorrectMove)) {
                     valid = true;

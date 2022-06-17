@@ -94,7 +94,7 @@ public class Card10Effect extends CharacterEffect{
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
                 }
-                if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0){
+                if(gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().get(ColourPawn.get(colourDining)) <=0){
                     valid = false;
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
                     playerManager.sendMessage(errorGameMessage);
