@@ -99,6 +99,7 @@ public class GuiController extends Application {
 
 
     /**
+     * Switch to the name scene (where the players choose their nickname)
      * SetNameCompleteObserver in GUIView is set with a consumer.
      * The consumer show an alert message if the value of its argument is false.
      * The SetNameCompleteObserver will be called in GUIView if the name is already in use (using accept(false))
@@ -128,6 +129,9 @@ public class GuiController extends Application {
         currentStage.show();
     }
 
+    /**
+     * Switch to the waiting scene (where the players wait for the lobby to receive other players)
+     */
     public void switchWaitScene() {
         System.out.println("sto aspettando altri giocatori");
         Parent root;
@@ -156,10 +160,50 @@ public class GuiController extends Application {
     }
 
 
+    /**
+     * Switch to the game scene (where the players play the game)
+     */
     public void switchGameScene() {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("/gameFrame.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        GameStatePojo gameStatePojo = ClientController.getInstance().getGameStatePojo();
+        Scene scene = new Scene(root);
+        currentScene = scene;
+        currentStage.setScene(scene);
+        currentStage.centerOnScreen();
+        currentStage.setResizable(true);
+        currentStage.sizeToScene();
+
+        if (gameStatePojo.isGameOver() && gameStatePojo.getWinner() != null) {
+
+            Label label = (Label) currentStage.getScene().lookup("#textGameOver");
+            if (gameStatePojo.getWinner().equals("?")) {
+                label.setText("Draw!");
+            } else {
+                if (gameStatePojo.getWinner().equals(ClientController.getInstance().getNickname())) {
+                    label.setText("Congratulations! You have won");
+                } else {
+                    label.setText("The winner is: " + gameStatePojo.getWinner() +
+                            "\n Better luck next time");
+                }
+
+            }
+            currentStage.show();
+        }
+    }
+
+    /**
+     * Switch to the end-game scene (where the winner is displayed
+     */
+    public void switchGameOverScene() {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/gameOverFrame.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -172,6 +216,7 @@ public class GuiController extends Application {
         currentStage.sizeToScene();
         currentStage.show();
     }
+
 
     public void runMethod() {
         Platform.runLater(runnable);
@@ -385,6 +430,7 @@ public class GuiController extends Application {
         if(game.isExpert()) {
             updateCharacterCards();
         }
+
     }
 
     /**reset the view to initial condition: done before each update event */
@@ -616,6 +662,10 @@ public class GuiController extends Application {
         }
     }
 
+    /**
+     * Changes the cursor image while dragging elements
+     * @param val
+     */
     public void changeCursor(int val){
         if(val==0){
             currentScene.setCursor(Cursor.DEFAULT);

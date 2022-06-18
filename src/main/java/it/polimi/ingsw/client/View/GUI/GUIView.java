@@ -214,7 +214,14 @@ public class GUIView implements View {
     @Override
     public synchronized void showUpdate(UpdateMessage updateMessage) {
         GameStatePojo gameStatePojo = updateMessage.getGameState();
-        showGameState(gameStatePojo);
+        if(gameStatePojo.isGameOver()){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().switchGameOverScene());
+            GuiController.getInstance().runMethod();
+        }
+        else {
+            showGameState(gameStatePojo);
+        }
+
     }
 
     @Override
