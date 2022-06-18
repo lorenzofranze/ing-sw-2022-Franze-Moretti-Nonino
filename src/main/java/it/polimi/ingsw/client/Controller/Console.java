@@ -235,6 +235,7 @@ public class Console{
                                 int currentCharacterID = updateMessage.getGameState().getActiveEffect().getCharacterId();
                                 characterCardsConsole.playEffect(currentCharacterID);
 
+
                                 receivedMessage = networkHandler.getReceivedMessage();
                                 valid = false;
                                 if (receivedMessage.getMessageType().equals(TypeOfMessage.Ack)) {

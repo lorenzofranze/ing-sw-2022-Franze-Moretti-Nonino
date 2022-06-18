@@ -499,6 +499,7 @@ public class GuiController extends Application {
                 ((ImageView)(child.getChildren().get(0))).setImage(charactersToImage(characterPojo));
                 //set id
                 child.setId("card"+characterPojo.getCharacterId());
+                System.out.println(characterPojo.getCharacterId());
                 //hide coin incremented
                 ((ImageView)child.getChildren().get(2)).setVisible(false);
                 i++;
@@ -582,6 +583,7 @@ public class GuiController extends Application {
         String prefix = "/images/imageCharacters/CarteTOT_front";
         String path="";
         path=prefix+(character.getCharacterId())+".jpg";
+        System.out.println(path);
         return new Image(path);
     }
 
@@ -658,7 +660,7 @@ public class GuiController extends Application {
                 anchorPane.getChildren().get(0).setEffect(null);
             }else if(game.getActiveEffect().getCharacterId() == card.getCharacterId()){
                 Glow g = new Glow();
-                g.setLevel(55.0);
+                g.setLevel(45.0);
                 anchorPane.getChildren().get(0).setEffect(g);
             }
 
@@ -743,41 +745,23 @@ public class GuiController extends Application {
     }
 
     public void activeGuiCard3() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //Setting the title
-        alert.setTitle("CARD 3");
-        //Setting the content of the dialog
-        alert.setContentText("With this card you get a magic power! Choose an island and the influences on that island" +
-                " will be calculated... remember mother nature will continue her steps as usual");
 
-        alert.showAndWait();
+        showBanner(3);
+
         changeCursor(2); // calculate influence cursor
 
     }
 
     public void activeGuiCard5() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //Setting the title
-        alert.setTitle("CARD 5");
-        //Setting the content of the dialog
-        alert.setContentText("With this cards you get a magic power! Choose an island" +
-                " and the next time mother nature will stops on it, she will forget to calculate the influence on the" +
-                "island");
-        alert.showAndWait();
+        showBanner(5);
 
         changeCursor(3); //no entry tile
 
     }
 
     public void activeGuiCard1() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //Setting the title
-        alert.setTitle("CARD 1");
-        //Setting the content of the dialog
-        alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
-                "and place him on the island that you like the most ");
-        alert.showAndWait();
-        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+        showBanner(1);
+
         AnchorPane anchorPane;
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#card1");
 
@@ -794,14 +778,9 @@ public class GuiController extends Application {
     }
 
     public void activeGuiCard11() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //Setting the title
-        alert.setTitle("CARD 11");
-        //Setting the content of the dialog
-        alert.setContentText("With this cards you get a magic power! Choose one of the student on this card" +
-                "  and he will be moved in your entry ");
-        alert.showAndWait();
-        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
+
+        showBanner(11);
+
         AnchorPane anchorPane;
         GridPane gridPane;
         ImageView imageView;
@@ -817,6 +796,38 @@ public class GuiController extends Application {
                 }
             });
         }
+
+    }
+    /**method used by all cards(also those that don't need any action by the player)
+     * when card is activated this banner is shown,
+     * cards 9, 12, 7, 10 have a different own banner*/
+    public static void showBanner(int num){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(GuiController.class.getClassLoader().getResource("cardsDialog.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage alert = new Stage();
+        Scene scene = new Scene(root);
+        alert.setScene(scene);
+        alert.setResizable(false);
+        alert.sizeToScene();
+        alert.setOnCloseRequest(event -> event.consume() );
+        alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
+        //alert.initModality(Modality.WINDOW_MODAL);
+
+        CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
+                .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
+        DialogPane dialogPane = (DialogPane)root;
+
+        ((Text)dialogPane.getHeader()).setText("CARD "+num);
+        ((Text) alert.getScene().lookup("#description")).setText("With this cards you get a magic power!\n"+characterPojo.getDescription());
+        Button button = (Button) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);
+        button.setOnMouseClicked((event)->alert.close());
+
+        alert.show();
 
     }
 
@@ -844,7 +855,7 @@ public class GuiController extends Application {
         DialogPane dialogPane = (DialogPane)root;
 
         ((Text)dialogPane.getHeader()).setText("CARD "+num);
-        ((Text) alert.getScene().lookup("#description")).setText(characterPojo.getDescription());
+        ((Text) alert.getScene().lookup("#description")).setText("With this cards you get a magic power!\n"+characterPojo.getDescription());
         int i =0;
         for(ImageView image : ( ((AnchorPane) alert.getScene().lookup("#colours")).getChildren()).stream().map(a->(ImageView)a).collect(Collectors.toList())){
             image.setUserData(i);
@@ -883,7 +894,7 @@ public class GuiController extends Application {
         DialogPane dialogPane = (DialogPane)root;
 
         ((Text)dialogPane.getHeader()).setText("CARD "+num);
-        ((Text) alert.getScene().lookup("#description")).setText(characterPojo.getDescription());
+        ((Text) alert.getScene().lookup("#description")).setText("With this cards you get a magic power!\n"+characterPojo.getDescription());
 
         Button button = (Button) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(2);
         Spinner spinner = (Spinner) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);

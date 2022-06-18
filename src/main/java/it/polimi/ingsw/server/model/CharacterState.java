@@ -18,8 +18,8 @@ public class CharacterState {
         this.incremented = false;
         switch (characterId){
             case 1:
-                description = "Take 1 Student form this card and place it on an Island of your choice. " +
-                        "Then, draw a new Student from the Bag and place it on this card.";
+                description = "Choose one of the student on this card " +
+                        "and place him on the island that you like the most ";
                 break;
             case 2:
                 description = "During this turn, you take control of any number of professors even if you have the " +
@@ -27,16 +27,16 @@ public class CharacterState {
                 break;
             case 3:
                 description = "Choose an Island and resolve the Island as if Mother Nature has ended her movement there." +
-                        " Mother Nature will still move and the Island where she ends her movement will also be resolved.";
+                        " Remember mother nature will continue her steps as usual";
                 break;
             case 4:
                 description = "You may move Mother Nature up to 2 additional Islands than is indicated by the Assistant " +
                         "card you've played.";
                 break;
             case 5:
-                description = "Place a No Entry tile on an Island of your choice. The first time Mother Nature ends her" +
-                        " movement there, put the No Entry tile back onto this card DO NOT calculate influence on that " +
-                        "island, or place any Towers.";
+                description = "Place a No Entry tile on an Island of your choice. Choose an island " +
+                        " and the next time mother nature will stops on it, she will forget to calculate the influence on the " +
+                        " island";
                 break;
             case 6:
                 description = "When resolving a Conquering on an Island, Towers do not count towards influence.";
@@ -60,8 +60,8 @@ public class CharacterState {
                 break;
 
             case 11:
-                description = "Take 1 Student form this card and place it in your Dining Room. " +
-                        "Then, draw a new Student from the Bag and place it on this card.";
+                description = "Choose one of the student on this card " +
+                        "and he will be moved in your entry ";
                 break;
             case 12:
                 description = "Choose a type of Student: every player (including yourself) must return 3 Students of " +

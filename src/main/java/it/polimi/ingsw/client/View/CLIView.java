@@ -637,7 +637,10 @@ public class CLIView implements View {
         }
     }
 
-
+    @Override
+    public void showEffect(int num) {
+        //empty
+    }
 
 
 }

@@ -24,6 +24,7 @@ public class CharacterCardsConsole {
         }else if(id==9 || id==11 || id==12) {
             this.playEffectCard_9_11_12();
         }else if(id==2 || id==4 || id ==6 || id==8) {
+            view.showEffect(id);
             return; // no action needed by the player
         }
     }
