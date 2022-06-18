@@ -175,9 +175,11 @@ class Card7EffectTest {
         //2) valid number of pawns to move
         m1 = new GameMessage(TypeOfMove.NumOfMove, 2);
         q1.add(m1);
-        //3) the colour chosen is not on the card
-        m1 = new GameMessage(TypeOfMove.StudentColour, absentCard1.getIndexColour());
-        q1.add(m1);
+        if (absentCard1!=null){
+            //3) the colour chosen is not on the card
+            m1 = new GameMessage(TypeOfMove.StudentColour, absentCard1.getIndexColour());
+            q1.add(m1);
+        }
         //4) valid colour on card 1
         m1 = new GameMessage(TypeOfMove.StudentColour, presentCard1.getIndexColour());
         q1.add(m1);
