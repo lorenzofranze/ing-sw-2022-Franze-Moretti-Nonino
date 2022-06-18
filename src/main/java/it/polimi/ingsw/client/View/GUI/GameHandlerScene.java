@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -36,6 +37,7 @@ public class GameHandlerScene {
     private static boolean pawnColourBoolean;
     private static boolean clickEntrance;
     private static boolean clickDining;
+    private static boolean secondPart;
 
 
     @FXML
@@ -80,7 +82,7 @@ public class GameHandlerScene {
         }
     }
 
-    /** method that detecst that the player has dragged a student from entry and set the color of the student on the console**/
+    /** method that detects that the player has dragged a student from entrance and set the color of the student on the console**/
     public static void  setStudentChosen(MouseEvent event) {
 
         // if isn't my turn and not in moveStudents Phase: no action
@@ -162,7 +164,7 @@ public class GameHandlerScene {
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
-            islandIdString= anchorPaneClicked.getId().substring(6,7);
+            islandIdString= anchorPaneClicked.getId().substring(6);
             islandId= Integer.parseInt(islandIdString);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
@@ -394,6 +396,7 @@ public class GameHandlerScene {
         ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
 
         Consumer<Boolean> consumerInvalidChoise = (ok) -> {
+            System.out.println("gia usata");
             Platform.runLater(() -> {
                 if (!ok) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,"Card already used" , ButtonType.OK);
@@ -454,12 +457,12 @@ public class GameHandlerScene {
     @FXML
     public void tryUseCard(DragEvent event){
 
+        setObserversErrors();
+
         String id = ((AnchorPane) event.getSource()).getId().substring(4);
         ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
-        System.out.println("GameHandlerScene: using coin for character "+ id);
         ClientController.getSemaphore().release();
-        setObserversErrors();
-        System.out.println("drop rilevato");
+
         event.setDropCompleted(true);
         event.consume();
 
@@ -491,7 +494,6 @@ public class GameHandlerScene {
             content.putImage(imageView.getImage());
             db.setContent(content);
         }
-        event.consume();
 
     }
 
@@ -504,13 +506,11 @@ public class GameHandlerScene {
         String islandIdString;
         int islandId;
         AnchorPane anchorPane = (AnchorPane) event.getSource();
-        islandIdString= anchorPane.getId().substring(6,7);
+        islandIdString= anchorPane.getId().substring(6);
 
 
         islandId= Integer.parseInt(islandIdString);
         ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
-        System.out.println(colourStudent);
-        System.out.println(colourStudent.getIndexColour());
         ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
         System.out.println(islandId-1);
         ClientController.getSemaphore().release();
@@ -538,14 +538,12 @@ public class GameHandlerScene {
 
      private void setIslandChosenForCard(MouseEvent event){
 
-         System.out.println("cliccato l'isola");
          AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
          String islandIdString;
          int islandId;
 
          islandIdString = anchorPaneClicked.getId().substring(6);
          islandId = Integer.parseInt(islandIdString);
-         System.out.println("cliccato l'isola numero "+islandIdString);
 
          ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
          ClientController.getSemaphore().release();
@@ -554,7 +552,7 @@ public class GameHandlerScene {
     }
 
 
-    /////////////////////////    ///////////////////     CARD 11    ///////////////////     /////////////////////////
+    /////////////////////////    ///////////////////     CARD 11 & 7  ///////////////////     /////////////////////////
 
     public static void setPawnColourBoolean(boolean pawnColourBoolean) {
         GameHandlerScene.pawnColourBoolean = pawnColourBoolean;
@@ -574,6 +572,8 @@ public class GameHandlerScene {
 
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getSemaphore().release();
+
+            secondPart=false;
         }
     }
 
@@ -582,10 +582,18 @@ public class GameHandlerScene {
     /////////////////////////    ///////////////////     CARD 10   ///////////////////     /////////////////////////
 
     /** enables click on student in entrance */
-    public static void enableClickStudentEntranceForCard(boolean enable){
+    public static void setClickStudentEntrance(boolean enable){
         clickEntrance = enable;
     }
 
+    /**enables click for second item to click */
+    public static boolean isSecondPart() {
+        return secondPart;
+    }
+    /**enable click on students in dining for this card effect*/
+    public static void setClickDining(boolean clickDining) {
+        GameHandlerScene.clickDining = clickDining;
+    }
 
     public static void clickStudentEntrance(MouseEvent event) {
         if (clickEntrance) {
@@ -593,17 +601,23 @@ public class GameHandlerScene {
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((ColourPawn) image.getUserData()).getIndexColour());
             ClientController.getSemaphore().release();
             clickEntrance = false;
-            clickDining = true;
+            secondPart = true;
+
+
+            MotionBlur mb = new MotionBlur();
+            mb.setRadius(10.0f);
+            image.setEffect(mb);
         }
     }
+
 
     public static void clickStudentDining(MouseEvent event) {
         if (clickDining) {
             ImageView image = (ImageView) event.getTarget();
-            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(GridPane.getColumnIndex(image));
+            ClientController.getInstance().getCharacterCardsConsole().setPawnColour(GridPane.getRowIndex(image));
             ClientController.getSemaphore().release();
             clickDining = false;
-            System.out.println(GridPane.getColumnIndex(image));
+            secondPart=false;
         }
     }
 

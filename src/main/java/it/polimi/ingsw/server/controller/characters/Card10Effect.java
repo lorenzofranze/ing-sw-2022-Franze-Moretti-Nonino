@@ -46,10 +46,6 @@ public class Card10Effect extends CharacterEffect{
             do{
                 valid = true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-                if(receivedMessage == null){
-                    System.out.println("ERROR-Card10-2");
-                    return;
-                }
                 gameMessage = (GameMessage) receivedMessage;
                 colourEntrance = gameMessage.getValue();
                 if(colourEntrance<=-1 || colourEntrance >=5){
@@ -70,7 +66,7 @@ public class Card10Effect extends CharacterEffect{
                 if(valid && gameController.getCurrentPlayer().getSchoolBoard().getDiningRoom().
                         get(ColourPawn.get(colourEntrance))>=10) {
                     valid = false;
-                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);
+                    errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice, "dining table full");
                     playerManager.sendMessage(errorGameMessage);
                 }
             }while(!valid);
@@ -82,13 +78,9 @@ public class Card10Effect extends CharacterEffect{
             do{
                 valid=true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-                if(receivedMessage == null){
-                    System.out.println("ERROR-Card10-3");
-                    return;
-                }
                 gameMessage = (GameMessage) receivedMessage;
                 colourDining= gameMessage.getValue();
-                if(colourEntrance<=-1 || colourEntrance >=5){
+                if(colourDining<=-1 || colourDining >=5){
                     valid=false;
                     // to user: index not valid
                     errorGameMessage=new ErrorMessage(TypeOfError.InvalidChoice);

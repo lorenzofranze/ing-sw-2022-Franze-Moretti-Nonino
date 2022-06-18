@@ -29,10 +29,6 @@ public class Card1Effect extends CharacterEffect{
         do{
             valid = true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.PawnMovement);
-            if (receivedMessage == null){
-                System.out.println("ERROR-moveStudent");
-                return;
-            }
             gameMessage = (PawnMovementMessage) receivedMessage;
             indexColour = gameMessage.getColour();
             if(indexColour<=-1 || indexColour>=5){

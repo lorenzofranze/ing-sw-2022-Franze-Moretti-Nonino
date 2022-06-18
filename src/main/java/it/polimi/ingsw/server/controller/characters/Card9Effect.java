@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
 public class Card9Effect extends CharacterEffect{
-    private ColourPawn colourPawn;
+    protected ColourPawn colourPawn;
 
     public Card9Effect(GameController gameController, CharacterState characterState) {
         super(gameController, characterState);
@@ -29,10 +29,6 @@ public class Card9Effect extends CharacterEffect{
         do{
             valid = true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-            if(receivedMessage == null){
-                System.out.println("ERROR-Card9-1");
-                return;
-            }
             gameMessage = (GameMessage) receivedMessage;
             index= gameMessage.getValue();
             if(index<0 || index >4) {

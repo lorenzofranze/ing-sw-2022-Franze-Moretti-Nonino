@@ -16,6 +16,8 @@ public class GUIView implements View {
 
     private Consumer<Boolean> invalidChoiseObserver;
 
+    private Consumer<Boolean> correctMoveObserver;
+
     /**
      * when the client controller calls chooseGameMode, the client controller's attribute "gameMode" is
      * set with the value chosen in ChooseGameModeScene.
@@ -108,6 +110,10 @@ public class GUIView implements View {
         if(message.getMessageType().equals(TypeOfMessage.Ack)){
             AckMessage ackMessage = (AckMessage) message;
             showAck(ackMessage);
+            if(correctMoveObserver!=null){
+                correctMoveObserver.accept(true);
+                correctMoveObserver=null;
+            }
         }
         if(message.getMessageType().equals(TypeOfMessage.Update)){
             UpdateMessage updateMessage = (UpdateMessage) message;
@@ -249,6 +255,10 @@ public class GUIView implements View {
         this.invalidChoiseObserver = invalidChoiseObserver;
     }
 
+    public void setCorrectMoveObserver(Consumer<Boolean> correctMoveObserver) {
+        this.correctMoveObserver = correctMoveObserver;
+    }
+
 
     //METHODS FOR COMPLEX MODE:
 
@@ -271,7 +281,6 @@ public class GUIView implements View {
         GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
         GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard1());
         GuiController.getInstance().runMethod();
-        System.out.println("arrivato in 1");
         GameHandlerScene.setMoveStudentCard(true);
 
         try {
@@ -281,8 +290,7 @@ public class GUIView implements View {
         }
 
         GameHandlerScene.setCharacterCardToUse(false);
-        GameHandlerScene.setChooseIsland(false);
-        GameHandlerScene.setPawnColourBoolean(false);
+        GameHandlerScene.setMoveStudentCard(false);
     }
 
     /**
@@ -295,14 +303,12 @@ public class GUIView implements View {
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==3){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard3());
             GuiController.getInstance().runMethod();
-            System.out.println("arrivato in 3");
             GameHandlerScene.setChooseIsland(true); // enables click on island for card's effect
         }
 
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==5){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard5());
             GuiController.getInstance().runMethod();
-            System.out.println("arrivato in 5");
             GameHandlerScene.setChooseIsland(true);
         }
 
@@ -315,14 +321,16 @@ public class GUIView implements View {
         //back to initial conditions
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setChooseIsland(false);
-        GameHandlerScene.setPawnColourBoolean(false);
+
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
+        GuiController.getInstance().runMethod();
 
     }
 
     /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
     @Override
     public synchronized void chooseNumOfMove() {
-        GameHandlerScene.setCharacterCardToUse(true); // block all simple mode methods
+
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==7){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard7_10(7));
             GuiController.getInstance().runMethod();
@@ -348,6 +356,7 @@ public class GUIView implements View {
     @Override
     public synchronized void chooseColour() {
         GameHandlerScene.setCharacterCardToUse(true);
+
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==9) {
             GuiController.getInstance().setRunnable(() -> GuiController.getInstance().activeGuiCard9_12(9));
             GuiController.getInstance().runMethod();
@@ -365,7 +374,18 @@ public class GUIView implements View {
         }
 
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
-            GameHandlerScene.enableClickStudentEntranceForCard(true);
+            if(GameHandlerScene.isSecondPart()==false) {
+                GameHandlerScene.setClickStudentEntrance(true);
+            }else{
+                GameHandlerScene.setClickDining(true);
+            }
+        }
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
+            if(GameHandlerScene.isSecondPart()==false) {
+                GameHandlerScene.setClickStudentEntrance(true);
+            }else{
+                GameHandlerScene.setPawnColourBoolean(true);
+            }
         }
 
         try {
@@ -376,6 +396,7 @@ public class GUIView implements View {
         //bloccare tutte le condizioni e tornare alla condizione di partenza perchè effetto terminato
         GameHandlerScene.setCharacterCardToUse(false);
         GameHandlerScene.setPawnColourBoolean(false);
+
     }
 
 

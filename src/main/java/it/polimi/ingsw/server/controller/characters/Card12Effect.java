@@ -14,6 +14,7 @@ public class Card12Effect extends CharacterEffect{
     public Card12Effect(GameController gameController, CharacterState characterState) {
         super(gameController, characterState);
     }
+
     public void doEffect(){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         ErrorMessage errorGameMessage;
@@ -27,10 +28,6 @@ public class Card12Effect extends CharacterEffect{
 
         do{
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-            if(receivedMessage == null){
-                System.out.println("ERROR-card1-1");
-                return;
-            }
             gameMessage = (GameMessage) receivedMessage;
             chosenPawn = gameMessage.getValue();
 

@@ -43,7 +43,8 @@ public class CharacterState {
                 break;
             case 7:
                 description = "You may take up to 3 Students from this card and replace them with the same number of " +
-                        "Students from your Entrance.";
+                        "Students from your Entrance. Select first the student on your entrance then the student on the card" +
+                        ". Now select how many students you want to move";
                 break;
             case 8:
                 description = "During the influence calculation this turn, you count as having 2 more influence.";
@@ -53,8 +54,8 @@ public class CharacterState {
                         "adds no influence.";
                 break;
             case 10:
-                description = "You may exchange up to 2 Students between your Entrance and your Dining Room." +
-                        "First choose how many students you want to move, then select first the student on your" +
+                description = "You may exchange up to 2 Students between your Entrance and your Dining Room. " +
+                        "First of all choose how many students you want to move, then select first the student on your " +
                         "entrance, then the student on your dining room";
                 break;
 
