@@ -562,11 +562,30 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Label fx:id="turnLabel" layoutX="434.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: white;" text="TURN">
+            <Label fx:id="turnLabel" layoutX="434.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: light-blue; -fx-border-color: black;" text="TURN:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="playerLabel" layoutX="4.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: light-blue; -fx-border-color: black;" text="PLAYER: ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="studentsTable" layoutX="682.0" layoutY="310.0" prefHeight="122.0" prefWidth="154.0">
+               <children>
+                  <ImageView fitHeight="98.0" fitWidth="168.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/imageGameAction/pozzo_students.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="50.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="63.200048828124864">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
          </children></AnchorPane>
 
         <!-- 3 school boards  -->

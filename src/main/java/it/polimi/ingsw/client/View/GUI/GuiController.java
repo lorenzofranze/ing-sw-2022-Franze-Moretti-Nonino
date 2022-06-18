@@ -411,6 +411,17 @@ public class GuiController extends Application {
         String turnPlayer = ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname();
         label.setText("TURN: " + turnPlayer);
 
+        //nickname label
+        label = (Label) currentStage.getScene().lookup("#playerLabel");
+        turnPlayer = ClientController.getInstance().getNickname();
+        label.setText("PLAYER: " + turnPlayer);
+
+        //student well
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#studentsTable");
+        Text text = (Text) anchorPane.getChildren().get(1);
+        text.setText(String.valueOf(ClientController.getInstance().getGameStatePojo().getStudentsBag().pawnsNumber()));
+        System.out.println(ClientController.getInstance().getGameStatePojo().getStudentsBag().pawnsNumber());
+
         //update assistant card played
         int index =  ((TabPane)currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex()+1;
         if(ClientController.getInstance().getGameStatePojo().getPlayers().get(index-1).getPlayedAssistantCard()!=null) {
@@ -422,7 +433,8 @@ public class GuiController extends Application {
 
         //set text to player's coins
         if(game.isExpert()) {
-            Text text = (Text) anchorPane.getChildren().get(1);
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
+            text = (Text) anchorPane.getChildren().get(1);
             text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getCoins() + "");
         }
 
