@@ -597,6 +597,7 @@ public class GameHandlerScene {
 
     public static void clickStudentEntrance(MouseEvent event) {
         if (clickEntrance) {
+
             ImageView image = (ImageView) event.getTarget();
             ClientController.getInstance().getCharacterCardsConsole().setPawnColour(((ColourPawn) image.getUserData()).getIndexColour());
             ClientController.getSemaphore().release();

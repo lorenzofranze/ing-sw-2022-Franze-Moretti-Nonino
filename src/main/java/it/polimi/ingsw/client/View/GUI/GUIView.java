@@ -387,13 +387,17 @@ public class GUIView implements View {
         }
 
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().addClickCard10());
+            GuiController.getInstance().runMethod();
             if(GameHandlerScene.isSecondPart()==false) {
                 GameHandlerScene.setClickStudentEntrance(true);
             }else{
                 GameHandlerScene.setClickDining(true);
             }
         }
-        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==10){
+        if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==7){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().addClickCard7());
+            GuiController.getInstance().runMethod();
             if(GameHandlerScene.isSecondPart()==false) {
                 GameHandlerScene.setClickStudentEntrance(true);
             }else{

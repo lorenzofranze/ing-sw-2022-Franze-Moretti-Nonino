@@ -51,7 +51,29 @@ public class Card7Effect extends CharacterEffect{
 
         // now the player chooses the students
         for(int i=0; i<count; i++){
-            //firts of all the player chooses the student on the card
+
+            // first chooses the student in his entrance
+            do {
+                valid = true;
+                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
+                gameMessage = (GameMessage) receivedMessage;
+                pawnBoard = gameMessage.getValue();
+
+                valid=false;
+                for (ColourPawn p : ColourPawn.values()) {
+                    if (p.getIndexColour() == pawnBoard && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1)
+                        valid = true;
+                }
+
+                if(valid==false){
+                    errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
+                    playerManager.sendMessage(errorGameMessage);
+                }
+            }while(!valid);
+            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
+            playerManager.sendMessage(ackMessage);
+
+            //l the player chooses the student on the board
             do {
                 valid = true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
@@ -73,26 +95,7 @@ public class Card7Effect extends CharacterEffect{
             playerManager.sendMessage(ackMessage);
 
 
-            // now chooses the student in his entrance
-            do {
-                valid = true;
-                receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);
-                gameMessage = (GameMessage) receivedMessage;
-                pawnBoard = gameMessage.getValue();
 
-                valid=false;
-                for (ColourPawn p : ColourPawn.values()) {
-                    if (p.getIndexColour() == pawnBoard && gameController.getCurrentPlayer().getSchoolBoard().getEntrance().get(p)>=1)
-                        valid = true;
-                }
-
-                if(valid==false){
-                    errorGameMessage = new ErrorMessage(TypeOfError.InvalidChoice); // index colour invalid
-                    playerManager.sendMessage(errorGameMessage);
-                }
-            }while(!valid);
-            ackMessage = new AckMessage(TypeOfAck.CorrectMove);
-            playerManager.sendMessage(ackMessage);
 
             //swap
             //pawnCard è quello preso dalla carta personaggio

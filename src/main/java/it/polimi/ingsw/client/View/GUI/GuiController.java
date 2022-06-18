@@ -39,7 +39,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class GuiController extends Application {
-    private Stage currentStage;
+    private static Stage currentStage;
     private static GuiController guiController;
     private Runnable runnable;
     private boolean first = true;
@@ -420,7 +420,6 @@ public class GuiController extends Application {
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#studentsTable");
         Text text = (Text) anchorPane.getChildren().get(1);
         text.setText(String.valueOf(ClientController.getInstance().getGameStatePojo().getStudentsBag().pawnsNumber()));
-        System.out.println(ClientController.getInstance().getGameStatePojo().getStudentsBag().pawnsNumber());
 
         //update assistant card played
         int index =  ((TabPane)currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex()+1;
@@ -722,7 +721,7 @@ public class GuiController extends Application {
                 anchorPane.getChildren().get(0).setEffect(null);
             }else if(game.getActiveEffect().getCharacterId() == card.getCharacterId()){
                 Glow g = new Glow();
-                g.setLevel(45.0);
+                g.setLevel(35.0);
                 anchorPane.getChildren().get(0).setEffect(g);
             }
 
@@ -992,6 +991,11 @@ public class GuiController extends Application {
         };
         ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
 
+        alert.show();
+
+    }
+
+    public static void addClickCard10(){
         //add click on students in entrance
         int numPlayers = ClientController.getInstance().getGameStatePojo().getPlayers().size();
         int i;
@@ -1005,30 +1009,41 @@ public class GuiController extends Application {
             }
         }
 
-
-        alert.show();
         GridPane gridPane;
-        if(num==10) {
-            //if card 10 - > add click in dining
-            if (num == 10) {
-                gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia" + GameHandlerScene.getMyOrderInPlayers());
-                for (ImageView student : gridPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList())) {
-                    student.setOnMouseClicked((event) -> GameHandlerScene.clickStudentDining(event));
-                }
-            }
-        }else if(num == 7){
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card7");
-            gridPane = (GridPane) anchorPane.getChildren().get(1);
-            for (i = 0; i < gridPane.getChildren().size(); i++) {
-                image = (ImageView) gridPane.getChildren().get(i);
-                image.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent event) {
-                        GameHandlerScene.setColourChosen(event);
-                    }
-                });
-            }
+        //add click in dining
+        gridPane = (GridPane) currentStage.getScene().lookup("#studentsPlancia" + GameHandlerScene.getMyOrderInPlayers());
+        for (ImageView student : gridPane.getChildren().stream().map(a -> (ImageView) a).collect(Collectors.toList())) {
+            student.setOnMouseClicked((event) -> GameHandlerScene.clickStudentDining(event));
         }
 
+    }
+
+    public static void addClickCard7(){
+        //add click on students in entrance
+        int numPlayers = ClientController.getInstance().getGameStatePojo().getPlayers().size();
+        int i;
+        AnchorPane anchorPane;
+        ImageView image;
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#entrance" + GameHandlerScene.getMyOrderInPlayers());
+        for (AnchorPane child : anchorPane.getChildren().stream().map(a -> (AnchorPane) a).collect(Collectors.toList())) {
+            if (child.getChildren().size() > 0) {
+                image = (ImageView) child.getChildren().get(0);
+                image.setOnMouseClicked((event) -> GameHandlerScene.clickStudentEntrance(event));
+            }
+        }
+        GridPane gridPane;
+
+        //add click on card
+        anchorPane = (AnchorPane) currentStage.getScene().lookup("#card7");
+        gridPane = (GridPane) anchorPane.getChildren().get(1);
+        for (i = 0; i < gridPane.getChildren().size(); i++) {
+            image = (ImageView) gridPane.getChildren().get(i);
+            image.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    GameHandlerScene.setColourChosen(event);
+                }
+            });
+        }
 
     }
 

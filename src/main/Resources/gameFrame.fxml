@@ -562,12 +562,12 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Label fx:id="turnLabel" layoutX="434.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: light-blue; -fx-border-color: black;" text="TURN:">
+            <Label fx:id="turnLabel" layoutX="434.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: DeepSkyBlue; -fx-border-color: black;" text="TURN:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="playerLabel" layoutX="4.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: light-blue; -fx-border-color: black;" text="PLAYER: ">
+            <Label fx:id="playerLabel" layoutX="4.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: gold; -fx-border-color: black;" text="PLAYER: ">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
