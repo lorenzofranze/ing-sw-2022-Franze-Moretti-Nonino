@@ -337,12 +337,6 @@ public class GameController implements Runnable  {
     public void setForceStop(boolean forceStop) {
         this.forceStop = forceStop;
     }
-    public void setPianificationResult(PianificationResult pianificationResult) {
-        this.pianificationResult = pianificationResult;
-    }
-    public PianificationResult getPianificationResult() {
-        return pianificationResult;
-    }
 
     public void setActionPhase(ActionPhase actionPhase) {
         this.actionPhase = actionPhase;
