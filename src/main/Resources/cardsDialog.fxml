@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<DialogPane prefHeight="161.0" prefWidth="499.0" style="-fx-background-color: LightCyan;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <content>
+        <AnchorPane prefHeight="157.0" prefWidth="525.0">
+            <children>
+                <Text fx:id="description" layoutX="17.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="426.9367446899414" />
+                <Button layoutX="367.0" layoutY="85.0" mnemonicParsing="false" text="OK" />
+            </children>
+        </AnchorPane>
+    </content>
+    <header>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="488.53668212890625" />
+    </header>
+</DialogPane>

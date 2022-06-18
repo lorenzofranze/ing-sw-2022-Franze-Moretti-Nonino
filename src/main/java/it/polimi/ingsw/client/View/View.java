@@ -32,4 +32,7 @@ public interface View{
     void chooseColour(); //used from cards 9 - 12 - 7 - 10 - 11
     void chooseIsland(); //used from cards 3 - 5
     void chooseNumOfMove();
+
+    //used only by gui
+    void showEffect(int num);
 }

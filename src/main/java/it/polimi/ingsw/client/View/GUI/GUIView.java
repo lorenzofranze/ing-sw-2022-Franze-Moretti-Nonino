@@ -356,6 +356,12 @@ public class GUIView implements View {
 
     }
 
+    @Override
+    public void showEffect(int num) {
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().showBanner(num));
+        GuiController.getInstance().runMethod();
+    }
+
     /**
      * this method is used by card 9, 11 and 12,
      * The player chooses the pawn on the card
