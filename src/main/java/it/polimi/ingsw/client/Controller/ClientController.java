@@ -45,10 +45,11 @@ public class ClientController implements Runnable {
         return semaphore;
     }
 
-    /** il thread è invocato da ClientApp.
-     * si occupa della connessione del client col metodo connect(),
-     * una volta arrivato il primo update dal server, finchè il gioco non termina o sono arrivati errori
-     * di disconnessione, se il messaggio arrivato è di tipo update(), invoca console.play()
+    /**
+     * T+he thread is invoked by ClientApp.
+     * It takes care of the client connection with the connect() method,
+     * once the first update arrives from the server, until the game is not over and until errors of disconnection
+     * have not brrn received, if the message arrived is of type update(), invokes console.play()
      */
     @Override
     public void run() {
@@ -117,10 +118,10 @@ public class ClientController implements Runnable {
     }
 
     /**
-     * si occupa della gestione dei messaggi di connessione, di errore e di ack durante la fase di connessione.
-     * Il giocatore sceglie un gameMode (in locale si verifica che la modalità sia tra quelle proposte)
-     * e sceglie un nickname. Viene inviato il messaggio che contiene le due informazioni e se il nome non è
-     * valido si chiede di scegliere un altro nickname
+     * Handles connection, error and ack messages during the connection phase.
+     * The player chooses a gameMode (locally it is verified that the mode is among those proposed).
+     * and chooses a nickname. The message containing the two pieces of information is sent, and if the name is not
+     * valid you are asked to choose another nickname.
      */
     private void connect(){
 
@@ -176,8 +177,8 @@ public class ClientController implements Runnable {
 
 
     /**
-     * attende l'arrivo del messaggio di ack che avvisa del riempimento della lobby e nel frattempo
-     * controlla non ci siano problemi di disconnessione per i quali bisogna settare disconnected a true
+     * Waits for the arrival of the ack message advising that the lobby is filled, and in the meantime
+     * checks for disconnection problems for which "disconnected" must be set to true
      */
     private void waitForOtherPlayers(){
         Message receivedMessage=null;
@@ -214,8 +215,8 @@ public class ClientController implements Runnable {
     }
 
     /**
-     * attende per il primo messaggio di update e nel frattempo
-     * controlla non ci siano problemi di disconnessione per i quali bisogna settare disconnected a true
+     * Waits for the first update message and in the meantime.
+     * Checks for disconnection problems for which "disconnected" must be set to true
      */
     private void waitForFirstGameState(){
         Message receivedMessage=null;

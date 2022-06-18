@@ -28,7 +28,7 @@ public class Console{
     private CharacterCardsConsole characterCardsConsole = ClientController.getInstance().getCharacterCardsConsole(); //only methods
 
     /**
-     * checks form the last update in which Phase the game is currently in (Pianification or Action) and calls the
+     * Checks form the last update in which Phase the game is currently in (Pianification or Action) and calls the
      * correct play method
      */
     public void play(){
@@ -46,8 +46,10 @@ public class Console{
         }
     }
 
-    /**It lets the player choose his/her AssistantCard. If the card chosen is not valid, an error message is received.
-     * The method terminates only if a valid card has been chosen and an ack message is received*/
+    /**
+     * It lets the player choose his/her AssistantCard. If the card chosen is not valid, an error message is received.
+     * The method terminates only if a valid card has been chosen and an ack message is received
+     * */
     private void playPianification(){
         ClientController clientController = ClientController.getInstance();
         NetworkHandler networkHandler = clientController.getNetworkHandler();
@@ -89,7 +91,8 @@ public class Console{
         }while(moveAccepted==false);
     }
 
-    /**It lets the player play his/her ActionPhase. According to currActionBookmark, the player can:
+    /**
+     * It lets the player play his/her ActionPhase. According to currActionBookmark, the player can:
      * 1. (currActionBookMark = moveStudents) -> move 3 (2-players-mode) or 4 (3-players-mode) students from his/her
      * entrance. For each student the method moveStudent is called.
      * 2. (currActionBookMark = placeMotherNature) -> The mother nature move is handled by the method placeMotherNature.
@@ -140,7 +143,8 @@ public class Console{
 
     }
 
-    /**Makes the player choose a student and where to place it through the view. A message containing this information
+    /**
+     * Makes the player choose a student and where to place it through the view. A message containing this information
      * is sent to server. If an error message is received the player must remake his decision; if an ack message is
      *received, an update is requested from server.*/
     public void moveStudent(){
@@ -192,7 +196,8 @@ public class Console{
         }while(valid == false);
     }
 
-    /**The player is asked if he/she wants to play a CharacterCad through the view.
+    /**
+     * The player is asked if he/she wants to play a CharacterCad through the view.
      * YES -> a message containing the card chosen is sent to server.
      * NO -> a message containing characterPlayed = null is sent to server.
      *If an error message is received the player must remake his decision; if the player decision is valid, multiple
@@ -290,7 +295,8 @@ public class Console{
         }
     }
 
-    /**Makes the player choose where to place mother nature. A message containing this information is sent to server.
+    /**
+     * Makes the player choose where to place mother nature. A message containing this information is sent to server.
      * If an error message is received the player must remake his decision; if an ack message is received, 2 updates
      * (update mother nature place and update possible endgame) are requested from server.*/
     public void placeMotherNature(){
@@ -352,7 +358,8 @@ public class Console{
         }
     }
 
-    /**Makes the player choose a cloud. A message containing this information is sent to server.
+    /**
+     * Makes the player choose a cloud. A message containing this information is sent to server.
      * If an error message is received the player must remake his decision; if an ack message is received, an update is
      * requested from server.*/
     public void chooseCloud(){

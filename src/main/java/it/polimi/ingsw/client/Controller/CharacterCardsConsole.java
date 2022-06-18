@@ -30,7 +30,7 @@ public class CharacterCardsConsole {
     }
 
     /**
-     * the player chooses a pawn among those on the card and the island wherw he wants to place the pawn
+     * The player chooses a pawn among those on the card and the island wherw he wants to place the pawn
      */
     private void playEffectCard_1(){
         Message receivedMessage = null;
