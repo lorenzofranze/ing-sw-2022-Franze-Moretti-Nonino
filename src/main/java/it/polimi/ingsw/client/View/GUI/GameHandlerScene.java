@@ -82,7 +82,7 @@ public class GameHandlerScene {
         }
     }
 
-    /** method that detecst that the player has dragged a student from entry and set the color of the student on the console**/
+    /** method that detects that the player has dragged a student from entrance and set the color of the student on the console**/
     public static void  setStudentChosen(MouseEvent event) {
 
         // if isn't my turn and not in moveStudents Phase: no action
@@ -164,7 +164,7 @@ public class GameHandlerScene {
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
             int islandId;
-            islandIdString= anchorPaneClicked.getId().substring(6,7);
+            islandIdString= anchorPaneClicked.getId().substring(6);
             islandId= Integer.parseInt(islandIdString);
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
@@ -457,11 +457,11 @@ public class GameHandlerScene {
     @FXML
     public void tryUseCard(DragEvent event){
 
+        setObserversErrors();
+
         String id = ((AnchorPane) event.getSource()).getId().substring(4);
         ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
-
         ClientController.getSemaphore().release();
-        setObserversErrors();
 
         event.setDropCompleted(true);
         event.consume();
@@ -494,7 +494,6 @@ public class GameHandlerScene {
             content.putImage(imageView.getImage());
             db.setContent(content);
         }
-        event.consume();
 
     }
 
@@ -507,13 +506,11 @@ public class GameHandlerScene {
         String islandIdString;
         int islandId;
         AnchorPane anchorPane = (AnchorPane) event.getSource();
-        islandIdString= anchorPane.getId().substring(6,7);
+        islandIdString= anchorPane.getId().substring(6);
 
 
         islandId= Integer.parseInt(islandIdString);
         ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
-        System.out.println(colourStudent);
-        System.out.println(colourStudent.getIndexColour());
         ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
         System.out.println(islandId-1);
         ClientController.getSemaphore().release();
@@ -541,14 +538,12 @@ public class GameHandlerScene {
 
      private void setIslandChosenForCard(MouseEvent event){
 
-         System.out.println("cliccato l'isola");
          AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
          String islandIdString;
          int islandId;
 
          islandIdString = anchorPaneClicked.getId().substring(6);
          islandId = Integer.parseInt(islandIdString);
-         System.out.println("cliccato l'isola numero "+islandIdString);
 
          ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
          ClientController.getSemaphore().release();
@@ -610,7 +605,7 @@ public class GameHandlerScene {
 
 
             MotionBlur mb = new MotionBlur();
-            mb.setRadius(13.0f);
+            mb.setRadius(10.0f);
             image.setEffect(mb);
         }
     }

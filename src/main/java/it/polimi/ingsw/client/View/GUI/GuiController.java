@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -620,6 +621,10 @@ public class GuiController extends Application {
             currentScene.setCursor(Cursor.DEFAULT);
         }else if(val==1) {
             currentScene.setCursor(new ImageCursor(new Image("/images/pawns/mother_nature.png")));
+        }else if(val == 2){
+            currentScene.setCursor(new ImageCursor(new Image("/images/imageCharacters/CarteTOT_front3.jpg")));
+        }else if(val == 3){
+            currentScene.setCursor(new ImageCursor(new Image("/images/imageCharacters/deny_island_icon.png")));
         }
     }
 
@@ -641,12 +646,25 @@ public class GuiController extends Application {
         int rig;
         int col;
 
-        //show coin on card if is incremented
         for (CharacterPojo card : game.getCharacters()) {
             if (card.isIncremented()) {
+                //show coin on card if is incremented
                 anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
                 ((ImageView) anchorPane.getChildren().get(2)).setVisible(true);
             }
+            //effect on card if is active
+            anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
+            if(game.getActiveEffect() == null){
+                anchorPane.getChildren().get(0).setEffect(null);
+            }else if(game.getActiveEffect().getCharacterId() == card.getCharacterId()){
+                Glow g = new Glow();
+                g.setLevel(55.0);
+                anchorPane.getChildren().get(0).setEffect(g);
+            }
+
+
+
+
             anchorPane = (AnchorPane) currentStage.getScene().lookup("#card" + card.getCharacterId());
 
             if (card.getCharacterId() == 5) {
@@ -663,9 +681,9 @@ public class GuiController extends Application {
                         col = 0;
                         rig = 1;
                     }
-                    imageView.setFitWidth(19.0);
+                    imageView.setFitWidth(30.0);
                     imageView.setPreserveRatio(true);
-                    gridPane.add(imageView, rig, col);
+                    gridPane.add(imageView, col, rig);
                     col++;
                 }
                 //puts no entry tiles on islands
@@ -675,7 +693,7 @@ public class GuiController extends Application {
                         anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + (j));
                         gridPane = (GridPane) anchorPane.getChildren().get(1);
                         imageView = new ImageView(new Image("/images/imageCharacters/deny_island_icon.png"));
-                        imageView.setFitWidth(19.0);
+                        imageView.setFitWidth(30.0);
                         imageView.setPreserveRatio(true);
                         gridPane.add(imageView, 6, 6 - i);
                     }
@@ -694,9 +712,9 @@ public class GuiController extends Application {
                         rig = 1;
                     }
                     imageView= pawnsList.get(i);
-                    imageView.setFitWidth(19.0);
+                    imageView.setFitWidth(30.0);
                     imageView.setPreserveRatio(true);
-                    gridPane.add(imageView, rig, col);
+                    gridPane.add(imageView, col, rig);
                     col++;
                 }
             }
@@ -732,10 +750,8 @@ public class GuiController extends Application {
         alert.setContentText("With this card you get a magic power! Choose an island and the influences on that island" +
                 " will be calculated... remember mother nature will continue her steps as usual");
 
-        GameStatePojo game = ClientController.getInstance().getGameStatePojo();
-        AnchorPane anchorPane;
-
         alert.showAndWait();
+        changeCursor(2); // calculate influence cursor
 
     }
 
@@ -748,6 +764,8 @@ public class GuiController extends Application {
                 " and the next time mother nature will stops on it, she will forget to calculate the influence on the" +
                 "island");
         alert.showAndWait();
+
+        changeCursor(3); //no entry tile
 
     }
 
@@ -773,20 +791,6 @@ public class GuiController extends Application {
                 }
             });
         }
-        /*
-        for (int j = 1; j < game.getIslands().size() + 1; j++) {
-
-            anchorPane = (AnchorPane) currentStage.getScene().lookup("#island" + j);
-            anchorPane.setOnDragDetected(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    GameHandlerScene.dragStudentForCard(event);
-                }
-            });
-        }
-        */
-
-
-
     }
 
     public void activeGuiCard11() {

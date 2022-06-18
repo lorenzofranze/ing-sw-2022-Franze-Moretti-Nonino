@@ -80,7 +80,7 @@ public class Game {
         characterStates = new ArrayList<CharacterState>();
         characterStates.add(temp.get(9));
         characterStates.add(temp.get(6));
-        characterStates.add(temp.get(8));
+        characterStates.add(temp.get(4));
 
         Collections.shuffle(temp);
 

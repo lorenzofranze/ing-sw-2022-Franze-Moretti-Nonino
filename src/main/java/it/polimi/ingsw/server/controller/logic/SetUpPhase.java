@@ -37,10 +37,13 @@ public class SetUpPhase extends GamePhase {
     /**
      * gives one coin per player at the start of the game if the game is expert-mode
      */
+
     private void distributeCoins() {
+        int i =0;
         for (Player player : this.gameController.getGame().getPlayers()) {
-            player.addCoins(1);
-            this.gameController.getGame().removeCoins(1);
+            player.addCoins(4-i);
+            this.gameController.getGame().removeCoins(4-i);
+            i++;
         }
         /*
         int i=0;
