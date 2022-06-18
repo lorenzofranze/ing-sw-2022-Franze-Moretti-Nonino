@@ -32,8 +32,8 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * crea i buffer in ingresso e uscita e fa partire il thread del ping (essendo chiamato subito da
-     * clientApp, il ping funziona anche durante la connessione con il server)
+     * creates the input and output buffers and starts the ping thread (being called immediately by the
+     * clientApp, the ping also works while connecting with the server)
      * @throws IOException
      */
     public void connectToServer() throws IOException {
@@ -48,13 +48,13 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * legge dal buffer le stringhe e li trasforma in messaggi con Json,
-     * se sono di tipo Update, Ack, Error, Async, Game, li aggiunge alla coda dei messaggi
-     * altrimenti
-     * -- se è Ping, invia il Pong;
-     * -- se è Pong, setta connected del PingSender a true;
-     * -- se è Async chiama ClientController.setDisconnected();
-     * anche in caso di errori chiama ClientController.setDisconnected().
+     * reads strings from the buffer and turns them into messages with Json,
+     * if they are of type Update, Ack, Error, Async, Game, adds them to the message queue.
+     * otherwise.
+     * -- if it is Ping, sends the Pong;
+     * -- if it is Pong, set connected of the PingSender to true;
+     * -- if it is Async call ClientController.setDisconnected();
+     * also in case of errors calls ClientController.setDisconnected().
      */
     private void readFromBuffer() {
 
@@ -119,7 +119,7 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * invia i messaggi passati come parametro al server
+     * Sends the messages passed as a parameter to the server
      * @param message
      * @throws IOException
      */
@@ -152,8 +152,8 @@ public class NetworkHandler implements Runnable{
     */
 
     /**
-     * è chiamato da ClientApp quando bisogna chiudere il client.
-     * Chiude i buffer in ingresso e uscita.
+     * Is called by ClientApp when you need to close the client.
+     * Closes the input and output buffers.
      */
     public void endClient() {
         try {
@@ -166,8 +166,8 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * preleva e restituisce i messaggi aggiunti alla coda da readFromBuffer().
-     * nel caso la coda sia vuota, il metodo take() attende che si riempa con un messaggio.
+     * Takes and returns the messages added to the queue by readFromBuffer().
+     * In case the queue is empty, the take() method waits for it to be filled with a message.
      * @return
      */
     public Message getReceivedMessage() {
@@ -184,8 +184,9 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * finchè non c'è disconnessione, chiamo readFromBuffer() per poter aggiungere i messaggi in coda (o gestirli
-     * senza aggiungerli alla coda nel caso di Ping, Pong, Async) appena questi arrivano sul buffer
+     * As long as there is no disconnection, I call readFromBuffer() so that I can add messages to the queue
+     * (or handle them without adding them to the queue in the case of Ping, Pong, Async)
+     * as soon as they arrive on the buffer
      */
     @Override
     public void run(){
