@@ -395,6 +395,12 @@ public class GuiController extends Application {
                 child.getChildren().add(image);
                 i++;
             }
+            if(ClientController.getInstance().getGameStatePojo().getClouds().get(j - 1).getStudents().pawnsNumber()==0){
+                anchorPane.setDisable(true);
+            }else{
+                anchorPane.setDisable(false);
+            }
+
         }
 
         //------ coins left

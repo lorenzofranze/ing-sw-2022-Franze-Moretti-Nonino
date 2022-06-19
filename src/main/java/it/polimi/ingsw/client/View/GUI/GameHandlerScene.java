@@ -40,6 +40,7 @@ public class GameHandlerScene {
     private static boolean secondPart;
     private static boolean canMoveCoin;
     private static boolean skipAskForCharacter;
+    private static boolean motherNatureError;
 
     public static void skipAskForForCharacter(boolean b) {
         skipAskForCharacter=b;
@@ -201,10 +202,15 @@ public class GameHandlerScene {
         if (correctAction(Console.ActionBookMark.placeMotherNature) && !cardToUse) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter && !motherNatureError) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
+            //call back for error in movements
+            Runnable runnableInvalidChoise = () -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR,"not so many steps ! " , ButtonType.OK);
+                alert.showAndWait();
+            };
 
             AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
             String islandIdString;
@@ -226,9 +232,18 @@ public class GameHandlerScene {
             } else {
                 result = ClientController.getInstance().getGameStatePojo().getIslands().size() - posMotherNature + islandId;
             }
-            ClientController.getInstance().getConsole().setStepsMotherNature(result);
-            ClientController.getSemaphore().release();
-            skipAskForCharacter=false;
+
+            if(result > ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature()){
+                GuiController.getInstance().setRunnable(runnableInvalidChoise);
+                GuiController.getInstance().runMethod();
+                motherNatureError=true;
+                event.consume();
+            }else {
+                ClientController.getInstance().getConsole().setStepsMotherNature(result);
+                ClientController.getSemaphore().release();
+                skipAskForCharacter = false;
+                motherNatureError=false;
+            }
         }
 
         //** this method is used by card 3 and 5 **//

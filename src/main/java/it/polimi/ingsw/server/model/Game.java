@@ -78,15 +78,13 @@ public class Game {
         temp.add(new CharacterState(12, 3));
 
         characterStates = new ArrayList<>();
-        characterStates.add(temp.get(2));
-        characterStates.add(temp.get(5));
-        characterStates.add(temp.get(8));
+
 
         Collections.shuffle(temp);
 
-        //characterStates.add(temp.get(0));
-        //characterStates.add(temp.get(1));
-        //characterStates.add(temp.get(2));
+        characterStates.add(temp.get(0));
+        characterStates.add(temp.get(1));
+        characterStates.add(temp.get(2));
 
 
         this.coinSupply = 20;

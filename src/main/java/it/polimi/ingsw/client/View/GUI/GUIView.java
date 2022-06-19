@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.View.GUI;
 
 import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.client.Controller.Console;
 import it.polimi.ingsw.client.View.View;
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.*;
@@ -73,15 +74,15 @@ public class GUIView implements View {
 
     @Override
     public void placeMotherNature() {
-        //GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
-        //GuiController.getInstance().runMethod();
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
+        GuiController.getInstance().runMethod();
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
-        //GuiController.getInstance().runMethod();
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
+        GuiController.getInstance().runMethod();
     }
 
 
@@ -272,11 +273,19 @@ public class GUIView implements View {
     @Override
     public void askForCharacter() {
         if(ClientController.getInstance().getGameStatePojo().isExpert()==true) {
+            //change cursor if mother nature round
+            if(ClientController.getInstance().getConsole().getCurrActionBookMark() == Console.ActionBookMark.placeMotherNature){
+                GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
+                GuiController.getInstance().runMethod();
+            }
             try {
                 ClientController.getSemaphore().acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
+            GuiController.getInstance().runMethod();
         }
     }
 
@@ -370,6 +379,8 @@ public class GUIView implements View {
     @Override
     public void skipAskForCharacterGUI(boolean b) {
         GameHandlerScene.skipAskForForCharacter(b);
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
+        GuiController.getInstance().runMethod();
     }
 
     /**
