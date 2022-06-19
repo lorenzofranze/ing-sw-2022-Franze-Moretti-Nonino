@@ -46,10 +46,10 @@ public class ClientController implements Runnable {
     }
 
     /**
-     * T+he thread is invoked by ClientApp.
+     * The thread is invoked by ClientApp.
      * It takes care of the client connection with the connect() method,
      * once the first update arrives from the server, until the game is not over and until errors of disconnection
-     * have not brrn received, if the message arrived is of type update(), invokes console.play()
+     * have not been received, if the message arrived is of type update(), invokes console.play()
      */
     @Override
     public void run() {

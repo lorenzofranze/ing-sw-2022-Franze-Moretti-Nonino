@@ -171,30 +171,13 @@ public class GuiController extends Application {
             e.printStackTrace();
             return;
         }
-        GameStatePojo gameStatePojo = ClientController.getInstance().getGameStatePojo();
         Scene scene = new Scene(root);
         currentScene = scene;
         currentStage.setScene(scene);
         currentStage.centerOnScreen();
         currentStage.setResizable(true);
         currentStage.sizeToScene();
-
-        if (gameStatePojo.isGameOver() && gameStatePojo.getWinner() != null) {
-
-            Label label = (Label) currentStage.getScene().lookup("#textGameOver");
-            if (gameStatePojo.getWinner().equals("?")) {
-                label.setText("Draw!");
-            } else {
-                if (gameStatePojo.getWinner().equals(ClientController.getInstance().getNickname())) {
-                    label.setText("Congratulations! You have won");
-                } else {
-                    label.setText("The winner is: " + gameStatePojo.getWinner() +
-                            "\n Better luck next time");
-                }
-
-            }
-            currentStage.show();
-        }
+        currentStage.show();
     }
 
     /**
@@ -214,6 +197,22 @@ public class GuiController extends Application {
         currentStage.centerOnScreen();
         currentStage.setResizable(true);
         currentStage.sizeToScene();
+        GameStatePojo gameStatePojo = ClientController.getInstance().getGameStatePojo();
+        if (gameStatePojo.isGameOver() && gameStatePojo.getWinner() != null) {
+
+            Label label = (Label) currentStage.getScene().lookup("#textGameOver");
+            if (gameStatePojo.getWinner().equals("?")) {
+                label.setText("Draw!");
+            } else {
+                if (gameStatePojo.getWinner().equals(ClientController.getInstance().getNickname())) {
+                    label.setText("Congratulations! You have won");
+                } else {
+                    label.setText("The winner is: " + gameStatePojo.getWinner() +
+                            "\n Better luck next time");
+                }
+
+            }
+        }
         currentStage.show();
     }
 
