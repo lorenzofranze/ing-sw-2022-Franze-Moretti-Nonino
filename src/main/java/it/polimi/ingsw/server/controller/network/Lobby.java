@@ -40,6 +40,14 @@ public class Lobby {
         return nicknames;
     }
 
+    /**
+     * When a player chooses the nickname and the lobby, he is added to the lobby.
+     * The lobby associate him with a playerManager (and with a playerManagerThread).
+     * The playerManagerThread starts running.
+     * @param nickname
+     * @param clientSocket
+     * @param playerManager
+     */
     public void addUsersReadyToPlay(String nickname, Socket clientSocket, PlayerManager playerManager) {
         usersReadyToPlaySocket.put(nickname, clientSocket);
         usersPlayerManager.put(nickname, playerManager);

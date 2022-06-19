@@ -30,6 +30,14 @@ public class PlayerManager implements Runnable{
     private transient boolean toStop=false;
     private boolean closeConnectionBeenCalled;
 
+    /**
+     * There is one PlayerManager for each player. Its function is to manage the messages arriving from the player
+     * using a queue and to send the messages to that player.
+     * The pingThread starts working even before the player chooses his nickname so that disconnections
+     * can be detected also during the phases that come before the start of the game
+     * @param bufferedReaderIn
+     * @param bufferedReaderOut
+     */
     public PlayerManager(BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = " invalidNickname ";
         this.bufferedReaderIn=bufferedReaderIn;
@@ -37,7 +45,6 @@ public class PlayerManager implements Runnable{
         this.bufferedReaderOut=bufferedReaderOut;
         this.closeConnectionBeenCalled=false;
         this.connected=true;
-        /**todo: stop the thread**/
         this.jsonConverter= new JsonConverter();
         this.pingSender=new PingSender(this);
         this.pingThread= new Thread(pingSender);
@@ -48,7 +55,8 @@ public class PlayerManager implements Runnable{
 
     //called in messageHandler
 
-    /** this function receives the messages from the client:
+    /**
+     * This function receives the messages from the client:
      * if it is not the client turn, it sends to the client an error message and do not save the message,
      * if it is the client turn, the message is put in the FIFO Queue
      */
@@ -114,12 +122,12 @@ public class PlayerManager implements Runnable{
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
-    /*public void setCharacterReceived(boolean characterReceived) {
-        this.characterReceived = characterReceived;
-    }
-    public boolean isCharacterReceived() {
-        return characterReceived;
-    }*/
+
+    /**
+     * Returns the last message in the queue and removes it from the queue. If the queue is empty, waits until
+     * a message is added.
+     * @return
+     */
     public Message getLastMessage() {
         Message message = null;
         boolean received = false;
@@ -147,6 +155,10 @@ public class PlayerManager implements Runnable{
         return isMyTurn;
     }
 
+    /**
+     * Reads the bufferReaderIn and returns the corresponding String
+     * @return
+     */
     private String readFromBuffer(){
 
         String lastMessage = "";
@@ -178,6 +190,11 @@ public class PlayerManager implements Runnable{
         return lastMessage;
     }
 
+    /**
+     * Converts the message into a string using jsonConverter,
+     * then sends it
+     * @param message
+     */
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
         if (message.getMessageType()!=TypeOfMessage.Update){
@@ -229,7 +246,7 @@ public class PlayerManager implements Runnable{
     }
 
     /**
-     * it reads the last message of the queue: if it is of the type expected it return the message
+     * It reads the last message of the queue: if it is of the type expected it return the message
      * otherwise it sends an errorGameMessage to the client and it reads the last message of the queue again
      * until it finds the message it is waiting for
      * @param typeOfMessage
@@ -313,7 +330,7 @@ public class PlayerManager implements Runnable{
 
     }
 
-    /**
+    /*
      * stops the game if a player do not answer for more than 3 minutes
      * it is called in the readMessage method (in playerManager)
      * so it is called every thime the gameController asks to read the last message of the queue

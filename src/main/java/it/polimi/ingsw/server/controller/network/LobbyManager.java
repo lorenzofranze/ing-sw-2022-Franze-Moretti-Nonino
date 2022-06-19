@@ -78,11 +78,6 @@ public class LobbyManager implements Runnable {
      * If the nickname is validated, it is added to the waiting players' list in the Lobby
      * @throws IOException
      */
-
-    /**
-     * ATTENTION: POSSIBLE ATTACK FROM A MALITIOUS CLIENT: never sends its nickname: i have to put a timeout
-     * otherwise no other players can connect and start a new game
-     */
     public void welcomeNewPlayers() throws IOException {
         Message unknown;
         boolean nameOk;
@@ -100,6 +95,13 @@ public class LobbyManager implements Runnable {
         lobbyServerSocket.close();
     }
 
+    /**
+     * Opens the buffer in and out,
+     * ---> if the message received is of type connection, reads the nickname and sends a message
+     * to inform about the correct connection or of the error due to the nickname already in use.
+     * ---> if the message received is not of type connection, sets playerManager.setConnected(true) to
+     * inform the PingSender about the alive-connection
+     */
     @Override
     public void run(){
         Message unknown;
@@ -119,9 +121,6 @@ public class LobbyManager implements Runnable {
             return;
         }
         PlayerManager playerManager=new PlayerManager(in, out);
-
-
-
 
         validName = false;
         while (!validName) {
@@ -149,7 +148,7 @@ public class LobbyManager implements Runnable {
                 ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
 
                 /**
-                 * Check of the nickname-univocity
+                 * Check of the nickname-univocity usinf a list of used nicknames.
                  */
                 //check playing-clients
                 if (!disconnectedPlayers.contains(nickname)) {

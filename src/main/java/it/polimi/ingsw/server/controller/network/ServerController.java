@@ -36,6 +36,11 @@ public class ServerController {
         return instance;
     }
 
+    /**
+     * There is only one lobby manager.
+     * The main creates the ServerController and calls turnOn method so that the lobby manager is created immediatly
+     * when the server starts running.
+     */
     public void turnOn() {
         // thread that starts games
         LobbyManager lobbyManager = LobbyManager.getInstance();
@@ -47,6 +52,10 @@ public class ServerController {
     }
 
 
+    /**
+     * When a lobby is full, the game is put in the currentGames list and the game starts
+     * @param lobbyToStart
+     */
     public void startGame(Lobby lobbyToStart){
         this.lobbyToStart = lobbyToStart;
         GameController gameController = new GameController(lobbyToStart, lobbyToStart.getGameMode().isExpert());
@@ -62,7 +71,8 @@ public class ServerController {
         return currentGames;
     }
 
-    /** closes the sokets of all the players of a game
+    /**
+     * Closes the sokets of all the players of a game
      * when a player quit the game with a disconnection message
      * @param playerNickname
      */

@@ -15,6 +15,13 @@ public class SetUpPhase extends GamePhase {
         this.gameController = gameController;
     }
 
+    /**
+     * Places MotherNature on a random island and 10 students on the islands,
+     * puts random students at the entrance of each player's SchoolBoard,
+     * chooses a random first player
+     * and, if in complax-mode, gives one coin per player and initializes the character effects
+     * @return
+     */
     public SetUpResult handle() {
 
         this.placePawnsIslands();

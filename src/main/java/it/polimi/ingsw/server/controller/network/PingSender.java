@@ -30,6 +30,12 @@ public class PingSender implements Runnable{
     }
 
 
+    /**
+     * While the player is connected, it sends a ping message to the player and waits for PING_TIMEOUT:
+     * if, in the meantime, the playerManager.getConnected() has been set to true,
+     * it goes on repetitevly,
+     * otherwise it stops and closes the connection of that player (if not already closed in other part of the code)
+     */
     @Override
     public void run() {
 
@@ -85,6 +91,10 @@ public class PingSender implements Runnable{
         }
     }
 
+    /**
+     * Sets the nickname because during the connection the name is set to "invalid nickname" by default
+     * @param playerNickname
+     */
     public void setPlayerNickname(String playerNickname) {
         this.playerNickname = playerNickname;
     }

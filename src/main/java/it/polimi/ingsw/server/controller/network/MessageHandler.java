@@ -21,6 +21,11 @@ public class MessageHandler {
     private JsonConverter jsonConverter;
 
 
+    /**
+     * There is one MessageHandler for each game. The PlayerManagerMap associates each player with his
+     * personal playerManager
+     * @param lobby
+     */
     public MessageHandler(Lobby lobby){
         playerManagerThreads= new HashMap<>();
         Thread t;
@@ -98,6 +103,11 @@ public class MessageHandler {
     */
 
 
+    /**
+     * Reads from the buffer and returns the corresponding string
+     * @param nickname
+     * @return
+     */
     private String readFromBuffer(String nickname){
         BufferedReader in = playerManagerMap.get(nickname).getBufferedReaderIn();
         String lastMessage = "";
@@ -114,6 +124,10 @@ public class MessageHandler {
         return lastMessage;
     }
 
+    /**
+     * Sends a message to all the players
+     * @param message
+     */
     public void sendBroadcast(Message message){
         for(PlayerManager playerManager : this.getPlayerManagerMap().values()){
             playerManager.sendMessage(message);
