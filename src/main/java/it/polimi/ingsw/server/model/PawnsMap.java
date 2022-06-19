@@ -32,12 +32,20 @@ public class PawnsMap{
         pawns.put(colour, pawns.get(colour)-1);
     }
 
+    /**
+     * adds a specific Pawn in the PawnsMap
+     * @param toAdd
+     */
     public void add(PawnsMap toAdd){
         ColourPawn pawnsList[] = ColourPawn.values();
         for(ColourPawn p : pawnsList)
             pawns.put(p, pawns.get(p) + toAdd.get(p));
     }
 
+    /**
+     * removes a specific Pawn from the PawnsMap
+     * @param toRemove
+     */
     public void remove(PawnsMap toRemove) {
         ColourPawn pawnsList[] = ColourPawn.values();
         for (ColourPawn p : pawnsList) {

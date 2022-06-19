@@ -12,6 +12,11 @@ public class CharacterState {
     private boolean incremented;
     protected String description = "";
 
+    /**
+     * Each character card has an id, a cost (incremented or not) and a description different for each id
+     * @param characterId
+     * @param actualCost
+     */
     public CharacterState(int characterId, int actualCost) {
         this.characterId = characterId;
         this.actualCost = actualCost;

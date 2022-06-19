@@ -13,6 +13,14 @@ public class  JsonConverter {
         gson = builder.create();
     }
 
+    /**
+     * Convert a JsonString in a Message of the correct type accordinf to rhe type of message.
+     * Precisesly:
+     * first the string it is converted to message so that the message type con be explored,
+     * then the string is converted into a message of a specific type
+     * @param jsonString
+     * @return
+     */
     public static Message fromJsonToMessage(String jsonString){
 
         Message message = gson.fromJson(jsonString, Message.class);
@@ -30,18 +38,6 @@ public class  JsonConverter {
 
         if(message.getMessageType() == TypeOfMessage.Update){
             UpdateMessage messageReal=  gson.fromJson(jsonString, UpdateMessage.class);
-            for (int i = 0; i < 3; i++){
-                if (messageReal.getGameState().getCharacters().get(i).getCharacterId() == 1 ||
-                        messageReal.getGameState().getCharacters().get(i).getCharacterId() == 7 ||
-                        messageReal.getGameState().getCharacters().get(i).getCharacterId() == 11){
-                //In realtà le characterPojos all'interno del GameStatePojo non sono veramente characterPojos,
-                    // ma CharacterStudentPojo --> DA RISOLVERE
-                }
-                if (messageReal.getGameState().getCharacters().get(i).getCharacterId() == 5){
-                //In realtà le characterPojos all'interno del GameStatePojo non sono veramente characterPojos,
-                    // ma CharacterNoEntryPojo --> DA RISOLVERE
-                }
-            }
             return messageReal;
         }
 
@@ -78,6 +74,9 @@ public class  JsonConverter {
     }
 
 
+    /**
+     * Convert a Message into a JsonString.
+     **/
     public static String fromMessageToJson(Message message){
         String jsonString=gson.toJson(message) + "\nEOF\n";
         return(jsonString);
