@@ -29,6 +29,13 @@ public class ActionPhase extends GamePhase {
         actionResult = new ActionResult();
     }
 
+    /**
+     *
+     * @param turnOrder
+     * @param maximumMovements
+     * @param isLastRoundFinishedStudentsBag
+     * @return
+     */
     public ActionResult handle(List<Player> turnOrder, HashMap<Player, Integer> maximumMovements,
                                boolean isLastRoundFinishedStudentsBag) {
 
@@ -148,6 +155,11 @@ public class ActionPhase extends GamePhase {
     }
 
 
+    /**
+     * Reads the message and if the index colour is invalid or the player doesn't have that student or the index of
+     * the destination is not valid or the diningroom of that color is full, sends an ErrorMessage of the correct type.
+     * When the correct move is taken, calls moveSingleStudent
+     */
     protected void moveStudent(){
         MessageHandler messageHandler = this.gameController.getMessageHandler();
         String currPlayer= gameController.getCurrentPlayer().getNickname();
@@ -203,6 +215,12 @@ public class ActionPhase extends GamePhase {
 
     }
 
+    /**
+     * If the player has chosen an invalid number of seps for mother nature, sends an InvalidChoice message,
+     * when a correct choice is made, sets mother nature on the correct island
+     * @param currentPlayer
+     * @return
+     */
     protected Island moveMotherNature(Player currentPlayer){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         Message receivedMessage;
@@ -305,7 +323,10 @@ public class ActionPhase extends GamePhase {
         return false;
     }
 
-    /**returns true if there was a union, false otherwise*/
+    /**
+     * Returns true if there was a union between the islands (when islands of the same colour are adjacent),
+     * false otherwise. If true, it is called unifyIslands() with the list of the island to unify as argument
+     * */
     public boolean verifyUnion() {
         List<Island> islandList = this.gameController.getGame().getIslands();
         List<Integer> currColour;
@@ -355,6 +376,10 @@ public class ActionPhase extends GamePhase {
         return true;
     }
 
+    /**
+     * It asks the player which character cloud he wants to use.
+     * The method does not terminate until a valid choice is made.*/
+
     protected void chooseCloud(){
         Message receivedMessage;
         GameMessage gameMessage;
@@ -392,7 +417,7 @@ public class ActionPhase extends GamePhase {
         gameController.getCurrentPlayer().getSchoolBoard().insertCloud(gameController.getGame().getClouds().get(indexCloud));
     }
 
-    /** this method does nothing if game is in simple mode. Otherwise it asks the player which character card he wants +
+    /** this method does nothing if game is in simple mode. Otherwise it asks the player which character card he wants
      * to use. The method does not terminate until a valid choice is made.*/
     protected void askforCharacter(){
         if(gameController.isExpert()) {
