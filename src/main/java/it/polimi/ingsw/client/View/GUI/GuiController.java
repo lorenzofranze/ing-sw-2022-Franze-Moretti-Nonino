@@ -556,7 +556,6 @@ public class GuiController extends Application {
                 ((ImageView)(child.getChildren().get(0))).setImage(charactersToImage(characterPojo));
                 //set id
                 child.setId("card"+characterPojo.getCharacterId());
-                System.out.println(characterPojo.getCharacterId());
                 //hide coin incremented
                 ((ImageView)child.getChildren().get(2)).setVisible(false);
                 i++;
@@ -640,7 +639,6 @@ public class GuiController extends Application {
         String prefix = "/images/imageCharacters/CarteTOT_front";
         String path="";
         path=prefix+(character.getCharacterId())+".jpg";
-        System.out.println(path);
         return new Image(path);
     }
 

@@ -38,19 +38,26 @@ public class GameHandlerScene {
     private static boolean clickEntrance;
     private static boolean clickDining;
     private static boolean secondPart;
+    private static boolean canMoveCoin;
+    private static boolean skipAskForCharacter;
+
+    public static void skipAskForForCharacter(boolean b) {
+        skipAskForCharacter=b;
+    }
 
 
     @FXML
     void setCloudChosen1(MouseEvent event) {
 
         if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
 
             ClientController.getInstance().getConsole().setCloudChosen(0);
             ClientController.getSemaphore().release();
+            skipAskForCharacter=false;
         }
     }
 
@@ -58,13 +65,14 @@ public class GameHandlerScene {
     @FXML
     void setCloudChosen2(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
 
             ClientController.getInstance().getConsole().setCloudChosen(1);
             ClientController.getSemaphore().release();
+            skipAskForCharacter=false;
         }
     }
 
@@ -73,12 +81,13 @@ public class GameHandlerScene {
     void setCloudChosen3(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
 
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
-            ClientController.getInstance().getConsole().setCloudChosen(1);
+            ClientController.getInstance().getConsole().setCloudChosen(2);
             ClientController.getSemaphore().release();
+            skipAskForCharacter=false;
         }
     }
 
@@ -133,13 +142,14 @@ public class GameHandlerScene {
         if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(-1);
             ClientController.getSemaphore().release();
+            skipAskForCharacter=false;
         }
         event.setDropCompleted(true);
         event.consume();
@@ -156,7 +166,7 @@ public class GameHandlerScene {
         if(correctAction(Console.ActionBookMark.moveStudents) && !cardToUse) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
@@ -169,6 +179,7 @@ public class GameHandlerScene {
             ClientController.getInstance().getConsole().setPawnColour(colourStudent.getIndexColour());
             ClientController.getInstance().getConsole().setPawnWhere(islandId-1);
             ClientController.getSemaphore().release();
+            skipAskForCharacter=false;
         }
         //** used by card 1 **//
         else if(moveStudentCard){
@@ -190,7 +201,7 @@ public class GameHandlerScene {
         if (correctAction(Console.ActionBookMark.placeMotherNature) && !cardToUse) {
             //if complex mode before moving the student the server watnts to know if the player wants to use
             // a character card (in CLI y/n ), in this case the player doesn't want to use a character card - > n
-            if (ClientController.getInstance().getGameStatePojo().isExpert() == true) {
+            if (ClientController.getInstance().getGameStatePojo().isExpert() == true && !skipAskForCharacter) {
                 ClientController.getInstance().getConsole().setCharacterPlayed(null);
                 ClientController.getSemaphore().release();
             }
@@ -217,6 +228,7 @@ public class GameHandlerScene {
             }
             ClientController.getInstance().getConsole().setStepsMotherNature(result);
             ClientController.getSemaphore().release();
+            skipAskForCharacter=false;
         }
 
         //** this method is used by card 3 and 5 **//
@@ -396,7 +408,6 @@ public class GameHandlerScene {
         ClientController.getInstance().getView().setNoEnoughCoinsObserver(consumerCoins);
 
         Consumer<Boolean> consumerInvalidChoise = (ok) -> {
-            System.out.println("gia usata");
             Platform.runLater(() -> {
                 if (!ok) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,"Card already used" , ButtonType.OK);
@@ -419,18 +430,19 @@ public class GameHandlerScene {
     @FXML
     public void useCoins(MouseEvent mouseEvent) {
         if(ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname().equals(ClientController.getInstance().getNickname())
-                && ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION && !cardToUse) {
+                && ClientController.getInstance().getGameStatePojo().getCurrentPhase() == Phase.ACTION && !cardToUse ) {
             //verify if drag starts from correct players's school board
             int index = ((TabPane) currentStage.getScene().lookup("#boards")).getSelectionModel().getSelectedIndex() +1 ;
 
             if (index == myOrderInPlayers) {
                 //set image
                 ImageView imageView = (ImageView) mouseEvent.getTarget();
-                Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
+                Dragboard db = imageView.startDragAndDrop(TransferMode.COPY);
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(imageView.getImage());
                 db.setContent(content);
                 dragged="coins";
+                setObserversErrors();
             }
             mouseEvent.consume();
         }
@@ -443,9 +455,13 @@ public class GameHandlerScene {
      */
     @FXML
     public void acceptDropUseCoins(DragEvent event){
-        if(dragged.equals("coins")) {
-            event.acceptTransferModes(TransferMode.MOVE);
+        if(dragged.equals("coins") && canMoveCoin) {
+            event.acceptTransferModes(TransferMode.COPY);
         }
+    }
+
+    public static void canMoveCoin(boolean b) {
+        canMoveCoin=b;
     }
 
 
@@ -457,7 +473,6 @@ public class GameHandlerScene {
     @FXML
     public void tryUseCard(DragEvent event){
 
-        setObserversErrors();
 
         String id = ((AnchorPane) event.getSource()).getId().substring(4);
         ClientController.getInstance().getConsole().setCharacterPlayed(Integer.parseInt(id));
@@ -512,7 +527,6 @@ public class GameHandlerScene {
         islandId= Integer.parseInt(islandIdString);
         ClientController.getInstance().getCharacterCardsConsole().setPawnColour(colourStudent.getIndexColour());
         ClientController.getInstance().getCharacterCardsConsole().setPawnWhere(islandId-1);
-        System.out.println(islandId-1);
         ClientController.getSemaphore().release();
 
     }

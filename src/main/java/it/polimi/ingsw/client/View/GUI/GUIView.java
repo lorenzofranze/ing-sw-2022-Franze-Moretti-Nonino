@@ -362,6 +362,16 @@ public class GUIView implements View {
         GuiController.getInstance().runMethod();
     }
 
+    @Override
+    public void canMoveCoin(boolean b) {
+        GameHandlerScene.canMoveCoin(b);
+    }
+
+    @Override
+    public void skipAskForCharacterGUI(boolean b) {
+        GameHandlerScene.skipAskForForCharacter(b);
+    }
+
     /**
      * this method is used by card 9, 11 and 12,
      * The player chooses the pawn on the card

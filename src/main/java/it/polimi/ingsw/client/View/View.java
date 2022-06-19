@@ -35,4 +35,7 @@ public interface View{
 
     //used only by gui
     void showEffect(int num);
+    void canMoveCoin(boolean b);
+
+    void skipAskForCharacterGUI(boolean b);
 }

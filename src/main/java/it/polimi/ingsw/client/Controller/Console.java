@@ -211,6 +211,7 @@ public class Console{
         View view = ClientController.getInstance().view;
 
         if (ClientController.getInstance().getGameStatePojo().isExpert()) {
+            view.canMoveCoin(true);
             boolean valid = false;
             do {
                 view.askForCharacter();
@@ -239,6 +240,7 @@ public class Console{
                                 //handling character card effect
                                 int currentCharacterID = updateMessage.getGameState().getActiveEffect().getCharacterId();
                                 characterCardsConsole.playEffect(currentCharacterID);
+                                view.skipAskForCharacterGUI(true);
 
 
                                 receivedMessage = networkHandler.getReceivedMessage();
@@ -292,6 +294,7 @@ public class Console{
                 //unexpected message
                 view.showMessage(receivedMessage);
             }
+            view.canMoveCoin(false);
         }
     }
 

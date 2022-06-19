@@ -642,5 +642,15 @@ public class CLIView implements View {
         //empty
     }
 
+    @Override
+    public void canMoveCoin(boolean b) {
+        //empty
+    }
+
+    @Override
+    public void skipAskForCharacterGUI(boolean b) {
+        //empty
+    }
+
 
 }

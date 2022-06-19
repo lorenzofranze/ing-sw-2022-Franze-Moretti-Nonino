@@ -62,7 +62,7 @@ public class Game {
             this.professorsLeft.add(currColor);
         }
 
-        List<CharacterState> temp = new ArrayList<CharacterState>(12);
+        List<CharacterState> temp = new ArrayList<CharacterState>();
 
         temp.add(new CharacterStateStudent(1, 1));
         temp.add(new CharacterState(2, 2));
@@ -77,10 +77,10 @@ public class Game {
         temp.add(new CharacterStateStudent(11, 2));
         temp.add(new CharacterState(12, 3));
 
-        characterStates = new ArrayList<CharacterState>();
-        characterStates.add(temp.get(9));
-        characterStates.add(temp.get(6));
-        characterStates.add(temp.get(4));
+        characterStates = new ArrayList<>();
+        characterStates.add(temp.get(5));
+        characterStates.add(temp.get(7));
+        characterStates.add(temp.get(1));
 
         Collections.shuffle(temp);
 
