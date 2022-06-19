@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.server.model.Player;
 
-public class SetUpResult extends PhaseResult{
+public class SetUpResult {
     private Player firstRandomPianificationPlayer;
 
     public SetUpResult(){

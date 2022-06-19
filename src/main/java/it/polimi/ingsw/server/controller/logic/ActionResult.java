@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.server.model.Player;
 
-public class ActionResult extends PhaseResult{
+public class ActionResult {
 
     private Player firstPianificationPlayer;
     private boolean finishedTowers;

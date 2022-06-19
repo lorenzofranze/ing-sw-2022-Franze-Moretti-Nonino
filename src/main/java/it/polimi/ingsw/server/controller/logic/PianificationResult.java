@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PianificationResult extends PhaseResult{
+public class PianificationResult {
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
 

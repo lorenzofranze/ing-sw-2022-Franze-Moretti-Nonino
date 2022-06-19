@@ -22,6 +22,13 @@ public class PianificationPhase extends GamePhase {
         this.gameController = gameController;
     }
 
+    /**
+     * Fills the clouds, asks the player to choose an assistant card,
+     * creates a list of the players ordered for the action turns and
+     * checks for finishedAssistantCard and for finishedStudentBag
+     * @param firstPlayer
+     * @return
+     */
     public PianificationResult handle(Player firstPlayer){
 
         //index of the first player in the list of players contained in game
@@ -29,9 +36,11 @@ public class PianificationPhase extends GamePhase {
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
 
 
-        /*support hashmap and list. The list is used to keep track of the order in which players played: in case 2
+        /**
+         * playedOrder supports hashmap and list. The list is used to keep track of the order in which players played: in case 2
         players have the same value played as nextTurn, in the actionPhase the first player will be the one who has
-        played before*/
+        played before
+         */
         List<Player> playedOrder = new ArrayList<>();
         HashMap<Player, Integer> turnOrderMap = new HashMap<Player, Integer>();
         HashMap<Player, Integer> maximumMovements = new HashMap<Player, Integer>();
@@ -64,7 +73,8 @@ public class PianificationPhase extends GamePhase {
             }
         }
 
-        /*at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
+        /**
+         * at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
         that associates players to their maximum movements.*/
 
         PianificationResult pianificationResult = new PianificationResult();
@@ -76,6 +86,18 @@ public class PianificationPhase extends GamePhase {
         return pianificationResult;
     }
 
+    /**
+     * Manages the choice of the assistant card:
+     * first reads the message received from the player, then
+     * if an other player has alrealy played this card in this round, sends an AlreadyPlayed message,
+     * if the player doensn't have that card in his deck because he has already played this card, sends an InvalidChoice
+     * message,
+     * if the choice is valid, the card is played, it is sent an ack message and it is memorized the maximum movements
+     * the player can move mother nature according to the card chosen
+     * @param currentPlayer
+     * @param turnOrderMap
+     * @param maximumMovements
+     */
     public void playAssistantCard(Player currentPlayer, HashMap<Player, Integer> turnOrderMap, HashMap<Player,
             Integer> maximumMovements){
 
@@ -164,6 +186,11 @@ public class PianificationPhase extends GamePhase {
         return temp;
     }
 
+    /**
+     * Fills the clouds with students:
+     * if the numberOfPlayers is 2, 3 students are put on each clous,
+     * otherwise, if the numberOfPlayers is 3, 4 students are put on each clous.
+     */
     public void fillClouds(){
 
         int numberOfPlayers = this.gameController.getGame().getPlayers().size();
