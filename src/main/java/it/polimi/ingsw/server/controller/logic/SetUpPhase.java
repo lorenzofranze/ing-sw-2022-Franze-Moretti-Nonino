@@ -9,10 +9,10 @@ import it.polimi.ingsw.server.model.CharacterState;
 import java.util.*;
 
 public class SetUpPhase extends GamePhase {
-    private final GameController gameController;
+
 
     public SetUpPhase(GameController gameController) {
-        this.gameController = gameController;
+        super();
     }
 
     /**
@@ -123,6 +123,10 @@ public class SetUpPhase extends GamePhase {
         return ris;
     }
 
+    /**
+     * Save in the gameController the CharacterEffects according to the CharacterState found
+     * in the characterState-list of the Game.
+     */
     public void initializeCharactersEffects() {
         for (CharacterState cr : gameController.getGame().getCharacters()) {
             if (cr.getCharacterId() == 1) {gameController.getCharacterEffects().add(new Card1Effect(gameController, cr));}

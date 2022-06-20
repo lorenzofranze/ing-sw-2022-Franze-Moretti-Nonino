@@ -18,16 +18,19 @@ public class Game {
     private PawnsMap professorsLeft;
     private int coinSupply;
 
-    /**keeps track of the effect used by the current player. It represents the characterId
+    /**
+     * Keeps track of the effect used by the current player. It represents the characterId
      * of the character used*/
     private CharacterState activeEffect;
 
-    /**I can place the three Character-Cards on the table also if the expert-mode is off: no one in a simple-play
+    /**
+     * I can place the three Character-Cards on the table also if the expert-mode is off: no one in a simple-play
      * will use them since they won't have any personal coin
      */
     private List<CharacterState> characterStates;
 
-    /**creates 12 islands; creates n clouds where n is the lenght of List<Player>;
+    /**
+     * Creates 12 islands; creates n clouds where n is the lenght of List<Player>;
      * fills studentBag with 130 students; fills professorsLeft with all 5 professors;
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
     public Game(List<String> players, Integer gameId){

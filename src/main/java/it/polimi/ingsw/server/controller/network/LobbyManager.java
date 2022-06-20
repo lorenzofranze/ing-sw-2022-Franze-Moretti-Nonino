@@ -24,7 +24,7 @@ public class LobbyManager implements Runnable {
 
 
     /**
-     * there is only one serverController used to manage the new connections. When a player is accepted,
+     * There is only one serverController used to manage the new connections. When a player is accepted,
      * the player interacts with one of the executor's servers
      *
      * @param lobbyPortNumber

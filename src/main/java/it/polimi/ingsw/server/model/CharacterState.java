@@ -113,7 +113,8 @@ public class CharacterState {
         return Objects.hash(characterId);
     }
 
-    /**returns the CharacterPojo representing this CharacterState*/
+    /**
+     * Returns the CharacterPojo representing this CharacterState*/
     public CharacterPojo toPojo(){
         CharacterPojo characterStudentPojo = new CharacterPojo();
         characterStudentPojo.setCharacterId(this.getCharacterId());

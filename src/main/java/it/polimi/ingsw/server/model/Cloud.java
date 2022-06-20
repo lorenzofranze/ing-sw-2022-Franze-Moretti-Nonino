@@ -21,7 +21,8 @@ public class Cloud {
         return this.students;
     }
 
-    /** removes all the students from the cloud
+    /**
+     * Removes all the students from the cloud
      * @return PawnsMap the students that were situated on the cloud
      */
     public PawnsMap clearCloud(){
@@ -30,7 +31,8 @@ public class Cloud {
         return oldStudents;
     }
 
-    /**returns the CloudPojo representing this*/
+    /**
+     * Returns the CloudPojo representing this*/
     public CloudPojo toPojo(){
         CloudPojo pojoCloudPojo = new CloudPojo();
         pojoCloudPojo.setCloudId(this.getCloudId());

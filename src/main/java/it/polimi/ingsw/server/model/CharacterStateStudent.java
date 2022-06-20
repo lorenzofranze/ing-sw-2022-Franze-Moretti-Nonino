@@ -21,7 +21,8 @@ public class CharacterStateStudent extends CharacterState{
         students.add(student);
     }
 
-    /**returns a copy of the PawnsMap containing the student placed on this card*/
+    /**
+     * Returns a copy of the PawnsMap containing the student placed on this card*/
     public PawnsMap getAllStudents(){
         PawnsMap tmp = new PawnsMap();
         tmp.add(students);

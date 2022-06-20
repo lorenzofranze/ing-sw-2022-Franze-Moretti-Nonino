@@ -6,4 +6,6 @@ package it.polimi.ingsw.server.controller.logic;
 public abstract class GamePhase {
     /** todo: gameController attributo spostarlo qui: in setup è final in pianification no
      */
+
+    protected GameController gameController;
 }

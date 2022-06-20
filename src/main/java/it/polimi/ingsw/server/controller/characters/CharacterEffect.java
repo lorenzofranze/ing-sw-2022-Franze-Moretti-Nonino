@@ -7,6 +7,10 @@ import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Player;
 
 public abstract class CharacterEffect {
+    /**
+     * All CharacterEffect have a reference to the gameController and to the corresponding characterState.
+     * The CharacterEffect are initialized in the SetUpPhase with initializeCharactersEffects.
+     */
     protected GameController gameController;
     protected CharacterState characterState;
 

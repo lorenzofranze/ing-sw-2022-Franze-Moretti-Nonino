@@ -21,8 +21,7 @@ public class ClientApp{
     }
 
     /**
-     * il gioco parte con cli o gui
-     * viene chiamato il metodo play
+     * The game goes with cli or gui. It is called the method play()
      * @param args
      */
     public static void main(String[] args) {
@@ -57,12 +56,12 @@ public class ClientApp{
 
 
     /**
-     * viene fatta la connessione al server con networkHandler.connectToServer();
-     * viene creato un thread per l'eseguzione del clientController, questo thread viene interrotto
-     * dopo che viene chiamato clientController.setDisconnected() in una qualsiasi parte del codice:
-     * per fare ciò si è creato l'oggetto clientControllerLock su cui si fa wait, così nel metodo
-     * clientController.setDisconnected() verrà chiamato notifyAll(), e si può procedere con l'interrupt()
-     * del threadClientController
+     * Connection to the server is made with networkHandler.connectToServer();
+     * a thread is created for running the clientController, this thread is interrupted
+     * after clientController.setDisconnected() is called anywhere in the code:
+     * in order to do this the clientControllerLock is an object on which it is called wait()
+     * When in the method clientController.setDisconnected() will be called notifyAll(),
+     * and the function can proceed with the interrupt() of the threadClientController.
      */
     public void play() {
 

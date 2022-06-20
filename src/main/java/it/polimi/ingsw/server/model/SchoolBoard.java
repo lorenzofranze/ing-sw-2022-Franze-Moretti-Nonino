@@ -112,7 +112,8 @@ public class SchoolBoard {
         return coinsToAdd;
     }
 
-    /** verifies and updates all the SchoolBoards:
+    /**
+     * Verifies and updates all the SchoolBoards:
      * move the professors from professorLeft map or other player's
      * schoolboard to the school board with more influence*/
     public void verifyProfessorInfluence(Game game, ColourPawn colour){

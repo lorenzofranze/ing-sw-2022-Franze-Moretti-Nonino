@@ -13,7 +13,6 @@ import java.util.*;
 
 public class PianificationPhase extends GamePhase {
 
-    private GameController gameController;
     private boolean finishedAssistantCard;
     private boolean finishedStudentBag;
 
