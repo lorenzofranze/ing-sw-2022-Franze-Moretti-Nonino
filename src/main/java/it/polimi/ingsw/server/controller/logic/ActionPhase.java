@@ -30,11 +30,15 @@ public class ActionPhase extends GamePhase {
     }
 
     /**
-     *
+     * Moves the students (while moving the students, the player can decide to play a characterCard) and
+     * moves mother nature. In the meanwhile, if in expert mode, the player can use a character card.
+     * The player can choose the cloud only if in the pianification phase i had enough
+     * studentsPawns in the bag to fill ALL the clouds.
+     * Checks if the player has finished towers or the remaining islands are less than 4.
      * @param turnOrder
      * @param maximumMovements
      * @param isLastRoundFinishedStudentsBag
-     * @return
+     * @return ActionResult
      */
     public ActionResult handle(List<Player> turnOrder, HashMap<Player, Integer> maximumMovements,
                                boolean isLastRoundFinishedStudentsBag) {
@@ -135,7 +139,8 @@ public class ActionPhase extends GamePhase {
     }
 
 
-    /** if where==-1 moves student from the schoolboard entrance to the diningroom
+    /**
+     * If where==-1 moves student from the schoolboard entrance to the diningroom
      * else moves student from the schoolboard entrance to the island of index=where
      * @param colour
      * @param where
@@ -267,9 +272,12 @@ public class ActionPhase extends GamePhase {
     }
 
 
-    /**if some particualr characters are active it's not called the usual method: island.getInfluence() but
-     * it's called the getInfluence() method of that character: this method returns the more influence player
-     * according to the new effect (e.g. towers are not counted)
+    /**
+     * In the base case calls island.getInfluence and returns the more influent player on that island.
+     * Oterwise, if some particualr characters are active it's not called the usual method: island.getInfluence() but
+     * it's called the getInfluence() method of that character: this method returns the more influent player
+     * according to the new effect (e.g. towers are not counted).
+     * If there are entry tiles, no player gets the influence on that island.
      */
     public Player calcultateInfluence(Island island){
         if(island.getNumNoEntryTile() >0){
@@ -293,7 +301,11 @@ public class ActionPhase extends GamePhase {
         return moreInfluentPlayer;
     }
 
-    /**places the tower of the player on the island. Returns true if one player has finished his towers*/
+    /**
+     * Places the tower of the player on the island. Returns true if one player has finished his towers.
+     * If a player has lost the of the island, the towers go back to his gameboard.
+     * The towers placed on the island are removed from the gameboard of the player who has won the island control.
+     */
     public boolean placeTowerOfPlayer(Player moreInfluentPlayer, Island island){
         ColourTower color=moreInfluentPlayer.getColourTower();
         if(island.getTowerCount()==0){
@@ -325,8 +337,12 @@ public class ActionPhase extends GamePhase {
 
     /**
      * Returns true if there was a union between the islands (when islands of the same colour are adjacent),
-     * false otherwise. If true, it is called unifyIslands() with the list of the island to unify as argument
-     * */
+     * false otherwise. If true, it is called unifyIslands() with the list of the island to unify as argument.
+     * In order to do this uses colourMap which is a map where the key is a ColourTower and the value contained
+     * is a List of Integer corrisponding at the index of the isalnds where the tower has that colour.
+     * It checks if islands of the same colour are adjacent and gives the set of the islands index to unify to
+     * unifyIslands()
+     **/
     public boolean verifyUnion() {
         List<Island> islandList = this.gameController.getGame().getIslands();
         List<Integer> currColour;
@@ -378,7 +394,8 @@ public class ActionPhase extends GamePhase {
 
     /**
      * It asks the player which character cloud he wants to use.
-     * The method does not terminate until a valid choice is made.*/
+     * The method does not terminate until a valid choice is made.
+     * */
 
     protected void chooseCloud(){
         Message receivedMessage;
@@ -417,7 +434,8 @@ public class ActionPhase extends GamePhase {
         gameController.getCurrentPlayer().getSchoolBoard().insertCloud(gameController.getGame().getClouds().get(indexCloud));
     }
 
-    /** this method does nothing if game is in simple mode. Otherwise it asks the player which character card he wants
+    /**
+     * This method does nothing if game is in simple mode. Otherwise it asks the player which character card he wants
      * to use. The method does not terminate until a valid choice is made.*/
     protected void askforCharacter(){
         if(gameController.isExpert()) {
@@ -513,7 +531,9 @@ public class ActionPhase extends GamePhase {
         return actionResult;
     }
 
-    /**returns true if a player has finished his towers / there are less than 4 islands*/
+    /**
+     * Returns true if a player has finished his towers / there are less than 4 islands
+     * */
     public boolean checkEnd(){
         if (actionResult.isFinishedTowers() == true) return true;
         if (actionResult.isThreeOrLessIslands() == true) return true;

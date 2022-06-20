@@ -16,6 +16,9 @@ public class Card9Effect extends CharacterEffect{
         super(gameController, characterState);
     }
 
+    /**
+     * Handles the choice of the colour until the player does not take a valid choice.
+     */
     @Override
     public void doEffect() {
         boolean valid;
@@ -43,6 +46,9 @@ public class Card9Effect extends CharacterEffect{
         playerManager.sendMessage(ackMessage);
     }
 
+    /**
+     * Calculates influence without countiong the effect of the colour chosen by the player (saved in colourPawn)
+     */
     public Player effectInfluence(Island island) {
         Player moreInfluent=null;
         int maxInfluence=0;

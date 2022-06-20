@@ -15,6 +15,13 @@ public class Card10Effect extends CharacterEffect{
         super(gameController, characterState);
     }
 
+    /**
+     * Handles the choices of the players (util they are valid choices) about:
+     * -> how many students to move (maximum 2)
+     * -> the student in the player entrance (also there can be the error of full-diningroom)
+     * -> the student in his dining room
+     * and swaps the pawns
+     */
     public void doEffect() {
         boolean valid;
         int count;

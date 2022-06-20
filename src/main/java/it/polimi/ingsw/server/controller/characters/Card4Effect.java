@@ -15,6 +15,7 @@ public class Card4Effect extends CharacterEffect{
     /**
      * During the actionPhase the the player can choose to move
      * mother island to steps more than normally permitted.
+     * It is made with the method addTwoMovements() in the gameController-class
      */
     public void doEffect(){
         gameController.addTwoMovements(gameController.getCurrentPlayer());

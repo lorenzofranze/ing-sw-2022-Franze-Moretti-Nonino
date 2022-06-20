@@ -15,6 +15,11 @@ public class Card12Effect extends CharacterEffect{
         super(gameController, characterState);
     }
 
+    /**
+     * Handles the choice of the colour until the player does not take a valid choice. Then removed from all player's
+     * entry three students of that colour and are put into the student-bag.
+     * If the player doesn't have 3 of them, all are removed.
+     */
     public void doEffect(){
         String currPlayer= gameController.getCurrentPlayer().getNickname();
         ErrorMessage errorGameMessage;

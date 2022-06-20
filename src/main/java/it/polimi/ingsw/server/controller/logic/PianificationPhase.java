@@ -25,7 +25,10 @@ public class PianificationPhase extends GamePhase {
     /**
      * Fills the clouds, asks the player to choose an assistant card,
      * creates a list of the players ordered for the action turns and
-     * checks for finishedAssistantCard and for finishedStudentBag
+     * checks for finishedAssistantCard and for finishedStudentBag.
+     * - turnOrderMap is the map which keeps track of the order of the players in the actionPhase.
+     * - maximumMovements is a map that associates players to their maximum movements
+     *
      * @param firstPlayer
      * @return
      */
@@ -37,9 +40,10 @@ public class PianificationPhase extends GamePhase {
 
 
         /**
-         * playedOrder supports hashmap and list. The list is used to keep track of the order in which players played: in case 2
-        players have the same value played as nextTurn, in the actionPhase the first player will be the one who has
-        played before
+         * playedOrder supports turnOrderMap and turnOrder list. The playedOrder is used to keep track of the order
+         * in which players has played the pianification phase:
+         * in case 2 players have the same value played as nextTurn, in the actionPhase the first
+         * player will be the one who has played before
          */
         List<Player> playedOrder = new ArrayList<>();
         HashMap<Player, Integer> turnOrderMap = new HashMap<Player, Integer>();
@@ -73,9 +77,7 @@ public class PianificationPhase extends GamePhase {
             }
         }
 
-        /**
-         * at this point turnOrder is an ordered list of the players for the actionphase and maximumMovements is a map
-        that associates players to their maximum movements.*/
+
 
         PianificationResult pianificationResult = new PianificationResult();
         pianificationResult.setMaximumMovements(maximumMovements);
@@ -164,7 +166,8 @@ public class PianificationPhase extends GamePhase {
     }
 
 
-    /**if a player plays a card already played, checkPemit checks if he/she can play another card instead.
+    /**
+     * If a player plays a card already played, checkPemit checks if he/she can play another card instead.
      * Returns true if she/he cannot. Otherwise false.*/
     public boolean checkPermit(Player player, AssistantCard card){
         boolean temp = true;

@@ -17,6 +17,11 @@ public class Card2Effect extends CharacterEffect{
     }
 
 
+    /**
+     * The player takes control of the professors even if the number of students of that colour is the same as
+     * the number of students of the player who has currently the professor of that colour. The professors under the
+     * player controls are put in stolenProfessors-map
+     */
     public void doEffect(){
         for(Player p : gameController.getGame().getPlayers()){
             for(ColourPawn colour : ColourPawn.values()) {
@@ -32,6 +37,12 @@ public class Card2Effect extends CharacterEffect{
         }
     }
 
+    /**
+     * The influence scores on the island is calculated counting the professors in stolenProfessors map as
+     * under the currentPlayer's control
+     * @param island
+     * @return
+     */
     public Player effectInfluence(Island island) {
         Player moreInfluent=null;
         int maxInfluence=0;

@@ -9,6 +9,11 @@ import it.polimi.ingsw.server.model.*;
 
 public class Card11Effect extends CharacterEffect{
 
+    /**
+     * Places 4 students on this card randomly
+     * @param gameController
+     * @param characterState
+     */
     public Card11Effect(GameController gameController, CharacterState characterState){
         super(gameController, characterState);
         for(int i=0; i<4; i++){
@@ -16,6 +21,10 @@ public class Card11Effect extends CharacterEffect{
         }
     }
 
+    /**
+     * Handles the player who can take a student from the card and put it on his gameboard until he makes valid moves.
+     * Remove that pawn from the card and replace it with another taken from the bag.
+     */
     public void doEffect(){
         boolean valid;
         MessageHandler messageHandler = this.gameController.getMessageHandler();

@@ -10,13 +10,26 @@ import it.polimi.ingsw.server.model.*;
 public class Card7Effect extends CharacterEffect{
 
 
+    /**
+     * Places 6 students on this card randomly
+     * @param gameController
+     * @param characterState
+     */
     public Card7Effect(GameController gameController, CharacterState characterState) {
         super(gameController, characterState);
         for(int i=0; i<6; i++){
-            ((CharacterStateStudent)(this.characterState)).addStudent(gameController.getGame().getStudentsBag().removeRandomly());
+            ((CharacterStateStudent)(this.characterState)).addStudent(gameController.getGame().getStudentsBag()
+                    .removeRandomly());
         }
     }
 
+    /**
+     * Handles the choices of the players (util they are valid choices) about:
+     * -> how many students to move (max 3)
+     * -> the student on the card
+     * -> the student in his entrance
+     * and swaps the pawns
+     */
     public void doEffect(){
 
         ErrorMessage errorGameMessage;
@@ -73,7 +86,7 @@ public class Card7Effect extends CharacterEffect{
             ackMessage = new AckMessage(TypeOfAck.CorrectMove);
             playerManager.sendMessage(ackMessage);
 
-            //l the player chooses the student on the board
+            //the player chooses the student on the board
             do {
                 valid = true;
                 receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.StudentColour);

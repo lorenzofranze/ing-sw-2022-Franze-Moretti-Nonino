@@ -44,6 +44,11 @@ public class GameController implements Runnable  {
 
     private List<CharacterEffect> characterEffects = null; // per gli effetti
 
+    /**
+     * Each game has its own gameId (incremented progressively).
+     * @param lobby
+     * @param expert
+     */
     public GameController(Lobby lobby, boolean expert){
         this.game=new Game(lobby.getUsersNicknames(), this.gameID);
         this.expert=expert;
@@ -53,6 +58,16 @@ public class GameController implements Runnable  {
         this.messageHandler= new MessageHandler(lobby);
     }
 
+    /**
+     * Handles the setup phase just once and from the setUpResult gets the first random player for the pianification
+     * phase. Handles the pianification phase and the action phase repetitevly.
+     * From the pianificationResult understands the turn order for the action phase, the maximum movements for mother
+     * nature for each player for the action phase and if it is the last round (for finished assistant cards or finished
+     * students in bag).
+     * From the actionResult understands if it is the last round due to three-or-less islands or for finished-towers for
+     * one player.
+     * Finally calculates the winner and stops the game.
+     */
     public void run(){
 
         this.setUpPhase=new SetUpPhase(this);
@@ -107,6 +122,9 @@ public class GameController implements Runnable  {
     }
 
 
+    /**
+     * Sends update message for all the players.
+     */
     public synchronized void update(){
 
         UpdateMessage updateMessage = new UpdateMessage(this.getGameState());
@@ -117,6 +135,10 @@ public class GameController implements Runnable  {
         return;
     }
 
+    /**
+     * Sends update message for a specific player.
+     * @param nickname
+     */
     public synchronized void updateSinglePlayer(String nickname){
         PlayerManager playerManager= messageHandler.getPlayerManager(nickname);
         UpdateMessage updateMessage= new UpdateMessage(this.getGameState());
@@ -126,8 +148,14 @@ public class GameController implements Runnable  {
 
 
 
-    /**sets the GameController.winner
-     * if winner.nikname == "?", it means ther is no winner*/
+    /**
+     * Sets the GameController.winner
+     * if winner.nikname == "?", it means ther is no winner.
+     * --> the winner is the player who has finished his towers first
+     * --> the winner is the player who has the highest number of towers on the islands
+     * --> if there is draw of number of towers on the islands, the winner is the player who has the highest number of
+     * professors
+     * */
     public void calculateWinner(){
 
        /*devo controllare nello stesso ordine in cui si arresta il gioco:
@@ -225,6 +253,10 @@ public class GameController implements Runnable  {
         return expert;
     }
 
+    /**
+     * Sets the turn "true" only for the currentPlayer using the playerManagerMap in the MessageHandler()-class
+     * @param currentPlayer
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
         //it sets myTurn of all players in PlayerManager
@@ -249,7 +281,8 @@ public class GameController implements Runnable  {
                 return characterEffect;
         return null;
     }
-    /** used by Char4 doEffect()
+    /**
+     * Used by Char4 doEffect()
      * it adds to the maximum movements of mother nature permitted by the assistant card chosen by the player
      * two additional steps
      * @param player

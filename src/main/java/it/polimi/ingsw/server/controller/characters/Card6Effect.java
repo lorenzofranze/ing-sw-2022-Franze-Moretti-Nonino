@@ -11,7 +11,9 @@ public class Card6Effect extends CharacterEffect{
     }
 
     @Override
-    /**When resolving a Conquering on a Island, Towers do not count towards influence*/
+    /**
+     * When resolving a Conquering on a Island, Towers do not count towards influence
+     * */
     public Player effectInfluence(Island island) {
 
         Game game = this.gameController.getGame();

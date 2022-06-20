@@ -23,7 +23,8 @@ public class Card3Effect extends CharacterEffect{
         threeOrLessIslands = false;
     }
 
-    /** calculates the influence on the chosen island and, if some tower have to be added or removed from the island,
+    /**
+     * Calculates the influence on the chosen island and, if some tower have to be added or removed from the island,
      * the method move correctly the towers from the players' schoolboard to the island and viceversa. If there should
      * be a union of islands, it correctly unify the islands.
      * At the end correctly sets the values of finishedTowers and threeOrLessIslands of ActionResult in ActionPhase.

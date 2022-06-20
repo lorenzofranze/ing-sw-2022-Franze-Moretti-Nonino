@@ -10,11 +10,13 @@ public abstract class CharacterEffect {
     protected GameController gameController;
     protected CharacterState characterState;
 
-    /** the method will be called when the player decides to use the effect and implements the
+    /**
+     * The method will be called when the player decides to use the effect and implements the
      * card's effect */
     public abstract void doEffect();
 
-    /** for all charcter cards that calculates influence in a different way */
+    /**
+     * For all charcter cards that calculates influence in a different way */
     public abstract Player effectInfluence(Island island);
 
     public CharacterEffect(GameController gameController, CharacterState characterState){

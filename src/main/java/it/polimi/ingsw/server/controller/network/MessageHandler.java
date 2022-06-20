@@ -135,7 +135,7 @@ public class MessageHandler {
     }
 
     /**
-     * for all the player managers:
+     * For all the player managers:
      * it sets isMyTurn=false for all players exept the current player
      * it sets isMyTurn=true for the current player
      * @param currPlayer

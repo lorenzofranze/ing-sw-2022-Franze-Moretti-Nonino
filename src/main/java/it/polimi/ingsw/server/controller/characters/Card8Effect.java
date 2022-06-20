@@ -11,7 +11,9 @@ public class Card8Effect extends CharacterEffect{
     }
 
     @Override
-    /**During the influence calculation this turn, you count as having 2 more influence*/
+    /**
+     * Calculates influence adding two more points to the score of current player
+     */
     public Player effectInfluence(Island island) {
 
         Game game = this.gameController.getGame();

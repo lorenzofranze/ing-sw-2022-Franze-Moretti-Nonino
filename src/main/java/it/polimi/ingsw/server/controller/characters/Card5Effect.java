@@ -14,9 +14,11 @@ import java.util.List;
 
 public class Card5Effect extends CharacterEffect{
 
-    /**In Setup, put the 4 No Entry tiles on this card.
+    /**
+     * In Setup, put the 4 No Entry tiles on this card.
      * Place a No Entry tile on an Island of your choice. The first time Mother Nature ends her movement there,
-     * put the No Entry tile back onto this card DO NOT calculate influence on that Island, or place ant Towers.*/
+     * put the No Entry tile back onto this card DO NOT calculate influence on that Island, or place ant Towers.
+     * */
     public Card5Effect(GameController gameController, CharacterState characterState){
         super(gameController, characterState);
         for(int i=0; i<4; i++)
@@ -24,6 +26,11 @@ public class Card5Effect extends CharacterEffect{
 
     }
 
+    /**
+     * Handles the choice of the island of the player until he does not take a valid choice.
+     * If there is at leatst one NoEntryTiles-card available, it puts it on the island chosen.
+     * Otherwise the player has lost his money and that is OK: he wasn't focused.
+     */
     public void doEffect(){
         MessageHandler messageHandler = gameController.getMessageHandler();
         int chosenIslandIndex;

@@ -42,7 +42,7 @@ public class SetUpPhase extends GamePhase {
     }
 
     /**
-     * gives one coin per player at the start of the game if the game is expert-mode
+     * Gives one coin per player at the start of the game if the game is expert-mode
      */
 
     private void distributeCoins() {
@@ -112,7 +112,7 @@ public class SetUpPhase extends GamePhase {
     }
 
     /**
-     * returns a random Player
+     * Returns a random Player
      */
     private Player chooseFirstPianificationPlayer() {
         int n = gameController.getGame().getPlayers().size();
