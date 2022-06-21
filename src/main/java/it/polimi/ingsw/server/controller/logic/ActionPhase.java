@@ -14,6 +14,7 @@ import java.util.*;
 
 
 public class ActionPhase extends GamePhase {
+    private final GameController gameController;
 
     private HashMap<Player, Integer> maximumMovements;
     private List<Player> turnOrder;
@@ -22,11 +23,12 @@ public class ActionPhase extends GamePhase {
     private Integer studentsToMove;
 
     public ActionPhase(GameController gameController) {
-        super();
+        this.gameController = gameController;
         maximumMovements = null;
         turnOrder = null;
         actionResult = new ActionResult();
     }
+
 
     /**
      * Moves the students (while moving the students, the player can decide to play a characterCard) and

@@ -9,11 +9,12 @@ import it.polimi.ingsw.server.model.CharacterState;
 import java.util.*;
 
 public class SetUpPhase extends GamePhase {
-
+    private final GameController gameController;
 
     public SetUpPhase(GameController gameController) {
-        super();
+        this.gameController = gameController;
     }
+
 
     /**
      * Places MotherNature on a random island and 10 students on the islands,

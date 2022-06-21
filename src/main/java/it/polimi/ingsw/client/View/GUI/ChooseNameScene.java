@@ -24,8 +24,7 @@ public class ChooseNameScene {
     private Label LabelNickname;
 
     /**
-     * controlla il nome inserito: se è più lungo di 4, cambia scena
-     * senò lo richiede
+     * check the entered name: it must be longer than 4
      * @param mouseEvent
      */
     @FXML
@@ -45,9 +44,9 @@ public class ChooseNameScene {
     }
 
     /**
-     * okButton è disabilitato da initialize, e ogni volta che inserisco un carattere (ovvero avviene un
-     * keyEvent), viene invocata lengthCheck. lengthCheck controlla la lunghezza del nickname inserito, se questo
-     * è più lungo di 3 caratteri, abilita il okButton
+     * okButton is disabled by initialize(), and whenever I enter a character (i.e. a
+     * keyEvent), lengthCheck is invoked. lengthCheck checks the length of the nickname entered, if this
+     * is longer than 3 characters, it enables the okButton
      * @param event
      */
     @FXML

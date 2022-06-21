@@ -19,7 +19,7 @@ public class PingSenderFromClient implements Runnable {
 
 
     /**
-     * sends a ping message and waits for PING_TIMEOUT seconds,
+     * Sends a ping message and waits for PING_TIMEOUT seconds,
      *      * in the meanwhile, networkHandler, if receives a pong, will call setPingConnected(true)
      *      * -- if this happens and there are no disconnection problems it will repeat everything;
      *      * -- if it does not receive a pong, it stops the loop and calls ClientController.setDisconnected();

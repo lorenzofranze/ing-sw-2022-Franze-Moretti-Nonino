@@ -63,7 +63,7 @@ public class GuiController extends Application {
     }
 
     /**
-     * first method called: display gameModeFrame
+     * First method called: display gameModeFrame
      */
     @Override
     public void start(Stage newStage) throws Exception {
@@ -223,6 +223,26 @@ public class GuiController extends Application {
     }
 
 
+    /**
+     * If it is the first game update --> calls initializeTable(): executed only the first time: sets fixed elements
+     * (e.g. number of boards) and sets utility attributes in GameHandlerScene.
+     * All the times --> shows
+     * -assistant cards
+     * -entrance
+     * -professors
+     * -students in dining
+     * -towers on boards
+     * -students on islands
+     * -mother nature
+     *  -towers on islands
+     *  -clouds
+     *  -coins left (if expert)
+     *  -turn order
+     *  -nickname label
+     *  -student bag
+     *  -assistant card played
+     *  - if expert: set text to player's coins and updateCharacterCards()
+     */
     public void showGameUpdate() {
         //executed only the first time: sets fixed elements (e.g. number of boards)
         if (this.first) {
@@ -363,6 +383,7 @@ public class GuiController extends Application {
         imageView.setPreserveRatio(true);
         towersPane.add(imageView, 0, 0);
 
+
         //towers on islands:
         for (int j = 1; j < game.getIslands().size() + 1; j++) {
             if (game.getIslands().get(j - 1).getTowerColour() != null) {
@@ -383,6 +404,7 @@ public class GuiController extends Application {
                 towersPane.add(text, 0,2);
             }
         }
+
 
 
         //----- clouds
@@ -416,12 +438,13 @@ public class GuiController extends Application {
         String turnPlayer = ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getNickname();
         label.setText("TURN: " + turnPlayer);
 
+
         //nickname label
         label = (Label) currentStage.getScene().lookup("#playerLabel");
         turnPlayer = ClientController.getInstance().getNickname();
         label.setText("PLAYER: " + turnPlayer);
 
-        //student well
+        //student bag
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#studentsTable");
         Text text = (Text) anchorPane.getChildren().get(1);
         text.setText(String.valueOf(ClientController.getInstance().getGameStatePojo().getStudentsBag().pawnsNumber()));
@@ -449,7 +472,9 @@ public class GuiController extends Application {
 
     }
 
-    /**reset the view to initial condition: done before each update event */
+    /**
+     * Reset the view to initial condition: done before each update event so that elements do not
+     * goes one over the other */
     private void reset(){
         GameStatePojo game = ClientController.getInstance().getGameStatePojo();
         int numPlayers = game.getPlayers().size();
@@ -523,7 +548,8 @@ public class GuiController extends Application {
         }
     }
 
-    /**initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */
+    /**
+     * Initializes the view with fixed elements during the game (e.g. nicknames on boards and number of clouds) */
     private void initializeTable(){
         //tab of schoolBoards:
         TabPane tabPane;
@@ -584,7 +610,8 @@ public class GuiController extends Application {
         image.setUserData("coins");
     }
 
-    /**receives in input a pawnsmap and returns the corrisponding  List of images */
+    /**
+     * Receives in input a pawnsmap and returns the corrisponding  List of images */
     private List<ImageView> PawnsToImageStudents(PawnsMapPojo map){
         List<ImageView> list = new ArrayList<>();
         int toAdd;
@@ -659,7 +686,7 @@ public class GuiController extends Application {
         return (new Image(path));
     }
 
-    /**sets the coins pane visible with right coins for the player choosen */
+    /**sets the coins pane visible with right coins for the player choosen and its assistant card */
     public void activeDetails(int index) {
         AnchorPane anchorPane;
         anchorPane = (AnchorPane) currentStage.getScene().lookup("#detailsPlancia");
@@ -701,7 +728,12 @@ public class GuiController extends Application {
     //                  COMPLEX MODE METHODS:                            //
     //////////------------------------/////////////--------------//////////
 
-    /** Update character cards view (elements on the card)*/
+    /** Update character cards view (elements on the card):
+     * -show coin on card if is incremented
+     * -effect on card if is active
+     * -puts no entry tiles on card
+     * -puts no entry tiles on islands
+     * -put pawns on  card*/
     private void updateCharacterCards() {
         //note: each anchorPane has an ID : "card"+(num. card): once you have the anchorPane do anchorPane.getChildren().get(1)
         // to get the gridPane with students or no entry tiles
@@ -767,6 +799,7 @@ public class GuiController extends Application {
                 }
             }
 
+            // put pawns on  card
             if (card.getCharacterId() == 1 || card.getCharacterId() == 11  || card.getCharacterId() == 7) {
                 gridPane = (GridPane) anchorPane.getChildren().get(1);
                 List<ImageView> pawnsList = PawnsToImageStudents(card.getStudents());
@@ -823,6 +856,9 @@ public class GuiController extends Application {
 
     }
 
+    /**
+     * Adds the MouseEvent on the card to enable drags of the strudents on the cards
+     */
     public void activeGuiCard1() {
         showBanner(1);
 
@@ -841,6 +877,9 @@ public class GuiController extends Application {
         }
     }
 
+    /**
+     * Adds the MouseEvent on the card to enable click of the strudents on the cards
+     */
     public void activeGuiCard11() {
 
         showBanner(11);
@@ -896,7 +935,9 @@ public class GuiController extends Application {
     }
 
 
-    /** method used by cards 9 and 12: alert with selection */
+    /** method used by cards 9 and 12: alert with selection.
+     * Adds the MouseEvent on the card to enable click of the students on the cards
+     *  */
     public void activeGuiCard9_12(int num){
         Parent root = null;
         try {
@@ -936,6 +977,9 @@ public class GuiController extends Application {
         alert.show();
     }
 
+    /** method used by cards 7 and 10: alert with selection.
+     * Adds the MouseEvent on the button to enable choosing pawns to move.
+     *  */
     public void activeGuiCard7_10(int num){
         Parent root = null;
         try {
@@ -998,6 +1042,10 @@ public class GuiController extends Application {
 
     }
 
+    /**
+     * method used by card 10.
+     * Adds the MouseEvent on the card to enable click of the students in dining and in entrance.
+     */
     public static void addClickCard10(){
         //add click on students in entrance
         int numPlayers = ClientController.getInstance().getGameStatePojo().getPlayers().size();
@@ -1021,6 +1069,10 @@ public class GuiController extends Application {
 
     }
 
+    /**
+     * method used by card 7.
+     * Adds the MouseEvent on the card to enable click of the students on the cards
+     */
     public static void addClickCard7(){
         //add click on students in entrance
         int numPlayers = ClientController.getInstance().getGameStatePojo().getPlayers().size();

@@ -32,7 +32,7 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * creates the input and output buffers and starts the ping thread (being called immediately by the
+     * Creates the input and output buffers and starts the ping thread (being called immediately by the
      * clientApp, the ping also works while connecting with the server)
      * @throws IOException
      */
@@ -48,7 +48,7 @@ public class NetworkHandler implements Runnable{
     }
 
     /**
-     * reads strings from the buffer and turns them into messages with Json,
+     * Reads strings from the buffer and turns them into messages with Json,
      * if they are of type Update, Ack, Error, Async, Game, adds them to the message queue.
      * otherwise.
      * -- if it is Ping, sends the Pong;

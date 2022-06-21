@@ -14,6 +14,10 @@ public class CharacterCardsConsole {
     private int pawnsToMove;
 
 
+    /**
+     * Chooses the effect to play accordinf to the character card id
+     * @param id
+     */
     public void playEffect(int id){
         if(id==1){
             this.playEffectCard_1();

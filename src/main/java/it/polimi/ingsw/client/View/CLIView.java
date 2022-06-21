@@ -16,7 +16,7 @@ public class CLIView implements View {
     private Scanner scanner = new Scanner(System.in);
 
     /**
-     * reads the game mode the player wants to play
+     * Reads the game mode the player wants to play
      * and set the result in the console
      */
     @Override

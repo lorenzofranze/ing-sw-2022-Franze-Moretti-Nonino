@@ -13,6 +13,7 @@ import java.util.*;
 
 public class PianificationPhase extends GamePhase {
 
+    private GameController gameController;
     private boolean finishedAssistantCard;
     private boolean finishedStudentBag;
 
@@ -20,6 +21,8 @@ public class PianificationPhase extends GamePhase {
     public PianificationPhase(GameController gameController){
         this.gameController = gameController;
     }
+
+
 
     /**
      * Fills the clouds, asks the player to choose an assistant card,

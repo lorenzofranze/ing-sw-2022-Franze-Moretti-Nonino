@@ -52,7 +52,13 @@ public class GUIView implements View {
 
     }
 
-
+    /**
+     * when the client controller calls chooseAssistantCard, the console's attribute "assistantCardPlayed" is
+     * set with the value chosen in GameHandlerScene.
+     * The semaphore is 0, so that the thread waits in chooseAssistantCard until someone calls
+     * semaphore.release. This is done by a JavaFX thread at the end of setAssistantCardChosen1/2.../10()
+     * (in  the class GameHandlerScene)
+     */
     @Override
     public void chooseAssistantCard() {
         try {
@@ -62,7 +68,14 @@ public class GUIView implements View {
         }
     }
 
-
+    /**
+     * when the client controller calls moveStudent, the console's "pawnColour" and "pawnWhere" is
+     * set with the value chosen in GameHandlerScene.
+     * The semaphore is 0, so that the thread waits in moveStudent until someone calls
+     * semaphore.release. This is done by a JavaFX thread at the end of setStudentOnGameBoard() and
+     * setStudentOnIsland()
+     * (in the class GameHandlerScene)
+     */
     @Override
     public void moveStudent() {
         try {
@@ -72,6 +85,13 @@ public class GUIView implements View {
         }
     }
 
+    /**
+     * when the client controller calls placeMotherNature, the console's attribute "stepsMotherNature" is
+     * set with the value chosen in GameHandlerScene.
+     * The semaphore is 0, so that the thread waits in placeMotherNature until someone calls
+     * semaphore.release. This is done by a JavaFX thread at the end of setMotherNatureToIsalnd()
+     * (in  the class GameHandlerScene)
+     */
     @Override
     public void placeMotherNature() {
         GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(1));
@@ -88,7 +108,13 @@ public class GUIView implements View {
 
 
 
-
+    /**
+     * when the client controller calls chooseCloud, the console's attribute "cloudChosen" is
+     * set with the value chosen in GameHandlerScene.
+     * The semaphore is 0, so that the thread waits in chooseCloud until someone calls
+     * semaphore.release. This is done by a JavaFX thread at the end of setCloudChosen1/2/3()
+     * (in  the class GameHandlerScene)
+     */
     @Override
     public synchronized void chooseCloud() {
         try {
@@ -270,6 +296,10 @@ public class GUIView implements View {
 
     //METHODS FOR COMPLEX MODE:
 
+    /**
+     * Calls runLater thanks to GuiController.getInstance().runMethod();
+     * Change cursor if mother nature round.
+     */
     @Override
     public void askForCharacter() {
         if(ClientController.getInstance().getGameStatePojo().isExpert()==true) {
@@ -310,7 +340,11 @@ public class GUIView implements View {
     }
 
     /**
-     * method used by card 3 and card 5
+     * method used by card 3 and card 5.
+     * According to the card's id, it calls the correct method activeGuiCard() in GuiController-class.
+     * To enables click on island for card's effect on the GUI, calls setChooseIsland(true).
+     * At the end go back to initial conditions setting to false the GameHandlerScene's attributes that
+     * are used to enables additional clicks on gui during character-card's effects.
      */
     @Override
     public synchronized void chooseIsland(){
@@ -343,7 +377,9 @@ public class GUIView implements View {
 
     }
 
-    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move */
+    /** this method is used by card 7 and 10 to make the player choose the number of pawns he wants to move.
+     * According to the card's id, it calls the correct method activeGuiCard() in GuiController-class.
+     * The choice is made throught an alert-panel. */
     @Override
     public synchronized void chooseNumOfMove() {
 
@@ -384,8 +420,13 @@ public class GUIView implements View {
     }
 
     /**
-     * this method is used by card 9, 11 and 12,
-     * The player chooses the pawn on the card
+     * this method is used by card 7, 9, 10, 11 and 12.
+     * The player chooses the pawn on the card.
+     * According to the card's id, it calls the correct method activeGuiCard() in GuiController-class.
+     * To enables click GUI for card's effect on the GUI, calls setPawnColourBoolean(true), setClickStudentEntrance(true)
+     * setClickDining(true).
+     * At the end go back to initial conditions setting to false the GameHandlerScene's attributes that
+     * are used to enables additional clicks on gui during character-card's effects.
      */
     @Override
     public synchronized void chooseColour() {

@@ -16,8 +16,9 @@ import javafx.stage.Stage;
 
 import java.util.function.Consumer;
 
-/**class that responses to the click event on a game object, all the methods verify if the action is valid and unlock
- * the game if the choose is ok otherwise no action
+/**
+ * Class that responses to the click event on a game object, all the methods verify if the action is valid and unlock
+ * the game if the choose is ok otherwise no action is made
  */
 public class GameHandlerScene {
 

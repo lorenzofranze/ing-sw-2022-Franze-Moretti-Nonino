@@ -97,7 +97,9 @@ public class Console{
      * entrance. For each student the method moveStudent is called.
      * 2. (currActionBookMark = placeMotherNature) -> The mother nature move is handled by the method placeMotherNature.
      * 3. (currActionBookMark = chooseCloud) -> the player chooses a cloud. The method chooseCloud is called.
-     * Once the action is completed, the currActionBookMark is changed.*/
+     * Once the action is completed, the currActionBookMark is changed.
+     * The bookMarks are used also for the GUI to accept or refuse moves made by the player in every phase of the game.
+     * */
     private void playAction(){
         View view = ClientController.getInstance().view;
         GameStatePojo gameStatePojo = ClientController.getInstance().getGameStatePojo();
