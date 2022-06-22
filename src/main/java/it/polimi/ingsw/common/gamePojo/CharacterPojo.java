@@ -1,5 +1,9 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.CharacterState;
+import it.polimi.ingsw.server.model.CharacterStateNoEntryTile;
+import it.polimi.ingsw.server.model.CharacterStateStudent;
+
 import java.util.Objects;
 
 public class CharacterPojo {
@@ -70,5 +74,26 @@ public class CharacterPojo {
         }
         ris = ris + "\n" + description;
         return  ris;
+    }
+
+    public CharacterState getCharacterState(){
+        CharacterState characterState = null;
+        switch(characterId){
+            case 1: case 7: case 11:
+                CharacterStateStudent characterStateStudent = new CharacterStateStudent(characterId, actualCost);
+                characterStateStudent.setStudents(students.getPawnsMap());
+                characterState = characterStateStudent;
+                break;
+            case 5:
+                CharacterStateNoEntryTile characterStateNoEntryTile = new CharacterStateNoEntryTile(characterId, actualCost);
+                characterStateNoEntryTile.setNumNoEntry(numNoEntry);
+                characterState = characterStateNoEntryTile;
+                break;
+            default:
+                characterState = new CharacterState(characterId, actualCost);
+                break;
+        }
+        characterState.setIncremented(this.incremented);
+        return characterState;
     }
 }

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.AssistantCard;
+import it.polimi.ingsw.server.model.Player;
+
+import java.util.HashSet;
 import java.util.Set;
 
 public class PlayerPojo {
@@ -66,5 +70,21 @@ public class PlayerPojo {
 
     public void setCoins(int coins) {
         this.coins = coins;
+    }
+
+    public Player getPlayer(){
+        Player player = new Player(nickname, colourTower, wizard);
+        player.getSchoolBoard().setEntrance(schoolBoardPojo.getEntrance().getPawnsMap());
+        player.getSchoolBoard().setDiningRoom(schoolBoardPojo.getDiningRoom().getPawnsMap());
+        player.getSchoolBoard().setProfessors(schoolBoardPojo.getProfessors().getPawnsMap());
+        player.getSchoolBoard().setSpareTowers(schoolBoardPojo.getSpareTowers());
+        player.setPlayedAssistantCard(playedAssistantCardPojo.getAssistantCard());
+        player.setCoins(coins);
+        Set<AssistantCard> assistantCards = new HashSet<>();
+        for (AssistantCardPojo assistantCardPojo : deck){
+            assistantCards.add(assistantCardPojo.getAssistantCard());
+        }
+        player.setDeck(assistantCards);
+        return player;
     }
 }

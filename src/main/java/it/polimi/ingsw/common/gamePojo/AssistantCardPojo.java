@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.AssistantCard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -29,5 +31,10 @@ public class AssistantCardPojo {
         String ris = "\t\tmovementsMotherNature: " + movementsMotherNature;
         ris = ris + "\t\tturnOrder: " + turnOrder;
         return ris;
+    }
+
+    public AssistantCard getAssistantCard(){
+        AssistantCard assistantCard = new AssistantCard(turnOrder, movementsMotherNature);
+        return assistantCard;
     }
 }

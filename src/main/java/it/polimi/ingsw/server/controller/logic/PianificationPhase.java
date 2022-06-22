@@ -229,4 +229,8 @@ public class PianificationPhase extends GamePhase {
     public boolean isFinishedStudentBag() {
         return finishedStudentBag;
     }
+
+    public boolean isFinishedAssistantCard() {
+        return finishedAssistantCard;
+    }
 }

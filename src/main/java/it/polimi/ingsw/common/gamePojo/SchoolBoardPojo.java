@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.SchoolBoard;
+
 public class SchoolBoardPojo {
 
     private PawnsMapPojo professors;
@@ -37,5 +39,14 @@ public class SchoolBoardPojo {
 
     public void setSpareTowers(int spareTowers) {
         this.spareTowers = spareTowers;
+    }
+
+    public SchoolBoard getSchoolBoard(){
+        SchoolBoard schoolBoard = new SchoolBoard();
+        schoolBoard.setSpareTowers(spareTowers);
+        schoolBoard.setProfessors(professors.getPawnsMap());
+        schoolBoard.setDiningRoom(diningRoom.getPawnsMap());
+        schoolBoard.setEntrance(entrance.getPawnsMap());
+        return schoolBoard;
     }
 }

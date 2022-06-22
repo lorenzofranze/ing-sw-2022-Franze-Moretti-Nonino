@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.AckMessage;
+import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.TypeOfAck;
 import it.polimi.ingsw.server.controller.characters.CharacterEffect;
 import it.polimi.ingsw.server.controller.network.Lobby;
@@ -9,10 +10,12 @@ import it.polimi.ingsw.server.controller.network.MessageHandler;
 import it.polimi.ingsw.common.messages.UpdateMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
 import it.polimi.ingsw.server.controller.network.ServerController;
+import it.polimi.ingsw.server.controller.persistence.Saving;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.CharacterState;
 import it.polimi.ingsw.server.model.Cloud;
 
+import java.io.*;
 import java.util.*;
 
 public class GameController implements Runnable  {
@@ -302,6 +305,11 @@ public class GameController implements Runnable  {
         return currentPhase;
     }
 
+    public Saving getSaving(){
+        Saving saving = new Saving(this);
+        return saving;
+    }
+
     public GameStatePojo getGameState(){
         GameStatePojo gameStatePojo = new GameStatePojo();
         gameStatePojo.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
@@ -393,5 +401,72 @@ public class GameController implements Runnable  {
 
     public void setCharacterEffects(List<CharacterEffect> characterEffects) {
         this.characterEffects = characterEffects;
+    }
+
+    public PianificationPhase getPianificationPhase() {
+        return pianificationPhase;
+    }
+
+    public void setPianificationPhase(PianificationPhase pianificationPhase) {
+        this.pianificationPhase = pianificationPhase;
+    }
+
+    public boolean isLastRoundFinishedAssistantCards() {
+        return isLastRoundFinishedAssistantCards;
+    }
+
+    public void setLastRoundFinishedAssistantCards(boolean lastRoundFinishedAssistantCards) {
+        isLastRoundFinishedAssistantCards = lastRoundFinishedAssistantCards;
+    }
+
+    public boolean isLastRoundFinishedStudentsBag() {
+        return isLastRoundFinishedStudentsBag;
+    }
+
+    public void setLastRoundFinishedStudentsBag(boolean lastRoundFinishedStudentsBag) {
+        isLastRoundFinishedStudentsBag = lastRoundFinishedStudentsBag;
+    }
+
+    public boolean isFinishedTowers() {
+        return isFinishedTowers;
+    }
+
+    public void setFinishedTowers(boolean finishedTowers) {
+        isFinishedTowers = finishedTowers;
+    }
+
+    public boolean isThreeOrLessIslands() {
+        return isThreeOrLessIslands;
+    }
+
+    public void setThreeOrLessIslands(boolean threeOrLessIslands) {
+        isThreeOrLessIslands = threeOrLessIslands;
+    }
+
+    public PianificationResult getPianificationResult() {
+        return pianificationResult;
+    }
+
+    public ActionResult getActionResult() {
+        return actionResult;
+    }
+
+    public void save(){
+
+        try {
+            String currentPath = new File(".").getCanonicalPath();
+            System.out.println(currentPath);
+            String fileName = currentPath + "/src/main/Resources/savings/Game" + gameID + ".txt";
+            File file = new File(fileName);
+            file.createNewFile();
+            String dataString = JsonConverter.fromSavingToJson(this.getSaving());
+            FileOutputStream outputStream = new FileOutputStream(file, false);
+            byte[] strToBytes = dataString.getBytes();
+            outputStream.write(strToBytes);
+            outputStream.close();
+        } catch (IOException e ){
+            e.printStackTrace();
+        }
+
     }
 }

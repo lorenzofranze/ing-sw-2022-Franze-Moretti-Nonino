@@ -353,5 +353,25 @@ class GameControllerTest {
         assertEquals(true, gameController.isForceStop());
     }
 
+    @Test
+    public void testSave(){
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Simple_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        gameController.setCurrentPlayer(p2);
+
+        gameController.save();
+
+    }
 
 }

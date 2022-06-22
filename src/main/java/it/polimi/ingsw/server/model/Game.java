@@ -248,4 +248,12 @@ public class Game {
     public void setClouds(List<Cloud> clouds) {
         this.clouds = clouds;
     }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setStudentsBag(PawnsMap studentsBag) {
+        this.studentsBag = studentsBag;
+    }
 }

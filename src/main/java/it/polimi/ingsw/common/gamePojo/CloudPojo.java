@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.Cloud;
+
 public class CloudPojo {
 
     private PawnsMapPojo students;
@@ -19,5 +21,11 @@ public class CloudPojo {
 
     public void setCloudId(int cloudId) {
         this.cloudId = cloudId;
+    }
+
+    public Cloud getCloud(){
+        Cloud cloud = new Cloud(cloudId);
+        cloud.getStudents().add(students.getPawnsMap());
+        return cloud;
     }
 }

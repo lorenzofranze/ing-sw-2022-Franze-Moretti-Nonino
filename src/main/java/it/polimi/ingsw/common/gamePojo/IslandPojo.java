@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.Island;
+
 public class IslandPojo {
 
     private boolean hasMotherNature;
@@ -46,5 +48,15 @@ public class IslandPojo {
 
     public void setNumNoEntryTile(int numNoEntryTile) {
         this.numNoEntryTile = numNoEntryTile;
+    }
+
+    public Island getIsland(){
+        Island island = new Island();
+        island.setHasMotherNature(hasMotherNature);
+        island.getStudents().add(students.getPawnsMap());
+        island.setTowerColor(towerColour);
+        island.setTowerCount(towerCount);
+        island.setNumNoEntryTile(numNoEntryTile);
+        return island;
     }
 }

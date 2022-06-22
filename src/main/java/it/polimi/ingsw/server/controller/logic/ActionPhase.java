@@ -552,4 +552,8 @@ public class ActionPhase extends GamePhase {
     public HashMap<Player, Integer> getMaximumMovements() {
         return maximumMovements;
     }
+
+    public List<Player> getTurnOrder() {
+        return turnOrder;
+    }
 }

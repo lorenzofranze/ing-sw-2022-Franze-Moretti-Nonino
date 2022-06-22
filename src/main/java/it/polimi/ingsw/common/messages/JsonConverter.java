@@ -2,6 +2,8 @@ package it.polimi.ingsw.common.messages;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.server.controller.logic.GameController;
+import it.polimi.ingsw.server.controller.persistence.Saving;
 import it.polimi.ingsw.server.model.CharacterState;
 
 public class  JsonConverter {
@@ -82,4 +84,13 @@ public class  JsonConverter {
         return(jsonString);
     }
 
+    public static String fromSavingToJson(Saving saving){
+        String jsonString=gson.toJson(saving);
+        return(jsonString);
+    }
+
+    public static Saving fromJsonToSaving(String jsonString){
+        Saving saving = gson.fromJson(jsonString, Saving.class);
+        return saving;
+    }
 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameStatePojo {
@@ -138,7 +141,42 @@ public class GameStatePojo {
         this.playerPojos = playerPojos;
     }
 
-    public void show(){
+    public Game getGame(){
+        List<String> playersNicknames = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
+        for (PlayerPojo p: playerPojos){
+            playersNicknames.add(p.getNickname());
+            players.add(p.getPlayer());
+        }
+        Game game = new Game(playersNicknames, gameId);
+        game.setPlayers(players);
+
+        List<Island> islands = new ArrayList<>();
+        for (IslandPojo i : islandPojos){
+            islands.add(i.getIsland());
+        }
+        game.setIslands(islands);
+
+        game.setStudentsBag(studentsBag.getPawnsMap());
+
+        List<Cloud> clouds = new ArrayList<>();
+        for (CloudPojo c: cloudPojos){
+            clouds.add(c.getCloud());
+        }
+        game.setClouds(clouds);
+
+        game.setProfessorsLeft(professorsLeft.getPawnsMap());
+
+        game.setCoinSupply(coinSupply);
+
+        game.setActiveEffect(activeEffect.getCharacterState());
+
+        List<CharacterState> characterStates = new ArrayList<>();
+        for (CharacterPojo c: characterPojos){
+            characterStates.add(c.getCharacterState());
+        }
+
+        return game;
 
     }
 }
