@@ -24,8 +24,8 @@ public class ActionPhase extends GamePhase {
 
     public ActionPhase(GameController gameController) {
         this.gameController = gameController;
-        maximumMovements = null;
-        turnOrder = null;
+        maximumMovements = new HashMap<>();
+        turnOrder = new ArrayList<>();
         actionResult = new ActionResult();
     }
 
@@ -53,6 +53,9 @@ public class ActionPhase extends GamePhase {
 
             gameController.setCurrentPlayer(p);
             gameController.update();
+
+            gameController.setGameBookMark(RunningSection.startAction);
+            gameController.save();
 
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
 
@@ -555,5 +558,75 @@ public class ActionPhase extends GamePhase {
 
     public List<Player> getTurnOrder() {
         return turnOrder;
+    }
+
+    public void setActionResult(ActionResult actionResult) {
+        this.actionResult = actionResult;
+    }
+
+    public void setStudentsMoved(Integer studentsMoved) {
+        this.studentsMoved = studentsMoved;
+    }
+
+    public void setStudentsToMove(Integer studentsToMove) {
+        this.studentsToMove = studentsToMove;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        ActionPhase o1;
+
+        if (o == null){
+            return false;
+        }
+        if (o instanceof ActionPhase){
+            o1 = (ActionPhase) o;
+        }else{
+            return false;
+        }
+
+        if (!this.maximumMovements.equals(o1.maximumMovements)){
+            return false;
+        }
+
+        if (!this.turnOrder.equals(o1.turnOrder)){
+            return false;
+        }
+
+        if (!this.actionResult.equals(o1.actionResult)){
+            return false;
+        }
+
+
+        if (this.studentsMoved != null){
+            if (o1.studentsMoved != null){
+                if (!this.studentsMoved.equals(o1.studentsMoved)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.studentsMoved != null){
+                return false;
+            }
+        }
+
+        if (this.studentsToMove != null){
+            if (o1.studentsToMove != null){
+                if (!this.studentsToMove.equals(o1.studentsToMove)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.studentsToMove != null){
+                return false;
+            }
+        }
+
+        return true;
+
     }
 }

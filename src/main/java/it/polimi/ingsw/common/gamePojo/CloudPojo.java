@@ -28,4 +28,27 @@ public class CloudPojo {
         cloud.getStudents().add(students.getPawnsMap());
         return cloud;
     }
+
+    @Override
+    public boolean equals(Object o){
+        CloudPojo o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof CloudPojo){
+            o1 = (CloudPojo) o;
+        }else{
+            return false;
+        }
+
+        if (this.cloudId != o1.cloudId){
+            return false;
+        }
+        if (!this.students.equals(o1.students)){
+            return false;
+        }
+
+        return true;
+
+    }
 }

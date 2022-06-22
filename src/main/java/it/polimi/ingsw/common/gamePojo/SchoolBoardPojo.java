@@ -49,4 +49,31 @@ public class SchoolBoardPojo {
         schoolBoard.setEntrance(entrance.getPawnsMap());
         return schoolBoard;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        SchoolBoardPojo o1;
+        if (o == null) {
+            return false;
+        }
+        if (o instanceof SchoolBoardPojo) {
+            o1 = (SchoolBoardPojo) o;
+        } else {
+            return false;
+        }
+
+        if (!this.professors.equals(o1.professors)) {
+            return false;
+        }
+        if (!this.diningRoom.equals(o1.diningRoom)) {
+            return false;
+        }
+        if (!this.entrance.equals(o1.entrance)) {
+            return false;
+        }
+        if (this.spareTowers != o1.spareTowers) {
+            return false;
+        }
+        return true;
+    }
 }

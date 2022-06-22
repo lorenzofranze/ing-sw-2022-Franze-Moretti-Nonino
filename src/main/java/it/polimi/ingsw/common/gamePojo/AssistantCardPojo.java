@@ -37,4 +37,25 @@ public class AssistantCardPojo {
         AssistantCard assistantCard = new AssistantCard(turnOrder, movementsMotherNature);
         return assistantCard;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        AssistantCardPojo o1;
+        if (o == null) {
+            return false;
+        }
+        if (o instanceof AssistantCardPojo) {
+            o1 = (AssistantCardPojo) o;
+        } else {
+            return false;
+        }
+
+        if (this.turnOrder != o1.turnOrder) {
+            return false;
+        }
+        if (this.movementsMotherNature != o1.movementsMotherNature) {
+            return false;
+        }
+        return true;
+    }
 }

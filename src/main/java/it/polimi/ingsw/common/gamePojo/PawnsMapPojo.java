@@ -67,4 +67,18 @@ public class PawnsMapPojo {
         }
         return pawnsMap;
     }
+
+    @Override
+    public boolean equals(Object o ){
+        PawnsMapPojo o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof  PawnsMapPojo){
+            o1 = (PawnsMapPojo) o;
+        }else{
+            return false;
+        }
+        return this.pawns.equals(o1.pawns);
+    }
 }

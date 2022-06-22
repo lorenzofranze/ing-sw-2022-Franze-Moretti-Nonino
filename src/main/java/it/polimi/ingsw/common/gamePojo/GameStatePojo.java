@@ -169,7 +169,9 @@ public class GameStatePojo {
 
         game.setCoinSupply(coinSupply);
 
-        game.setActiveEffect(activeEffect.getCharacterState());
+        if (activeEffect != null){
+            game.setActiveEffect(activeEffect.getCharacterState());
+        }
 
         List<CharacterState> characterStates = new ArrayList<>();
         for (CharacterPojo c: characterPojos){
@@ -178,5 +180,187 @@ public class GameStatePojo {
 
         return game;
 
+    }
+
+    public boolean equals(Object o){
+        GameStatePojo o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof GameStatePojo){
+            o1 = (GameStatePojo) o;
+        }else{
+            return false;
+        }
+
+        if (this.gameId != o1.gameId){
+            return false;
+        }
+
+        if (this.gameOver != o1.gameOver){
+            return false;
+        }
+
+        if (this.expert != o1.expert){
+            return false;
+        }
+
+        if (this.coinSupply != o1.coinSupply){
+            return false;
+        }
+
+        if (this.winner != null){
+            if (o1.winner != null){
+                if (!this.winner.equals(o1.winner)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.winner != null){
+                return false;
+            }
+        }
+
+        if (this.currentPhase != null){
+            if (o1.currentPhase != null){
+                if (!this.currentPhase.equals(o1.currentPhase)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.currentPhase != null){
+                return false;
+            }
+        }
+
+        if (this.activeEffect != null){
+            if (o1.activeEffect != null){
+                if (!this.activeEffect.equals(o1.activeEffect)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.activeEffect != null){
+                return false;
+            }
+        }
+
+        if (this.studentsBag != null){
+            if (o1.studentsBag != null){
+                if (!this.studentsBag.equals(o1.studentsBag)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.studentsBag != null){
+                return false;
+            }
+        }
+
+
+        if (this.professorsLeft != null){
+            if (o1.professorsLeft != null){
+                if (!this.professorsLeft.equals(o1.professorsLeft)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.professorsLeft != null){
+                return false;
+            }
+        }
+
+        if (this.islandPojos != null){
+            if (o1.islandPojos != null){
+                if (!this.islandPojos.equals(o1.islandPojos)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.islandPojos != null){
+                return false;
+            }
+        }
+
+        if (this.cloudPojos != null){
+            if (o1.cloudPojos != null){
+                if (!this.cloudPojos.equals(o1.cloudPojos)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.cloudPojos != null){
+                return false;
+            }
+        }
+
+
+        if (this.currentPlayerPojo != null){
+            if (o1.currentPlayerPojo != null){
+                if (!this.currentPlayerPojo.equals(o1.currentPlayerPojo)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.currentPlayerPojo != null){
+                return false;
+            }
+        }
+
+        if (this.playerPojos != null){
+            if (o1.playerPojos != null){
+                if (!this.playerPojos.equals(o1.playerPojos)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.playerPojos != null){
+                return false;
+            }
+        }
+
+        boolean found = false;
+        for (CharacterPojo o1c : o1.characterPojos){
+            found = false;
+            for (CharacterPojo thisc : this.characterPojos){
+                if (o1c.equals(thisc)){
+                    found = true;
+                }
+            }
+            if (found = false){
+                return false;
+            }
+        }
+        for (CharacterPojo thisc : this.characterPojos){
+            found = false;
+            for (CharacterPojo o1c : o1.characterPojos){
+                if (o1c.equals(thisc)){
+                    found = true;
+                }
+            }
+            if (found = false){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

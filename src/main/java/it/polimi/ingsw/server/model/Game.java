@@ -256,4 +256,13 @@ public class Game {
     public void setStudentsBag(PawnsMap studentsBag) {
         this.studentsBag = studentsBag;
     }
+
+    public Player getPlayerNamed(String nickname){
+        for (Player p : players){
+            if (p.getNickname().equals(nickname)){
+                return p;
+            }
+        }
+        return null;
+    }
 }

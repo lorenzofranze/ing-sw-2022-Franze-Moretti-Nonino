@@ -49,4 +49,31 @@ public class PianificationResult {
     public void setFinishedStudentBag(boolean finishedStudentBag) {
         this.finishedStudentBag = finishedStudentBag;
     }
+
+    @Override
+    public boolean equals(Object o){
+        PianificationResult o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof SetUpPhase){
+            o1 = (PianificationResult) o;
+        }else{
+            return false;
+        }
+
+        if (!this.getMaximumMovements().equals(o1.maximumMovements)){
+            return false;
+        }
+        if (!this.getTurnOrder().equals(o1.turnOrder)){
+            return false;
+        }
+        if (this.finishedAssistantCard != o1.finishedAssistantCard){
+            return false;
+        }
+        if (this.finishedStudentBag != o1.finishedStudentBag){
+            return false;
+        }
+        return true;
+    }
 }

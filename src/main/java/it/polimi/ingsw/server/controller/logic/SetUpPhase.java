@@ -144,4 +144,16 @@ public class SetUpPhase extends GamePhase {
     public String toString(){
         return "SetUpPhase";
     }
+
+    @Override
+    public boolean equals(Object o){
+        SetUpPhase o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof SetUpPhase){
+            return true;
+        }
+        return false;
+    }
 }

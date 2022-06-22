@@ -33,6 +33,7 @@ public class GameController implements Runnable  {
     private boolean isLastRoundFinishedStudentsBag = false;
     private boolean isFinishedTowers = false;
     private boolean isThreeOrLessIslands = false;
+    private boolean forceStop;
 
     private Game game;
     private boolean expert;
@@ -40,12 +41,13 @@ public class GameController implements Runnable  {
     private Player currentPlayer;
     private Player winner=null;
     private Lobby lobby;
-    private boolean forceStop;
 
     private PianificationResult pianificationResult;
     private ActionResult actionResult = null;
 
     private List<CharacterEffect> characterEffects = null; // per gli effetti
+
+    private RunningSection gameBookMark = null;
 
     /**
      * Each game has its own gameId (incremented progressively).
@@ -59,6 +61,110 @@ public class GameController implements Runnable  {
         this.characterEffects = new ArrayList<>();
         this.lobby=lobby;
         this.messageHandler= new MessageHandler(lobby);
+
+        this.setUpPhase=new SetUpPhase(this);
+        this.pianificationPhase=new PianificationPhase(this);
+        this.actionPhase=new ActionPhase(this);
+    }
+
+    public GameController(Lobby lobby, Saving saving){
+        this.game=saving.getGameStatePojo().getGame();
+        this.expert=saving.isExpert();
+        this.lobby=lobby;
+        this.messageHandler= new MessageHandler(lobby);
+
+        this.setUpPhase=new SetUpPhase(this);
+
+        //ripristino pianificationPhase
+        this.pianificationPhase=new PianificationPhase(this);
+        this.pianificationPhase.setFinishedAssistantCard(saving.isPianificationPhaseAssistantCard());
+        this.pianificationPhase.setFinishedStudentBag(saving.isPianificationPhaseStudentBag());
+
+        //ripristino actionPhase
+        this.actionPhase=new ActionPhase(this);
+        this.actionPhase.setStudentsMoved(saving.getActionStudentsMoved());
+        this.actionPhase.setStudentsToMove(saving.getActionStudentsToMove());
+
+        List<Player> actionTurnOrder = new ArrayList<>();
+        if (saving.getActionTurnOrder().size() != 0 ){
+            for (String name: saving.getActionTurnOrder()){
+                actionTurnOrder.add(game.getPlayerNamed(name));
+            }
+        }
+        this.actionPhase.setTurnOrder(actionTurnOrder);
+
+        HashMap<Player, Integer> actionMaximumMovements = new HashMap<>();
+        if (saving.getActionMaximumMovements().size() != 0){
+            for (String name : saving.getActionMaximumMovements().keySet()){
+                actionMaximumMovements.put(game.getPlayerNamed(name), saving.getActionMaximumMovements().get(name));
+            }
+        }
+        this.actionPhase.setMaximumMovements(actionMaximumMovements);
+
+        ActionResult actionActionResult = new ActionResult();
+        actionActionResult.setThreeOrLessIslands(saving.isActionActionResultIslands());
+        actionActionResult.setFinishedTowers(saving.isActionActionResultTowers());
+        if (saving.getActionActionResultPlayer() != null){
+            actionActionResult.setFirstPianificationPlayer(game.getPlayerNamed(saving.getActionActionResultPlayer()));
+        }
+        this.actionPhase.setActionResult(actionActionResult);
+
+        //ripristino currentPhase
+        if (saving.getCurrentPhase() != null){
+            if (saving.getCurrentPhase().equals("PianificationPhase")){
+                this.currentPhase = this.pianificationPhase;
+            }
+            if (saving.getCurrentPhase().equals("ActionPhase")){
+                this.currentPhase = this.actionPhase;
+            }
+        }
+
+        //ripristino gameOver
+        this.gameOver = saving.isGameOver();
+
+        //ripristino parametri
+        this.isLastRoundFinishedAssistantCards = saving.isLastRoundFinishedAssistantCards();
+        this.isLastRoundFinishedStudentsBag = saving.isLastRoundFinishedStudentsBag();
+        this.isFinishedTowers = saving.isFinishedTowers();
+        this.isThreeOrLessIslands = saving.isThreeOrLessIslands();
+        this.forceStop = saving.isForceStop();
+
+        //ripristino currentPlayer
+        if(saving.getCurrentPlayerNickname() != null){
+            this.currentPlayer = this.game.getPlayerNamed(saving.getCurrentPlayerNickname());
+        }
+
+        //ripristino pianificationResult
+        if (saving.getPianificationResultTurnOrder().size() != 0){
+            PianificationResult pianificationResult = new PianificationResult();
+            pianificationResult.setFinishedAssistantCard(saving.isPianificationResultAssistantCard());
+            pianificationResult.setFinishedStudentBag(saving.isPianificationResultStudentBag());
+            HashMap<Player, Integer> maximumMovements = new HashMap<>();
+            for (String name : saving.getPianificationResultMaximumMovements().keySet()){
+                maximumMovements.put(game.getPlayerNamed(name), saving.getPianificationResultMaximumMovements().get(name));
+            }
+            pianificationResult.setMaximumMovements(maximumMovements);
+            List<Player> turnOrder = new ArrayList<>();
+            for (String name: saving.getPianificationResultTurnOrder()){
+                turnOrder.add(game.getPlayerNamed(name));
+            }
+            pianificationResult.setTurnOrder(turnOrder);
+            this.pianificationResult = pianificationResult;
+        }
+
+        //ripristino actionResult
+        ActionResult actionResult = new ActionResult();
+        actionResult.setThreeOrLessIslands(saving.isActionResultIsland());
+        actionResult.setFinishedTowers(saving.isActionResultTowers());
+        if (saving.getActionResultPlayer() != null){
+            actionResult.setFirstPianificationPlayer(game.getPlayerNamed(saving.getActionResultPlayer()));
+        }
+
+        //ripristino characterEffects
+        this.characterEffects = new ArrayList<>();
+
+        //ripristino gameBookMark
+        this.gameBookMark = saving.getGameBookMark();
     }
 
     /**
@@ -72,10 +178,6 @@ public class GameController implements Runnable  {
      * Finally calculates the winner and stops the game.
      */
     public void run(){
-
-        this.setUpPhase=new SetUpPhase(this);
-        this.pianificationPhase=new PianificationPhase(this);
-        this.actionPhase=new ActionPhase(this);
 
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
@@ -91,6 +193,9 @@ public class GameController implements Runnable  {
             if (actionResult!=null) {
                 currentPlayer = actionResult.getFirstPianificationPlayer();
             }
+
+            gameBookMark =  RunningSection.startPianification;
+            save();
 
             //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
 
@@ -111,6 +216,8 @@ public class GameController implements Runnable  {
 
         }
         while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards || gameOver));
+
+        gameBookMark = RunningSection.endGame;
 
         //System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
         if(forceStop){
@@ -455,7 +562,6 @@ public class GameController implements Runnable  {
 
         try {
             String currentPath = new File(".").getCanonicalPath();
-            System.out.println(currentPath);
             String fileName = currentPath + "/src/main/Resources/savings/Game" + gameID + ".txt";
             File file = new File(fileName);
             file.createNewFile();
@@ -468,5 +574,140 @@ public class GameController implements Runnable  {
             e.printStackTrace();
         }
 
+    }
+
+    public void setGameBookMark(RunningSection gameBookMark) {
+        this.gameBookMark = gameBookMark;
+    }
+
+    public RunningSection getGameBookMark() {
+        return gameBookMark;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        GameController o1 = null;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof GameController){
+            o1 = (GameController) o;
+        }
+
+        if (!this.setUpPhase.equals(o1.setUpPhase)){
+            return false;
+        }
+        if (!this.pianificationPhase.equals(o1.pianificationPhase)){
+            return false;
+        }
+        if (!this.actionPhase.equals(o1.actionPhase)){
+            return false;
+        }
+
+        if (this.currentPhase != null){
+            if (o1.currentPhase == null){
+                return false;
+            }
+            if (!this.currentPhase.equals(o1.currentPhase)){
+                return false;
+            }
+        }else{
+            if (o1.currentPhase != null){
+                return false;
+            }
+        }
+
+        if (this.gameOver != o1.isGameOver()){
+            return false;
+        }
+        if (this.isLastRoundFinishedAssistantCards != o1.isLastRoundFinishedAssistantCards()){
+            return false;
+        }
+        if (this.isLastRoundFinishedStudentsBag != o1.isLastRoundFinishedStudentsBag()){
+            return false;
+        }
+        if (this.isFinishedTowers != o1.isFinishedTowers()){
+            return false;
+        }
+        if (this.isThreeOrLessIslands != o1.isThreeOrLessIslands()){
+            return false;
+        }
+        if (this.forceStop != o1.isForceStop()){
+            return false;
+        }
+        if (this.expert != o1.isExpert()){
+            return false;
+        }
+        if (this.pianificationResult != null){
+            if (o1.pianificationResult == null){
+                return false;
+            }
+            if (!this.pianificationResult.equals(o1.pianificationResult)){
+                return false;
+            }
+        }else{
+            if (o1.pianificationResult != null){
+                return false;
+            }
+        }
+
+        if (this.actionResult != null){
+            if (o1.actionResult == null){
+                return false;
+            }
+            if (!this.actionResult.equals(o1.actionResult)){
+                return false;
+            }
+        }else{
+            if (o1.actionResult != null){
+                return false;
+            }
+        }
+
+        if (this.currentPlayer != null){
+            if (o1.currentPlayer == null){
+                return false;
+            }
+            if (!this.currentPlayer.equals(o1.currentPlayer)){
+                return false;
+            }
+        }else{
+            if (o1.currentPlayer != null){
+                return false;
+            }
+        }
+
+        if (this.winner != null){
+            if (o1.winner == null){
+                return false;
+            }
+            if (!this.winner.equals(o1.winner)){
+                return false;
+            }
+        }else{
+            if (o1.winner != null){
+                return false;
+            }
+        }
+
+        if (this.gameBookMark != null){
+            if (o1.gameBookMark == null){
+                return false;
+            }
+            if (!this.gameBookMark.equals(o1.gameBookMark)){
+                return false;
+            }
+        }else{
+            if (o1.gameBookMark != null){
+                return false;
+            }
+        }
+
+        GameStatePojo thisGamePojo = this.getGameState();
+        GameStatePojo o1GamePojo = o1.getGameState();
+        if (!thisGamePojo.equals(o1GamePojo)){
+            return false;
+        }
+        return true;
     }
 }

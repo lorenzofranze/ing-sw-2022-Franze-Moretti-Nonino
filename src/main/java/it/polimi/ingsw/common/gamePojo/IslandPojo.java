@@ -59,4 +59,36 @@ public class IslandPojo {
         island.setNumNoEntryTile(numNoEntryTile);
         return island;
     }
+
+    @Override
+    public boolean equals(Object o){
+        IslandPojo o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof IslandPojo){
+            o1 = (IslandPojo) o;
+        }else{
+            return false;
+        }
+
+        if (this.isHasMotherNature() != o1.isHasMotherNature()){
+            return false;
+        }
+        if (this.towerColour != o1.towerColour){
+            return false;
+        }
+        if (this.numNoEntryTile != o1.numNoEntryTile){
+            return false;
+        }
+        if (this.towerCount != o1.towerCount){
+            return false;
+        }
+        if (!this.students.equals(o1.students)){
+            return false;
+        }
+
+        return true;
+
+    }
 }
