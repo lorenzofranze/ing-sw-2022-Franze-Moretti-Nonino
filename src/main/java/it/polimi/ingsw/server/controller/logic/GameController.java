@@ -19,6 +19,7 @@ import java.io.*;
 import java.util.*;
 
 public class GameController implements Runnable  {
+    private boolean bornFromSaving = false;
     private static int gameID = 1;
 
     private SetUpPhase setUpPhase;
@@ -68,6 +69,7 @@ public class GameController implements Runnable  {
     }
 
     public GameController(Lobby lobby, Saving saving){
+        this.bornFromSaving = true;
         this.game=saving.getGameStatePojo().getGame();
         this.expert=saving.isExpert();
         this.lobby=lobby;
@@ -179,6 +181,11 @@ public class GameController implements Runnable  {
      */
     public void run(){
 
+        if (this.bornFromSaving == true){
+            runFromSaving();
+            return;
+        }
+
         currentPhase = setUpPhase;
         SetUpResult setUpResult = setUpPhase.handle();
         currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
@@ -233,9 +240,6 @@ public class GameController implements Runnable  {
 
     public void runFromSaving(){
 
-        currentPhase = setUpPhase;
-        SetUpResult setUpResult = setUpPhase.handle();
-        currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
         messageHandler.sendBroadcast(message);
 
@@ -264,16 +268,8 @@ public class GameController implements Runnable  {
                 isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
                 break;
             case startAction:
-                //cerco il giocatore corrente e quelli che devono ancora giocare
-                boolean found = false;
-                int indexPlayer = 0;
-                for (indexPlayer = 0; indexPlayer < actionPhase.getTurnOrder().size() && found == false; indexPlayer++){
-                    if(actionPhase.getTurnOrder().get(indexPlayer).equals(currentPlayer)){
-                        found = true;
-                    }
-                }
+
                 //faccio finire il round a tutti i giocatori
-                actionPhase.setIndexPlayer(indexPlayer);
                 actionResult = actionPhase.handle(actionPhase.getTurnOrder(), actionPhase.getMaximumMovements(), this.isLastRoundFinishedStudentsBag);
                 isFinishedTowers = actionResult.isFinishedTowers();
                 isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
@@ -288,7 +284,7 @@ public class GameController implements Runnable  {
 
                 update(); // last update: game ended and winner setted
 
-                ServerController.getInstance().setToStop(this.getGameID());
+                ServerController.getInstance().setToStop(this.getGame().getGameId());
                 break;
         }
 
@@ -333,7 +329,7 @@ public class GameController implements Runnable  {
 
             update(); // last update: game ended and winner setted
 
-            ServerController.getInstance().setToStop(this.getGameID());
+            ServerController.getInstance().setToStop(this.getGame().getGameId());
         }
 
     }
@@ -527,7 +523,7 @@ public class GameController implements Runnable  {
     public GameStatePojo getGameState(){
         GameStatePojo gameStatePojo = new GameStatePojo();
         gameStatePojo.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
-        gameStatePojo.setGameId(this.getGameID());
+        gameStatePojo.setGameId(this.getGame().getGameId());
 
         if (this.winner != null){
             gameStatePojo.setWinner(this.winner.getNickname());
@@ -666,6 +662,8 @@ public class GameController implements Runnable  {
     }
 
     public void save(){
+
+        ServerController.getInstance().getSavingsMenu().addGame(game.getGameId(), game.getPlayers());
 
         try {
             String currentPath = new File(".").getCanonicalPath();
@@ -816,5 +814,9 @@ public class GameController implements Runnable  {
             return false;
         }
         return true;
+    }
+
+    public boolean isBornFromSaving() {
+        return bornFromSaving;
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.persistence.Saving;
+import it.polimi.ingsw.server.controller.persistence.SavingsMenu;
 import it.polimi.ingsw.server.model.CharacterState;
 
 public class  JsonConverter {
@@ -93,4 +94,16 @@ public class  JsonConverter {
         Saving saving = gson.fromJson(jsonString, Saving.class);
         return saving;
     }
+
+    public static String fromSavingsMenuToJson(SavingsMenu savingsMenu){
+        String jsonString=gson.toJson(savingsMenu);
+        return(jsonString);
+    }
+
+    public static SavingsMenu fromJsonToSavingsMenu(String jsonString){
+        SavingsMenu savingsMenu = gson.fromJson(jsonString, SavingsMenu.class);
+        return savingsMenu;
+    }
+
+
 }

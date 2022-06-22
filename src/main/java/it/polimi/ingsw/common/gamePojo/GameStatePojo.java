@@ -177,6 +177,7 @@ public class GameStatePojo {
         for (CharacterPojo c: characterPojos){
             characterStates.add(c.getCharacterState());
         }
+        game.setCharacterStates(characterStates);
 
         return game;
 

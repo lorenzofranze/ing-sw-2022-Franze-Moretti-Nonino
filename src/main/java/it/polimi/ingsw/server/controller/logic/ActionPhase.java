@@ -50,13 +50,23 @@ public class ActionPhase extends GamePhase {
         boolean isEnded = false;
         actionResult.setFirstPianificationPlayer(turnOrder.get(0));
 
+        //cerco il giocatore corrente e quelli che devono ancora giocare
+        for(int i = 0; i < turnOrder.size(); i++){
+            if (gameController.getCurrentPlayer().equals(turnOrder.get(i))){
+                indexPlayer = i;
+            }
+        }
+
+        System.out.println("\n\nplayer index: " + indexPlayer);
+
         for (int i = indexPlayer; i < turnOrder.size(); i++) {
             Player p = turnOrder.get(i);
 
             gameController.setCurrentPlayer(p);
-            if (i != indexPlayer){
+            gameController.update(); //TO DELETE
+            /*if (!gameController.isBornFromSaving() || i != indexPlayer){
                 gameController.update();
-            }
+            }*/
 
             gameController.setGameBookMark(RunningSection.startAction);
             gameController.save();
@@ -633,6 +643,10 @@ public class ActionPhase extends GamePhase {
 
         return true;
 
+    }
+
+    public int getIndexPlayer() {
+        return indexPlayer;
     }
 
     public void setIndexPlayer(int indexPlayer) {
