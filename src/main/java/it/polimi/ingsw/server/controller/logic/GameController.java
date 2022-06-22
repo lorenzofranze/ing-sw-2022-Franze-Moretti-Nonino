@@ -231,6 +231,113 @@ public class GameController implements Runnable  {
         ServerController.getInstance().setToStop(this.getGameID());
     }
 
+    public void runFromSaving(){
+
+        currentPhase = setUpPhase;
+        SetUpResult setUpResult = setUpPhase.handle();
+        currentPlayer = setUpResult.getFirstRandomPianificationPlayer();
+        AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
+        messageHandler.sendBroadcast(message);
+
+        update(); // update game start
+        //lobby completa: inizio partita
+
+        switch(gameBookMark){
+            case startPianification:
+                //faccio finire il round a tutti i giocatori
+
+                //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
+
+                pianificationResult = this.pianificationPhase.handle(currentPlayer);
+
+                isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
+                isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
+
+                currentPhase = actionPhase;
+                HashMap<Player, Integer> maximumMovements = pianificationResult.getMaximumMovements();
+                List<Player> turnOrder = pianificationResult.getTurnOrder();
+
+                //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
+
+                actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
+                isFinishedTowers = actionResult.isFinishedTowers();
+                isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
+                break;
+            case startAction:
+                //cerco il giocatore corrente e quelli che devono ancora giocare
+                boolean found = false;
+                int indexPlayer = 0;
+                for (indexPlayer = 0; indexPlayer < actionPhase.getTurnOrder().size() && found == false; indexPlayer++){
+                    if(actionPhase.getTurnOrder().get(indexPlayer).equals(currentPlayer)){
+                        found = true;
+                    }
+                }
+                //faccio finire il round a tutti i giocatori
+                actionPhase.setIndexPlayer(indexPlayer);
+                actionResult = actionPhase.handle(actionPhase.getTurnOrder(), actionPhase.getMaximumMovements(), this.isLastRoundFinishedStudentsBag);
+                isFinishedTowers = actionResult.isFinishedTowers();
+                isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
+                break;
+            case endGame:
+                //System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
+                if(forceStop){
+                    return;
+                }
+
+                calculateWinner(); //se winner è "?", allora la partita è finita in pareggio
+
+                update(); // last update: game ended and winner setted
+
+                ServerController.getInstance().setToStop(this.getGameID());
+                break;
+        }
+
+        if (gameBookMark != RunningSection.endGame){
+            do{
+                currentPhase = pianificationPhase;
+                if (actionResult!=null) {
+                    currentPlayer = actionResult.getFirstPianificationPlayer();
+                }
+
+                gameBookMark =  RunningSection.startPianification;
+                save();
+
+                //System.out.println("\n--------------------------------------PIANIFICATION PHASE----------------------------------------\n");
+
+                pianificationResult = this.pianificationPhase.handle(currentPlayer);
+
+                isLastRoundFinishedAssistantCards = pianificationResult.isFinishedAssistantCard();
+                isLastRoundFinishedStudentsBag = pianificationResult.isFinishedStudentBag();
+
+                currentPhase = actionPhase;
+                HashMap<Player, Integer> maximumMovements = pianificationResult.getMaximumMovements();
+                List<Player> turnOrder = pianificationResult.getTurnOrder();
+
+                //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
+
+                actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
+                isFinishedTowers = actionResult.isFinishedTowers();
+                isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
+
+            }
+            while(!(isFinishedTowers || isThreeOrLessIslands || isLastRoundFinishedStudentsBag || isLastRoundFinishedAssistantCards || gameOver));
+
+            gameBookMark = RunningSection.endGame;
+
+            //System.out.println("\n--------------------------------------GAME ENDED----------------------------------------\n");
+            if(forceStop){
+                return;
+            }
+
+            calculateWinner(); //se winner è "?", allora la partita è finita in pareggio
+
+            update(); // last update: game ended and winner setted
+
+            ServerController.getInstance().setToStop(this.getGameID());
+        }
+
+    }
+
 
     /**
      * Sends update message for all the players.
@@ -562,7 +669,7 @@ public class GameController implements Runnable  {
 
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/Game" + gameID + ".txt";
+            String fileName = currentPath + "/src/main/Resources/savings/Game" + game.getGameId() + ".txt";
             File file = new File(fileName);
             file.createNewFile();
             String dataString = JsonConverter.fromSavingToJson(this.getSaving());

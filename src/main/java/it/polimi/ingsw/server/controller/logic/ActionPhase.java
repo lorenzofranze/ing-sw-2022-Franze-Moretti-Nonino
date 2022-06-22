@@ -21,6 +21,7 @@ public class ActionPhase extends GamePhase {
     private ActionResult actionResult;
     private Integer studentsMoved;
     private Integer studentsToMove;
+    private int indexPlayer = 0;
 
     public ActionPhase(GameController gameController) {
         this.gameController = gameController;
@@ -49,10 +50,13 @@ public class ActionPhase extends GamePhase {
         boolean isEnded = false;
         actionResult.setFirstPianificationPlayer(turnOrder.get(0));
 
-        for (Player p : turnOrder) {
+        for (int i = indexPlayer; i < turnOrder.size(); i++) {
+            Player p = turnOrder.get(i);
 
             gameController.setCurrentPlayer(p);
-            gameController.update();
+            if (i != indexPlayer){
+                gameController.update();
+            }
 
             gameController.setGameBookMark(RunningSection.startAction);
             gameController.save();
@@ -137,6 +141,7 @@ public class ActionPhase extends GamePhase {
             /*reset characterEffects activated*/
             gameController.getGame().setActiveEffect(null);
         }
+        indexPlayer = 0;
 
         return actionResult;
     }
@@ -628,5 +633,9 @@ public class ActionPhase extends GamePhase {
 
         return true;
 
+    }
+
+    public void setIndexPlayer(int indexPlayer) {
+        this.indexPlayer = indexPlayer;
     }
 }

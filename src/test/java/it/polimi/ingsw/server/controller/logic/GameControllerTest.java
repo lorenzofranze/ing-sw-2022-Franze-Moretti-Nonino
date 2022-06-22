@@ -398,7 +398,7 @@ class GameControllerTest {
         String data = new String();
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/Game" + 2 + ".txt";
+            String fileName = currentPath + "/src/main/Resources/savings/Game" + g.getGameId() + ".txt";
             File myObj = new File(fileName);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
