@@ -216,7 +216,7 @@ public class GameController implements Runnable  {
             List<Player> turnOrder = pianificationResult.getTurnOrder();
 
             //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
-
+            currentPlayer = pianificationResult.getTurnOrder().get(0);
             actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
             isFinishedTowers = actionResult.isFinishedTowers();
             isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
@@ -310,7 +310,7 @@ public class GameController implements Runnable  {
                 List<Player> turnOrder = pianificationResult.getTurnOrder();
 
                 //System.out.println("\n--------------------------------------ACTION PHASE----------------------------------------\n");
-
+                currentPlayer = pianificationResult.getTurnOrder().get(0);
                 actionResult = this.actionPhase.handle(turnOrder, maximumMovements, isLastRoundFinishedStudentsBag);
                 isFinishedTowers = actionResult.isFinishedTowers();
                 isThreeOrLessIslands = actionResult.isThreeOrLessIslands();
