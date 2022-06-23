@@ -921,18 +921,19 @@ public class GuiController extends Application {
         alert.sizeToScene();
         alert.setOnCloseRequest(event -> event.consume() );
         alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
-        //alert.initModality(Modality.WINDOW_MODAL);
+        alert.initOwner(currentStage);
+        alert.initModality(Modality.APPLICATION_MODAL);
 
         CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
                 .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
         DialogPane dialogPane = (DialogPane)root;
 
         ((Text)dialogPane.getHeader()).setText("CARD "+num);
-        ((Text) alert.getScene().lookup("#description")).setText("With this cards you get a magic power!\n"+characterPojo.getDescription());
+        ((Text) alert.getScene().lookup("#description")).setText("\nWith this cards you get a magic power!\n"+characterPojo.getDescription());
         Button button = (Button) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);
         button.setOnMouseClicked((event)->alert.close());
 
-        alert.show();
+        alert.showAndWait();
 
     }
 
@@ -955,14 +956,16 @@ public class GuiController extends Application {
         alert.sizeToScene();
         alert.setOnCloseRequest(event -> event.consume() );
         alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
-        //alert.initModality(Modality.WINDOW_MODAL);
+        alert.initOwner(currentStage);
+        alert.initModality(Modality.APPLICATION_MODAL);
+
 
         CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
                 .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
         DialogPane dialogPane = (DialogPane)root;
 
         ((Text)dialogPane.getHeader()).setText("CARD "+num);
-        ((Text) alert.getScene().lookup("#description")).setText("With this cards you get a magic power!\n"+characterPojo.getDescription());
+        ((Text) alert.getScene().lookup("#description")).setText("\nWith this cards you get a magic power!\n"+characterPojo.getDescription());
         int i =0;
         for(ImageView image : ( ((AnchorPane) alert.getScene().lookup("#colours")).getChildren()).stream().map(a->(ImageView)a).collect(Collectors.toList())){
             image.setUserData(i);
@@ -976,7 +979,7 @@ public class GuiController extends Application {
             i++;
         }
 
-        alert.show();
+        alert.showAndWait();
     }
 
     /** method used by cards 7 and 10: alert with selection.
@@ -997,14 +1000,15 @@ public class GuiController extends Application {
         alert.sizeToScene();
         alert.setOnCloseRequest(event -> event.consume() );
         alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
-        //alert.initModality(Modality.WINDOW_MODAL);
+        alert.initOwner(currentStage);
+        alert.initModality(Modality.APPLICATION_MODAL);
 
         CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
                 .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
         DialogPane dialogPane = (DialogPane)root;
 
         ((Text)dialogPane.getHeader()).setText("CARD "+num);
-        ((Text) alert.getScene().lookup("#description")).setText("With this cards you get a magic power!\n"+characterPojo.getDescription());
+        ((Text) alert.getScene().lookup("#description")).setText("\nWith this cards you get a magic power!\n"+characterPojo.getDescription());
 
         Button button = (Button) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(2);
         Spinner spinner = (Spinner) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);
@@ -1040,7 +1044,7 @@ public class GuiController extends Application {
         };
         ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
 
-        alert.show();
+        alert.showAndWait();
 
     }
 
