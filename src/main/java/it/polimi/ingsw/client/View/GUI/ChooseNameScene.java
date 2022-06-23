@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+/**this class contains the GUI methods that are fired when the user has chosen his nickname */
 public class ChooseNameScene {
 
     public void inizialize(){

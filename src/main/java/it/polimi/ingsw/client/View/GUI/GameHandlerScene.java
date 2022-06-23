@@ -47,7 +47,7 @@ public class GameHandlerScene {
         skipAskForCharacter=b;
     }
 
-
+    /**set that player has chosen cloud 0*/
     @FXML
     void setCloudChosen1(MouseEvent event) {
 
@@ -63,7 +63,7 @@ public class GameHandlerScene {
         }
     }
 
-
+    /**set that player has chosen cloud 1*/
     @FXML
     void setCloudChosen2(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
@@ -78,7 +78,7 @@ public class GameHandlerScene {
         }
     }
 
-
+    /**set that player has chosen cloud 2*/
     @FXML
     void setCloudChosen3(MouseEvent event) {
         if (correctAction(Console.ActionBookMark.chooseCloud) && !cardToUse) {
@@ -219,7 +219,6 @@ public class GameHandlerScene {
 
             islandIdString = anchorPaneClicked.getId().substring(6);
             islandId = Integer.parseInt(islandIdString);
-
             int result;
             int posMotherNature = 0;
             //find mother nature
@@ -234,7 +233,7 @@ public class GameHandlerScene {
                 result = ClientController.getInstance().getGameStatePojo().getIslands().size() - posMotherNature + islandId;
             }
 
-            if(result > ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature()){
+            if(result==0 || result > ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature()){
                 GuiController.getInstance().setRunnable(runnableInvalidChoise);
                 GuiController.getInstance().runMethod();
                 motherNatureError=true;
@@ -440,7 +439,7 @@ public class GameHandlerScene {
 
     /**
      * When the player clicks the coin,
-     * if it it a coin of his own and not an other player's coin,
+     * if it is a coin of his own and not an other player's coin,
      * the Drag and Drop begins
      */
     @FXML
@@ -532,7 +531,6 @@ public class GameHandlerScene {
     /**
      * Card 1 uses this whan the payer has to drop a pawn on the island
      */
-
     private void acceptDropStudentForCard(DragEvent event){
         String islandIdString;
         int islandId;
@@ -565,7 +563,6 @@ public class GameHandlerScene {
      * (The methos chooseIsland of the GUIview calls activeGuiCard3/5 in the GUIController and
      * activeGuiCard3/5 activates on the islands a eventHandler to handle this method.)
      */
-
      private void setIslandChosenForCard(MouseEvent event){
 
          AnchorPane anchorPaneClicked = (AnchorPane) event.getSource();
@@ -625,6 +622,7 @@ public class GameHandlerScene {
         GameHandlerScene.clickDining = clickDining;
     }
 
+    /**used by cards 7 and 10: when clickEntrance is true it enables the click on the students in entrance*/
     public static void clickStudentEntrance(MouseEvent event) {
         if (clickEntrance) {
 
@@ -641,7 +639,7 @@ public class GameHandlerScene {
         }
     }
 
-
+    /**used by cards 10: when clickEntrance is true it enables the click on the students in dining room*/
     public static void clickStudentDining(MouseEvent event) {
         if (clickDining) {
             ImageView image = (ImageView) event.getTarget();

@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class LobbyManager implements Runnable {
     private Map<GameMode, Lobby> waitingLobbies;
     private ServerController serverController;
     private ServerSocket lobbyServerSocket;
     private Socket clientSocket;
-    private int lobbyPortNumber=32502;
+    private int lobbyPortNumber;
     private List<String> disconnectedPlayers;
     private static LobbyManager lobbyManager = null;
 
@@ -30,13 +29,13 @@ public class LobbyManager implements Runnable {
      * @param lobbyPortNumber
      */
 
-    private LobbyManager() {
-        System.out.println("porta server 32501");
+    private LobbyManager(int lobbyPortNumber) {
+        System.out.println("porta server "+lobbyPortNumber);
         boolean portAvailable=false;
         this.waitingLobbies = new HashMap<>();
         this.serverController = ServerController.getInstance();
         this.disconnectedPlayers = new ArrayList<>();
-
+        this.lobbyPortNumber = lobbyPortNumber;
 
 
         while(!portAvailable) {
@@ -54,9 +53,9 @@ public class LobbyManager implements Runnable {
 
     }
 
-    public static LobbyManager getInstance() {
+    public static LobbyManager getInstance(int lobbyPortNumber) {
         if (lobbyManager == null) {
-            lobbyManager = new LobbyManager();
+            lobbyManager = new LobbyManager(lobbyPortNumber);
         }
         return lobbyManager;
     }

@@ -41,9 +41,9 @@ public class ServerController {
      * The main creates the ServerController and calls turnOn method so that the lobby manager is created immediatly
      * when the server starts running.
      */
-    public void turnOn() {
+    public void turnOn(int lobbyPortNumber) {
         // thread that starts games
-        LobbyManager lobbyManager = LobbyManager.getInstance();
+        LobbyManager lobbyManager = LobbyManager.getInstance(lobbyPortNumber);
         try {
             lobbyManager.welcomeNewPlayers();
         } catch (IOException e) {

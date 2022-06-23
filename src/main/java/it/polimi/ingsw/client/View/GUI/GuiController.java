@@ -38,6 +38,9 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/** GUI's core: this class handles the interaction of the player with GUI: show new scenes, show alerts.
+ * The most important methos is update() used for update the view of all the players during the game
+ */
 public class GuiController extends Application {
     private static Stage currentStage;
     private static GuiController guiController;
@@ -181,7 +184,7 @@ public class GuiController extends Application {
     }
 
     /**
-     * Switch to the end-game scene (where the winner is displayed
+     * Switch to the end-game scene (where the winner is displayed)
      */
     public void switchGameOverScene() {
         Parent root;
@@ -465,7 +468,7 @@ public class GuiController extends Application {
             text.setText(ClientController.getInstance().getGameStatePojo().getPlayers().get(index - 1).getCoins() + "");
         }
 
-        //update
+        //update characters
         if(game.isExpert()) {
             updateCharacterCards();
         }
@@ -673,7 +676,7 @@ public class GuiController extends Application {
         path=prefix+(character.getCharacterId())+".jpg";
         return new Image(path);
     }
-
+    /**receives in input a tower and returns the corrisponding image */
     private Image towerToImage(ColourTower colour){
         String path="";
         if (colour == ColourTower.Black) {
@@ -840,7 +843,7 @@ public class GuiController extends Application {
             gridPane.getChildren().clear();
         }
     }
-
+    /**used by card 3 to show the alert with card descritption and change cursor during card's effect*/
     public void activeGuiCard3() {
 
         showBanner(3);
@@ -848,7 +851,7 @@ public class GuiController extends Application {
         changeCursor(2); // calculate influence cursor
 
     }
-
+    /**used by card 3 to show the alert with card descritption and change cursor during card's effect*/
     public void activeGuiCard5() {
         showBanner(5);
 
@@ -1044,7 +1047,9 @@ public class GuiController extends Application {
 
     /**
      * method used by card 10.
-     * Adds the MouseEvent on the card to enable click of the students in dining and in entrance.
+     * Adds the ClickMouseEvent on the students in entrance and on the students
+     * in dining room, in order to fires the event when the card is active and the player clicks on
+     * a student
      */
     public static void addClickCard10(){
         //add click on students in entrance
@@ -1071,7 +1076,9 @@ public class GuiController extends Application {
 
     /**
      * method used by card 7.
-     * Adds the MouseEvent on the card to enable click of the students on the cards
+     * Adds the ClickMouseEvent on the students in entrance and on the students
+     * on the card, in order to fires the event when the card is active and the player clicks on
+     * a student
      */
     public static void addClickCard7(){
         //add click on students in entrance

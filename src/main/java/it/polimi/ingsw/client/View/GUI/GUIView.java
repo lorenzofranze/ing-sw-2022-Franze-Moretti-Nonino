@@ -8,7 +8,9 @@ import it.polimi.ingsw.common.messages.*;
 
 import java.util.function.Consumer;
 
-
+/** the methods of this class are called by Console class when is needed that a player do an action, as for CLI
+ * theese methods are blockers and Console waits as long as the player makes the correct movement
+ */
 public class GUIView implements View {
 
     private Consumer<Boolean> nameCompleteObserver;
@@ -400,18 +402,22 @@ public class GUIView implements View {
         }
 
     }
-
+    /**called when a card is used, shows and alert*/
     @Override
     public void showEffect(int num) {
         GuiController.getInstance().setRunnable(()->GuiController.getInstance().showBanner(num));
         GuiController.getInstance().runMethod();
     }
-
+    /**enables the movement of coins*/
     @Override
     public void canMoveCoin(boolean b) {
         GameHandlerScene.canMoveCoin(b);
     }
 
+    /**when a player has used a character card then he must do the next move in game and can't ask again to use a
+     * character card
+     * @param b
+     */
     @Override
     public void skipAskForCharacterGUI(boolean b) {
         GameHandlerScene.skipAskForForCharacter(b);

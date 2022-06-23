@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.messages.*;
 
 import java.io.IOException;
 
+/** handles the game when a character card is active*/
 public class CharacterCardsConsole {
     private View view = ClientController.getInstance().view;
     private NetworkHandler networkHandler = ClientController.getInstance().getNetworkHandler();

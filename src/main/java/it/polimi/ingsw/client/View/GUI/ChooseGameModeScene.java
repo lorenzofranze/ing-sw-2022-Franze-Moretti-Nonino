@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.controller.logic.GameMode;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
+/**this class contains the GUI methods that are fired when the user select the game mode */
 public class ChooseGameModeScene {
 
     @FXML
