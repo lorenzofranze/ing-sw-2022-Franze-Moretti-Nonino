@@ -69,7 +69,6 @@ public class NetworkHandler implements Runnable{
         } catch (IOException e) {
             if(!ClientController.getInstance().isDisconnected()){
                 ClientController.getInstance().setDisconnected();
-                System.out.println("ERROR-ClientMessageHandler-readFromBuffer");
                 return;
             }
 

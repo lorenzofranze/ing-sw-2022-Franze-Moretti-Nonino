@@ -54,7 +54,7 @@ public class PingSenderFromClient implements Runnable {
             }
 
             if (networkHandler.isPingConnected() == false) {
-                System.out.println("Ping form server not received");
+                System.out.println("Ping from server not received");
                 break;
             }
         }

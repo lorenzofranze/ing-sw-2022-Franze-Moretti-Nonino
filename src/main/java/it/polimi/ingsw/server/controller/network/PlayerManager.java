@@ -73,8 +73,6 @@ public class PlayerManager implements Runnable{
 
             switch(receivedMessage.getMessageType()){
                 case Async: //if i have received an async message(a disconnection message)
-                    System.out.println(receivedString);
-                    System.out.println("Player manager: received an Async message");
                     pingThread.interrupt();
                     if(toStop==false)
                     {
@@ -99,17 +97,11 @@ public class PlayerManager implements Runnable{
                         ErrorMessage errorMessage = new ErrorMessage(TypeOfError.TurnError);
                         sendMessage(errorMessage);
                     }else{
-                        /*if (gameMessage.getTypeOfMove().equals(TypeOfMove.CharacterCard)){
-                            System.out.println("FLAG - PLAYER MANAGER - SETTO CHARACTERRECEIVED = TRUE");
-                            characterReceived=true;
-                        }*/
                         messageQueue.add(receivedMessage);
-                        System.out.println(receivedMessage);
-                        //notifyAll();
                     }
                     break;
                 default:
-                    System.out.println(receivedString);
+                    //no action
                     break;
             }
         }
@@ -176,7 +168,6 @@ public class PlayerManager implements Runnable{
             if(toStop==false)
             {
                 toStop=true;
-                System.out.println("Player manager: close connection 1");
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
@@ -197,12 +188,6 @@ public class PlayerManager implements Runnable{
      */
     public void sendMessage(Message message){
         String stringToSend = jsonConverter.fromMessageToJson(message);
-        if (message.getMessageType()!=TypeOfMessage.Update){
-            System.out.println("MESSAGE SENT:\n" + stringToSend);
-        }
-        else{
-            System.out.println("MESSAGE SENT:\nupdate");
-        }
 
         //null only in tests
         if (bufferedReaderOut == null){return;}
@@ -215,7 +200,6 @@ public class PlayerManager implements Runnable{
 
             if(toStop==false) {
                 toStop = true;
-                System.out.println("Player manager: error in sending message");
                 if(pingThread.isInterrupted()==false){
                     pingThread.interrupt();
                 }
@@ -228,17 +212,6 @@ public class PlayerManager implements Runnable{
             return;
         }
 
-        //da cancellare fino a (fine cancella*)
-        if (message.getMessageType().equals(TypeOfMessage.Update)) {
-            System.out.println("Update sent to: " + this.getPlayerNickname());
-            //System.out.println("update");
-        }else{
-            if (!(message.getMessageType().equals(TypeOfMessage.Ping)) && !(message.getMessageType().equals(TypeOfMessage.Pong))) {
-                System.out.println("Message sent to: " + this.getPlayerNickname());
-                System.out.println(stringToSend);
-            }
-        }
-        //(fine cancella *)
     }
 
     public String getPlayerNickname() {
@@ -261,7 +234,6 @@ public class PlayerManager implements Runnable{
             //this.setTimeout();
             receivedMessage = getLastMessage();
 
-            System.out.println("Message received:\n"+jsonConverter.fromMessageToJson(receivedMessage));
 
             if(receivedMessage.getMessageType().equals(expectedTypeOfMessage)){
                 switch (receivedMessage.getMessageType()){
@@ -329,99 +301,6 @@ public class PlayerManager implements Runnable{
         return toStop;
 
     }
-
-    /*
-     * stops the game if a player do not answer for more than 3 minutes
-     * it is called in the readMessage method (in playerManager)
-     * so it is called every thime the gameController asks to read the last message of the queue
-     */
-    /*
-    public void setTimeout() {
-        //nei test questo metodo non fa nulla
-        if (ServerController.getInstance().getCurrentGames().isEmpty()){
-            return;
-        }
-
-
-        //il turno del giocatore dura 3 minuti al massimo: se non risponde la partita finisce
-
-        //cerco la lobby corrispondente a questa partita nel server controller: lo faccio perchè mi servono lo socket
-        //dei giocatori
-
-        Lobby lobby = null;
-        MessageHandler messageHandler=null;
-        for (GameController gameController : ServerController.getInstance().getCurrentGames().values()) {
-            for (Player p : gameController.getGame().getPlayers()) {
-                if (p.getNickname().equals(playerNickname)) {
-                    lobby = gameController.getLobby();
-                    messageHandler=gameController.getMessageHandler();
-                }
-            }
-        }
-
-        //mette il timeout alla socket del giocatore corrente si 2 minuti,
-        //se non riceve nulla dal client in questo tempo si alza una timeout exception e
-        //si avvisano gli altri giocatori che la partita si è conclusa
-        Socket clientSocket;
-        for (String s : lobby.getUsersReadyToPlay().keySet()) {
-            if (s.equals(playerNickname)) {
-                clientSocket = lobby.getUsersReadyToPlay().get(s);
-                try {
-                    clientSocket.setSoTimeout(120000);
-                } catch (SocketException ex) {
-                    System.out.println("the player"+playerNickname+ "is too slow! His round has exceeded 2 minutes!");
-                    ex.printStackTrace();
-                    AsyncMessage asyncMessage=new AsyncMessage("the player"+playerNickname+
-                            "is too slow! His round has exceeded 2 minutes!"); /**todo: fare leggere il messaggio sul client**/
-
-
-    /*for(PlayerManager playerManager:messageHandler.getPlayerManagerMap().values()){
-                        playerManager.sendMessage(asyncMessage);
-                    }
-
-
-                    toStop = true;
-                    if(pingThread.isInterrupted()==false){
-                        pingThread.interrupt();
-                    }
-
-                    System.out.println("Player manager: the player"+playerNickname+ "is too slow! His round has exceeded 2 minutes!");
-                    ex.printStackTrace();
-                    ServerController.getInstance().closeConnection(playerNickname);
-
-                    return;
-                }
-
-                //alla fine del timeout, tolgo il timeout. Il prossimo si riattiverà quando questa funzione
-                //verrà chiamata nuovamente: cioè quando il gameController cercherà di leggere un messaggio dalla
-                //coda di questo player manager
-                try {
-                    clientSocket.setSoTimeout(0);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-    /*
-
-    /*
-    public void sendPingMessage(){
-
-
-        JsonConverter jsonConverter= new JsonConverter();
-        String stringToSend = jsonConverter.fromMessageToJson(new PingMessage());
-
-        try {
-            bufferedWriterOut.write(stringToSend);
-            bufferedWriterOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-     */
 
     public Thread getPingThread() {
         return pingThread;

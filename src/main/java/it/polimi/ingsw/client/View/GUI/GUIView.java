@@ -216,9 +216,6 @@ public class GUIView implements View {
 
     @Override
     public synchronized void showConnection(ConnectionMessage connectionMessage) {
-        JsonConverter jsonConverter = new JsonConverter();
-        String stringConnection = jsonConverter.fromMessageToJson(connectionMessage);
-        System.out.println(connectionMessage);
     }
 
     @Override
@@ -255,23 +252,15 @@ public class GUIView implements View {
 
     @Override
     public synchronized void showAsync(AsyncMessage asyncMessage) {
-        JsonConverter jsonConverter = new JsonConverter();
-        String stringAsync = jsonConverter.fromMessageToJson(asyncMessage);
-        System.out.println(stringAsync);
     }
 
     @Override
     public synchronized void showMove(GameMessage gameMessage) {
-        JsonConverter jsonConverter = new JsonConverter();
-        String stringMove = jsonConverter.fromMessageToJson(gameMessage);
-        System.out.println(stringMove);
+
     }
 
     @Override
     public synchronized void showPing(PingMessage pingMessage) {
-        JsonConverter jsonConverter = new JsonConverter();
-        String stringPing = jsonConverter.fromMessageToJson(pingMessage);
-        System.out.println(stringPing);
     }
 
     @Override
@@ -313,7 +302,6 @@ public class GUIView implements View {
             try {
                 ClientController.getSemaphore().acquire();
             } catch (InterruptedException e) {
-                e.printStackTrace();
             }
 
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));

@@ -43,8 +43,7 @@ public class LobbyManager implements Runnable {
             try {
                 lobbyServerSocket = new ServerSocket(lobbyPortNumber);
             } catch (IOException e) {
-                System.err.println("port not available " + e.getMessage()); //port not available
-                System.out.println("porta cambiata in quella successiva");
+                System.err.println("port not available "); //port not available
                 this.lobbyPortNumber++;
                 portAvailable=false;
             }
@@ -115,7 +114,6 @@ public class LobbyManager implements Runnable {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("error in client IO");
             return;
         }
@@ -136,12 +134,10 @@ public class LobbyManager implements Runnable {
                 return;
             }
 
-            //System.out.println(words);
             jsonConverter = new JsonConverter();
             unknown = jsonConverter.fromJsonToMessage(words);
 
             if (unknown.getMessageType() == TypeOfMessage.Connection) {
-                System.out.println(words);
                 ConnectionMessage firstMessage = (ConnectionMessage) unknown;
                 String nickname = firstMessage.getNickname();
                 ConnectionMessage connectionMessage = (ConnectionMessage) firstMessage;
@@ -211,18 +207,15 @@ public class LobbyManager implements Runnable {
 
 
             }else if(unknown.getMessageType() == TypeOfMessage.Ping){
-                System.out.println("ping ricevuto, invio pong");
                 PongMessage pongMessage = new PongMessage();
                 try {
                     stringMessage = JsonConverter.fromMessageToJson(pongMessage);
                     out.write(stringMessage);
                     out.flush();
                 } catch (IOException e) {
-                    e.printStackTrace();
                     System.out.println("ERROR-LobbyManager-2");
                 }
             }else if(unknown.getMessageType() == TypeOfMessage.Pong){
-                System.out.println("pong ricevuto");
                 playerManager.setConnected(true);
             }
         else{

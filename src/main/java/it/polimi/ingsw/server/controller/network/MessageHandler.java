@@ -47,60 +47,9 @@ public class MessageHandler {
     }
 
 
-    public void setWinner(Player winner){
-        System.out.println(winner);
-    }
-
     public Map<String, PlayerManager> getPlayerManagerMap() {
         return playerManagerMap;
     }
-
-    /*
-    /** parses from message-type to json string, then sends to the player the message, reads the answer from the player,
-     * parses from json string to message-type
-     * @param gameController
-     * @param messageToSend
-     * @return answer-message to the game controller. The game controller has to verify the validity of the answer.
-     * @throws IOException
-     */
-    /*
-    public Message communicationWithClient(ServerMessage messageToSend){
-       String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
-       String nickname= messageToSend.getNickname();
-       String receivedString=null;
-       ClientMessage receivedMessage=null;
-
-        boolean isValid= false;
-        while(!isValid){
-            try {
-                bufferedReaderOut.get(nickname).write(stringToSend);
-                bufferedReaderOut.get(nickname).flush();
-                receivedString= readFromBuffer(nickname);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            receivedMessage = (ClientMessage) jsonConverter.fromJsonToMessage(receivedString);
-        }
-       return receivedMessage;
-    }
-
-
-    public void sendUpdate(GameController gameController, ServerMessage messageToSend){
-        String stringToSend = jsonConverter.fromMessageToJson(messageToSend);
-        String nickname= messageToSend.getNickname();
-        String receivedString=null;
-        ClientMessage receivedMessage=null;
-
-        boolean isValid= false;
-
-        try {
-            bufferedReaderOut.get(nickname).write(stringToSend);
-            bufferedReaderOut.get(nickname).flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 
 
     /**

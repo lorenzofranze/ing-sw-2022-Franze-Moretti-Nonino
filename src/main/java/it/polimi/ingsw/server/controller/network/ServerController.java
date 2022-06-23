@@ -77,7 +77,7 @@ public class ServerController {
      * @param playerNickname
      */
     public void closeConnection(String playerNickname) {
-        System.out.println("ServerController closeConnection: player "+ playerNickname + " is disconnected");
+        System.out.println("connection player "+ playerNickname + " closed");
 
         //find the lobby that hosts the player who has disconnected from the game
 
@@ -98,7 +98,6 @@ public class ServerController {
             AsyncMessage asyncMessage = new AsyncMessage();
             for (PlayerManager playerManager : messageHandler.getPlayerManagerMap().values()) {
                 if (!playerManager.getPlayerNickname().equals(playerNickname)) {
-                    System.out.println("avviso interruzione gioco");
                     if (playerManager.getPingThread().isInterrupted() == false) {
                         playerManager.getPingThread().interrupt();
                     }
@@ -130,7 +129,6 @@ public class ServerController {
                 }
             }
         }
-        System.out.println("\n La partita dei giocatore "+ playerNickname+ " è finita");
     }
 }
 

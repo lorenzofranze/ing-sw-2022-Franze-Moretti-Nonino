@@ -152,7 +152,6 @@ public class GuiController extends Application {
         currentStage.sizeToScene();
         currentStage.show();
         ImageView imageView= (ImageView) currentStage.getScene().lookup("#catHead");
-        System.out.println(imageView.getId());
         RotateTransition rotateTransition= new RotateTransition(Duration.millis(3500), imageView);
         rotateTransition.setByAngle(0);
         rotateTransition.setToAngle(360);

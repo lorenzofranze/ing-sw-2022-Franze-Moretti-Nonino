@@ -57,7 +57,6 @@ public class ClientController implements Runnable {
         if(view instanceof GUIView){
             GuiController.main(null);
         }
-        System.out.println("GUI lanciata ora 2 thread");
         Message receivedMessage=null;
 
         connect();
@@ -134,7 +133,7 @@ public class ClientController implements Runnable {
         do {
             valid = true;
             view.beginReadUsername();
-            System.out.println("game mode chosen: " + this.nickname); // debug
+            System.out.println("name: " + this.nickname); // debug
             ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
 
             try {
