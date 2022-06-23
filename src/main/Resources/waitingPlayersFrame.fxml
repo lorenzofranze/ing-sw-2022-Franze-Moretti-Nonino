@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <ImageView fx:id="catHead" fitHeight="1027.0" fitWidth="300.0" layoutX="618.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="295.0869445800781" AnchorPane.leftAnchor="618.0" AnchorPane.rightAnchor="618.0">
+        <TextField alignment="TOP_CENTER" editable="false" focusTraversable="false" layoutX="326.0" layoutY="609.0" prefHeight="104.0" prefWidth="883.0" style="-fx-background-color: pink; -fx-text-fill: blue; -fx-border-color: lightblue; -fx-border-width: 10;" text="WAITING FOR OTHER PLAYERS">
+            <font>
+                <Font name="Franklin Gothic Medium Cond" size="48.0" />
+            </font>
+         <effect>
+            <Glow level="0.0" />
+         </effect>
+        </TextField>
+        <ImageView fx:id="catHead" fitHeight="429.0" fitWidth="472.0" layoutX="533.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="318.0" AnchorPane.leftAnchor="533.0" AnchorPane.rightAnchor="533.1428527832031">
          <image>
             <Image url="@images/imageWaitingPlayers/img.png" />
          </image>
         </ImageView>
-        <TextField alignment="TOP_CENTER" editable="false" focusTraversable="false" layoutX="404.0" layoutY="612.0" prefHeight="104.0" prefWidth="727.0" style="-fx-background-color: black; -fx-text-fill: ORANGE; -fx-border-color: purple; -fx-border-width: 5;" text="WAITING FOR OTHER PLAYERS">
-            <font>
-                <Font name="Monotype Corsiva" size="48.0" />
-            </font>
-        </TextField>
     </children>
 </AnchorPane>

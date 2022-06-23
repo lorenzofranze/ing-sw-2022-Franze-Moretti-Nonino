@@ -6,7 +6,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 
 public class ServerApp {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         ServerController serverController = ServerController.getInstance();
         int serverPort;
         if (args.length == 0) {
