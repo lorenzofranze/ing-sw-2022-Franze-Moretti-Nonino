@@ -1033,17 +1033,6 @@ public class GuiController extends Application {
             }
         });
 
-        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
-            Platform.runLater(() -> {
-                if (!ok) {
-                    Alert error = new Alert(Alert.AlertType.ERROR,"not enough students in your dining room" , ButtonType.OK);
-                    error.show();
-                    alert.close();
-                }
-            });
-        };
-        ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
-
         alert.showAndWait();
 
     }
