@@ -372,6 +372,7 @@ public class GUIView implements View {
      * The choice is made throught an alert-panel. */
     @Override
     public synchronized void chooseNumOfMove() {
+        GameHandlerScene.setCharacterCardToUse(true);
 
         if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==7){
             GuiController.getInstance().setRunnable(()->GuiController.getInstance().activeGuiCard7_10(7));
@@ -388,6 +389,7 @@ public class GUIView implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        GameHandlerScene.setCharacterCardToUse(false);
 
     }
     /**called when a card is used, shows and alert*/

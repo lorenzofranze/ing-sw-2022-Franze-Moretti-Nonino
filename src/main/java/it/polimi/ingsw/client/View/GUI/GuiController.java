@@ -957,7 +957,7 @@ public class GuiController extends Application {
         alert.setOnCloseRequest(event -> event.consume() );
         alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
         alert.initOwner(currentStage);
-        alert.initModality(Modality.APPLICATION_MODAL);
+        //alert.initModality(Modality.APPLICATION_MODAL);
 
 
         CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
@@ -979,7 +979,7 @@ public class GuiController extends Application {
             i++;
         }
 
-        alert.showAndWait();
+        alert.show();
     }
 
     /** method used by cards 7 and 10: alert with selection.
@@ -1001,7 +1001,7 @@ public class GuiController extends Application {
         alert.setOnCloseRequest(event -> event.consume() );
         alert.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
         alert.initOwner(currentStage);
-        alert.initModality(Modality.APPLICATION_MODAL);
+        //alert.initModality(Modality.APPLICATION_MODAL);
 
         CharacterPojo characterPojo = ClientController.getInstance().getGameStatePojo()
                 .getCharacters().stream().filter(a->a.getCharacterId()==num).collect(Collectors.toList()).get(0);
@@ -1033,7 +1033,7 @@ public class GuiController extends Application {
             }
         });
 
-        alert.showAndWait();
+        alert.show();
 
     }
 
