@@ -14,7 +14,7 @@ public class Player {
     private final SchoolBoard schoolBoard;
     private final ColourTower colourTower;
     private AssistantCard playedAssistantCard;
-    private final Set<AssistantCard> deck;
+    private Set<AssistantCard> deck;
     private final ColourWizard wizard;
     private int coins;
 
@@ -162,5 +162,11 @@ public class Player {
         return pojoPlayerPojo;
     }
 
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
 
+    public void setDeck(Set<AssistantCard> deck) {
+        this.deck = deck;
+    }
 }

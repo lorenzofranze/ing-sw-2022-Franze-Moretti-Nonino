@@ -231,4 +231,37 @@ public class PianificationPhase extends GamePhase {
     public boolean isFinishedStudentBag() {
         return finishedStudentBag;
     }
+
+    public boolean isFinishedAssistantCard() {
+        return finishedAssistantCard;
+    }
+
+    public void setFinishedAssistantCard(boolean finishedAssistantCard) {
+        this.finishedAssistantCard = finishedAssistantCard;
+    }
+
+    public void setFinishedStudentBag(boolean finishedStudentBag) {
+        this.finishedStudentBag = finishedStudentBag;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null){
+            return false;
+        }
+        PianificationPhase o1;
+        if (o instanceof PianificationPhase){
+            o1 = (PianificationPhase) o;
+        }else{
+            return false;
+        }
+        if (o1.finishedAssistantCard != this.finishedAssistantCard){
+            return false;
+        }
+
+        if (o1.finishedStudentBag != this.finishedStudentBag){
+            return false;
+        }
+        return true;
+    }
 }

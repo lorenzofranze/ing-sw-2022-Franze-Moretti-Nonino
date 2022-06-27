@@ -41,4 +41,7 @@ public class CharacterStateStudent extends CharacterState{
         return characterStudentPojo;
     }
 
+    public void setStudents(PawnsMap students) {
+        this.students = students;
+    }
 }

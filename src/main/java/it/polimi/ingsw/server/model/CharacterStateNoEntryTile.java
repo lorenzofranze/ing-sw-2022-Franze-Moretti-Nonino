@@ -33,4 +33,8 @@ public class CharacterStateNoEntryTile extends CharacterState{
 
         return characterStudentPojo;
     }
+
+    public void setNumNoEntry(int numNoEntry) {
+        this.numNoEntry = numNoEntry;
+    }
 }

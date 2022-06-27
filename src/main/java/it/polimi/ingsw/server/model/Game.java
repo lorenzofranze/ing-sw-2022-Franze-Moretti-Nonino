@@ -251,4 +251,21 @@ public class Game {
     public void setClouds(List<Cloud> clouds) {
         this.clouds = clouds;
     }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setStudentsBag(PawnsMap studentsBag) {
+        this.studentsBag = studentsBag;
+    }
+
+    public Player getPlayerNamed(String nickname){
+        for (Player p : players){
+            if (p.getNickname().equals(nickname)){
+                return p;
+            }
+        }
+        return null;
+    }
 }

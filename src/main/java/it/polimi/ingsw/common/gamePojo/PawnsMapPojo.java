@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.gamePojo;
 
+import it.polimi.ingsw.server.model.PawnsMap;
+
 import java.util.*;
 
 public class PawnsMapPojo {
@@ -56,5 +58,27 @@ public class PawnsMapPojo {
 
     public int get(ColourPawn colour){
         return pawns.get(colour);
+    }
+
+    public PawnsMap getPawnsMap(){
+        PawnsMap pawnsMap = new PawnsMap();
+        for (ColourPawn c : ColourPawn.values()){
+            pawnsMap.setNumberForColour(c, this.get(c));
+        }
+        return pawnsMap;
+    }
+
+    @Override
+    public boolean equals(Object o ){
+        PawnsMapPojo o1;
+        if (o == null){
+            return false;
+        }
+        if (o instanceof  PawnsMapPojo){
+            o1 = (PawnsMapPojo) o;
+        }else{
+            return false;
+        }
+        return this.pawns.equals(o1.pawns);
     }
 }

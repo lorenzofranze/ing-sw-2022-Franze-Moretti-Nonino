@@ -1,12 +1,15 @@
 package it.polimi.ingsw.server.controller.network;
 
-import it.polimi.ingsw.common.messages.AsyncMessage;
-import it.polimi.ingsw.common.messages.ErrorMessage;
-import it.polimi.ingsw.common.messages.TypeOfError;
+import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
+import it.polimi.ingsw.server.controller.persistence.Saving;
+import it.polimi.ingsw.server.controller.persistence.SavingsMenu;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.common.messages.AsyncMessage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.file.FileSystemNotFoundException;
@@ -22,11 +25,47 @@ public class ServerController {
 
     private Map<Integer, GameController> currentGames;
     private Lobby lobbyToStart;
+    private SavingsMenu savingsMenu;
 
     private ServerController(){
         this.instance=null;
         this.currentGames=new HashMap<>();
         executorService= Executors.newCachedThreadPool();
+        savingsMenu = new SavingsMenu();
+
+        String data = new String();
+        try {
+            String currentPath = new File(".").getCanonicalPath();
+            String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+            File myObj = new File(fileName);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                data = data + myReader.nextLine();
+            }
+            myReader.close();
+
+            this.savingsMenu = JsonConverter.fromJsonToSavingsMenu(data);
+
+        } catch (FileNotFoundException e) {
+            //it means that it is the first time that the Server has been created, there are no savings.
+            //Creation of a file containing savingsMenu
+            try {
+                String currentPath = new File(".").getCanonicalPath();
+                String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+                File file = new File(fileName);
+                file.createNewFile();
+                String dataString = JsonConverter.fromSavingsMenuToJson(this.savingsMenu);
+                FileOutputStream outputStream = new FileOutputStream(file, false);
+                byte[] strToBytes = dataString.getBytes();
+                outputStream.write(strToBytes);
+                outputStream.close();
+            } catch (IOException ex){
+                ex.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static ServerController getInstance(){
@@ -58,9 +97,16 @@ public class ServerController {
      */
     public void startGame(Lobby lobbyToStart){
         this.lobbyToStart = lobbyToStart;
-        GameController gameController = new GameController(lobbyToStart, lobbyToStart.getGameMode().isExpert());
-        currentGames.put(gameController.getGameID(), gameController);
-        executorService.submit(gameController);
+        if (savingsMenu.getSavingFromNicknames(lobbyToStart.getUsersNicknames()) == null){
+            GameController gameController = new GameController(lobbyToStart, lobbyToStart.getGameMode().isExpert());
+            currentGames.put(gameController.getGameID(), gameController);
+            executorService.submit(gameController);
+        }else{
+            Saving saving = savingsMenu.getSavingFromNicknames(lobbyToStart.getUsersNicknames());
+            GameController gameController = new GameController(lobbyToStart, saving);
+            currentGames.put(gameController.getGame().getGameId(), gameController);
+            executorService.submit(gameController);
+        }
     }
 
     public synchronized void setToStop(Integer toStop){
@@ -129,6 +175,10 @@ public class ServerController {
                 }
             }
         }
+    }
+
+    public SavingsMenu getSavingsMenu() {
+        return savingsMenu;
     }
 }
 

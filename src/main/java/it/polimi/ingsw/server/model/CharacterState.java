@@ -126,4 +126,7 @@ public class CharacterState {
         return characterStudentPojo;
     }
 
+    public void setIncremented(boolean incremented) {
+        this.incremented = incremented;
+    }
 }

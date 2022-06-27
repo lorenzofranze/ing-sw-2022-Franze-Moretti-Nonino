@@ -21,11 +21,12 @@ public class ActionPhase extends GamePhase {
     private ActionResult actionResult;
     private Integer studentsMoved;
     private Integer studentsToMove;
+    private int indexPlayer = 0;
 
     public ActionPhase(GameController gameController) {
         this.gameController = gameController;
-        maximumMovements = null;
-        turnOrder = null;
+        maximumMovements = new HashMap<>();
+        turnOrder = new ArrayList<>();
         actionResult = new ActionResult();
     }
 
@@ -50,10 +51,26 @@ public class ActionPhase extends GamePhase {
         boolean isEnded = false;
         actionResult.setFirstPianificationPlayer(turnOrder.get(0));
 
-        for (Player p : turnOrder) {
+        //cerco il giocatore corrente e quelli che devono ancora giocare
+        for(int i = 0; i < turnOrder.size(); i++){
+            if (gameController.getCurrentPlayer().equals(turnOrder.get(i))){
+                indexPlayer = i;
+            }
+        }
+
+        System.out.println("\n\nplayer index: " + indexPlayer);
+
+        for (int i = indexPlayer; i < turnOrder.size(); i++) {
+            Player p = turnOrder.get(i);
 
             gameController.setCurrentPlayer(p);
-            gameController.update();
+            gameController.update(); //TO DELETE
+            /*if (!gameController.isBornFromSaving() || i != indexPlayer){
+                gameController.update();
+            }*/
+
+            gameController.setGameBookMark(RunningSection.startAction);
+            gameController.save();
 
             if (!(actionResult.isFinishedTowers() || actionResult.isThreeOrLessIslands())){
 
@@ -135,6 +152,7 @@ public class ActionPhase extends GamePhase {
             /*reset characterEffects activated*/
             gameController.getGame().setActiveEffect(null);
         }
+        indexPlayer = 0;
 
         return actionResult;
     }
@@ -552,5 +570,87 @@ public class ActionPhase extends GamePhase {
 
     public HashMap<Player, Integer> getMaximumMovements() {
         return maximumMovements;
+    }
+
+    public List<Player> getTurnOrder() {
+        return turnOrder;
+    }
+
+    public void setActionResult(ActionResult actionResult) {
+        this.actionResult = actionResult;
+    }
+
+    public void setStudentsMoved(Integer studentsMoved) {
+        this.studentsMoved = studentsMoved;
+    }
+
+    public void setStudentsToMove(Integer studentsToMove) {
+        this.studentsToMove = studentsToMove;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        ActionPhase o1;
+
+        if (o == null){
+            return false;
+        }
+        if (o instanceof ActionPhase){
+            o1 = (ActionPhase) o;
+        }else{
+            return false;
+        }
+
+        if (!this.maximumMovements.equals(o1.maximumMovements)){
+            return false;
+        }
+
+        if (!this.turnOrder.equals(o1.turnOrder)){
+            return false;
+        }
+
+        if (!this.actionResult.equals(o1.actionResult)){
+            return false;
+        }
+
+
+        if (this.studentsMoved != null){
+            if (o1.studentsMoved != null){
+                if (!this.studentsMoved.equals(o1.studentsMoved)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.studentsMoved != null){
+                return false;
+            }
+        }
+
+        if (this.studentsToMove != null){
+            if (o1.studentsToMove != null){
+                if (!this.studentsToMove.equals(o1.studentsToMove)){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            if (o1.studentsToMove != null){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public int getIndexPlayer() {
+        return indexPlayer;
+    }
+
+    public void setIndexPlayer(int indexPlayer) {
+        this.indexPlayer = indexPlayer;
     }
 }

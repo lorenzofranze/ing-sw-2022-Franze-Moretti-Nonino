@@ -707,6 +707,8 @@ class ActionPhaseTest {
         maximumMovements.put(p3, 2);
         actionPhase.setMaximumMovements(maximumMovements);
 
+        gameController.setCurrentPlayer(p2);
+
         //initialize entances of Schoolboards
         PawnsMap entrance = new PawnsMap();
         entrance.add(ColourPawn.Blue, 3);
@@ -904,6 +906,8 @@ class ActionPhaseTest {
         maximumMovements.put(p3, 2);
         actionPhase.setMaximumMovements(maximumMovements);
 
+        gameController.setCurrentPlayer(p2);
+
         //initialize entances of Schoolboards
         PawnsMap entrance = new PawnsMap();
         entrance.add(ColourPawn.Blue, 3);
@@ -1099,6 +1103,8 @@ class ActionPhaseTest {
         maximumMovements.put(p2, 2);
         maximumMovements.put(p3, 2);
         actionPhase.setMaximumMovements(maximumMovements);
+
+        gameController.setCurrentPlayer(p2);
 
         //initialize entances of Schoolboards
         PawnsMap entrance = new PawnsMap();
@@ -1315,6 +1321,8 @@ class ActionPhaseTest {
         maximumMovements.put(p2, 2);
         maximumMovements.put(p3, 2);
         actionPhase.setMaximumMovements(maximumMovements);
+
+        gameController.setCurrentPlayer(p2);
 
         //initialize entances of Schoolboards
         PawnsMap entrance = new PawnsMap();

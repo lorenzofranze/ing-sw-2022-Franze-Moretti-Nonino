@@ -86,7 +86,7 @@ public class Island {
     }
 
     public void setTowerColor(ColourTower towerColour) {
-        if (towerColour.equals(null)){towerCount++;}
+        if (towerColour == null){towerCount++;}
         this.towerColour = towerColour;
     }
 

@@ -2,18 +2,20 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.GameStatePojo;
+import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.UpdateMessage;
 import it.polimi.ingsw.server.controller.network.Lobby;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
+import it.polimi.ingsw.server.controller.persistence.Saving;
 import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -351,6 +353,68 @@ class GameControllerTest {
         assertEquals(actionPhase, gameController.getActionPhase());
         gameController.setForceStop(true);
         assertEquals(true, gameController.isForceStop());
+    }
+
+    @Test
+    public void testSave(){
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Simple_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        gameController.setCurrentPlayer(p2);
+
+        gameController.save();
+
+    }
+
+    @Test
+    public void testBuilderFromSaving(){
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Simple_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+        GameController gameController = new GameController(lobby, false);
+        Game g = gameController.getGame();
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        gameController.setCurrentPlayer(p2);
+
+        gameController.save();
+
+        String data = new String();
+        try {
+            String currentPath = new File(".").getCanonicalPath();
+            String fileName = currentPath + "/src/main/Resources/savings/Game" + g.getGameId() + ".txt";
+            File myObj = new File(fileName);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                data = data + myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Saving saving = JsonConverter.fromJsonToSaving(data);
+        GameController gameController1 = new GameController(lobby, saving);
+
+        assertEquals(true, gameController1.equals(gameController));
     }
 
 
