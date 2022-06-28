@@ -11,7 +11,7 @@ public class ServerApp {
         int serverPort;
         serverPort = 32502;
         if (args.length == 0) {
-            serverPort = 32502;
+            serverPort = 35002;
         } else {
             serverPort = Integer.parseInt(args[0]);
         }
