@@ -1,5 +1,20 @@
 package it.polimi.ingsw.server.controller.network;
 
+/**
+ * The server listen for clients.
+ * When the lobbyServerSocket accept new connections, welcomeNewPlayers creates a thread of Lobby manager and
+ * starts it. The thread manage the connection of the new player. If receives a message of type
+ * --> Ping: manages the connection sending pong
+ * --> Pong: it means correct connection with the still-"invalid nickname" player
+ * --> Connection: checks the nickname-univocity
+ * If the nickname isn't correct, sends an ErrorMessage and waits for another nickname
+ * Otherwise, sets nickname to the PingSender-class and calls addNickname():
+ * --> if the lobby of the correct type does not exists, it creates it,
+ * --> it adds the player to the lobby
+ * --> if the lobby gets full, calls serverController.startGame(waitingLobbies.get(mode)) and removes the lobby from
+ *      the list of waiting lobbies
+ */
+
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.common.messages.*;
@@ -22,12 +37,6 @@ public class LobbyManager implements Runnable {
     private static LobbyManager lobbyManager = null;
 
 
-    /**
-     * There is only one serverController used to manage the new connections. When a player is accepted,
-     * the player interacts with one of the executor's servers
-     *
-     * @param lobbyPortNumber
-     */
 
     private LobbyManager(int lobbyPortNumber) {
         System.out.println("porta server "+lobbyPortNumber);
@@ -35,8 +44,6 @@ public class LobbyManager implements Runnable {
         this.waitingLobbies = new HashMap<>();
         this.serverController = ServerController.getInstance();
         this.disconnectedPlayers = new ArrayList<>();
-
-
 
         while(!portAvailable) {
             portAvailable=true;
@@ -74,12 +81,9 @@ public class LobbyManager implements Runnable {
     }
 
 
-    /** the server listen for clients. One client aat time is listened. The client connects with a
-     * connection-message telling its nickname and its preferred game-mode.
-     * A buffer in reader is created.
-     * It is read the first message and it is checked the validity of the nickname(no other connected-players
-     * can have the same nickname)
-     * If the nickname is validated, it is added to the waiting players' list in the Lobby
+    /** The server listen for clients.
+     * When the lobbyServerSocket accept new connections, welcomeNewPlayers creates a thread of Lobby manager and
+     * starts it.
      * @throws IOException
      */
     public void welcomeNewPlayers() throws IOException {
@@ -193,24 +197,6 @@ public class LobbyManager implements Runnable {
                         }
                     }
                 }
-                //RESILIENZA ALLE DISCONNESSIONI
-                /*
-                else {
-
-                    usedNicknames.remove(nickname);
-                    for (int i : serverController.getInstance().getCurrentGames().keySet()) {
-                        for (Player p : ServerController.getInstance().getCurrentGames().get(i).getGame().getPlayers()) {
-                            if(p.getNickname()==nickname){
-                                PlayerManager playerManager=
-                                        ServerController.getInstance().getCurrentGames().get(i).getMessageHandler().getPlayerManager(nickname);
-                                playerManager.getPingSender().setConnected(true);
-                                /**todo**/ //gli invio l'update?
-                           /* }
-                        }
-                     */
-                    //si è riconnesso
-
-
 
             }else if(unknown.getMessageType() == TypeOfMessage.Ping){
                 PongMessage pongMessage = new PongMessage();
@@ -229,7 +215,6 @@ public class LobbyManager implements Runnable {
             }
         }
     }
-    //In case the serverSocket gets closed ( the break statement is called )
 
 
     /**

@@ -1,5 +1,11 @@
 package it.polimi.ingsw.server.controller.logic;
 
+/**
+ * Manages all the action phase in which the server interacts with the players to get therir choises about
+ * movements of pawns, mother nature's steps, clouds and character-card's effects.
+ * It returns actionResult.
+ */
+
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.server.controller.characters.Card5Effect;

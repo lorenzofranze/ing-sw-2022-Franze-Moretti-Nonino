@@ -1,5 +1,15 @@
 package it.polimi.ingsw.client.Controller;
 
+/**
+ * With connectToServer creates the input and output buffers and starts the ping thread
+ * As long as there is no disconnection, it calls readFromBuffer() so that it can add messages to the queue
+ * (or handle them without adding them to the queue in the case of Ping, Pong, Async)
+ * as soon as they arrive on the buffer.
+ * Other classes can call getReceivedMessage() to take the last message in the queue.
+ * Sends the messages passed as a parameter to the server.
+ * EndClient() is called by ClientApp when you need to close the client: it closes the input and output buffers.
+ */
+
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
@@ -135,20 +145,7 @@ public class NetworkHandler implements Runnable{
         out.flush();
     }
 
-    /*
-    public int reconnect(String nickname, GameMode gameMode) {
-        ConnectionMessage cm = new ConnectionMessage(nickname, gameMode);
-        String stringToSend = JsonConverter.fromMessageToJson(cm);
-        try {
-            out.write(stringToSend);
-            out.flush();
-        } catch (IOException e) {
-            System.out.println("ERROR-ClientMessageHandler-reconnect");
-            return 0;
-        }
-        return 1;
-    }
-    */
+
 
     /**
      * Is called by ClientApp when you need to close the client.

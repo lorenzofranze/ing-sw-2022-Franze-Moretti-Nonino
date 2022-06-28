@@ -1,5 +1,12 @@
 package it.polimi.ingsw.server.controller.network;
 
+/**
+ * There is one MessageHandler for each game. The PlayerManagerMap associates each player with his
+ * personal playerManager. The method readsFromBuffer() reads from the buffer and returns the corresponding string.
+ * It can be used to send broadcast messages.
+ * Sets to true or false the attribute isMyTurn in PlayerManager
+ */
+
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
@@ -23,7 +30,7 @@ public class MessageHandler {
 
     /**
      * There is one MessageHandler for each game. The PlayerManagerMap associates each player with his
-     * personal playerManager
+     * personal playerManager and takes the list of players and threads from the lobby
      * @param lobby
      */
     public MessageHandler(Lobby lobby){
@@ -55,7 +62,7 @@ public class MessageHandler {
     /**
      * Reads from the buffer and returns the corresponding string
      * @param nickname
-     * @return
+     * @return String
      */
     private String readFromBuffer(String nickname){
         BufferedReader in = playerManagerMap.get(nickname).getBufferedReaderIn();

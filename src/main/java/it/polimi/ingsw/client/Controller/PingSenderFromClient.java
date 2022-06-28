@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client.Controller;
 
+/**
+ * Manage the connection whit the server.
+ * When a disconnection is detected, the PingSender stops and closes the connection.
+ */
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.PingMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
@@ -20,11 +24,11 @@ public class PingSenderFromClient implements Runnable {
 
     /**
      * Sends a ping message and waits for PING_TIMEOUT seconds,
-     *      * in the meanwhile, networkHandler, if receives a pong, will call setPingConnected(true)
-     *      * -- if this happens and there are no disconnection problems it will repeat everything;
-     *      * -- if it does not receive a pong, it stops the loop and calls ClientController.setDisconnected();
-     *      * -- if there are other disconnection problems, if not already true, it calls ClientController.setDisconnected()
-     *      * and returns.
+     * in the meanwhile, networkHandler, if receives a pong, will call setPingConnected(true)
+     * -- if this happens and there are no disconnection problems it will repeat everything;
+     * -- if it does not receive a pong, it stops the loop and calls ClientController.setDisconnected();
+     * -- if there are other disconnection problems, if not already true, it calls ClientController.setDisconnected()
+     * and returns.
      */
     @Override
     public void run() {

@@ -1,5 +1,11 @@
 package it.polimi.ingsw.server.controller.logic;
 
+/**
+ * Manages all the SetUpPhase phase in which the server sets up the game. It is done just once per Game,
+ * when the Game starts.
+ * It returns SetUpResult.
+ */
+
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.server.controller.characters.*;

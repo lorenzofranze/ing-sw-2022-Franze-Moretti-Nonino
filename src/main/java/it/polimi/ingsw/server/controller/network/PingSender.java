@@ -1,7 +1,14 @@
 
 package it.polimi.ingsw.Server.Controller.Network;
 
-
+/**
+ * Manage the connection whit the associated player.
+ * Initially, before the player has choosen his nickname the player has an " invalidNickname ".
+ * Then setPlayerNickname() sets the correct nickname.
+ * This is done in order to detect disconnection also before the moment in which the player has choosen his nickname.
+ * When a disconnection is detected, the PingSender stops and closes the connection of that player.
+ *
+ */
 
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
@@ -64,22 +71,10 @@ public class PingSender implements Runnable{
             if (playerManager.getConnected() == false) {
                 System.out.println("Il ping del client " + playerNickname + " non è più arrivato al server");
                 break;
-                /*
-                //RESILIENZA ALLE DISCONNESSIONI
 
-                LobbyManager lobbyManager = LobbyManager.getInstance();
-                lobbyManager.addDisconnectedPlayers(playerNickname);
-                try {
-                    Thread.sleep(RECONNECTION_TIMEOUT);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                */
 
             }
         }
-            // se arriva il pong, player manager (o nel caso di resilienza, il lobby manager)
-            // setta isconnected a true e continua il while
 
         //SE ARRIVO QUI è DISCONNESSO
         if(!playerManager.getCloseConnectionBeenCalled()) {

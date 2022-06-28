@@ -1,5 +1,14 @@
 package it.polimi.ingsw.client.Controller;
 
+/**
+ * Checks form the last update in which Phase the game is currently in (Pianification or Action) and calls the
+ * correct play method: playPianification or playAction.
+ * It calls the correct method in the view. Theese method sets values to the attribute of the Console.
+ * The Console read the attributes and sends to the server the moves the player has chosen. It also calls
+ * networkHandler.getReceivedMessage() to understand the rensponse of the server and according to it it asks the
+ * player to change decision or go on with the phases of the game.
+ */
+
 import it.polimi.ingsw.client.View.CLIView;
 import it.polimi.ingsw.client.View.View;
 import it.polimi.ingsw.common.gamePojo.*;

@@ -1,5 +1,14 @@
 package it.polimi.ingsw.server.model;
 
+/**
+ * When it is created, creates the istances of the elements of the model that compose the game.
+ * Has useful method for
+ * -the management of the changings in the game such as unifyIslands, findMotherNature and reassignProfessors
+ * - methods useful to describe those elements: cloudsToString, islandsToString
+ * - methods useful to get the indexes of those elements: getIslandOfIndex
+ * - methods useful to get those elements from the indexes:getCharacterStateByID
+ */
+
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.common.gamePojo.ColourWizard;

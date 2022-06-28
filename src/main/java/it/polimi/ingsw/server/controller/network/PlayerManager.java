@@ -1,4 +1,23 @@
 package it.polimi.ingsw.server.controller.network;
+/**
+ * There is one PlayerManager for each player. Its function is to manage the messages arriving from the player
+ * using a queue and to send the messages to that player.
+ * The pingThread starts working even before the player chooses his nickname so that disconnections
+ * can be detected also during the phases that come before the start of the game.
+ * The method run() is a "while loop" that keeps looping until the game is set to stop or a disconnection has been detected.
+ * run() calls readFromBuffer() and, according to the type of message read, it reacts:
+ * - AsyncMessage --> disconnect players.
+ * - PongMessage --> correct connection
+ * - PingMessage --> answer with Pong
+ * - Unexpected GameMessage --> answer with Error
+ * - otherwise: add the message to the message queue.
+ * When the GameController needs to read a message during one of its phases, it calls readMessage():
+ * this method reads the last message of the queue: if it is of the type expected it return the message
+ * otherwise it sends an errorGameMessage to the client and it reads the last message of the queue again
+ * until it finds the message it is waiting for.
+ * When other classes want to send a message to the player associated with the playerManager, they call
+ * sendMessage(message) that converts the message into a jsonString using jsonConverter and then sends it.
+ **/
 
 import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.common.messages.JsonConverter;
@@ -31,8 +50,7 @@ public class PlayerManager implements Runnable{
     private boolean closeConnectionBeenCalled;
 
     /**
-     * There is one PlayerManager for each player. Its function is to manage the messages arriving from the player
-     * using a queue and to send the messages to that player.
+     * Starts the pingThread.
      * The pingThread starts working even before the player chooses his nickname so that disconnections
      * can be detected also during the phases that come before the start of the game
      * @param bufferedReaderIn

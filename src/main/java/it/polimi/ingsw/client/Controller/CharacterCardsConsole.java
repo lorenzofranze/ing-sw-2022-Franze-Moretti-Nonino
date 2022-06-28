@@ -1,5 +1,12 @@
 package it.polimi.ingsw.client.Controller;
 
+/**
+ * Handles the game when a character card is active:
+ * calls the correct method according to the character card id.
+ * The methods, like the ones in the Console-class, call the correct method in the view. The method
+ * in the view set values to the attribute of the Console.
+ * */
+
 import it.polimi.ingsw.client.View.View;
 import it.polimi.ingsw.common.messages.*;
 
@@ -16,7 +23,7 @@ public class CharacterCardsConsole {
 
 
     /**
-     * Chooses the effect to play accordinf to the character card id
+     * Chooses the effect to play according to the character card id
      * @param id
      */
     public void playEffect(int id){

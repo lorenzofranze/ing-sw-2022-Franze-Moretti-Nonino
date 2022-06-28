@@ -1,5 +1,16 @@
 package it.polimi.ingsw.server.controller.network;
 
+/**
+ * The lobbies are created from LobbyManager-class when a player wants to enter in it.
+ * LobbyManager-class keeps trak of the waiting-lobbies.
+ * There are at most one lobby per type in the waiting-lobbies list of LobbyManager because they are created when a player
+ * wants to join it and they are removed from the list when they ged filled.
+ * If a player waiting for other player in the lobby disconnects, it must be removed from the lobby with
+ * removeDisconnectedPlayer()-method. The lobby is given as parameter when a GameController is created so that it learns
+ * about the informations contained in its three attributes: usersReadyToPlaySocket, usersPlayerManager
+ * and playerManagerThreads
+ */
+
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
 import java.io.BufferedReader;

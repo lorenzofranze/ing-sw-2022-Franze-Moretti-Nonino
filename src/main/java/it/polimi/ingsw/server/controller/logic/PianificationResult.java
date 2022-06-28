@@ -1,5 +1,10 @@
 package it.polimi.ingsw.server.controller.logic;
 
+/**
+ * Useful to give to the Action phase the informations about the maximumMovements of mother nature and turnOrder
+ * calculated according to the assistant card chosen by the players in the previous PianificationPhase
+ */
+
 import it.polimi.ingsw.server.model.Player;
 
 import java.util.ArrayList;

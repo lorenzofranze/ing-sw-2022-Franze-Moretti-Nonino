@@ -1,5 +1,11 @@
 package it.polimi.ingsw.server.controller.logic;
 
+/**
+ * There is one GameController to manage each game.
+ * It executes once the setup-phase and loops in executing the pianification and the action phases.
+ * It manages the gameOver.
+ */
+
 import it.polimi.ingsw.common.gamePojo.*;
 import it.polimi.ingsw.common.messages.AckMessage;
 import it.polimi.ingsw.common.messages.JsonConverter;

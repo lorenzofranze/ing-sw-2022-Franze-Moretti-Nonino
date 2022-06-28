@@ -2,6 +2,12 @@ package it.polimi.ingsw.server.controller.logic;
 
 import it.polimi.ingsw.server.model.Player;
 
+/**
+ * Useful to give to the Pianification phase the informations about the firstPianificationPlayer,
+ * finishedTowers and threeOrLessIslands
+ * calculated in the previous ActionPhase
+ */
+
 public class ActionResult {
 
     private Player firstPianificationPlayer;

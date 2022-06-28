@@ -1,5 +1,10 @@
 package it.polimi.ingsw.server.controller.logic;
 
+/**
+ * Useful to give to the Pianification phase the informations about the firstRandomPianificationPlayer calculated in the
+ * previous SetUpPhase
+ */
+
 import it.polimi.ingsw.server.model.Player;
 
 public class SetUpResult {

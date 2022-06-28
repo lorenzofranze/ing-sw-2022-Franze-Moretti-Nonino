@@ -1,5 +1,12 @@
 package it.polimi.ingsw.client.Controller;
 
+/**
+ * The thread is invoked by ClientApp.
+ * The three methods connect, waitForOtherPlayers and waitForFirstGameState are useful for the first part of the game.
+ * Then, once the first update arrives from the server, until the game is not over and until errors of disconnection
+ * have not been received, if the message arrived is of type update(), invokes console.play().
+ **/
+
 
 import it.polimi.ingsw.client.View.*;
 import it.polimi.ingsw.client.View.GUI.GUIView;

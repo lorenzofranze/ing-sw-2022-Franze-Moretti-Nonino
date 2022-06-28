@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.*;
 
+/**
+ * Manages all the pianification phase in which the server interacts with the players to get therir choises about
+ * assistant cards.
+ * It returns PianificationResult.
+ */
 public class PianificationPhase extends GamePhase {
 
     private GameController gameController;

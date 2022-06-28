@@ -31,7 +31,7 @@ public class ClientApp{
 
         if (args.length == 0) {
             serverIp = "localhost";
-            serverPort = 32502;
+            serverPort = 35002;
             typeOfView = "gui";
         } else {
             typeOfView = args[0];
