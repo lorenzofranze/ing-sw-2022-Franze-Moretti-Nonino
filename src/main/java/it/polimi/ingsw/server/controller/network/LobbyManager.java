@@ -35,7 +35,7 @@ public class LobbyManager implements Runnable {
         this.waitingLobbies = new HashMap<>();
         this.serverController = ServerController.getInstance();
         this.disconnectedPlayers = new ArrayList<>();
-        this.lobbyPortNumber = lobbyPortNumber;
+
 
 
         while(!portAvailable) {
@@ -56,6 +56,12 @@ public class LobbyManager implements Runnable {
         if (lobbyManager == null) {
             lobbyManager = new LobbyManager(lobbyPortNumber);
         }
+        return lobbyManager;
+    }
+
+
+    /** can be called only after lobbyManager first creation **/
+    public static LobbyManager getInstance(){
         return lobbyManager;
     }
 
@@ -256,5 +262,8 @@ public class LobbyManager implements Runnable {
         this.disconnectedPlayers.add(disconnectedPlayer);
     }
 
+    public Map<GameMode, Lobby> getWaitingLobbies() {
+        return waitingLobbies;
+    }
 }
 

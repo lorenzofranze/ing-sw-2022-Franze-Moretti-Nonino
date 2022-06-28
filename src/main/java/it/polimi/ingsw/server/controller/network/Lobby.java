@@ -59,6 +59,17 @@ public class Lobby {
         }
     }
 
+    /**
+     * If a player disconnect while waiting in the lobby,
+     * he must be removed from the (uncomplete)-lobby
+     * @param playerNickname
+     */
+    public void removeDisconnectedPlayer(String playerNickname){
+        usersReadyToPlaySocket.remove(playerNickname);
+        playerManagerThreads.remove(usersPlayerManager.get(playerNickname));
+        usersPlayerManager.remove(playerNickname);
+    }
+
     public Map<String, PlayerManager> getUsersPlayerManager() {
         return usersPlayerManager;
     }

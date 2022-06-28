@@ -33,7 +33,7 @@ public class GUIView implements View {
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Closed while choosing game mode");
         }
     }
 
@@ -49,7 +49,7 @@ public class GUIView implements View {
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Closed while choosing nickname");
         }
 
     }
@@ -66,7 +66,7 @@ public class GUIView implements View {
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Closed while choosing assistant card");
         }
     }
 
@@ -83,7 +83,7 @@ public class GUIView implements View {
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Closed while moving student");
         }
     }
 
@@ -101,7 +101,7 @@ public class GUIView implements View {
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Closed while placing mother nature");
         }
         GuiController.getInstance().setRunnable(()->GuiController.getInstance().changeCursor(0));
         GuiController.getInstance().runMethod();
@@ -122,7 +122,7 @@ public class GUIView implements View {
         try {
             ClientController.getSemaphore().acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Closed while choosing cloud");
         }
     }
 

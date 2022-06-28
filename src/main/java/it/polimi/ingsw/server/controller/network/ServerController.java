@@ -139,6 +139,16 @@ public class ServerController {
                 }
             }
         }
+        //if lobby==null: it is in a waiting-lobby
+        if(lobby==null){
+            LobbyManager lobbyManager=LobbyManager.getInstance();
+            for( Lobby waitingLobby: lobbyManager.getWaitingLobbies().values()){
+                if(waitingLobby.getUsersNicknames().contains(playerNickname)){
+                    waitingLobby.removeDisconnectedPlayer(playerNickname);
+                }
+            }
+
+        }
         if(messageHandler!=null) {
             //avvisa gli utenti che il gioco è finito per colpa di una disconnessione
             AsyncMessage asyncMessage = new AsyncMessage();
