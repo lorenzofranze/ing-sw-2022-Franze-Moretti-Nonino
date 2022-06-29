@@ -15,6 +15,8 @@ import java.util.Scanner;
 
 public class SavingsMenu {
 
+    private int gameControllerID = 1;
+
     private HashMap<Integer, List<String>> gamesMap = new HashMap<>();
 
     public HashMap<Integer, List<String>> getGamesMap() {
@@ -94,6 +96,34 @@ public class SavingsMenu {
         }
     }
 
+    public void removeGame(Integer k){
+        if (this.gamesMap.get(k) != null){
+            this.gamesMap.remove(k);
+            try {
+                String currentPath = new File(".").getCanonicalPath();
+                String fileName = currentPath + "/src/main/Resources/savings/Game"+k+".txt";
+                File file = new File(fileName);
+                file.delete();
+            } catch (IOException e ){
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            String currentPath = new File(".").getCanonicalPath();
+            String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+            File file = new File(fileName);
+            file.createNewFile();
+            String dataString = JsonConverter.fromSavingsMenuToJson(this);
+            FileOutputStream outputStream = new FileOutputStream(file, false);
+            byte[] strToBytes = dataString.getBytes();
+            outputStream.write(strToBytes);
+            outputStream.close();
+        } catch (IOException e ){
+            e.printStackTrace();
+        }
+    }
+
     public Saving getSavingFromNicknames(List<String> players){
         Integer gameId;
         Saving saving;
@@ -142,5 +172,13 @@ public class SavingsMenu {
         saving = JsonConverter.fromJsonToSaving(data);
 
         return saving;
+    }
+
+    public int getGameControllerID() {
+        return gameControllerID;
+    }
+
+    public void setGameControllerID(int gameControllerID) {
+        this.gameControllerID = gameControllerID;
     }
 }

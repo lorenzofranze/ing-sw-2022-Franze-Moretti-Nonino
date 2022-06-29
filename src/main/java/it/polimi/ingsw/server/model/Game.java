@@ -94,9 +94,9 @@ public class Game {
 
         Collections.shuffle(temp);
 
-        characterStates.add(new CharacterState(6, 3));
-        characterStates.add(new CharacterStateStudent(7, 1));
-        characterStates.add(new CharacterState(8, 2));
+        characterStates.add(new CharacterStateStudent(1, 1));
+        characterStates.add(new CharacterState(3, 3));
+        characterStates.add(new CharacterState(4, 1));
 
 
         this.coinSupply = 20;

@@ -62,9 +62,11 @@ public class GameController implements Runnable  {
      * @param expert
      */
     public GameController(Lobby lobby, boolean expert){
-        this.game=new Game(lobby.getUsersNicknames(), this.gameID);
         this.expert=expert;
+        this.gameID = ServerController.getInstance().getSavingsMenu().getGameControllerID();
+        this.game=new Game(lobby.getUsersNicknames(), this.gameID);
         this.gameID ++;
+        ServerController.getInstance().getSavingsMenu().setGameControllerID(this.gameID);
         this.characterEffects = new ArrayList<>();
         this.lobby=lobby;
         this.messageHandler= new MessageHandler(lobby);
@@ -75,6 +77,7 @@ public class GameController implements Runnable  {
     }
 
     public GameController(Lobby lobby, Saving saving){
+        gameID = ServerController.getInstance().getSavingsMenu().getGameControllerID();
         this.bornFromSaving = true;
         this.game=saving.getGameStatePojo().getGame();
         this.expert=saving.isExpert();
@@ -241,6 +244,7 @@ public class GameController implements Runnable  {
 
         update(); // last update: game ended and winner setted
 
+        ServerController.getInstance().getSavingsMenu().removeGame(this.game.getGameId());
         ServerController.getInstance().setToStop(this.getGameID());
     }
 
@@ -290,6 +294,7 @@ public class GameController implements Runnable  {
 
                 update(); // last update: game ended and winner setted
 
+                ServerController.getInstance().getSavingsMenu().removeGame(this.game.getGameId());
                 ServerController.getInstance().setToStop(this.getGame().getGameId());
                 break;
         }
@@ -335,6 +340,7 @@ public class GameController implements Runnable  {
 
             update(); // last update: game ended and winner setted
 
+            ServerController.getInstance().getSavingsMenu().removeGame(this.game.getGameId());
             ServerController.getInstance().setToStop(this.getGame().getGameId());
         }
 
