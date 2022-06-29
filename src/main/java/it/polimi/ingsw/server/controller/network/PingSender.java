@@ -1,15 +1,6 @@
 
 package it.polimi.ingsw.Server.Controller.Network;
 
-/**
- * Manage the connection whit the associated player.
- * Initially, before the player has choosen his nickname the player has an " invalidNickname ".
- * Then setPlayerNickname() sets the correct nickname.
- * This is done in order to detect disconnection also before the moment in which the player has choosen his nickname.
- * When a disconnection is detected, the PingSender stops and closes the connection of that player.
- *
- */
-
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.PingMessage;
@@ -21,7 +12,14 @@ import it.polimi.ingsw.server.controller.network.ServerController;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-
+/**
+ * Manage the connection whit the associated player.
+ * Initially, before the player has choosen his nickname the player has an " invalidNickname ".
+ * Then setPlayerNickname() sets the correct nickname.
+ * This is done in order to detect disconnection also before the moment in which the player has choosen his nickname.
+ * When a disconnection is detected, the PingSender stops and closes the connection of that player.
+ *
+ */
 public class PingSender implements Runnable{
     //1 minute ping timeout
     private final static int PING_TIMEOUT= 10000;

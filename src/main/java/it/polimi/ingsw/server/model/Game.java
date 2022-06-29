@@ -1,5 +1,12 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.gamePojo.ColourPawn;
+import it.polimi.ingsw.common.gamePojo.ColourTower;
+import it.polimi.ingsw.common.gamePojo.ColourWizard;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * When it is created, creates the istances of the elements of the model that compose the game.
  * Has useful method for
@@ -8,15 +15,6 @@ package it.polimi.ingsw.server.model;
  * - methods useful to get the indexes of those elements: getIslandOfIndex
  * - methods useful to get those elements from the indexes:getCharacterStateByID
  */
-
-import it.polimi.ingsw.common.gamePojo.ColourPawn;
-import it.polimi.ingsw.common.gamePojo.ColourTower;
-import it.polimi.ingsw.common.gamePojo.ColourWizard;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-
 public class Game {
 
     private Integer gameId;
@@ -39,7 +37,7 @@ public class Game {
     private List<CharacterState> characterStates;
 
     /**
-     * Creates 12 islands; creates n clouds where n is the lenght of List<Player>;
+     * Creates 12 islands; creates n clouds where n is the lenght of list-players;
      * fills studentBag with 130 students; fills professorsLeft with all 5 professors;
      * in case of complex game fills coin supply with 20 and selects 3 character randomly*/
     public Game(List<String> players, Integer gameId){
@@ -91,12 +89,12 @@ public class Game {
 
         characterStates = new ArrayList<>();
 
-
         Collections.shuffle(temp);
 
-        characterStates.add(new CharacterStateStudent(1, 1));
-        characterStates.add(new CharacterState(3, 3));
-        characterStates.add(new CharacterState(4, 1));
+        characterStates.add(temp.get(0));
+        characterStates.add(temp.get(1));
+        characterStates.add(temp.get(2));
+
 
 
         this.coinSupply = 20;

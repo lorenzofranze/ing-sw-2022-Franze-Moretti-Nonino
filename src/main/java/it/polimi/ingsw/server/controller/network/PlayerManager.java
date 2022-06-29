@@ -1,4 +1,21 @@
 package it.polimi.ingsw.server.controller.network;
+
+import it.polimi.ingsw.client.Controller.ClientController;
+import it.polimi.ingsw.common.messages.JsonConverter;
+import it.polimi.ingsw.common.messages.*;
+import it.polimi.ingsw.server.controller.logic.GameController;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player;
+
+import java.io.*;
+import java.net.Socket;
+import java.net.SocketException;
+import java.sql.Connection;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import it.polimi.ingsw.Server.Controller.Network.PingSender;
+
 /**
  * There is one PlayerManager for each player. Its function is to manage the messages arriving from the player
  * using a queue and to send the messages to that player.
@@ -18,23 +35,6 @@ package it.polimi.ingsw.server.controller.network;
  * When other classes want to send a message to the player associated with the playerManager, they call
  * sendMessage(message) that converts the message into a jsonString using jsonConverter and then sends it.
  **/
-
-import it.polimi.ingsw.client.Controller.ClientController;
-import it.polimi.ingsw.common.messages.JsonConverter;
-import it.polimi.ingsw.common.messages.*;
-import it.polimi.ingsw.server.controller.logic.GameController;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Player;
-
-import java.io.*;
-import java.net.Socket;
-import java.net.SocketException;
-import java.sql.Connection;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import it.polimi.ingsw.Server.Controller.Network.PingSender;
-
 public class PlayerManager implements Runnable{
     private LinkedBlockingQueue<Message> messageQueue;
     //private boolean characterReceived=false;
@@ -240,7 +240,7 @@ public class PlayerManager implements Runnable{
      * It reads the last message of the queue: if it is of the type expected it return the message
      * otherwise it sends an errorGameMessage to the client and it reads the last message of the queue again
      * until it finds the message it is waiting for
-     * @param typeOfMessage
+     *
      * @return
      */
     public Message readMessage(TypeOfMessage expectedTypeOfMessage, Object specificTypeOfMessage) {

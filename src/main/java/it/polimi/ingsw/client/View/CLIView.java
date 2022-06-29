@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.Scanner;
 
+/** Methods in this class are called by Console class when it's time that a player do a move: theese methods are
+ * blockers. Other methods in this class show on the terminal game's state and messages if needed
+ */
 public class CLIView implements View {
     private Stage currentStage=null;
     private Scanner scanner = new Scanner(System.in);

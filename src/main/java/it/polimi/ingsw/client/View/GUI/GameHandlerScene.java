@@ -232,8 +232,12 @@ public class GameHandlerScene {
             } else {
                 result = ClientController.getInstance().getGameStatePojo().getIslands().size() - posMotherNature + islandId;
             }
-
-            if(result==0 || result > ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature()){
+            int moreSteps=0;
+            if(ClientController.getInstance().getGameStatePojo().getActiveEffect()!=null){
+                if(ClientController.getInstance().getGameStatePojo().getActiveEffect().getCharacterId()==4)
+                    moreSteps=2;
+            }
+            if(result==0 || result > ClientController.getInstance().getGameStatePojo().getCurrentPlayer().getPlayedAssistantCard().getMovementsMotherNature()+moreSteps){
                 GuiController.getInstance().setRunnable(runnableInvalidChoise);
                 GuiController.getInstance().runMethod();
                 motherNatureError=true;

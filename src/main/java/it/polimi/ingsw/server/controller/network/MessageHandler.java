@@ -1,12 +1,5 @@
 package it.polimi.ingsw.server.controller.network;
 
-/**
- * There is one MessageHandler for each game. The PlayerManagerMap associates each player with his
- * personal playerManager. The method readsFromBuffer() reads from the buffer and returns the corresponding string.
- * It can be used to send broadcast messages.
- * Sets to true or false the attribute isMyTurn in PlayerManager
- */
-
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
 import it.polimi.ingsw.common.messages.TypeOfMessage;
@@ -15,7 +8,12 @@ import it.polimi.ingsw.server.model.Player;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-
+/**
+ * There is one MessageHandler for each game. The PlayerManagerMap associates each player with his
+ * personal playerManager. The method readsFromBuffer() reads from the buffer and returns the corresponding string.
+ * It can be used to send broadcast messages.
+ * Sets to true or false the attribute isMyTurn in PlayerManager
+ */
 public class MessageHandler {
     Scanner scanner = new Scanner(System.in);
     public int value;

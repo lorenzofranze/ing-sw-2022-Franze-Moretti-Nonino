@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.gamePojo.PlayerPojo;
 import it.polimi.ingsw.common.messages.*;
 import javafx.stage.Stage;
 
+/**this interface is implemented by CLI and GUI as needed*/
 public interface View{
 
 

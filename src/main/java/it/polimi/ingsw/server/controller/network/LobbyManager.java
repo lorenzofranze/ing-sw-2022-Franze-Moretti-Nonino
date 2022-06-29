@@ -1,5 +1,17 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.common.messages.JsonConverter;
+import it.polimi.ingsw.server.controller.logic.GameMode;
+import it.polimi.ingsw.common.messages.*;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.Server.Controller.Network.PingSender;
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * The server listen for clients.
  * When the lobbyServerSocket accept new connections, welcomeNewPlayers creates a thread of Lobby manager and
@@ -14,19 +26,6 @@ package it.polimi.ingsw.server.controller.network;
  * --> if the lobby gets full, calls serverController.startGame(waitingLobbies.get(mode)) and removes the lobby from
  *      the list of waiting lobbies
  */
-
-import it.polimi.ingsw.common.messages.JsonConverter;
-import it.polimi.ingsw.server.controller.logic.GameMode;
-import it.polimi.ingsw.common.messages.*;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.Server.Controller.Network.PingSender;
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 public class LobbyManager implements Runnable {
     private Map<GameMode, Lobby> waitingLobbies;
     private ServerController serverController;
@@ -40,6 +39,7 @@ public class LobbyManager implements Runnable {
 
     private LobbyManager(int lobbyPortNumber) {
         System.out.println("porta server "+lobbyPortNumber);
+        this.lobbyPortNumber=lobbyPortNumber;
         boolean portAvailable=false;
         this.waitingLobbies = new HashMap<>();
         this.serverController = ServerController.getInstance();

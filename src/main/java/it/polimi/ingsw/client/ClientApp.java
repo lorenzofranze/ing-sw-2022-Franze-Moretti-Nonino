@@ -9,6 +9,7 @@ import it.polimi.ingsw.common.messages.TypeOfError;
 
 import java.io.IOException;
 
+/**class where is located the Main to start the client*/
 public class ClientApp{
 
     private static View view;

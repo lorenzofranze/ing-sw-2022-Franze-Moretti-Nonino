@@ -1014,6 +1014,14 @@ public class GuiController extends Application {
         Spinner spinner = (Spinner) ((AnchorPane) ((DialogPane)root).getContent()).getChildren().get(1);
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, num==7 ? 3 : 2));
 
+        Consumer<Boolean> consumerInvalidChoise = (ok) -> {
+            Platform.runLater(() -> {
+                if (!ok) {
+                    alert.close();
+                }
+            });
+        };
+        ClientController.getInstance().getView().setInvalidChoiseObserver(consumerInvalidChoise);
         Consumer<Boolean> correctMoveConsumer = (ok)->{
             Platform.runLater(() -> {
                 if (ok) {

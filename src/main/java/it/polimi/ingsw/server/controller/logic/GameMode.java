@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.logic;
 
+
 public enum GameMode {
     Simple_2(2, false), Simple_3(3, false),
     Complex_2(2, true), Complex_3(3, true);

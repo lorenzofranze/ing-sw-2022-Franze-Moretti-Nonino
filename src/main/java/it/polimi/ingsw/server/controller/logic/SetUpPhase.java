@@ -1,19 +1,15 @@
 package it.polimi.ingsw.server.controller.logic;
-
-/**
- * Manages all the SetUpPhase phase in which the server sets up the game. It is done just once per Game,
- * when the Game starts.
- * It returns SetUpResult.
- */
-
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.server.controller.characters.*;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.CharacterState;
-
 import java.util.*;
-
+/**
+ * Manages all the SetUpPhase phase in which the server sets up the game. It is done just once per Game,
+ * when the Game starts.
+ * It returns SetUpResult.
+ */
 public class SetUpPhase extends GamePhase {
     private final GameController gameController;
 
@@ -53,19 +49,12 @@ public class SetUpPhase extends GamePhase {
      */
 
     private void distributeCoins() {
+
         for (Player player : this.gameController.getGame().getPlayers()) {
             player.addCoins(1);
             this.gameController.getGame().removeCoins(1);
         }
 
-
-        /*
-        int i =0;
-        for (Player player : this.gameController.getGame().getPlayers()) {
-            player.addCoins(4-i);
-            this.gameController.getGame().removeCoins(4-i);
-            i++;
-        }*/
     }
 
     /**

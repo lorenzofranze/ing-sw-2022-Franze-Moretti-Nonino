@@ -1,10 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-/* ho tolto i riferimenti a controller perchè se servono 6
-* torri nella setup phase verrà chimato il metodo removeTowers
-* per toglierne 2
- */
-
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 
 public class SchoolBoard {

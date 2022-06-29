@@ -1,17 +1,5 @@
 package it.polimi.ingsw.server.controller.network;
 
-/**
- * There is just one instance of ServerController and it is created by ServerApp-class.
- * ServerApp calls turnOn: a lobbyManager (unique) is created and begins to welcome players to the game.
- * When a lobby is full, a new game controller is created and the game is put in the currentGames list
- * and the game starts.
- * It manages the closure of connection:
- * - firstly, finds the lobby that hosts the player who has disconnected from the game (or the waiting lobby of the player)
- * - secondly, notifies all the other player about the imminent end of the connection
- * - then, removes the game of the list of current-games (or the player from the waiting-lobby), sets game over to true and
- *   closes the sokets of all the players of a game
- */
-
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameController;
 import it.polimi.ingsw.server.controller.persistence.Saving;
@@ -28,7 +16,17 @@ import java.nio.file.FileSystemNotFoundException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+/**
+ * There is just one instance of ServerController and it is created by ServerApp-class.
+ * ServerApp calls turnOn: a lobbyManager (unique) is created and begins to welcome players to the game.
+ * When a lobby is full, a new game controller is created and the game is put in the currentGames list
+ * and the game starts.
+ * It manages the closure of connection:
+ * - firstly, finds the lobby that hosts the player who has disconnected from the game (or the waiting lobby of the player)
+ * - secondly, notifies all the other player about the imminent end of the connection
+ * - then, removes the game of the list of current-games (or the player from the waiting-lobby), sets game over to true and
+ *   closes the sokets of all the players of a game
+ */
 public class ServerController {
 
     ///////////////////////////////////////// THREAD POOL //////////////////////////////////

@@ -1,5 +1,14 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.server.controller.logic.GameMode;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * The lobbies are created from LobbyManager-class when a player wants to enter in it.
  * LobbyManager-class keeps trak of the waiting-lobbies.
@@ -10,17 +19,6 @@ package it.polimi.ingsw.server.controller.network;
  * about the informations contained in its three attributes: usersReadyToPlaySocket, usersPlayerManager
  * and playerManagerThreads
  */
-
-import it.polimi.ingsw.server.controller.logic.GameMode;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Lobby {
     // string è nickname
     private Map<String, Socket> usersReadyToPlaySocket;

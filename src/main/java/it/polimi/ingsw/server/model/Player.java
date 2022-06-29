@@ -4,11 +4,6 @@ import it.polimi.ingsw.common.gamePojo.*;
 
 import java.util.*;
 
-/* tolti riferimenti a controller perchè
-* se è in modalità complex nella setup phase
-* incremento direttamente di 1 il numero di monete
-* di ogni player
- */
 public class Player {
     private final String nickname;
     private final SchoolBoard schoolBoard;
