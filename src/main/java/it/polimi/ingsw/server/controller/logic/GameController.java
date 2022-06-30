@@ -556,7 +556,7 @@ public class GameController implements Runnable  {
 
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/Game" + game.getGameId() + ".txt";
+            String fileName = currentPath + "/savings/Game" + game.getGameId() + ".txt";
             File file = new File(fileName);
             file.createNewFile();
             String dataString = JsonConverter.fromSavingToJson(this.getSaving());

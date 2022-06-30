@@ -97,7 +97,7 @@ public class SavingsMenu {
 
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+            String fileName = currentPath + "/savings/SavingsMenu.txt";
             File file = new File(fileName);
             file.createNewFile();
             String dataString = JsonConverter.fromSavingsMenuToJson(this);
@@ -119,7 +119,7 @@ public class SavingsMenu {
             this.gamesMap.remove(k);
             try {
                 String currentPath = new File(".").getCanonicalPath();
-                String fileName = currentPath + "/src/main/Resources/savings/Game"+k+".txt";
+                String fileName = currentPath + "/savings/Game"+k+".txt";
                 File file = new File(fileName);
                 file.delete();
             } catch (IOException e ){
@@ -129,7 +129,7 @@ public class SavingsMenu {
 
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+            String fileName = currentPath + "/savings/SavingsMenu.txt";
             File file = new File(fileName);
             file.createNewFile();
             String dataString = JsonConverter.fromSavingsMenuToJson(this);
@@ -155,7 +155,7 @@ public class SavingsMenu {
         String data = new String();
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+            String fileName = currentPath + "/savings/SavingsMenu.txt";
             File myObj = new File(fileName);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
@@ -178,7 +178,7 @@ public class SavingsMenu {
         data = new String();
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/Game" + gameId + ".txt";
+            String fileName = currentPath + "/savings/Game" + gameId + ".txt";
             File myObj = new File(fileName);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {

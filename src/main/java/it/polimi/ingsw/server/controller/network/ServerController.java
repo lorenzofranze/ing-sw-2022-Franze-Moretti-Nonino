@@ -50,7 +50,7 @@ public class ServerController {
         String data = new String();
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+            String fileName = currentPath + "/savings/SavingsMenu.txt";
             File myObj = new File(fileName);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
@@ -65,7 +65,7 @@ public class ServerController {
             //Creation of a file containing savingsMenu
             try {
                 String currentPath = new File(".").getCanonicalPath();
-                String fileName = currentPath + "/src/main/Resources/savings/SavingsMenu.txt";
+                String fileName = currentPath + "/savings/SavingsMenu.txt";
                 File file = new File(fileName);
                 file.createNewFile();
                 String dataString = JsonConverter.fromSavingsMenuToJson(this.savingsMenu);
