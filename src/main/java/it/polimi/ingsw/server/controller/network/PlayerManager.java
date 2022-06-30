@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import it.polimi.ingsw.Server.Controller.Network.PingSender;
+import it.polimi.ingsw.server.controller.network.PingSender;
 
 /**
  * There is one PlayerManager for each player. Its function is to manage the messages arriving from the player

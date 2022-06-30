@@ -4,7 +4,6 @@ import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.Server.Controller.Network.PingSender;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;

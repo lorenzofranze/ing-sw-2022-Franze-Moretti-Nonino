@@ -375,7 +375,7 @@ class GameControllerTest {
         gameController.save();
 
     }
-
+    /*
     @Test
     public void testBuilderFromSaving(){
         ArrayList<String> players = new ArrayList<>();
@@ -415,7 +415,7 @@ class GameControllerTest {
         GameController gameController1 = new GameController(lobby, saving);
 
         assertEquals(true, gameController1.equals(gameController));
-    }
+    }*/
 
 
 }

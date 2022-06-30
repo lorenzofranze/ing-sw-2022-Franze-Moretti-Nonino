@@ -1,5 +1,5 @@
 
-package it.polimi.ingsw.Server.Controller.Network;
+package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.Message;
