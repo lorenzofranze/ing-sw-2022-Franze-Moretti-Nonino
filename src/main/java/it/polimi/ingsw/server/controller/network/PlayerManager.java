@@ -49,13 +49,7 @@ public class PlayerManager implements Runnable{
     private transient boolean toStop=false;
     private boolean closeConnectionBeenCalled;
 
-    /**
-     * Starts the pingThread.
-     * The pingThread starts working even before the player chooses his nickname so that disconnections
-     * can be detected also during the phases that come before the start of the game
-     * @param bufferedReaderIn
-     * @param bufferedReaderOut
-     */
+
     public PlayerManager(BufferedReader bufferedReaderIn, BufferedWriter bufferedReaderOut) {
         this.playerNickname = " invalidNickname ";
         this.bufferedReaderIn=bufferedReaderIn;
@@ -64,11 +58,20 @@ public class PlayerManager implements Runnable{
         this.closeConnectionBeenCalled=false;
         this.connected=true;
         this.jsonConverter= new JsonConverter();
-        this.pingSender=new PingSender(this);
+
+    }
+
+    /**
+     * Starts the pingThread.
+     * The pingThread starts working even before the player chooses his nickname so that disconnections
+     * can be detected also during the phases that come before the start of the game
+     * @param pingSender
+     */
+    public void setAndStartPingSender(PingSender pingSender) {
+        this.pingSender = pingSender;
         this.pingThread= new Thread(pingSender);
         pingThread.start();
     }
-
 
 
     //called in messageHandler
@@ -368,4 +371,8 @@ public class PlayerManager implements Runnable{
     public BufferedReader getBufferedReaderIn() {
         return bufferedReaderIn;
     }
+
+
+
+
 }

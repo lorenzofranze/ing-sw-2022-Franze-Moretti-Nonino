@@ -128,6 +128,9 @@ public class LobbyManager implements Runnable {
             return;
         }
         PlayerManager playerManager=new PlayerManager(in, out);
+        playerManager.setAndStartPingSender(new PingSender(playerManager));
+
+
 
         validName = false;
         while (!validName) {
