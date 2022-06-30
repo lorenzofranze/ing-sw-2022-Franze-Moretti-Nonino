@@ -1,0 +1,10 @@
+{
+  "gameControllerID": 2,
+  "gamesMap": {
+    "1": [
+      "bk.jghk",
+      "vvvv",
+      "kjhkhjkj"
+    ]
+  }
+}

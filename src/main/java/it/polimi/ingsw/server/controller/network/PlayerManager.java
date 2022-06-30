@@ -67,7 +67,8 @@ public class PlayerManager implements Runnable{
      * can be detected also during the phases that come before the start of the game
      * @param pingSender
      */
-    public void setAndStartPingSender(PingSender pingSender) {
+    public void setAndStartPingSender() {
+        this.pingSender=new PingSender(this);
         this.pingSender = pingSender;
         this.pingThread= new Thread(pingSender);
         pingThread.start();

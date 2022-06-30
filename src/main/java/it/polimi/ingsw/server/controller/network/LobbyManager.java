@@ -127,8 +127,9 @@ public class LobbyManager implements Runnable {
             System.out.println("error in client IO");
             return;
         }
+
         PlayerManager playerManager=new PlayerManager(in, out);
-        playerManager.setAndStartPingSender(new PingSender(playerManager));
+        playerManager.setAndStartPingSender();
 
 
 

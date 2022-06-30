@@ -1,0 +1,592 @@
+{
+  "gameStatePojo": {
+    "gameId": 1,
+    "currentPlayerPojo": {
+      "nickname": "vvvv",
+      "schoolBoardPojo": {
+        "professors": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "diningRoom": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "entrance": {
+          "pawns": {
+            "Red": 1,
+            "Yellow": 2,
+            "Pink": 1,
+            "Green": 1,
+            "Blue": 4
+          }
+        },
+        "spareTowers": 6
+      },
+      "colourTower": "White",
+      "deck": [
+        {
+          "turnOrder": 4,
+          "movementsMotherNature": 2
+        },
+        {
+          "turnOrder": 5,
+          "movementsMotherNature": 3
+        },
+        {
+          "turnOrder": 3,
+          "movementsMotherNature": 2
+        },
+        {
+          "turnOrder": 10,
+          "movementsMotherNature": 5
+        },
+        {
+          "turnOrder": 8,
+          "movementsMotherNature": 4
+        },
+        {
+          "turnOrder": 6,
+          "movementsMotherNature": 3
+        },
+        {
+          "turnOrder": 1,
+          "movementsMotherNature": 1
+        },
+        {
+          "turnOrder": 7,
+          "movementsMotherNature": 4
+        },
+        {
+          "turnOrder": 9,
+          "movementsMotherNature": 5
+        },
+        {
+          "turnOrder": 2,
+          "movementsMotherNature": 1
+        }
+      ],
+      "wizard": "Yellow",
+      "coins": 1
+    },
+    "coinSupply": 17,
+    "islandPojos": [
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 1,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 1,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 1,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 1,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 1,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 1,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 1
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 1,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 1
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": false,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 1,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      },
+      {
+        "hasMotherNature": true,
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "towerCount": 0,
+        "numNoEntryTile": 0
+      }
+    ],
+    "studentsBag": {
+      "pawns": {
+        "Red": 19,
+        "Yellow": 20,
+        "Pink": 19,
+        "Green": 17,
+        "Blue": 18
+      }
+    },
+    "cloudPojos": [
+      {
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "cloudId": 0
+      },
+      {
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "cloudId": 1
+      },
+      {
+        "students": {
+          "pawns": {
+            "Red": 0,
+            "Yellow": 0,
+            "Pink": 0,
+            "Green": 0,
+            "Blue": 0
+          }
+        },
+        "cloudId": 2
+      }
+    ],
+    "professorsLeft": {
+      "pawns": {
+        "Red": 1,
+        "Yellow": 1,
+        "Pink": 1,
+        "Green": 1,
+        "Blue": 1
+      }
+    },
+    "characterPojos": [
+      {
+        "characterId": 5,
+        "actualCost": 2,
+        "incremented": false,
+        "numNoEntry": 4,
+        "description": "Place a No Entry tile on an Island of your choice. Choose an island  and the next time mother nature will stops on it, she will forget to calculate the influence on the  island"
+      },
+      {
+        "characterId": 9,
+        "actualCost": 3,
+        "incremented": false,
+        "description": "Choose a color of Student: during the influence calculation this turn, that color adds no influence."
+      },
+      {
+        "characterId": 6,
+        "actualCost": 3,
+        "incremented": false,
+        "description": "When resolving a Conquering on an Island, Towers do not count towards influence."
+      }
+    ],
+    "playerPojos": [
+      {
+        "nickname": "bk.jghk",
+        "schoolBoardPojo": {
+          "professors": {
+            "pawns": {
+              "Red": 0,
+              "Yellow": 0,
+              "Pink": 0,
+              "Green": 0,
+              "Blue": 0
+            }
+          },
+          "diningRoom": {
+            "pawns": {
+              "Red": 0,
+              "Yellow": 0,
+              "Pink": 0,
+              "Green": 0,
+              "Blue": 0
+            }
+          },
+          "entrance": {
+            "pawns": {
+              "Red": 3,
+              "Yellow": 0,
+              "Pink": 2,
+              "Green": 3,
+              "Blue": 1
+            }
+          },
+          "spareTowers": 6
+        },
+        "colourTower": "Black",
+        "deck": [
+          {
+            "turnOrder": 5,
+            "movementsMotherNature": 3
+          },
+          {
+            "turnOrder": 6,
+            "movementsMotherNature": 3
+          },
+          {
+            "turnOrder": 9,
+            "movementsMotherNature": 5
+          },
+          {
+            "turnOrder": 8,
+            "movementsMotherNature": 4
+          },
+          {
+            "turnOrder": 4,
+            "movementsMotherNature": 2
+          },
+          {
+            "turnOrder": 3,
+            "movementsMotherNature": 2
+          },
+          {
+            "turnOrder": 7,
+            "movementsMotherNature": 4
+          },
+          {
+            "turnOrder": 10,
+            "movementsMotherNature": 5
+          },
+          {
+            "turnOrder": 2,
+            "movementsMotherNature": 1
+          },
+          {
+            "turnOrder": 1,
+            "movementsMotherNature": 1
+          }
+        ],
+        "wizard": "Green",
+        "coins": 1
+      },
+      {
+        "nickname": "vvvv",
+        "schoolBoardPojo": {
+          "professors": {
+            "pawns": {
+              "Red": 0,
+              "Yellow": 0,
+              "Pink": 0,
+              "Green": 0,
+              "Blue": 0
+            }
+          },
+          "diningRoom": {
+            "pawns": {
+              "Red": 0,
+              "Yellow": 0,
+              "Pink": 0,
+              "Green": 0,
+              "Blue": 0
+            }
+          },
+          "entrance": {
+            "pawns": {
+              "Red": 1,
+              "Yellow": 2,
+              "Pink": 1,
+              "Green": 1,
+              "Blue": 4
+            }
+          },
+          "spareTowers": 6
+        },
+        "colourTower": "White",
+        "deck": [
+          {
+            "turnOrder": 6,
+            "movementsMotherNature": 3
+          },
+          {
+            "turnOrder": 4,
+            "movementsMotherNature": 2
+          },
+          {
+            "turnOrder": 7,
+            "movementsMotherNature": 4
+          },
+          {
+            "turnOrder": 5,
+            "movementsMotherNature": 3
+          },
+          {
+            "turnOrder": 10,
+            "movementsMotherNature": 5
+          },
+          {
+            "turnOrder": 3,
+            "movementsMotherNature": 2
+          },
+          {
+            "turnOrder": 9,
+            "movementsMotherNature": 5
+          },
+          {
+            "turnOrder": 8,
+            "movementsMotherNature": 4
+          },
+          {
+            "turnOrder": 2,
+            "movementsMotherNature": 1
+          },
+          {
+            "turnOrder": 1,
+            "movementsMotherNature": 1
+          }
+        ],
+        "wizard": "Yellow",
+        "coins": 1
+      },
+      {
+        "nickname": "kjhkhjkj",
+        "schoolBoardPojo": {
+          "professors": {
+            "pawns": {
+              "Red": 0,
+              "Yellow": 0,
+              "Pink": 0,
+              "Green": 0,
+              "Blue": 0
+            }
+          },
+          "diningRoom": {
+            "pawns": {
+              "Red": 0,
+              "Yellow": 0,
+              "Pink": 0,
+              "Green": 0,
+              "Blue": 0
+            }
+          },
+          "entrance": {
+            "pawns": {
+              "Red": 1,
+              "Yellow": 2,
+              "Pink": 2,
+              "Green": 3,
+              "Blue": 1
+            }
+          },
+          "spareTowers": 6
+        },
+        "colourTower": "Grey",
+        "deck": [
+          {
+            "turnOrder": 4,
+            "movementsMotherNature": 2
+          },
+          {
+            "turnOrder": 3,
+            "movementsMotherNature": 2
+          },
+          {
+            "turnOrder": 10,
+            "movementsMotherNature": 5
+          },
+          {
+            "turnOrder": 9,
+            "movementsMotherNature": 5
+          },
+          {
+            "turnOrder": 7,
+            "movementsMotherNature": 4
+          },
+          {
+            "turnOrder": 1,
+            "movementsMotherNature": 1
+          },
+          {
+            "turnOrder": 6,
+            "movementsMotherNature": 3
+          },
+          {
+            "turnOrder": 8,
+            "movementsMotherNature": 4
+          },
+          {
+            "turnOrder": 5,
+            "movementsMotherNature": 3
+          },
+          {
+            "turnOrder": 2,
+            "movementsMotherNature": 1
+          }
+        ],
+        "wizard": "Violet",
+        "coins": 1
+      }
+    ],
+    "currentPhase": "PIANIFICATION",
+    "gameOver": false,
+    "expert": true
+  },
+  "pianificationPhaseAssistantCard": false,
+  "pianificationPhaseStudentBag": false,
+  "actionMaximumMovements": {},
+  "actionTurnOrder": [],
+  "actionActionResultTowers": false,
+  "actionActionResultIslands": false,
+  "currentPhase": "PianificationPhase",
+  "actionResultTowers": false,
+  "actionResultIsland": false,
+  "pianificationResultAssistantCard": false,
+  "pianificationResultStudentBag": false,
+  "pianificationResultMaximumMovements": {},
+  "pianificationResultTurnOrder": [],
+  "gameOver": false,
+  "isLastRoundFinishedAssistantCards": false,
+  "isLastRoundFinishedStudentsBag": false,
+  "isFinishedTowers": false,
+  "isThreeOrLessIslands": false,
+  "expert": true,
+  "currentPlayerNickname": "vvvv",
+  "forceStop": false,
+  "gameBookMark": "startPianification"
+}
