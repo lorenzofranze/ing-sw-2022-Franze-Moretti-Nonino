@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.messages;
 
+/**
+ * Messages for errors
+ */
 public class ErrorMessage extends Message{
     private TypeOfError typeOfError;
     private String description;

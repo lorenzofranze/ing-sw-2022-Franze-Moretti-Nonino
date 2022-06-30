@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.messages;
 
+/**
+ * Messages for move-choices in the game
+ */
 public class GameMessage extends Message{
 
     private TypeOfMove typeOfMove;

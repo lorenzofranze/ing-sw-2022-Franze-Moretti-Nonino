@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.controller.persistence.Saving;
 import it.polimi.ingsw.server.controller.persistence.SavingsMenu;
 import it.polimi.ingsw.server.model.CharacterState;
 
+/**
+ * This class is used to convert messages into strings and viceversa using JsonConverter
+ */
 public class  JsonConverter {
     private static GsonBuilder builder = new GsonBuilder();
     private static Gson gson;

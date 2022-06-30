@@ -4,6 +4,11 @@ import it.polimi.ingsw.common.gamePojo.*;
 
 import java.util.*;
 
+/**
+ * This class contains information (and the related method to manage them) related to the player:
+ * the nickname the assistant card played in the pianification phase,
+ * the coins he owns, the remaining assistant card in his deck and the colour of its tower.
+ */
 public class Player {
     private final String nickname;
     private final SchoolBoard schoolBoard;
@@ -46,7 +51,7 @@ public class Player {
 
     }
 
-    /** select assistnt card with the card order in input */
+    /** select assistant card with the card order in input */
     public void playAssistantCard(int cardOrder){
         for (AssistantCard ac: deck){
             if (ac.getTurnOrder() == cardOrder){

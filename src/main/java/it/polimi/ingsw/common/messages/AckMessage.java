@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.messages;
 
+/**
+ * Messages for acks
+ */
 public class AckMessage extends Message{
     private TypeOfAck typeOfAck;
     private String description;

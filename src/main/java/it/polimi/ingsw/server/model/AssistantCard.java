@@ -4,6 +4,10 @@ import it.polimi.ingsw.common.gamePojo.AssistantCardPojo;
 
 import java.util.Objects;
 
+/**
+ * This class cointains the informations about the AssistantCards: the turnOrder and
+ * the movementsMotherNature of the card
+ */
 public class AssistantCard implements java.io.Serializable{
     private final int turnOrder;
     private final int movementsMotherNature;

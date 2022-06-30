@@ -2,6 +2,11 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 
+/**
+ * This class defines methods to add, remove and count towers, professors and students from the schoolboard.
+ * Moreover it verifies the professors influence to choose what player own the professsor of a specific colour
+ * according to the number of students present in the diningroom
+ */
 public class SchoolBoard {
     private PawnsMap professors;
     private PawnsMap diningRoom;
@@ -111,6 +116,7 @@ public class SchoolBoard {
      * Verifies and updates all the SchoolBoards:
      * move the professors from professorLeft map or other player's
      * schoolboard to the school board with more influence*/
+
     public void verifyProfessorInfluence(Game game, ColourPawn colour){
         if(game.getProfessorsLeft().get(colour) == 1){
             game.getProfessorsLeft().remove(colour);

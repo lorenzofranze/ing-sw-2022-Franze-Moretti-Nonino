@@ -2,6 +2,9 @@ package it.polimi.ingsw.common.messages;
 
 import it.polimi.ingsw.server.controller.logic.GameMode;
 
+/**
+ * Messages for connections
+ */
 public class ConnectionMessage extends Message {
 
     private final String nickname;

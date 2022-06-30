@@ -3,6 +3,12 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 
 import java.util.*;
+
+/**
+ * This class contains methods for the management of the pawns map: adding and removeing pawns according to
+ * their colour or randomly, and methods to count the remaining pawns.
+ * In the Game it is used for studentsBag, professorsLeft, diningRoom, entrance, professors-in-the-schoolboard
+ */
 public class PawnsMap{
 
     private static final String ANSI_RESET = "\u001B[0m";

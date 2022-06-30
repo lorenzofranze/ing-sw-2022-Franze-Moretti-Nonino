@@ -5,6 +5,10 @@ import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
 import java.util.Objects;
 
+/**
+ * This class manages the id, the descriptions and the costs of the character chard.
+ * When used for the first time, the cost increase of one coin.
+ */
 public class CharacterState {
 
     private int characterId;
@@ -88,7 +92,8 @@ public class CharacterState {
         return incremented;
     }
 
-    /**sets character card used: increments cost and set true if first increment-> one coin doesn't return
+    /**
+     * sets character card used: increments cost and set true if first increment-> one coin doesn't return
      * in central reserve but remains on the card
      */
     public boolean use() {

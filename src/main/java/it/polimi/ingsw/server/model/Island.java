@@ -4,6 +4,10 @@ import it.polimi.ingsw.common.gamePojo.ColourTower;
 import it.polimi.ingsw.common.gamePojo.IslandPojo;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
+/**
+ * This class defines methods used to get the owner of an island according to the colour of the tower on it
+ * and to calculate the most influent player on the island when mother nature stops on the island
+ */
 public class Island {
 
     private boolean hasMotherNature;

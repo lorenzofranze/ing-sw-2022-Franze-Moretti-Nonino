@@ -4,6 +4,10 @@ import it.polimi.ingsw.common.gamePojo.CharacterPojo;
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
+/**
+ * This class extends CharacterState-class.
+ * It is used for the character chards that can have students placed on them.
+ */
 public class CharacterStateStudent extends CharacterState{
 
     private PawnsMap students;
@@ -22,7 +26,8 @@ public class CharacterStateStudent extends CharacterState{
     }
 
     /**
-     * Returns a copy of the PawnsMap containing the student placed on this card*/
+     * Returns a copy of the PawnsMap containing the student placed on this card
+     * */
     public PawnsMap getAllStudents(){
         PawnsMap tmp = new PawnsMap();
         tmp.add(students);

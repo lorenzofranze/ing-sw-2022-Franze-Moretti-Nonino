@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.messages;
 
+/**
+ * Messages for disconnections
+ */
 public class AsyncMessage extends Message{
     private String description;
 

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.messages;
 
+/**
+ * Each message has a typeOfMessage
+ */
 public class Message {
     private TypeOfMessage typeOfMessage;
 

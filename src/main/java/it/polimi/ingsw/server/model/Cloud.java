@@ -3,6 +3,10 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.common.gamePojo.CloudPojo;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
+/**
+ * The only operation that has to be made on the cloud is removing all the students from the cloud when a player chooses
+ * that cloud. All the cloud have an id to distinguish them. The clouds are filled during the pianification phase
+ */
 public class Cloud {
 
     private PawnsMap students;

@@ -2,6 +2,10 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.common.gamePojo.CharacterPojo;
 import it.polimi.ingsw.common.gamePojo.PawnsMapPojo;
 
+/**
+ * This class extends CharacterState-class.
+ * It is used for the character chard that can have NoEntryTile placed on it.
+ */
 public class CharacterStateNoEntryTile extends CharacterState{
     private int numNoEntry;
 
