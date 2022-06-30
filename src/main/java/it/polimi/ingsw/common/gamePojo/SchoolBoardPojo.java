@@ -41,6 +41,7 @@ public class SchoolBoardPojo {
         this.spareTowers = spareTowers;
     }
 
+    /**starting form this SchoolBoardPojo, it returns a SchoolBoard with the same features*/
     public SchoolBoard getSchoolBoard(){
         SchoolBoard schoolBoard = new SchoolBoard();
         schoolBoard.setSpareTowers(spareTowers);

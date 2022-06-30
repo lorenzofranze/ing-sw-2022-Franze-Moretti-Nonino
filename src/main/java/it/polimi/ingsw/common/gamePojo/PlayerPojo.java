@@ -71,6 +71,7 @@ public class PlayerPojo {
         this.coins = coins;
     }
 
+    /**starting form this PlayerPojo, it returns a Player with the same features*/
     public Player getPlayer(){
         Player player = new Player(nickname, colourTower, wizard);
         player.getSchoolBoard().setEntrance(schoolBoardPojo.getEntrance().getPawnsMap());

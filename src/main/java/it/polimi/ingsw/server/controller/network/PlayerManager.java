@@ -232,10 +232,6 @@ public class PlayerManager implements Runnable{
 
     }
 
-    public String getPlayerNickname() {
-        return playerNickname;
-    }
-
     /**
      * It reads the last message of the queue: if it is of the type expected it return the message
      * otherwise it sends an errorGameMessage to the client and it reads the last message of the queue again
@@ -318,6 +314,10 @@ public class PlayerManager implements Runnable{
     public boolean isToStop() {
         return toStop;
 
+    }
+
+    public String getPlayerNickname() {
+        return playerNickname;
     }
 
     public Thread getPingThread() {

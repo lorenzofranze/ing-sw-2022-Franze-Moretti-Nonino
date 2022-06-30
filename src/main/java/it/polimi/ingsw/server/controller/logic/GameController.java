@@ -17,6 +17,7 @@ import it.polimi.ingsw.server.model.Cloud;
 
 import java.io.*;
 import java.util.*;
+
 /**
  * There is one GameController to manage each game.
  * It executes once the setup-phase and loops in executing the pianification and the action phases.
@@ -74,6 +75,11 @@ public class GameController implements Runnable  {
         this.actionPhase=new ActionPhase(this);
     }
 
+    /**
+     * Creats a GameController from a lobby and a saving
+     * @param lobby
+     * @param saving
+     */
     public GameController(Lobby lobby, Saving saving){
         gameID = ServerController.getInstance().getSavingsMenu().getGameControllerID();
         this.bornFromSaving = true;
@@ -246,6 +252,16 @@ public class GameController implements Runnable  {
         ServerController.getInstance().setToStop(this.getGameID());
     }
 
+    /**
+     * Method used when the game has already started and has been load form a saving.
+     * Handles the pianification phase and the action phase repetitevly.
+     * From the pianificationResult understands the turn order for the action phase, the maximum movements for mother
+     * nature for each player for the action phase and if it is the last round (for finished assistant cards or finished
+     * students in bag).
+     * From the actionResult understands if it is the last round due to three-or-less islands or for finished-towers for
+     * one player.
+     * Finally calculates the winner and stops the game.
+     */
     public void runFromSaving(){
 
         AckMessage message = new AckMessage(TypeOfAck.CompleteLobby);
@@ -498,12 +514,14 @@ public class GameController implements Runnable  {
         return characterEffects;
     }
 
+    /**given a CharacterID, it returns the respective characterEffect*/
     public CharacterEffect getCharacterByID(int id){
         for(CharacterEffect characterEffect : characterEffects)
             if(characterEffect.getID() == id)
                 return characterEffect;
         return null;
     }
+
     /**
      * Used by Char4 doEffect()
      * it adds to the maximum movements of mother nature permitted by the assistant card chosen by the player
@@ -525,11 +543,34 @@ public class GameController implements Runnable  {
         return currentPhase;
     }
 
+    /**creates and returns a new Saving object form the current GameController*/
     public Saving getSaving(){
         Saving saving = new Saving(this);
         return saving;
     }
 
+    /**creates a saving file of the current game. If it already exists, it updates it.*/
+    public void save(){
+
+        ServerController.getInstance().getSavingsMenu().addGame(game.getGameId(), game.getPlayers());
+
+        try {
+            String currentPath = new File(".").getCanonicalPath();
+            String fileName = currentPath + "/src/main/Resources/savings/Game" + game.getGameId() + ".txt";
+            File file = new File(fileName);
+            file.createNewFile();
+            String dataString = JsonConverter.fromSavingToJson(this.getSaving());
+            FileOutputStream outputStream = new FileOutputStream(file, false);
+            byte[] strToBytes = dataString.getBytes();
+            outputStream.write(strToBytes);
+            outputStream.close();
+        } catch (IOException e ){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**creates and returns a new GameStatePojo object form the current GameController*/
     public GameStatePojo getGameState(){
         GameStatePojo gameStatePojo = new GameStatePojo();
         gameStatePojo.setCurrentPhase(this.currentPhase instanceof ActionPhase ? Phase.ACTION : Phase.PIANIFICATION);
@@ -669,26 +710,6 @@ public class GameController implements Runnable  {
 
     public ActionResult getActionResult() {
         return actionResult;
-    }
-
-    public void save(){
-
-        ServerController.getInstance().getSavingsMenu().addGame(game.getGameId(), game.getPlayers());
-
-        try {
-            String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/Game" + game.getGameId() + ".txt";
-            File file = new File(fileName);
-            file.createNewFile();
-            String dataString = JsonConverter.fromSavingToJson(this.getSaving());
-            FileOutputStream outputStream = new FileOutputStream(file, false);
-            byte[] strToBytes = dataString.getBytes();
-            outputStream.write(strToBytes);
-            outputStream.close();
-        } catch (IOException e ){
-            e.printStackTrace();
-        }
-
     }
 
     public void setGameBookMark(RunningSection gameBookMark) {

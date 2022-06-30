@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**This class contains all the information needed to reload a game.
+ * During a match, the gameController generates different savings' files in order to keep track of the game even if the
+ * server goes down.
+ * When the server is turned on and the correct players join the match, from this file a new gameController, equivalent
+ * to the previous one, can be created.*/
 public class Saving {
     GameStatePojo gameStatePojo;
 

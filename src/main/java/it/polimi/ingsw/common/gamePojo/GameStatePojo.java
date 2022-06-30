@@ -141,6 +141,7 @@ public class GameStatePojo {
         this.playerPojos = playerPojos;
     }
 
+    /**starting from this GamePojo, it returns a Game with the same features*/
     public Game getGame(){
         List<String> playersNicknames = new ArrayList<>();
         List<Player> players = new ArrayList<>();

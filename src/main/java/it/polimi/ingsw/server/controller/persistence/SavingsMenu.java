@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/**This class contians a map of all the savings and their players. Moreover contains the GameControllerID of the
+ * GameController class  so that if the server goes down, this information can be reloaded*/
 public class SavingsMenu {
 
     private int gameControllerID = 1;

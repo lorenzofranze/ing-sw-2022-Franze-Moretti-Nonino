@@ -37,6 +37,10 @@ public class ServerController {
     private Lobby lobbyToStart;
     private SavingsMenu savingsMenu;
 
+    /**creates a ServerController.
+     * If there is a savingMenu.txt file, the new ServerController gains the information
+     * contained in that file (= SavingMenu and gameControllerID);
+     * If a savingMenu.txt file doesn't exists, it creats a new empty savingMenu.txt file*/
     private ServerController(){
         this.instance=null;
         this.currentGames=new HashMap<>();
