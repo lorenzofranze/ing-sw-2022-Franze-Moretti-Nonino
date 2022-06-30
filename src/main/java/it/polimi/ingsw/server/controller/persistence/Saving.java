@@ -48,6 +48,9 @@ public class Saving {
 
     private RunningSection gameBookMark;
 
+    /**creates a saving object containings the information of a specific game controller
+     * @param gameController
+     * */
     public Saving(GameController gameController) {
         this.gameStatePojo = gameController.getGameState();
 

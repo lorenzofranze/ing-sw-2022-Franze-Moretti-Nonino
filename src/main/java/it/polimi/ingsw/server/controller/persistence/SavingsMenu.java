@@ -23,6 +23,9 @@ public class SavingsMenu {
         return gamesMap;
     }
 
+    /**returns the GameId of the game whose players' nicknames are the one indicated in the list
+     * @param playersNicknames
+     * */
     private Integer getGameId(List<String> playersNicknames){
         for(Integer k : gamesMap.keySet()){
             List<String> list = gamesMap.get(k);
@@ -33,6 +36,10 @@ public class SavingsMenu {
         return null;
     }
 
+    /**given two lists of nickanmes returns true if they contain the same nicknames, false in the other case
+     * @param list1
+     * @param list2
+     * */
     private boolean compereLists(List<String> list1, List<String> list2){
         boolean found = false;
 
@@ -72,6 +79,11 @@ public class SavingsMenu {
         return true;
     }
 
+    /**given a GameId and a list of players, it checks if the savingsMenu has already that game. If not, it inserts the game
+     *  and its players to the savingsMenu and updates the SavingsMenu.txt file
+     *  @param k
+     *  @param players
+     *  */
     public void addGame(Integer k, List<Player> players){
         if (this.gamesMap.get(k) == null){
             List<String> playersNicknames = new ArrayList<>();
@@ -96,6 +108,10 @@ public class SavingsMenu {
         }
     }
 
+    /**given a GameId, it checks if the savingsMenu has already that game. If so, it removes the game
+     *  and its players from the savingsMenu and updates the SavingsMenu.txt file
+     *  @param k
+     *  */
     public void removeGame(Integer k){
         if (this.gamesMap.get(k) != null){
             this.gamesMap.remove(k);
@@ -124,6 +140,10 @@ public class SavingsMenu {
         }
     }
 
+    /**given a list of players, it checks if savingsMenu contains a game with those players. If it does, it returns the
+     * saving of that game; if not returns null
+     *  @param players
+     *  */
     public Saving getSavingFromNicknames(List<String> players){
         Integer gameId;
         Saving saving;
