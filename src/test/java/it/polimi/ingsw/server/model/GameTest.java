@@ -2,9 +2,11 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.gamePojo.ColourPawn;
 import it.polimi.ingsw.common.gamePojo.ColourTower;
+import it.polimi.ingsw.common.gamePojo.ColourWizard;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -228,6 +230,68 @@ class GameTest {
 
         assertEquals(1, game.getPlayers().get(0).getSchoolBoard().getProfessors().pawnsNumber());
         assertEquals(4, game.getProfessorsLeft().pawnsNumber());
+    }
+
+    @Test
+    public void testSetPlayers(){
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        listPlayer.add("Franzo");
+        listPlayer.add("Lara");
+        Game game=new Game(listPlayer, 2);
+
+        Player p1 = new Player("topolino", ColourTower.Grey, ColourWizard.Green);
+        Player p2 = new Player("pluto", ColourTower.White, ColourWizard.Violet);
+        Player p3 = new Player("pippo", ColourTower.Black, ColourWizard.Blue);
+
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(p1);
+        playerList.add(p2);
+        playerList.add(p3);
+
+        game.setPlayers(playerList);
+
+        assertEquals("topolino", game.getPlayers().get(0).getNickname());
+        assertEquals("pluto", game.getPlayers().get(1).getNickname());
+        assertEquals("pippo", game.getPlayers().get(2).getNickname());
+
+    }
+
+    @Test
+    public void testSetStudentsBag(){
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        listPlayer.add("Franzo");
+        listPlayer.add("Lara");
+        Game game=new Game(listPlayer, 2);
+
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow);
+        map.add(ColourPawn.Blue);
+        map.add(ColourPawn.Pink);
+        map.add(ColourPawn.Red);
+        map.add(ColourPawn.Green);
+
+        game.setStudentsBag(map);
+
+        assertEquals(map.getPawns(), game.getStudentsBag().getPawns());
+    }
+
+    @Test
+    public void testGetPlayerNamed(){
+        ArrayList<String> listPlayer= new ArrayList<>();
+        listPlayer.add("Vale");
+        listPlayer.add("Franzo");
+        listPlayer.add("Lara");
+        Game game=new Game(listPlayer, 2);
+
+        Player p1 = game.getPlayerNamed("Vale");
+
+        assertEquals(p1, game.getPlayers().get(0));
+
+        Player p2 = game.getPlayerNamed("pippo");
+
+        assertEquals(null, p2);
     }
 
 

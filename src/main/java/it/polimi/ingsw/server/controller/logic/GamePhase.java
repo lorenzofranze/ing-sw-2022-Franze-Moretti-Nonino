@@ -7,6 +7,7 @@ public abstract class GamePhase {
 
     @Override
     public boolean equals(Object o){
+
         ActionPhase this1;
         PianificationPhase this2;
         SetUpPhase this3;
@@ -27,5 +28,6 @@ public abstract class GamePhase {
             return this3.equals(o);
         }
         return false;
+
     }
 }

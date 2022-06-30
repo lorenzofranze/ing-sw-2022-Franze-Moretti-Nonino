@@ -375,7 +375,7 @@ class GameControllerTest {
         gameController.save();
 
     }
-    /*
+
     @Test
     public void testBuilderFromSaving(){
         ArrayList<String> players = new ArrayList<>();
@@ -393,12 +393,23 @@ class GameControllerTest {
 
         gameController.setCurrentPlayer(p2);
 
+        PianificationPhase pp = new PianificationPhase(gameController);
+        ActionPhase ap = new ActionPhase(gameController);
+        gameController.setCurrentPhase(ap);
+
+        pp.setFinishedStudentBag(true);
+        pp.setFinishedAssistantCard(true);
+
+        gameController.setPianificationPhase(pp);
+        gameController.setActionPhase(ap);
+
+
         gameController.save();
 
         String data = new String();
         try {
             String currentPath = new File(".").getCanonicalPath();
-            String fileName = currentPath + "/src/main/Resources/savings/Game" + g.getGameId() + ".txt";
+            String fileName = currentPath + "/savings/Game" + g.getGameId() + ".txt";
             File myObj = new File(fileName);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
@@ -415,7 +426,7 @@ class GameControllerTest {
         GameController gameController1 = new GameController(lobby, saving);
 
         assertEquals(true, gameController1.equals(gameController));
-    }*/
+    }
 
 
 }

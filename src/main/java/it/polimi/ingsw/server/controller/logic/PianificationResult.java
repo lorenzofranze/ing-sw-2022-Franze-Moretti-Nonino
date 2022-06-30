@@ -60,7 +60,7 @@ public class PianificationResult {
         if (o == null){
             return false;
         }
-        if (o instanceof SetUpPhase){
+        if (o instanceof PianificationResult){
             o1 = (PianificationResult) o;
         }else{
             return false;

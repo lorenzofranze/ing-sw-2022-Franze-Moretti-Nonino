@@ -40,4 +40,11 @@ class CharacterStateNoEntryTileTest {
         assertEquals(false, pojo.isIncremented());
     }
 
+    @Test
+    public void testSetNumNoEntry() {
+        CharacterStateNoEntryTile card = new CharacterStateNoEntryTile(3,2);
+        card.setNumNoEntry(4);
+        assertEquals(4, card.getNumNoEntry());
+    }
+
 }

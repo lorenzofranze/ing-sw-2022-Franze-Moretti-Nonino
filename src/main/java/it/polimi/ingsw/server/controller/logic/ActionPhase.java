@@ -131,16 +131,14 @@ public class ActionPhase extends GamePhase {
             }
 
             if (checkEnd() == true) {
-                return actionResult;
-            } else {
+                return actionResult;} else {
                 gameController.update();
             }
 
             askforCharacter();
             if(gameController.isExpert()) {
                 if (checkEnd() == true) {
-                    return actionResult;
-                } else {
+                    return actionResult;} else {
                     gameController.update();
                 }
             }
@@ -203,10 +201,6 @@ public class ActionPhase extends GamePhase {
         do{
             valid = true;
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.PawnMovement);
-            if (receivedMessage == null){
-                System.out.println("ERROR-moveStudent");
-                return;
-            }
             gameMessage = (PawnMovementMessage) receivedMessage;
             indexColour = gameMessage.getColour();
             if(indexColour<=-1 || indexColour>=5){
@@ -262,10 +256,6 @@ public class ActionPhase extends GamePhase {
         boolean valid = false;
         do {
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.MoveMotherNature);
-            if (receivedMessage == null){
-                System.out.println("ERROR-moveStudent");
-                return null;
-            }
             gameMessage = (GameMessage) receivedMessage;
             played = gameMessage.getValue();
             if (played < 1 || played > maximumMovements.get(currentPlayer)){
@@ -432,10 +422,6 @@ public class ActionPhase extends GamePhase {
         boolean valid = false;
         do{
             receivedMessage = playerManager.readMessage(TypeOfMessage.Game, TypeOfMove.CloudChoice);
-            if (receivedMessage == null){
-                System.out.println("ERROR-chooseCloud");
-                return;
-            }
             gameMessage = (GameMessage) receivedMessage;
             indexCloud= gameMessage.getValue();
             if(indexCloud<0 || indexCloud > gameController.getGame().getPlayers().size()-1){
@@ -614,40 +600,34 @@ public class ActionPhase extends GamePhase {
         }
 
         if (!this.actionResult.equals(o1.actionResult)){
-            return false;
-        }
+            return false;}
 
 
         if (this.studentsMoved != null){
             if (o1.studentsMoved != null){
                 if (!this.studentsMoved.equals(o1.studentsMoved)){
-                    return false;
-                }
+                    return false;}
             }else{
                 return false;
             }
         }else{
             if (o1.studentsMoved != null){
-                return false;
-            }
+                return false;}
         }
 
         if (this.studentsToMove != null){
             if (o1.studentsToMove != null){
                 if (!this.studentsToMove.equals(o1.studentsToMove)){
-                    return false;
-                }
+                    return false;}
             }else{
                 return false;
             }
         }else{
             if (o1.studentsToMove != null){
-                return false;
-            }
+                return false;}
         }
 
         return true;
-
     }
 
     public int getIndexPlayer() {

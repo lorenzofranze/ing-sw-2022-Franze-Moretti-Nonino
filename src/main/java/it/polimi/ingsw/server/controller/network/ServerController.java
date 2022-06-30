@@ -63,6 +63,16 @@ public class ServerController {
         } catch (FileNotFoundException e) {
             //it means that it is the first time that the Server has been created, there are no savings.
             //Creation of a file containing savingsMenu
+
+            try {
+                String currentPath = new File(".").getCanonicalPath();
+                String fileName = currentPath + "/savings";
+                File file = new File(fileName);
+                file.mkdirs();
+            }catch (IOException ex){
+                e.printStackTrace();
+            }
+
             try {
                 String currentPath = new File(".").getCanonicalPath();
                 String fileName = currentPath + "/savings/SavingsMenu.txt";

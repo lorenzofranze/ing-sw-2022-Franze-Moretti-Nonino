@@ -44,6 +44,8 @@ class PlayerTest {
         deck.add(card9);
         deck.add(card10);
         assertTrue(deck.equals(p1.getDeck()));
+        p1.setDeck(deck);
+
         assertTrue(card2.equals(p1.getPlayedAssistantCard()));
 
         // remove card2 again
@@ -105,6 +107,7 @@ class PlayerTest {
     @Test
     public void testRemoveCoins() {
         Player p1 = new Player("pippo", ColourTower.Black, ColourWizard.Green);
+        p1.setCoins(4);
         int i = p1.getCoins();
         p1.addCoins(3);
         assertEquals(true, p1.getCoins() == 3 + i);

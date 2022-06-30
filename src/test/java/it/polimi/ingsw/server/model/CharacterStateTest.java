@@ -45,5 +45,15 @@ class CharacterStateTest {
 
     }
 
+    @Test
+    public void testSetIncremented() {
+        CharacterState c1 = new CharacterState(1, 2);
+        c1.setIncremented(true);
+        assertEquals(true, c1.isIncremented());
+        c1.setIncremented(false);
+        assertEquals(false, c1.isIncremented());
+
+    }
+
 
 }

@@ -170,6 +170,24 @@ public class SetUpPhaseTest {
         SetUpPhase setUpPhase = new SetUpPhase(gameController);
         String s = setUpPhase.toString();
         assertEquals(true, s.equals("SetUpPhase"));
+    }
 
+    @Test
+    public void testEquals(){
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+
+
+        GameController gameController = new GameController(lobby, true);
+
+        SetUpPhase setUpPhase1 = new SetUpPhase(gameController);
+        SetUpPhase setUpPhase2 = new SetUpPhase(gameController);
+
+        assertEquals(true, setUpPhase1.equals(setUpPhase2));
+        assertEquals(false, setUpPhase1.equals(null));
+        assertEquals(false, setUpPhase1.equals(new PawnsMap()));
     }
 }

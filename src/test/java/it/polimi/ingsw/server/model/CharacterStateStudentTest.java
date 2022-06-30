@@ -48,4 +48,16 @@ class CharacterStateStudentTest {
         assertEquals(card.getAllStudents().getPawns(), pojo.getStudents().getPawns());
     }
 
+    @Test
+    public void testSetStudents() {
+        CharacterStateStudent card = new CharacterStateStudent(3,2);
+
+        PawnsMap map = new PawnsMap();
+        map.add(ColourPawn.Yellow, 2);
+        map.add(ColourPawn.Pink, 3);
+        card.setStudents(map);
+
+        assertEquals(map.getPawns(), card.getAllStudents().getPawns());
+    }
+
 }

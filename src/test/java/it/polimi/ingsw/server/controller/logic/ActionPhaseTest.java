@@ -297,6 +297,11 @@ class ActionPhaseTest {
         actionPhase.getActionResult().setFinishedTowers(false);
         actionPhase.getActionResult().setThreeOrLessIslands(false);
         assertEquals(false, actionPhase.checkEnd());
+
+        ActionPhase actionPhase1 = new ActionPhase(gameController);
+        actionPhase1.setActionResult(actionPhase.getActionResult());
+        assertEquals(true, actionPhase1.getActionResult().equals(actionPhase.getActionResult()));
+
     }
 
     @Test
@@ -1453,4 +1458,160 @@ class ActionPhaseTest {
         actionPhase.handle(turnOrder, maximumMovements, false);
         assertEquals(true, actionPhase.getActionResult().isThreeOrLessIslands());
     }
+
+    @Test
+    public void testEquals() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+        GameController gameController = new GameController(lobby, true);
+
+        ActionPhase actionPhase1 = new ActionPhase(gameController);
+        ActionPhase actionPhase2 = new ActionPhase(gameController);
+
+        assertEquals(true, actionPhase1.equals(actionPhase2));
+
+        HashMap<Player, Integer> maximumMovements = new HashMap<>();
+        List<Player> turnOrder = new ArrayList<>();
+
+        Game g = gameController.getGame();
+
+        Player p1 = g.getPlayers().get(0);
+        Player p2 = g.getPlayers().get(1);
+        Player p3 = g.getPlayers().get(2);
+
+        //results from pianificationPhase
+        turnOrder.add(p2);
+        turnOrder.add(p3);
+        turnOrder.add(p1);
+        actionPhase1.setTurnOrder(turnOrder);
+        actionPhase2.setTurnOrder(turnOrder);
+
+        maximumMovements.put(p1, 3);
+        maximumMovements.put(p2, 2);
+        maximumMovements.put(p3, 2);
+        actionPhase1.setMaximumMovements(maximumMovements);
+        actionPhase2.setMaximumMovements(maximumMovements);
+
+        actionPhase1.setStudentsMoved(3);
+        actionPhase2.setStudentsMoved(3);
+
+        actionPhase1.setStudentsToMove(3);
+        actionPhase2.setStudentsToMove(3);
+
+        actionPhase1.getActionResult().setFinishedTowers(true);
+        actionPhase2.getActionResult().setFinishedTowers(true);
+
+        assertEquals(true, actionPhase1.equals(actionPhase2));
+
+        assertEquals(false, actionPhase1.equals(null));
+        assertEquals(false, actionPhase1.equals(new PawnsMap()));
+
+        HashMap<Player, Integer> maximumMovements2 = new HashMap<>();
+        List<Player> turnOrder2 = new ArrayList<>();
+
+        //results from pianificationPhase
+        turnOrder2.add(p1);
+        turnOrder2.add(p3);
+        turnOrder2.add(p2);
+
+        maximumMovements2.put(p1, 3);
+        maximumMovements2.put(p2, 5);
+        maximumMovements2.put(p3, 2);
+
+        actionPhase2.setMaximumMovements(maximumMovements2);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase2.setMaximumMovements(maximumMovements);
+
+
+        actionPhase2.setTurnOrder(turnOrder2);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase2.setTurnOrder(turnOrder);
+
+        actionPhase2.setStudentsToMove(2);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase2.setStudentsToMove(3);
+
+        actionPhase2.setStudentsMoved(2);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase2.setStudentsMoved(3);
+
+        actionPhase2.setStudentsToMove(null);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase2.setStudentsToMove(3);
+
+        actionPhase2.setStudentsMoved(null);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase2.setStudentsMoved(3);
+
+        actionPhase1.setStudentsToMove(null);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase1.setStudentsToMove(3);
+
+        actionPhase1.setStudentsMoved(null);
+        assertEquals(false, actionPhase1.equals(actionPhase2));
+        actionPhase1.setStudentsMoved(3);
+
+        boolean b = actionPhase1.equals(actionPhase2);
+        assertEquals(true, b);
+
+        actionPhase1.setIndexPlayer(3);
+        int index = actionPhase1.getIndexPlayer();
+        assertEquals(3, index);
+
+    }
+
+    @Test
+    public void testEqualsResult() {
+        ArrayList<String> players = new ArrayList<>();
+        Lobby lobby = new Lobby(GameMode.Complex_3);
+        lobby.addUsersReadyToPlay("vale", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("lara", new Socket(), new PlayerManager(null, null));
+        lobby.addUsersReadyToPlay("franzo", new Socket(), new PlayerManager(null, null));
+        GameController gameController = new GameController(lobby, true);
+
+        Player p1 = gameController.getGame().getPlayers().get(0);
+        Player p2 = gameController.getGame().getPlayers().get(1);
+
+        ActionResult actionResult1 = new ActionResult();
+        ActionResult actionResult2 = new ActionResult();
+
+        actionResult1.setFinishedTowers(true);
+        actionResult2.setFinishedTowers(true);
+
+        actionResult1.setThreeOrLessIslands(true);
+        actionResult2.setThreeOrLessIslands(true);
+
+        actionResult1.setFirstPianificationPlayer(p1);
+        actionResult2.setFirstPianificationPlayer(p1);
+
+        assertEquals(true, actionResult1.equals(actionResult2));
+        assertEquals(false, actionResult1.equals(null));
+        assertEquals(false, actionResult1.equals(new PawnsMap()));
+
+        actionResult1.setFinishedTowers(false);
+        assertEquals(false, actionResult1.equals(actionResult2));
+        actionResult2.setFinishedTowers(true);
+
+        actionResult1.setThreeOrLessIslands(false);
+        assertEquals(false, actionResult1.equals(actionResult2));
+        actionResult1.setThreeOrLessIslands(true);
+
+        actionResult1.setFirstPianificationPlayer(null);
+        assertEquals(false, actionResult1.equals(actionResult2));
+        actionResult1.setFirstPianificationPlayer(p1);
+
+        actionResult2.setFirstPianificationPlayer(null);
+        assertEquals(false, actionResult1.equals(actionResult2));
+        actionResult2.setFirstPianificationPlayer(p1);
+
+        actionResult1.setFirstPianificationPlayer(p2);
+        assertEquals(false, actionResult1.equals(actionResult2));
+        actionResult1.setFirstPianificationPlayer(p1);
+
+
+    }
+
 }
