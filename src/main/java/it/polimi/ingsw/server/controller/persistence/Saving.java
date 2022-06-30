@@ -17,7 +17,8 @@ import java.util.List;
  * When the server is turned on and the correct players join the match, from this file a new gameController, equivalent
  * to the previous one, can be created.*/
 public class Saving {
-    GameStatePojo gameStatePojo;
+
+    private GameStatePojo gameStatePojo;
 
     private boolean pianificationPhaseAssistantCard;
     private boolean pianificationPhaseStudentBag;
