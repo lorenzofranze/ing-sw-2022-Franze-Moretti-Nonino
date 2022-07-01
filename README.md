@@ -11,7 +11,7 @@ allow you to interact with the game via command line (__CLI__) or graphical inte
 
 
 This project is written in __Java/JavaFx__ and is built using __Maven__.
-All UML diagarms, protocols and documentations are in the deliveries folder.
+All UML diagarms, protocols and documentations are in the *deliveries* folder.
 
 __Students__:
 
