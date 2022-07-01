@@ -17,6 +17,7 @@ public class ClientApp{
 
     private static String serverIp;
     private static int serverPort;
+    private final static String operatingSystem = System.getProperty("os.name");
 
     public ClientApp(View view) {
         ClientApp.view = view;
@@ -30,6 +31,15 @@ public class ClientApp{
 
         String typeOfView;
         View view;
+
+        if(operatingSystem.contains("Windows")) {
+            try{
+                new ProcessBuilder("cmd", "/c", "chcp 655001").inheritIO().start().waitFor();
+            }
+            catch (InterruptedException | IOException exception){
+                exception.printStackTrace();
+            }
+        }
 
         if (args.length == 0) {
             serverIp = "localhost";
