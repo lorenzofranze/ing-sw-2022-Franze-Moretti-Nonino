@@ -22,7 +22,7 @@ __Students__:
 - GUI
 - __Character cards__: implemeted all the 12 cards.
 - __Multiple matches__: the server can handle several matches at the same time.
-- __persistence__: the state of game is saved on hard disk in order to allow the players to reconnect and continue the game if the server should go down. Recconnection and savings are based on nicknames.
+- __persistence__: the state of game is saved on hard disk in order to allow the players to reconnect and continue the game if the server should go down. Recconnection and savings are based on nicknames used.
 
 ## Jar execution
 
