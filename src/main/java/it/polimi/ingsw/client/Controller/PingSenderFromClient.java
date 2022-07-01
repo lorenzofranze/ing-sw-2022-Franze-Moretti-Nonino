@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.Controller;
 
+import it.polimi.ingsw.client.View.GUI.GuiController;
 import it.polimi.ingsw.common.messages.JsonConverter;
 import it.polimi.ingsw.common.messages.PingMessage;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
@@ -51,6 +52,7 @@ public class PingSenderFromClient implements Runnable {
                 Thread.sleep(PING_TIMEOUT);
             } catch (InterruptedException e) {
                 System.out.println("ping timeout interrupt");
+                GuiController.setPingUnreceived();
                 if(!ClientController.getInstance().isDisconnected()){
                     ClientController.getInstance().setDisconnected();
                 }

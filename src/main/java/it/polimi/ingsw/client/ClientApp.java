@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.Controller.ClientController;
 import it.polimi.ingsw.client.Controller.NetworkHandler;
 import it.polimi.ingsw.client.View.*;
 import it.polimi.ingsw.client.View.GUI.GUIView;
+import it.polimi.ingsw.client.View.GUI.GuiController;
 import it.polimi.ingsw.common.messages.ErrorMessage;
 import it.polimi.ingsw.common.messages.TypeOfError;
 
@@ -49,7 +50,13 @@ public class ClientApp{
             ClientApp clientApp = new ClientApp(view);
             clientApp.play();
         }
-        System.exit(0);
+
+        if(typeOfView.equals("cli")) {
+            System.exit(0);
+        }else if(typeOfView.equals("gui")){
+            GuiController.getInstance().setRunnable(()->GuiController.getInstance().closeGame());
+            GuiController.getInstance().runMethod();
+        }
     }
 
 

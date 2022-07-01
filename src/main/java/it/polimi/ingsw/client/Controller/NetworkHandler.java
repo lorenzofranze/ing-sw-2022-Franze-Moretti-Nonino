@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.Controller;
 
+import it.polimi.ingsw.client.View.GUI.GuiController;
 import it.polimi.ingsw.common.messages.*;
 import it.polimi.ingsw.server.controller.logic.GameMode;
 import it.polimi.ingsw.server.controller.network.PlayerManager;
@@ -109,6 +110,7 @@ public class NetworkHandler implements Runnable{
                 System.out.println("Async message received: disconnecting");
                 ClientController.getInstance().setDisconnected();
                 AsyncMessage realAsyncMessage = (AsyncMessage) receivedMessage;
+                GuiController.setOtherPlayerDisconnected(true); //if async message received show alert fot other player disconnected
                 return;
             case Ping:
                 try {

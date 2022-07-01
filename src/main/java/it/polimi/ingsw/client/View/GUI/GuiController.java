@@ -44,6 +44,8 @@ import java.util.stream.Collectors;
 public class GuiController extends Application {
     private static Stage currentStage;
     private static GuiController guiController;
+    private static boolean otherPlayerDisconnected;
+    private static boolean pingUnreceived;
     private Runnable runnable;
     private boolean first = true;
     private Scene currentScene;
@@ -58,6 +60,14 @@ public class GuiController extends Application {
 
     public static GuiController getInstance() {
         return guiController;
+    }
+
+    public static void setOtherPlayerDisconnected(boolean b) {
+        otherPlayerDisconnected = true;
+    }
+
+    public static void setPingUnreceived() {
+        pingUnreceived = true;
     }
 
 
@@ -1129,8 +1139,23 @@ public class GuiController extends Application {
     }
 
 
-
-
-
-
+    public void closeGame() {
+        if(otherPlayerDisconnected) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Game ended: other player disconnected", ButtonType.OK);
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    System.exit(0);
+                }
+            });
+        }else if(pingUnreceived = true){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Connection to the server lost", ButtonType.OK);
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    System.exit(0);
+                }
+            });
+        }else{
+            System.exit(0);
+        }
+    }
 }
