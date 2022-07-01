@@ -89,6 +89,7 @@ public class Game {
 
         characterStates = new ArrayList<>();
 
+
         Collections.shuffle(temp);
 
         characterStates.add(temp.get(0));

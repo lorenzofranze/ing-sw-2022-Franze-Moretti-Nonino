@@ -441,7 +441,7 @@ public class CLIView implements View {
             System.out.println("ENTRANCE: " + playerPojo.getSchoolBoard().getEntrance());
             System.out.println("DINING ROOM: "+ playerPojo.getSchoolBoard().getDiningRoom());
             System.out.println("PROFESSORS: " + playerPojo.getSchoolBoard().getProfessors());
-            System.out.println("TOWERS OWNED: " + playerPojo.getSchoolBoard().getSpareTowers());
+            System.out.println("TOWERS OWNED: " + playerPojo.getSchoolBoard().getSpareTowers() +" "+playerPojo.getColourTower());
             if (gameStatePojo.isExpert()){
                 System.out.println("MONEY: " + playerPojo.getCoins());
             }

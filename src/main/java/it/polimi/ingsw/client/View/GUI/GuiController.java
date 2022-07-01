@@ -1108,6 +1108,24 @@ public class GuiController extends Application {
         }
 
     }
+    /** open new scene with character cards description*/
+    public static void openCardsDescription(){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(GuiController.class.getClassLoader().getResource("cardsDescription.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage banner = new Stage();
+        banner.setTitle("Cards");
+        Scene scene = new Scene(root);
+        banner.setScene(scene);
+        banner.setResizable(false);
+        banner.sizeToScene();
+        banner.getIcons().add(new Image("/images/imageCharacters/Moneta_base.png"));
+        banner.show();
+    }
 
 
 

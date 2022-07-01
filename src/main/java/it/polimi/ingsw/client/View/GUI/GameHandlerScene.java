@@ -653,6 +653,12 @@ public class GameHandlerScene {
             secondPart=false;
         }
     }
+    /** open new scene with character cards description*/
+    @FXML
+    void openCardsDescritpion(MouseEvent event){
+        GuiController.getInstance().setRunnable(()->GuiController.getInstance().openCardsDescription());
+        GuiController.getInstance().runMethod();
+    }
 
 }
 

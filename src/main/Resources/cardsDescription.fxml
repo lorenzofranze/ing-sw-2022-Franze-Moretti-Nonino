@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="986.0" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane prefHeight="802.0" prefWidth="1536.0">
+         <children>
+            <ImageView fitHeight="812.0" fitWidth="1536.0" pickOnBounds="true">
+               <image>
+                  <Image url="@images/imageGameAction/nuvolaViola.png" />
+               </image>
+            </ImageView>
+            <GridPane gridLinesVisible="true" layoutX="3.0" layoutY="107.0" prefHeight="613.0" prefWidth="1510.0" style="-fx-border-color: black;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/imageCharacters/CarteTOT_front1.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane prefHeight="205.0" prefWidth="374.0">
+                     <children>
+                        <Text layoutX="147.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose one of the student on this card and place him on the island that you like the most" wrappingWidth="206.52462768554688">
+                           <font>
+                              <Font name="System Bold Italic" size="17.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front2.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.rowIndex="1">
+                       <children>
+                           <Text layoutX="157.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="During this turn, you take control of any number of professors even if you have the same number of Students as the player who currently controls them." wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front3.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.rowIndex="2">
+                       <children>
+                           <Text layoutX="145.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose an Island and resolve the Island as if Mother Nature has ended her movement there. Remember mother nature will continue her steps as usual" wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front4.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                       <children>
+                           <Text layoutX="147.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You may move Mother Nature up to 2 additional Islands than is indicated by the Assistant card you've played." wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front5.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                       <children>
+                           <Text layoutX="145.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Place a No Entry tile on an Island of your choice. Choose an island and the next time mother nature will stops on it, she will forget to calculate the influence on the island" wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front6.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                       <children>
+                           <Text layoutX="147.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="When resolving a Conquering on an Island, Towers do not count towards influence." wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front7.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                       <children>
+                           <Text layoutX="143.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You may take up to 3 Students from this card and replace them with the same number of Students from your Entrance. Select first the student on your entrance then the student on the card" wrappingWidth="220.92465209960938">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front8.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                       <children>
+                           <Text layoutX="147.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="During the influence calculation this turn, you count as having 2 more influence." wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front9.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                       <children>
+                           <Text layoutX="147.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a color of Student: during the influence calculation this turn, that color adds no influence." wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front10.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                       <children>
+                           <Text layoutX="137.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You may exchange up to 2 Students between your Entrance and your Dining Room. First of all choose how many students you want to move, then select first the student on your entrance, then the student on your dining room" wrappingWidth="240.12460327148438">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front11.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                       <children>
+                           <Text layoutX="147.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose one of the student on this card and he will be moved in your entry" wrappingWidth="206.52462768554688">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+                   <ImageView fitHeight="190.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                       <image>
+                           <Image url="@images/imageCharacters/CarteTOT_front12.jpg" />
+                       </image>
+                   </ImageView>
+                   <AnchorPane prefHeight="205.0" prefWidth="374.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                       <children>
+                           <Text layoutX="130.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a type of Student: every player (including yourself) must return 3 Students of that type from their Dining Room to the bag. If any player has fewer than 3 Students of that type, return as many Students as they have." wrappingWidth="244.12460327148438">
+                               <font>
+                                   <Font name="System Bold Italic" size="17.0" />
+                               </font>
+                           </Text>
+                       </children>
+                   </AnchorPane>
+               </children>
+            </GridPane>
+            <Text fill="#f4d907" layoutX="599.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Character cards">
+               <font>
+                  <Font name="Vivaldi Italic" size="64.0" />
+               </font>
+            </Text>
+            <TextField editable="false" focusTraversable="false" layoutX="1155.0" layoutY="750.0" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: gold;" text="creators:  Franzè L. - Moretti V. - Nonino L.">
+               <font>
+                  <Font name="Lucida Bright" size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DISAPPEAR" />
+               </cursor>
+            </TextField>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>
