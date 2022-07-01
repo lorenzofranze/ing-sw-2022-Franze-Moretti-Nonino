@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -209,13 +210,16 @@
                   <Font name="Vivaldi Italic" size="64.0" />
                </font>
             </Text>
-            <TextField editable="false" focusTraversable="false" layoutX="1155.0" layoutY="750.0" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: gold;" text="creators:  Franzè L. - Moretti V. - Nonino L.">
+            <TextField editable="false" focusTraversable="false" layoutX="1080.0" layoutY="733.0" prefHeight="54.0" prefWidth="406.0" style="-fx-background-color: gold; -fx-border-color: yellow;" text="creators:  Franzè Lorenzo - Moretti Valentina - Nonino Lara">
                <font>
                   <Font name="Lucida Bright" size="13.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="DISAPPEAR" />
                </cursor>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </TextField>
          </children>
       </AnchorPane>
