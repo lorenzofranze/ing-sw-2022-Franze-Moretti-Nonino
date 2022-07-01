@@ -1,8 +1,8 @@
 # Software Engineering Project 2022
 ![alt text](src/main/resources/images/imageStart/logo.png)
 
-This project was made between May and June 2021, at Polytechnic University of Milan.
-The project consits in the implementation of Eriantys board game through a distributed system: the __server__ and multiple __clients__ that can connect to it via the network. Clients
+*This project was made between March and June 2022, at Polytechnic University of Milan.*   
+The project consits in the implementation of [Eriantys](https://www.craniocreations.it/prodotto/eriantys/) board game through a distributed system: the __server__ and multiple __clients__ that can connect to it via the network. Clients
 allow you to interact with the game via command line (__CLI__) or graphical interface (__GUI__).
 
 
@@ -11,9 +11,9 @@ All UML diagarms, protocols and documentations are in the deliveries folder.
 
 __Students__:
 
-- __Lorenzo Franzè__ ()
-- __Valentina Moretti__ ()
-- __Lara Nonino__ ()
+- __Lorenzo Franzè__ ([@LorenzoFranze](https://github.com/lorenzofranze))
+- __Valentina Moretti__ ([@ValentinaMoretti](https://github.com/valentina-moretti))
+- __Lara Nonino__ ([@LaraNonino](https://github.com/LaraNonino))
 
 ## Implemented features
 
