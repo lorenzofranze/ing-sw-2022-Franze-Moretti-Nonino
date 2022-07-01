@@ -1,5 +1,5 @@
 # Software Engineering Project 2022
-![alt text](src/main/resources/images/imageStart/logo.png)
+![logo](src/main/Resources/images/imageStart/logo.png)
 
 *This project was made between March and June 2022, at Polytechnic University of Milan.*   
 The project consits in the implementation of [Eriantys](https://www.craniocreations.it/prodotto/eriantys/) board game through a distributed system: the __server__ and multiple __clients__ that can connect to it via the network. Clients
