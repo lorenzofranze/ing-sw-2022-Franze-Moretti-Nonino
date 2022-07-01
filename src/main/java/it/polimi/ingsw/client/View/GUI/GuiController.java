@@ -1142,7 +1142,6 @@ public class GuiController extends Application {
     public void closeGame() {
         if(otherPlayerDisconnected) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Game ended: other player disconnected", ButtonType.OK);
-            alert.setOnCloseRequest(event -> event.consume() );
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     System.exit(0);
@@ -1150,7 +1149,6 @@ public class GuiController extends Application {
             });
         }else if(pingUnreceived = true){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Connection to the server lost", ButtonType.OK);
-            alert.setOnCloseRequest(event -> event.consume() );
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     System.exit(0);
