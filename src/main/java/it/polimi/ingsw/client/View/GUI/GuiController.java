@@ -577,6 +577,7 @@ public class GuiController extends Application {
         //hide character card if simple mode
         if(game.isExpert()==false){
             ((SplitPane) currentStage.getScene().lookup("#charactersPane")).setVisible(false);
+            ((AnchorPane) currentStage.getScene().lookup("#cardsDescritpionButton")).setVisible(false);
         }
         //set character images
         AnchorPane child;
