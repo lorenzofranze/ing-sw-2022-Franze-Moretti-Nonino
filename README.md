@@ -1,6 +1,6 @@
 # Software Engineering Project 2022
 
-*This project was made between March and June 2022, at Polytechnic University of Milan.*  
+*This project was made between March and June 2022, at Politecnico University of Milan.*  
 <p align="center">
   <img height="300" src="https://github.com/LaraNonino/ing-sw-2022-Franze-Moretti-Nonino/blob/master/src/main/Resources/images/imageStart/logo.png">
 </p>
